@@ -1,0 +1,42 @@
+plugins {
+	id 'java'
+	id 'war'
+	id 'org.springframework.boot' version '2.7.10'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'tn'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '17'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0' // for Mybatis
+
+	compileOnly 'org.projectlombok:lombok' //for Lombok
+	annotationProcessor 'org.projectlombok:lombok' //for Lombok
+
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper' //for JSP in IntelliJ Community
+	implementation 'javax.servlet:jstl' //for JSTL
+
+	implementation 'com.oracle.database.jdbc:ojdbc11' //for Oracle Jdbc
+
+	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16' // Jdbc 로그 확인용
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
