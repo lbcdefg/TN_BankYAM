@@ -9,7 +9,7 @@ import java.sql.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Member {
+public class Membery {
     private long mb_seq;
     private String mb_email;
     private String mb_pwd;
