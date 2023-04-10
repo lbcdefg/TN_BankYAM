@@ -19,16 +19,12 @@ drop table CHATROOM;
 drop sequence CHATROOM_SEQ;
 drop table TRANSACTIONS;
 drop sequence TRANSACTIONS_SEQ;
-drop table ACCOUNT;
-drop sequence ACCOUNT_SEQ;
 drop table ACCOUNTY;
 drop sequence ACCOUNTY_SEQ;
 drop table PRODUCT;
 drop sequence PRODUCT_SEQ;
 drop table MEMBERY;
 drop sequence MEMBERY_SEQ;
-drop table MEMBER;
-drop sequence MEMBER_SEQ;
 purge recyclebin;
 
 create table MEMBERY(
@@ -74,23 +70,18 @@ create sequence ACCOUNTY_SEQ increment by 1 start with 1 nocache;
 alter table ACCOUNTY add constraint ACCOUNTY_MB_FK foreign key(AC_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
 alter table ACCOUNTY add constraint ACCOUNTY_PD_FK foreign key(AC_PD_SEQ) references PRODUCT(PD_SEQ) on delete cascade;
 
---TRANSACTIONS TR_AC_SEQ 어카운트랑 연결되어있는데  타은행의 계좌번호를 넣읋수가 없어....
---만약에 당행에서 이체하면 TR_AC_SEQ에 데이터를 넣고 TR_OTHERS_ACCOUNT이걸 비울까?
---만약에 타행에서 이체하면 TR_OTHERS_ACCOUNT이걸 데이터 넣고 TR_AC_SEQ이걸 비우자
---type은 입금, 송금
 create table TRANSACTIONS(
    TR_SEQ number constraint TRANSACTIONS_PK primary key,
-   TR_AC_SEQ number,
-   TR_BANK varchar2(30),
-   TR_OTHERS_ACCOUNT varchar2(30),
+   TR_SENDER_ACCNUM number,
+   TR_SENDER_BANK varchar2(30),
+   TR_RECEIVER_ACCNUM number,
+   TR_RECEIVER_BANK varchar2(30),
    TR_AMOUNT number,
    TR_AFTER_BALANCE number,
-   TR_TYPE varchar(20),
    TR_MSG varchar(60),
    TR_DATE date
 );
 create sequence TRANSACTIONS_SEQ increment by 1 start with 1 nocache;
-alter table TRANSACTIONS add constraint TRANSACTIONS_AC_FK foreign key(TR_AC_SEQ) references ACCOUNTY(AC_SEQ) on delete cascade;
 
 create table CHATROOM(
    CR_SEQ number constraint CHATROOM_PK primary key,

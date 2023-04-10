@@ -15,7 +15,7 @@ import java.sql.Date;
 //type은 입금, 송금
 public class Transactions {
     private long tr_seq;
-    private long tr_ac_seq;
+    private Long tr_ac_seq;
     private String tr_bank;
     private String tr_others_account;
     private long tr_amount;
