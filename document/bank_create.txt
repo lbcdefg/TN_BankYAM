@@ -23,16 +23,21 @@ drop table ACCOUNT;
 drop sequence ACCOUNT_SEQ;
 drop table ACCOUNTY;
 drop sequence ACCOUNTY_SEQ;
+drop table PRODUCT;
+drop sequence PRODUCT_SEQ;
+drop table MEMBERY;
+drop sequence MEMBERY_SEQ;
 drop table MEMBER;
 drop sequence MEMBER_SEQ;
+purge recyclebin;
 
-create table MEMBER(
-   MB_SEQ number constraint MEMBER_PK primary key,
+create table MEMBERY(
+   MB_SEQ number constraint MEMBERY_PK primary key,
    MB_EMAIL varchar2(50),
    MB_PWD varchar2(100),
    MB_NAME varchar2(20),
    MB_ADDR varchar2(150),
-   MB_PHONE varchar2(11) constraint MEMBER_PH_UQ unique,
+   MB_PHONE varchar2(11) constraint MEMBERY_PH_UQ unique,
    MB_JOB varchar2(30),
    MB_SALARY number,
    MB_CREDIT number,
@@ -40,7 +45,16 @@ create table MEMBER(
    MB_RDATE date,
    MB_WDATE date
 );
-create sequence MEMBER_SEQ increment by 1 start with 1 nocache;
+create sequence MEMBERY_SEQ increment by 1 start with 1 nocache;
+
+create table PRODUCT(
+  PD_SEQ number constraint PRODUCT_PK primary key,
+  PD_NAME varchar2(50),
+  PD_RATE number(5,2),
+  PD_RDATE date,
+  PD_XDATE date
+);
+create sequence PRODUCT_SEQ increment by 1 start with 1 nocache;
 
 create table ACCOUNTY(
    AC_SEQ number constraint ACCOUNT_PK primary key,
@@ -51,12 +65,14 @@ create table ACCOUNTY(
    AC_MAIN varchar2(30),
    AC_TYPE varchar2(20),
    AC_STATUS varchar2(20),
-   AC_RATE number(5,2),
-   AC_ODATE date,
+   AC_PD_SEQ number(5,2),
+   AC_RDATE date,
+   AC_UDATE date,
    AC_XDATE date
 );
 create sequence ACCOUNTY_SEQ increment by 1 start with 1 nocache;
-alter table ACCOUNTY add constraint ACCOUNTY_MB_FK foreign key(AC_MB_SEQ) references MEMBER(MB_SEQ) on delete cascade;
+alter table ACCOUNTY add constraint ACCOUNTY_MB_FK foreign key(AC_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
+alter table ACCOUNTY add constraint ACCOUNTY_PD_FK foreign key(AC_PD_SEQ) references PRODUCT(PD_SEQ) on delete cascade;
 
 --TRANSACTIONS TR_AC_SEQ 어카운트랑 연결되어있는데  타은행의 계좌번호를 넣읋수가 없어....
 --만약에 당행에서 이체하면 TR_AC_SEQ에 데이터를 넣고 TR_OTHERS_ACCOUNT이걸 비울까?
@@ -89,7 +105,7 @@ create table CHATMEMBER(
    CM_MB_SEQ number
 );
 alter table CHATMEMBER add constraint CHATMEMBER_CR_FK foreign key(CM_CR_SEQ) references CHATROOM(CR_SEQ) on delete cascade;
-alter table CHATMEMBER add constraint CHATMEMBER_MB_FK foreign key(CM_MB_SEQ) references MEMBER(MB_SEQ) on delete cascade;
+alter table CHATMEMBER add constraint CHATMEMBER_MB_FK foreign key(CM_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
 
 create table CHATCONTENT(
    CC_SEQ number constraint CHATCONTENT_PK primary key,
@@ -100,7 +116,7 @@ create table CHATCONTENT(
 );
 create sequence CHATCONTENT_SEQ increment by 1 start with 1 nocache;
 alter table CHATCONTENT add constraint CHATCONTENT_CR_FK foreign key(CC_CR_SEQ) references CHATROOM(CR_SEQ) on delete cascade;
-alter table CHATCONTENT add constraint CHATCONTENT_MB_FK foreign key(CC_MB_SEQ) references MEMBER(MB_SEQ) on delete cascade;
+alter table CHATCONTENT add constraint CHATCONTENT_MB_FK foreign key(CC_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
 
 create table CHATFILE(
    CF_SEQ number constraint CHATFILE_PK primary key,
@@ -119,7 +135,7 @@ create table CHATSTATUS(
    CS_READ date
 );
 alter table CHATSTATUS add constraint CHATSTATUS_CR_FK foreign key(CS_CR_SEQ) references CHATROOM(CR_SEQ) on delete cascade;
-alter table CHATSTATUS add constraint CHATSTATUS_MB_FK foreign key(CS_MB_SEQ) references MEMBER(MB_SEQ) on delete cascade;
+alter table CHATSTATUS add constraint CHATSTATUS_MB_FK foreign key(CS_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
 
 create table FREINDREQ(
    FR_SEQ number constraint FREINDREQ_PK primary key,
@@ -129,8 +145,8 @@ create table FREINDREQ(
    FR_RDATE date
 );
 create sequence FREINDREQ_SEQ increment by 1 start with 1 nocache;
-alter table FREINDREQ add constraint FREINDREQ_REQ_MB_FK foreign key(FR_REQ_MB_SEQ) references MEMBER(MB_SEQ) on delete cascade;
-alter table FREINDREQ add constraint FREINDREQ_REC_MB_FK foreign key(FR_REC_MB_SEQ) references MEMBER(MB_SEQ) on delete cascade;
+alter table FREINDREQ add constraint FREINDREQ_REQ_MB_FK foreign key(FR_REQ_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
+alter table FREINDREQ add constraint FREINDREQ_REC_MB_FK foreign key(FR_REC_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
 
 create table FREIND(
    F_SEQ number constraint FREIND_PK primary key,
@@ -139,8 +155,8 @@ create table FREIND(
    F_RDATE date
 );
 create sequence FREIND_SEQ increment by 1 start with 1 nocache;
-alter table FREIND add constraint FREIND_MB_FK foreign key(F_MB_SEQ) references MEMBER(MB_SEQ) on delete cascade;
-alter table FREIND add constraint FREIND_FREIND_MB_FK foreign key(F_F_MB_SEQ) references MEMBER(MB_SEQ) on delete cascade;
+alter table FREIND add constraint FREIND_MB_FK foreign key(F_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
+alter table FREIND add constraint FREIND_FREIND_MB_FK foreign key(F_F_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
 
 create table BLOCKLIST(
    BL_SEQ number constraint BLOCKLIST_PK primary key,
@@ -149,5 +165,6 @@ create table BLOCKLIST(
    BL_RDATE date
 );
 create sequence BLOCKLIST_SEQ increment by 1 start with 1 nocache;
-alter table BLOCKLIST add constraint BLOCKLIST_MB_FK foreign key(BL_MB_SEQ) references MEMBER(MB_SEQ) on delete cascade;
-alter table BLOCKLIST add constraint BLOCKLIST_BLOCK_MB_FK foreign key(BL_BL_MB_SEQ) references MEMBER(MB_SEQ) on delete cascade;
+alter table BLOCKLIST add constraint BLOCKLIST_MB_FK foreign key(BL_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
+alter table BLOCKLIST add constraint BLOCKLIST_BLOCK_MB_FK foreign key(BL_BL_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
+
