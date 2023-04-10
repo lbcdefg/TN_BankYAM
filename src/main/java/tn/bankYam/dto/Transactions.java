@@ -15,12 +15,12 @@ import java.sql.Date;
 //type은 입금, 송금
 public class Transactions {
     private long tr_seq;
-    private long tr_ac_seq;
-    private String tr_bank;
-    private String tr_others_account;
+    private long tr_sender_accnum;
+    private String tr_sender_bank;
+    private long tr_receiver_accnum;
+    private String tr_receiver_bank;
     private long tr_amount;
     private long tr_after_balance;
-    private String tr_type;
     private String tr_msg;
     private Date tr_date;
 }

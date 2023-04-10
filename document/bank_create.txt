@@ -45,6 +45,7 @@ create sequence MEMBERY_SEQ increment by 1 start with 1 nocache;
 
 create table PRODUCT(
   PD_SEQ number constraint PRODUCT_PK primary key,
+  PD_TYPE varchar2(20),
   PD_NAME varchar2(50),
   PD_RATE number(5,2),
   PD_RDATE date,
@@ -53,20 +54,19 @@ create table PRODUCT(
 create sequence PRODUCT_SEQ increment by 1 start with 1 nocache;
 
 create table ACCOUNTY(
-   AC_SEQ number constraint ACCOUNT_PK primary key,
+   AC_SEQ number constraint ACCOUNTY_PK primary key,
    AC_PWD varchar(100),
    AC_MB_SEQ number,
    AC_BALANCE number,
    AC_NAME varchar2(50),
    AC_MAIN varchar2(30),
-   AC_TYPE varchar2(20),
    AC_STATUS varchar2(20),
-   AC_PD_SEQ number(5,2),
+   AC_PD_SEQ number,
    AC_RDATE date,
    AC_UDATE date,
    AC_XDATE date
 );
-create sequence ACCOUNTY_SEQ increment by 1 start with 1 nocache;
+create sequence ACCOUNTY_SEQ increment by 10 start with 888010000000 nocache;
 alter table ACCOUNTY add constraint ACCOUNTY_MB_FK foreign key(AC_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
 alter table ACCOUNTY add constraint ACCOUNTY_PD_FK foreign key(AC_PD_SEQ) references PRODUCT(PD_SEQ) on delete cascade;
 
