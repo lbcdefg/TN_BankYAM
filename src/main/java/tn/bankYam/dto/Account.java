@@ -13,7 +13,7 @@ public class Account {
     private long ac_seq;
     private String ac_pwd;
     private long ac_mb_seq;
-    private Long ac_balance;
+    private long ac_balance;
     private String ac_name;
     private String ac_main;
     private String ac_type;
