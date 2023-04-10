@@ -130,11 +130,11 @@ create sequence CHATFILE_SEQ increment by 1 start with 1 nocache;
 alter table CHATFILE add constraint CHATFILE_CC_FK foreign key(CF_CC_SEQ) references CHATCONTENT(CC_SEQ) on delete cascade;
 
 create table CHATSTATUS(
-   CS_CR_SEQ number,
+   CS_CC_SEQ number,
    CS_MB_SEQ number,
    CS_READ date
 );
-alter table CHATSTATUS add constraint CHATSTATUS_CR_FK foreign key(CS_CR_SEQ) references CHATROOM(CR_SEQ) on delete cascade;
+alter table CHATSTATUS add constraint CHATSTATUS_CC_FK foreign key(CS_CC_SEQ) references CHATCONTENT(CC_SEQ) on delete cascade;
 alter table CHATSTATUS add constraint CHATSTATUS_MB_FK foreign key(CS_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
 
 create table FREINDREQ(
