@@ -5,10 +5,10 @@
 
 drop table BLOCKLIST;
 drop sequence BLOCKLIST_SEQ;
-drop table FREIND;
-drop sequence FREIND_SEQ;
-drop table FREINDREQ;
-drop sequence FREINDREQ_SEQ;
+drop table FRIEND;
+drop sequence FRIEND_SEQ;
+drop table FRIENDREQ;
+drop sequence FRIENDREQ_SEQ;
 drop table CHATSTATUS;
 drop table CHATFILE;
 drop sequence CHATFILE_SEQ;
@@ -72,16 +72,17 @@ alter table ACCOUNTY add constraint ACCOUNTY_PD_FK foreign key(AC_PD_SEQ) refere
 
 create table TRANSACTIONS(
    TR_SEQ number constraint TRANSACTIONS_PK primary key,
-   TR_SENDER_ACCNUM number,
-   TR_SENDER_BANK varchar2(30),
-   TR_RECEIVER_ACCNUM number,
-   TR_RECEIVER_BANK varchar2(30),
+   TR_AC_SEQ number,
+   TR_OTHER_ACCNUM number,
+   TR_OTHER_BANK varchar2(30),
+   TR_TYPE varchar2(15),
    TR_AMOUNT number,
    TR_AFTER_BALANCE number,
    TR_MSG varchar(60),
    TR_DATE date
 );
 create sequence TRANSACTIONS_SEQ increment by 1 start with 1 nocache;
+alter table TRANSACTIONS add constraint TRANSACTIONS_AC_FK foreign key(TR_AC_SEQ) references ACCOUNTY(AC_SEQ) on delete cascade;
 
 create table CHATROOM(
    CR_SEQ number constraint CHATROOM_PK primary key,
@@ -98,27 +99,28 @@ create table CHATMEMBER(
 alter table CHATMEMBER add constraint CHATMEMBER_CR_FK foreign key(CM_CR_SEQ) references CHATROOM(CR_SEQ) on delete cascade;
 alter table CHATMEMBER add constraint CHATMEMBER_MB_FK foreign key(CM_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
 
+create table CHATFILE(
+   CF_SEQ number constraint CHATFILE_PK primary key,
+   CF_ORGNM varchar2(100),
+   CF_SAVEDNM varchar2(1000),
+   CF_SAVEDPATH varchar2(300),
+   CF_SIZE number
+);
+create sequence CHATFILE_SEQ increment by 1 start with 1 nocache;
+
 create table CHATCONTENT(
    CC_SEQ number constraint CHATCONTENT_PK primary key,
    CC_CR_SEQ number,
    CC_MB_SEQ number,
+   CC_CF_SEQ number,
    CC_CONTENT clob,
    CC_RDATE date
 );
 create sequence CHATCONTENT_SEQ increment by 1 start with 1 nocache;
 alter table CHATCONTENT add constraint CHATCONTENT_CR_FK foreign key(CC_CR_SEQ) references CHATROOM(CR_SEQ) on delete cascade;
 alter table CHATCONTENT add constraint CHATCONTENT_MB_FK foreign key(CC_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
+alter table CHATCONTENT add constraint CHATCONTENT_CF_FK foreign key(CC_CF_SEQ) references CHATFILE(CF_SEQ) on delete cascade;
 
-create table CHATFILE(
-   CF_SEQ number constraint CHATFILE_PK primary key,
-   CF_ORGNM varchar2(100),
-   CF_SAVEDNM varchar2(1000),
-   CF_SAVEDPATH varchar2(300),
-   CF_SIZE number,
-   CF_CC_SEQ number --FK
-);
-create sequence CHATFILE_SEQ increment by 1 start with 1 nocache;
-alter table CHATFILE add constraint CHATFILE_CC_FK foreign key(CF_CC_SEQ) references CHATCONTENT(CC_SEQ) on delete cascade;
 
 create table CHATSTATUS(
    CS_CC_SEQ number,
@@ -128,26 +130,26 @@ create table CHATSTATUS(
 alter table CHATSTATUS add constraint CHATSTATUS_CC_FK foreign key(CS_CC_SEQ) references CHATCONTENT(CC_SEQ) on delete cascade;
 alter table CHATSTATUS add constraint CHATSTATUS_MB_FK foreign key(CS_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
 
-create table FREINDREQ(
-   FR_SEQ number constraint FREINDREQ_PK primary key,
+create table FRIENDREQ(
+   FR_SEQ number constraint FRIENDREQ_PK primary key,
    FR_REQ_MB_SEQ number,
    FR_REC_MB_SEQ number,
    FR_STATUS varchar2(20),
    FR_RDATE date
 );
-create sequence FREINDREQ_SEQ increment by 1 start with 1 nocache;
-alter table FREINDREQ add constraint FREINDREQ_REQ_MB_FK foreign key(FR_REQ_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
-alter table FREINDREQ add constraint FREINDREQ_REC_MB_FK foreign key(FR_REC_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
+create sequence FRIENDREQ_SEQ increment by 1 start with 1 nocache;
+alter table FRIENDREQ add constraint FRIENDREQ_REQ_MB_FK foreign key(FR_REQ_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
+alter table FRIENDREQ add constraint FRIENDREQ_REC_MB_FK foreign key(FR_REC_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
 
-create table FREIND(
-   F_SEQ number constraint FREIND_PK primary key,
+create table FRIEND(
+   F_SEQ number constraint FRIEND_PK primary key,
    F_MB_SEQ number,
    F_F_MB_SEQ number,
    F_RDATE date
 );
-create sequence FREIND_SEQ increment by 1 start with 1 nocache;
-alter table FREIND add constraint FREIND_MB_FK foreign key(F_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
-alter table FREIND add constraint FREIND_FREIND_MB_FK foreign key(F_F_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
+create sequence FRIEND_SEQ increment by 1 start with 1 nocache;
+alter table FRIEND add constraint FRIEND_MB_FK foreign key(F_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
+alter table FRIEND add constraint FRIEND_FRIEND_MB_FK foreign key(F_F_MB_SEQ) references MEMBERY(MB_SEQ) on delete cascade;
 
 create table BLOCKLIST(
    BL_SEQ number constraint BLOCKLIST_PK primary key,

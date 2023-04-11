@@ -20,4 +20,6 @@ public class Accounty {
     private long ac_pd_seq;
     private Date ac_odate;
     private Date ac_xdate;
+
+    private Membery membery;
 }

@@ -13,4 +13,7 @@ public class Chatstatus {
     private long cs_cr_seq;
     private long cs_mb_seq;
     private Date cs_read;
+
+    private Membery membery;
+    private Chatcontent chatcontent;
 }

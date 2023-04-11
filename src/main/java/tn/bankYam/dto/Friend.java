@@ -9,9 +9,12 @@ import java.sql.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Freind {
+public class Friend {
     private long f_seq;
     private long f_mb_seq;
     private long f_f_mb_seq;
     private Date f_rdate;
+
+    private Membery membery;
+    private Membery fMembery;
 }

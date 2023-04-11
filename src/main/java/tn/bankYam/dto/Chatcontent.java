@@ -13,6 +13,11 @@ public class Chatcontent {
     private long cc_seq;
     private long cc_cr_seq;
     private long cc_mb_seq;
+    private long cc_cf_seq;
     private String cc_content;
     private Date cc_rdate;
+
+    private Chatroom chatroom;
+    private Membery membery;
+    private Chatfile chatfile;
 }
