@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
 
+/* 공통 */
 :root {
     --themecolor: #5F4934;
     --vsthemecolor: white;
@@ -7,6 +8,22 @@
 *{
     font-family: 'Noto Sans KR', sans-serif;
 }
+a{
+    text-decoration: none;
+}
+button{
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* 네비게이션 */
 .nav-main{
     position: fixed;
     display: flex;
@@ -55,7 +72,7 @@
 
 .nav-menu-item {
     display: inline-block;
-    /* float: left; */
+    float: left;
     margin-left: 15px;
     font-size: 10px;
     border-bottom: 0px solid transparent;
@@ -66,31 +83,40 @@
 .nav-menu-item a {
     display: block;
     padding: 10px 15px;
-    width: auto;
     font-size: 1.3rem;
     font-weight: 300;
-    text-decoration: none;
     color: var(--vsthemecolor);
     transition: all 0.5s;
 }
-
-.nav-hidden-a{
+.hidden-a{
     height:100%;
     line-height: 70px;
+}
+
+.nav-menu-item form {
+    margin:0;
+}
+.nav-sign{
+    display: inline-block;
+    min-width: 325px;
+    padding: 0;
+    float: right;
+    text-align: right;
+}
+.nav-sign-list{
+    width:auto;
+    margin: auto;
+    vertical-align: middle;
 }
 
 .nav-menu button{
     height:45px;
     width:120px;
-    text-align: center;
-    border: none;
-    border-radius: 5px;
     margin-right: 20px;
     font-size: 1rem;
     color: var(--themecolor);
     background-color: var(--vsthemecolor);
     margin-top: 0;
-    cursor: pointer;
     transition: all 0.3s;
 }
 .nav-post-box{
@@ -127,7 +153,6 @@
     margin-left: 11px;
     margin-right: 20px;
 }
-
 .nav-header:hover .nav-menu-item a{
     color: var(--themecolor);
 }
@@ -136,7 +161,7 @@
     border-bottom: 3px solid transparent;
 }
 
-.nav-hidden-a:hover{
+.hidden-a:hover{
     border:none;
     border-bottom: 3px solid transparent;
     padding-top: 0px;
@@ -167,7 +192,6 @@
 
 .response-login{
     width: 35px;
-    height:auto;
     display: none;
     transition: all 0.5s;
 }
@@ -180,7 +204,7 @@
     padding: 0;
 }
 
-@media screen and (max-width: 500px){
+@media screen and (max-width: 700px){
     .nav-header{
         height: 50px;
     }
@@ -188,6 +212,14 @@
         height: 40px;
         margin-left: 10px;
         margin-right: 10px;
+    }
+    .nav-header:hover .nav-image-hover{
+        display: block;
+        height: 40px;
+        width:auto;
+        margin-top: 3px;
+        margin-left: 11px;
+        margin-right: 20px;
     }
     .nav-logo{
         font-size: 25px;
@@ -197,6 +229,7 @@
         display: none;
     }
     .response-login{
+        width: 35px;
         display: block;
         filter: invert();
     }
@@ -205,7 +238,7 @@
     }
 }
 
-@media screen and (min-width: 501px){
+@media screen and (min-width: 701px){
     .nav-header{
         height: 80px;
     }
@@ -214,19 +247,29 @@
         margin-left: 10px;
         margin-right: 10px;
     }
+    .nav-header:hover .nav-image-hover{
+        display: block;
+        height: 60px;
+        width:auto;
+        margin-top: 5px;
+        margin-left: 12px;
+        margin-right: 20px;
+    }
     .nav-menu{
         display: inline;
     }
-    .nav-menu menu-show{
+    .nav-menu .menu-show{
         display: block;
     }
-    #login-image{
-        width: 100px;
+    .nav-menu .menu-show-full{
+        display: none;
     }
+
     .log-btn{
         display: none;
     }
     .response-login{
+        width: 40px;
         display: block;
         filter: invert();
     }
@@ -235,7 +278,7 @@
     }
 }
 
-@media screen and (min-width: 1290px){
+@media screen and (min-width: 1270px){
     .nav-header{
         height: 100px;
     }
@@ -245,14 +288,22 @@
         margin-right: 10px;
         margin-top: 10px;
     }
+    .nav-header:hover .nav-image-hover{
+        display: block;
+        height: 80px;
+        width:auto;
+        margin-top: 5px;
+        margin-left: 12px;
+        margin-right: 20px;
+    }
     .log-btn{
         display: flex;
     }
-    .menu-show-full{
+    .nav-menu .menu-show-full{
         display: block;
     }
     .nav-menu{
-        display:flex;
+        display:inline-block;
     }
     .response-login{
         display: none;

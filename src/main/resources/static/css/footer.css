@@ -1,0 +1,95 @@
+
+.footer-main{
+    display: block;
+    background-color: #2c2a29;
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 10px;
+}
+
+.footer-corp{
+    font-size: 0.9rem;
+    text-align: center;
+    padding: 0;
+}
+
+.footer-corp li {
+    display: inline-block;
+    position: relative;
+    margin-right: 10px;
+}
+
+.footer-corp li a {
+    display: block;
+    padding: 5px;
+    color: var(--vsthemecolor);
+    font-family: noto-medium;
+    text-decoration: none;
+}
+
+.footer-corp li a:hover,
+.footer-corp li a:focus {
+    color: #999;
+}
+
+.footer-corp li:last-child {
+    margin-right: 0;
+}
+
+
+.footer-info {
+    text-align: center;
+    padding: 5px 0 5px 0;
+}
+
+.footer-info li {
+    display: inline-block;
+    margin-right: 20px;
+    padding: 2px 5px 7px;
+    vertical-align: middle;
+    border: 1px solid #fff;
+    border-radius: 5px;
+}
+
+.footer-info li:last-child {
+    margin-right: 0;
+}
+
+.footer-info li a {
+    font-size: 0.9rem;
+    color: var(--vsthemecolor);
+    font-family: noto-bold;
+    text-decoration: none;
+}
+
+.footer-info li:hover a,
+.footer-info li a:focus {
+    color: var(--themecolor);;
+}
+.footer-info li:hover{
+    background-color: var(--vsthemecolor);
+}
+
+
+/* 회사 주소 부분 */
+.footer-address{
+    text-align: center;
+}
+
+.footer-address span{
+    padding: 10px 5px;
+    display: inline-block;
+    font-style: normal;
+    color: #999;
+    font-size: 0.9rem;
+    cursor: default;
+}
+
+.footer-copyringt{
+    padding: 10px 0 30px 0;
+    display: block;
+    text-align: center;
+    color: #999;
+    font-size: 0.7rem;
+    cursor: default;
+}
