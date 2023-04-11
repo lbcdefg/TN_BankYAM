@@ -1,16 +1,13 @@
 package tn.bankYam;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class MainController {
-    @RequestMapping("/")
-    public String nav(){
-        return "nav";
+    @GetMapping("/")
+    public String index() {
+        return "main";
     }
-    @RequestMapping("/login")
-    public String login(){
-        return "login";
-    }
+
 }
