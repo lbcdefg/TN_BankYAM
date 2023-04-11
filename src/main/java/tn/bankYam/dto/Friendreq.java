@@ -9,10 +9,13 @@ import java.sql.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Freindreq {
+public class Friendreq {
     private long fr_seq;
     private long fr_req_mb_seq;
     private long fr_rec_mb_seq;
     private String fr_status;
     private Date fr_rdate;
+
+    private Membery membery;
+    private Membery frMembery;
 }

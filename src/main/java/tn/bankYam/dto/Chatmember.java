@@ -10,4 +10,7 @@ import lombok.NoArgsConstructor;
 public class Chatmember {
     private long cm_cr_seq;
     private long cm_mb_seq;
+
+    private Membery membery;
+    private Chatroom chatroom;
 }
