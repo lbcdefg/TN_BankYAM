@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+*{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+
+
+.main-div{
+    width: 100%;
+    height: 500px;
+    background-color: red;
+    display: inline-flex;
+}
+.main-div-div1{
+    width: 60%;
+    height: 100%;
+    background-color: aqua;
+    background-image: url(/img/indexphoto.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.main-div-div2{
+    width: 40%;
+    height: 100%;
+    background-color: black;
+    display: block;
+}
+.main-button-div1{
+    width: 100%;
+    height: 50%;
+    background-color: antiquewhite;
+    display: flex;
+}
+.main-button-div2{
+    width: 100%;
+    height: 50%;
+    background-color: blue;
+    display: flex;
+}
+.main-button1{
+    width: 50%;
+    height: 100%;
+    background-color: #5F4934;
+    background-image: url(/img/transfer.png);
+    background-position: center;
+    background-size: 120px;
+    background-repeat: no-repeat;
+    border-collapse: collapse;
+    border: 0.5px solid lightgray;
+    transition: all 0.5s;
+    position: relative;
+    overflow: hidden;
+}
+.main-button2{
+    width: 50%;
+    height: 100%;
+    background-color: #5F4934;
+    background-image: url(/img/talk.png);
+    background-position: center;
+    background-size: 140px;
+    background-repeat: no-repeat;
+    border-collapse: collapse;
+    border: 0.5px solid lightgray;
+    transition: all 0.5s;
+    position: relative;
+    overflow: hidden;
+}
+.main-button3{
+    width: 50%;
+    height: 100%;
+    background-color: #5F4934;
+    background-image: url(/img/account.png);
+    background-position: center;
+    background-size: 150px;
+    background-repeat: no-repeat;
+    border-collapse: collapse;
+    border: 0.5px solid lightgray;
+    transition: all 0.5s;
+    position: relative;
+    overflow: hidden;
+}
+.main-button4{
+    width: 50%;
+    height: 100%;
+    background-color: #5F4934;
+    background-image: url(/img/friend.png);
+    background-position: center;
+    background-size: 120px;
+    background-repeat: no-repeat;
+    border-collapse: collapse;
+    border: 0.5px solid lightgray;
+    transition: all 0.5s;
+    position: relative;
+    overflow: hidden;
+}
+.button-content{
+    position: absolute;
+    width:100%;
+    height:30px;
+    top: 40px;
+    left: 10px;
+    font-size: 30px;
+    color: transparent;
+    transition: all 0.5s;
+}
+.main-button1:hover{
+    transform: scale(1.02);
+    background-position: bottom 10px right 20px;
+    background-color: #B39273;
+}
+.main-button2:hover{
+    transform: scale(1.02);
+    background-position: bottom 10px right 20px;
+    background-color: #B39273;
+}
+.main-button3:hover{
+    transform: scale(1.02);
+    background-position: bottom 10px right 10px;
+    background-color: #B39273;
+}
+.main-button4:hover{
+    transform: scale(1.02);
+    background-position: bottom 20px right 10px;
+    background-color: #B39273;
+}
+.main-button1:hover .button-content{
+    color: white;
+    transform: translateX(10px);
+}
+.main-button2:hover .button-content{
+    color: white;
+    transform: translateX(10px);
+}
+.main-button3:hover .button-content{
+    color: white;
+    transform: translateX(10px);
+}
+.main-button4:hover .button-content{
+    color: white;
+    transform: translateX(10px);
+}
+
