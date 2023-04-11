@@ -1,0 +1,51 @@
+.frs-frame{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 10rem auto;
+}
+
+.frs-lt{
+    width: 47.5%;
+    padding: 0 20px;
+}
+
+.frs-rt{
+    width: 47.5%;
+    padding: 0 20px;
+}
+
+.frs-search{
+    display: inline-flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.frs-search-input{
+    width: 80%;
+}
+
+.frs-search-btn{
+    width: 18%;
+}
+
+.frs-findFr{
+    width: 100%;
+    text-align: center;
+}
+
+.frs-img-profile{
+    border: 1px solid #5F4934;
+    border-radius: 50%;
+    width: 80%;
+    height: auto;
+    margin: 30px 0;
+}
+
+.frs-name-profile{
+    width: 80%;
+    height: 50px;
+    margin: 30px auto;
+    font-size: 20px;
+    font-weight: bold;
+}
