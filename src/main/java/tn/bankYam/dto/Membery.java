@@ -22,4 +22,5 @@ public class Membery {
     private String mb_imagepath;
     private Date mb_rdate;
     private Date mb_wdate;
+    private Accounty accounty;
 }
