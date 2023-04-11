@@ -9,9 +9,11 @@ import java.sql.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Freind {
-    private long f_seq;
-    private long f_mb_seq;
-    private long f_f_mb_seq;
-    private Date f_rdate;
+public class Product {
+	private long pd_seq;
+	private String pd_type;
+	private String pd_name;
+	private float pd_rate;
+	private Date pd_rdate;
+	private Date pd_xdate;
 }

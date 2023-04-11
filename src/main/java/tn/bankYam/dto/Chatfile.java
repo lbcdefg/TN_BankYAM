@@ -13,5 +13,4 @@ public class Chatfile {
     private String cf_savednm;
     private String cf_savedpath;
     private long cf_size;
-    private long cf_cc_seq;
 }
