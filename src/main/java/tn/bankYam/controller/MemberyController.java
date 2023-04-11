@@ -8,12 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("member")
 public class MemberyController {
 
-	@GetMapping("join.do")
-	private String join(){
-		return "member/join";
+	@GetMapping("login")
+	public String login(){
+		return "login";
+	}
+	@GetMapping("join")
+	public String join(){
+		return "join";
 	}
 
-	@GetMapping("update.do")
+	@GetMapping("update")
 	public String update(){
 		return "member/update";
 	}

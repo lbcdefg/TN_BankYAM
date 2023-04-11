@@ -1,13 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
-
-*{
-    font-family: 'Noto Sans KR', sans-serif;
-}
-
 
 .main-div{
-    width: 100%;
-    height: 500px;
+    margin-top:15rem;
+    margin-bottom:15rem;
+    width: 70%;
+    height: 600px;
     background-color: red;
     display: inline-flex;
 }
@@ -96,10 +92,10 @@
 }
 .button-content{
     position: absolute;
-    width:100%;
+    width:50%;
     height:30px;
     top: 40px;
-    left: 10px;
+    left: 0px;
     font-size: 30px;
     color: transparent;
     transition: all 0.5s;
@@ -139,5 +135,83 @@
 .main-button4:hover .button-content{
     color: white;
     transform: translateX(10px);
+}
+.main-tit{
+    width: 100%;
+    height: 250px;
+    text-align: center;
+    margin-bottom: 10rem;
+
+}
+.main-tit .title{
+    font-weight: 700;
+    font-size: 90px;
+    color: #333;
+    font-style: normal;
+    line-height: 90px;
+    letter-spacing: -.9px;
+    margin: auto;
+    line-height: 140px;
+}
+.main-intcom{
+    width: 100%;
+    height: 700px;
+    display: flex;
+    position: relative;
+    margin-bottom: 250px;
+}
+.main-intcom .intcom-div1{
+    position: absolute;
+    width: 818px;
+    height: 351px;
+    left: 11%;
+    transition: all 0.5s;
+}
+.main-intcom .intcom-div2{
+    position: absolute;
+    width: 1222px;
+    height: 604px;
+    left: 35.8%;
+    top: 93px;
+}
+.main-intcom .intcom-div3{
+    position: absolute;
+    width: 500px;
+    height: 250px;
+    top: -3%;
+    left: 55%;
+    transition: all 0.5s;
+}
+.intcom-div3 .intcom-div3-tit{
+    font-size: 27px;
+}
+.main-intcom .intcom-div4{
+    position: absolute;
+    width: 500px;
+    height: 250px;
+    top: 62%;
+    left: 19%;
+    transition: all 0.5s;
+}
+.intcom-div4 .intcom-div4-tit{
+    font-size: 27px;
+}
+.intcom-div4 .intcom-div4-con{
+    font-size: 17px;
+    line-height: 150%;
+}
+.text_under{
+    position: relative;
+}
+.text_under::after {
+    content: "";
+    width: 100%;
+    height: 30px;
+    background: #B39273;
+    position: absolute;
+    display: inline-block;
+    left: 0;
+    bottom: 10px;
+    z-index: -1;
 }
 
