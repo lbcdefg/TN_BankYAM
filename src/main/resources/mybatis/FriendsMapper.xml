@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="tn.bankYam.mapper.FriendsMapper">
-    <select id="searchFriend" resultType="Membery" parameterType="String">
+    <select id="searchFriend" resultType="Membery" parameterType="Hashmap">
         SELECT
             *
         FROM
@@ -10,9 +10,13 @@
             ACCOUNTY A
         ON
             M.MB_SEQ = A.AC_MB_SEQ
-        WHERE
-            M.MB_EMAIL = #{searchFrWord}
-        OR
-            A.AC_SEQ = #{searchFrWord}
+        <where>
+            <if test="email != 'empty'">
+                M.MB_EMAIL = #{email}
+            </if>
+            <if test="account != 'empty'">
+                A.AC_SEQ = #{account}
+            </if>
+        </where>
     </select>
 </mapper>

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import tn.bankYam.dto.Membery;
 import tn.bankYam.service.FriendsService;
 
+import java.util.HashMap;
+
 @Controller
 @RequestMapping("friend")
 public class FriendController {
@@ -24,7 +26,9 @@ public class FriendController {
     @PostMapping("friends_searchFr")
     public @ResponseBody Membery friendsSearch(String text){
         System.out.println(text);
-        Membery membery = friendsService.searchFriend(text);
+        HashMap<String, Object> searchFrMap = friendsService.forSearchFrMap(text);
+        System.out.println(searchFrMap);
+        Membery membery = friendsService.searchFriend(searchFrMap);
         return membery;
     }
 }

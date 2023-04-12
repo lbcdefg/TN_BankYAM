@@ -5,30 +5,45 @@
     margin: 10rem auto;
 }
 
+/* 페이지 왼쪽 구분 */
 .frs-lt{
     width: 47.5%;
     padding: 0 20px;
 }
 
+/* 페이지 오른쪽 구분 */
 .frs-rt{
     width: 47.5%;
     padding: 0 20px;
 }
 
+/* 왼쪽 친구찾기 관련 요소들 */
 .frs-search{
     display: inline-flex;
     width: 100%;
-    justify-content: space-between;
+    justify-content: center;
 }
 
+/* 왼쪽 친구찾기 관련 인풋, 검색버튼 */
 .frs-search-input{
-    width: 80%;
+    width: 70%;
+    height: 30px;
 }
 
 .frs-search-btn{
-    width: 18%;
+    width: 20%;
+    height: 30px;
+    background-color: #5F4934;
+    color: white;
+    margin-left: 15px;
 }
 
+.frs-search-btn:hover{
+    background-color: #B39273;
+    color: white;
+}
+
+/* 왼쪽 찾아진 친구 관련 요소들 */
 .frs-findFr{
     width: 100%;
     text-align: center;
@@ -37,15 +52,42 @@
 .frs-img-profile{
     border: 1px solid #5F4934;
     border-radius: 50%;
-    width: 80%;
+    width: 50%;
     height: auto;
     margin: 30px 0;
 }
 
 .frs-name-profile{
     width: 80%;
-    height: 50px;
-    margin: 30px auto;
-    font-size: 20px;
+    height: 60px;
+    margin: 15px auto;
+    font-size: 18px;
     font-weight: bold;
+    word-break: keep-all;
+    word-wrap: break-word;
+    color: #3B3838;
+}
+
+/* 왼쪽 찾아진 친구추가 및 차단 버튼 */
+.frs-manage{
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+}
+
+.frs-plus-btn, .frs-block-btn{
+    display: none;
+    width: 20%;
+    height: 30px;
+    background-color: #5F4934;
+    color: white;
+}
+
+.frs-plus-btn:hover, .frs-block-btn:hover{
+    background-color: #B39273;
+    color: white;
+}
+
+.frs-block-btn{
+    margin-left: 15px;
 }

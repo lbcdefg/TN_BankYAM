@@ -2,6 +2,10 @@ package tn.bankYam.service;
 
 import tn.bankYam.dto.Membery;
 
+import java.util.HashMap;
+
 public interface FriendsService {
-    Membery searchFriend(String searchFrWord);
+
+    HashMap<String, Object> forSearchFrMap(String text);
+    Membery searchFriend(HashMap<String, Object> hashMap);
 }
