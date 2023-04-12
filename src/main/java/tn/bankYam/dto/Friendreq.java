@@ -15,7 +15,5 @@ public class Friendreq {
     private long fr_rec_mb_seq;
     private String fr_status;
     private Date fr_rdate;
-
     private Membery membery;
-    private Membery frMembery;
 }

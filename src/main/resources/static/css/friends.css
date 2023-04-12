@@ -1,19 +1,12 @@
 .frs-frame{
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-between;
-    margin: 10rem auto;
 }
+
 
 /* 페이지 왼쪽 구분 */
 .frs-lt{
-    width: 47.5%;
-    padding: 0 20px;
-}
-
-/* 페이지 오른쪽 구분 */
-.frs-rt{
-    width: 47.5%;
+    width: 40.5%;
     padding: 0 20px;
 }
 
@@ -90,4 +83,57 @@
 
 .frs-block-btn{
     margin-left: 15px;
+}
+
+
+
+/* 페이지 오른쪽 구분 */
+.frs-rt{
+    width: 55.5%;
+    padding: 0 20px;
+}
+
+/* 오른쪽 친구목록/요청 및 받은목록/차단목록 */
+.frs-list-group{
+    display: inline-flex;
+    width: 100%;
+    justify-content: center;
+}
+
+.frs-group-li-a, .frs-group-rq-a, frs-group-bk-a{
+    width: 20%;
+    height: 30px;
+    border: 0.5px solid #f2f2f2;
+    border-bottom: none;
+    background-color:white;
+    margin-right: 10px;
+    color: var(--themecolor);
+    text-align: center;
+}
+
+
+/* 오른쪽 친구목록 요소들 */
+.frs-list{
+    border: 0.5px solid #f2f2f2;
+    margin-top:-1px;
+    height: 550px;
+    z-index: 1;
+}
+
+.frs-list-table{
+    width:97%;
+}
+
+.frs-list-row{
+    border-top: 0.5px solid #f2f2f2;
+    border-bottom: 0.5px solid #f2f2f2;
+    height: 45px;
+}
+
+.frs-list-30{
+    width:30%;
+}
+
+.frs-list-10{
+    width:10%;
 }

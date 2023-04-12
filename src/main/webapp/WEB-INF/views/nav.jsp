@@ -37,7 +37,7 @@
                     <a href="#">얌톡</a>
                     <div class="nav-post-box">
                         <a class="hidden-a" href="#">대화방</a>
-                        <a class="hidden-a" href="#">친구관리</a>
+                        <a class="hidden-a" href="/friend/friends?content=list">친구관리</a>
                     </div>
                 </li>
                 <li class="nav-menu-item menu-show-full">
