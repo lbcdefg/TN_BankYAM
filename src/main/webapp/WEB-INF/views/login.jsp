@@ -11,8 +11,8 @@
     <center>
         <div class="container content">
             <div class="body-row">
-                <div class="col-sm-6 col-sm-offset-3">
-                    <form class="login-form-container" action="login_ok" method="post">
+                <div class="col-sm-6">
+                    <form class="login-form-container" action="member/login" method="post">
                         <div class="reg-header">
                             <h2>로그인</h2>
                         </div>

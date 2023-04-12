@@ -1,0 +1,154 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap');
+
+*{
+    font-family: 'Noto Sans KR', sans-serif;
+}
+.profile-upcontainer{
+    margin-top:15rem;
+    width: 100%;
+    height: 200px;
+    border-bottom: 2px solid #5F4934 ;
+    display: inline-flex;
+}
+.profile-photo{
+    margin-left: 20px;
+    width: 180px;
+    height: 180px;
+    overflow:hidden;
+    border: 0.5px solid #5F4934;
+    border-radius: 50%;
+}
+.profile-name{
+    margin-left: 20px;
+    margin-top: 50px;
+    width: 500px;
+    height: 40px;
+    display: inline-flex;
+    border-bottom: 0.5px solid rgb(156, 156, 156);
+    padding-bottom: 10px;
+}
+.profile-friends{
+    margin-left: 20px;
+    margin-top: 10px;
+    width: 150px;
+    height: 40px;
+}
+.profile-edit{
+    margin-left: 70%;
+    margin-top: 100px;
+    border-radius: 5px;
+    text-align: center;
+    padding-top: 10px;
+    width: 150px;
+    height: 40px;
+    color: white;
+    background-color: #5F4934;
+    transition: all 0.2s;
+}
+.profile-downcontainer{
+    margin-top: 50px;
+    margin-left: 100px;
+    width: 80%;
+    height: 800px;
+    display: flex;
+}
+.downcontainer-left{
+    width: 25%;
+    height: 100%;
+}
+.downcontainer-right{
+    margin-left: 100px;
+    width: 75%;
+    height: 100%;
+}
+.profile-edit:hover{
+    background-color: #B39273;
+}
+.profile-list{
+    width: 200px;
+    list-style-type: none;
+    font-size: 20px;
+    font-weight: bold;
+}
+.profile-list a{
+    text-decoration: none;
+    color: black;
+}
+.profile-list li{
+    width: 200px;
+    padding: 5px;
+    border-bottom: 0.5px solid #5F4934;
+}
+.profile-list li:hover{
+    background-color: #F7F3EF;
+    cursor: pointer;
+}
+.focus{
+    background-color: #F7F3EF;
+}
+.table-div{
+    width: 90%;
+    background-color: yellow;
+}
+.list-table{
+    border: 1px solid #eee;
+    width: 120%;
+    height: 200px;
+    font-size: 18px;
+    background-color: #F7F3EF;
+    white-space:nowrap;
+    border-collapse:collapse;
+    table-layout: fixed;
+    display: none;
+    margin-top: 20px;
+}
+.list-table thead{
+    background-color: #5F4934;
+    color: white;
+}
+.list-table th{
+    padding: 10px;
+}
+.list table tbody{
+    display:block;
+    overflow:auto;
+}
+.list-table tbody tr:nth-child(2n+1){
+    background-color: white;
+}
+.list-table td,tr{
+    text-align: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.profile-table{
+    border: 1px solid #eee;
+    width: 120%;
+    background-color: #F7F3EF;
+    font-size: 18px;
+    margin-top: 20px;
+    display: none;
+}
+.profile-table th{
+    background-color: #5F4934;
+    padding: 10px;
+    color: white;
+}
+.profile-table td{
+    padding-left: 10px;
+    text-align: left;
+}
+.profile-table input{
+    height: 30px;
+    font-size: 18px;
+    background-color: white;
+    border:none;
+    border-radius: 5px;
+}
+.none-table{
+    width: 120%;
+    height: 200px;
+    background-color: #F7F3EF;
+    font-size: 18px;
+    margin-top: 20px;
+}

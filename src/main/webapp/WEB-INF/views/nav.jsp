@@ -10,7 +10,11 @@
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
     <link rel="stylesheet" type="text/css" href="/css/footer.css" />
     <link rel="stylesheet" type="text/css" href="/css/login.css" />
+    <link rel="stylesheet" type="text/css" href="/css/join.css" />
+    <link rel="stylesheet" type="text/css" href="/css/profile.css" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js" ></script>
+    <script type="text/javascript" language="javascript"
+    			src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="/js/trim.js"></script>
 </head>
 <body style="margin: 0;">
@@ -60,24 +64,3 @@
         </header>
     </nav>
 </body>
-
-<script> //로그인
-    const modal_login = document.querySelector('.modal_login');
-    const login_button = document.querySelector('.login-button');
-    const login_button2 = document.querySelector('.response-login-button');
-    const cancle_button = document.querySelector('.cancle_button');
-    function togglemodal() {
-        modal_login.classList.toggle("show-login");
-    }
-    function windowOnClick(event) {
-        if (event.target === modal_login) {
-            togglemodal();
-        }
-    }
-    <c:if test="${empty email}">
-        login_button.addEventListener("click", togglemodal);
-        login_button2.addEventListener("click", togglemodal);
-    </c:if>
-    cancle_button.addEventListener("click", togglemodal);
-    window.addEventListener("click", windowOnClick);
-</script>
