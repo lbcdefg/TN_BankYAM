@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
     <link rel="stylesheet" type="text/css" href="/css/footer.css" />
     <link rel="stylesheet" type="text/css" href="/css/login.css" />
+    <link rel="stylesheet" type="text/css" href="/css/join.css" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js" ></script>
     <script src="/js/trim.js"></script>
 </head>
