@@ -47,7 +47,12 @@
                     <button class="log-btn-full" onclick="location.href='/member/join'">JOIN</button>
                 </li>
                 <li class="nav-menu-item log-btn">
-                    <button class="log-btn-full" onclick="location.href='/member/login'">LOGIN</button>
+                    <c:if test="${sessionScope.membery eq null}">
+                        <button class="log-btn-full" onclick="location.href='/member/login'">LOGIN</button>
+                    </c:if>
+                    <c:if test="${sessionScope.membery ne null}">
+                        <button class="log-btn-full" onclick="location.href='/member/logout_ok'">LOGOUT</button>
+                    </c:if>
                 </li>
             </ul>
             <div class="response-login"><button class="response-login-button"><img src="/img/login.png" id="login-image" style="width:100%;height:100%;object-fit:cover;"/></button></div>
