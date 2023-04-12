@@ -9,10 +9,15 @@ a {
 .header{
     width:100%;
     position:relative;
+    display:flex;
+}
+.header .group-name{
+    margin-left: auto;
+    margin-top: 13px;
+    margin-right: 13px;
 }
 .wrap {
     height:480px;
-    padding: 40px 0;
     background-color: #A8C0D6;
     overflow:scroll;
     overflow-x: hidden;
@@ -35,16 +40,30 @@ a {
     height: 50px;
     border-radius: 50%;
     background-color: #eee;
+    margin-top:10px;
 }
-.wrap .chat .icon i {
-    position: absolute;
-    top: 10px;
-    left: 50%;
+.wrap .chat .icon img {
+    position: relative;
+    height:100%;
+    left:50%;
     font-size: 2.5rem;
     color: #aaa;
     transform: translateX(-50%);
 }
-.wrap .chat .textbox {
+.wrap .chat .chat-content{
+    position: relative;
+    display: inline-block;
+    width: 88%;
+}
+.wrap .ch1 .chat-content .chat-info{
+    width:100%;
+    margin-left: 10px;
+}
+.wrap .ch2 .chat-content .chat-info{
+    float:right;
+    margin-right: 10px;
+}
+.wrap .chat .chat-content .textbox {
     position: relative;
     display: inline-block;
     max-width: calc(100% - 70px);
@@ -52,6 +71,9 @@ a {
     margin-top: 7px;
     font-size: 13px;
     border-radius: 10px;
+}
+.wrap .ch2 .chat-content .textbox{
+    float:right;
 }
 .wrap .chat .textbox::before {
     position: absolute;
