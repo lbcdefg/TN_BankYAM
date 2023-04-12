@@ -5,7 +5,7 @@
     --themecolor: #5F4934;
     --vsthemecolor: white;
     --lightyamcolor: #B39273;
-    --fontcolor: #3B3838;
+    --whiteyamcolor: #F7F3EF;
 }
 *{
     font-family: 'Noto Sans KR', sans-serif;
@@ -15,20 +15,17 @@ a{
 }
 button{
     text-align: center;
+    border: none;
     cursor: pointer;
     border-radius: 5px;
-    border: 1px solid var(--themecolor);
-    background-color: var(--vsthemecolor);
-}
-button:hover {
-    border: 1px solid var(--themecolor);
-    background-color: var(--themecolor);
-    color: var(--vsthemecolor);
 }
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+.body-main{
+    margin: 10rem 0;
 }
 
 /* 네비게이션 */

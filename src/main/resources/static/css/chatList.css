@@ -1,0 +1,157 @@
+.chat-buttons{
+    width: 1000px;
+    min-height: 1px;
+    padding: 0px;
+    margin: 16px auto;
+}
+.button-list{
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    list-style: none;
+}
+.button-list li{
+    float: left;
+    position: relative;
+    display: block;
+    color: #555;
+}
+.button-list li a{
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    color: #555;
+    outline: 0 !important;
+    text-decoration: none;
+}
+.active{
+    background-color: var(--themecolor);
+}
+.button-list .active a{
+    color: var(--vsthemecolor);
+}
+
+.album-table {
+    display: flex;
+    width: 1000px;
+    height: auto;
+    margin: 16px auto;
+    border-bottom: 1px solid #f2f2f2;
+}
+.album-table-list {
+    list-style: none;
+}
+.album-table-content {
+    border: none;
+    vertical-align: top;
+    overflow: hidden;
+    float: left;
+    position: relative;
+    width: 200px;
+    height: 304px;
+    margin-left: 25px;
+    margin-top: 10px;
+}
+.alarmCount{
+	background-color: var(--lightyamcolor);
+	min-width: 30px;
+	border-radius: 15px;
+	position: absolute;
+	right: 0;
+	color: var(--whiteyamcolor);
+    font-weight: bold;
+    text-align: center;
+}
+.album-table-img {
+    display: block;
+    text=decoration: none;
+}
+.album-table-img img{
+    width: 200px;
+    height: 200px;
+}
+.album-table dl {
+    list-style: none;
+}.album-table dt {
+    display: table;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    padding-top: 8px;
+}
+.album-table-sub {
+    text-decoration: none;
+    display: table-cell;
+    font-size: 13px;
+    font-weight: bold;
+    vertical-align: top;
+    color: #333;
+    table-layout: fixed;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.album-table dd {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    font-size: 13px;
+    padding-top: 7px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #666;
+}
+.listPlus{
+    background-color: var(--lightyamcolor);
+    width: 60%;
+    height: 100px;
+    margin: 16px auto;
+    border-radius: 5px;
+}
+.listPlus .listPlus-text{
+    color: white;
+    font-size: 50px;
+    text-align: center;
+    position: relative;
+    top: 13px;
+}
+@media ( max-width: 1015px ){
+	.album-table {
+		width: 800px;
+	}
+    .listPlus{
+        width: 80%;
+    }
+}
+@media ( max-width: 800px ){
+	.album-table {
+		width: 580px;
+	}
+}
+@media (max-width: 605px){
+	.album-table{
+		width: 95%;
+	}
+	.album-table-img img{
+		width: 100px;
+		height: 100px;
+	}
+	.album-table-content{
+		width: 80%;
+		height: 130px;
+	}
+	.album-table dl {
+		position: absolute;
+		top: 0px;
+		left: 110px;
+		list-style: none;
+	}
+    .listPlus{
+        height: 70px;
+    }
+    .listPlus .listPlus-text{
+        font-size: 30px;
+    }
+}

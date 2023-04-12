@@ -17,7 +17,7 @@
                             <h2>로그인</h2>
                         </div>
                         <div class="margin-bottom-20">
-                            <input type="text" placeholder="아이디 / 이메일" class="form-control" name="mb_id" autofocus="autofocus">
+                            <input type="text" placeholder="아이디 / 이메일" class="form-control" name="mb_email" autofocus="autofocus">
                         </div>
                         <div class="margin-bottom-20">
                             <input type="password" placeholder="비밀번호" class="form-control" name="mb_pwd">
