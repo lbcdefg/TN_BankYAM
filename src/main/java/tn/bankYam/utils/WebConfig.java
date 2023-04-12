@@ -16,9 +16,8 @@ public class WebConfig implements WebMvcConfigurer {
 			"/error"};
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-
 		registry.addInterceptor(new LoginUserCheckInterceptor()) //LoginAdminCheckInterceptor 등록
-				.order(2)
+				.order(1)
 				.addPathPatterns("/**")
 				.excludePathPatterns(urls);
 	}
