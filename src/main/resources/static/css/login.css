@@ -76,7 +76,7 @@ h1 {
     font-weight: 400;
     padding: 6px 13px;
     position: relative;
-    background: var(--themecolor);
+    background-color: var(--themecolor);
     white-space: nowrap;
     display: inline-block;
     text-decoration: none;
