@@ -3,6 +3,151 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+
+<head>
+    <title>지금은 뱅크얌 - 회원가입</title>
+</head>
+<%@ include file="/WEB-INF/views/nav.jsp" %>
+<div class="join-header">
+	<div class="inner">
+		<h1 class="join-header-title">회원가입</h1>
+	</div>
+</div>
+<div class="join">
+	<div class="inner">
+		<div class="join-body">
+			<form method="post"  name="join_show" action="join_ok.do" class="join-page" novalidate="novalidate">
+				<div class="page-header">
+                    <h2>회원가입</h2><br/>
+                    <div id="join_terms">약관을 모두 확인해주세요</div>
+                </div>
+                <div id="join-form1">
+                    <div class="row">
+                        <div class="row-in">
+                            <p id="term1-p" onclick="setTerms(this)">
+                            <input id="join-terms1" type="checkbox" name="mb_id" class="join-terms" >
+                            <label for="join-terms1">전자금융거래기본약관 동의</label>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row-in">
+                            <p id="term2-p" onclick="setTerms(this)">
+                            <input id="join-terms2" type="checkbox" name="mb_name" class="join-terms">
+                            <label for="join-terms2">전자금융서비스이용약관 동의</label>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row-in">
+                            <p id="term3-p" onclick="setTerms(this)">
+                            <input id="join-terms3" type="checkbox" name="mb_phone" class="join-terms">
+                            <label for="join-terms3">개인정보수집·이용동의</label>
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="row-half"></div>
+                        <div class="row-half half-in-btn">
+                            <button id="next-btn-1" type="button" onclick="next(this)" class="join-btn next-btn">다음</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="join-form2" class="join_hidden1">
+                    <div class="row">
+                        <div class="row-third">
+                            <p>
+                            <label>이메일</label>
+                            <input type="text" placeholder="" name="mb_id" class="form-control margin-bottom-20" value="" autocomplete="off">
+                            <button id="email-check-btn" type="button" onclick="next(this)" class="emailcode">코드발송</button>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row-third">
+                            <label>인증코드</label>
+                            <input type="text" placeholder="" name="mb_id" class="form-control margin-bottom-20" value="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row-half">
+                            <label>비밀번호</label>
+                            <input type="password"placeholder="" name="mb_pwd" class="form-control margin-bottom-20" autocomplete="off">
+                        </div>
+                        <div class="row-half">
+                            <label>비밀번호 (확인)</label>
+                            <input type="password" placeholder="" name="mb_pwd2" class="form-control margin-bottom-20" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row-in">
+                            <label>이름</label>
+                            <input type="text" placeholder="" name="mb_name" class="form-control margin-bottom-20" value="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row-in">
+                            <label>전화번호</label>
+                            <input type="number" placeholder="" name="mb_phone" class="form-control margin-bottom-20" value="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row-in">
+                            <label>주소</label>
+                            <input type="number" placeholder="" name="mb_phone" class="form-control margin-bottom-20" value="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row-half">
+                            <label>직업</label>
+                            <input type="text" placeholder="" name="mb_pwd" class="form-control margin-bottom-20" autocomplete="off">
+                        </div>
+                        <div class="row-half">
+                            <label>연봉</label>
+                            <input type="number" style="align-text:right;" placeholder="만원" name="mb_pwd2" class="form-control margin-bottom-20" autocomplete="off">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="row-half"></div>
+                        <div class="row-half half-in-btn">
+                            <button id="next-btn-2" type="button" onclick="next(this)" class="join-btn">다음</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="join-form3" class="join_hidden1">
+                    <div class="row">
+                        <div class="row-half">
+                            <label>계좌비밀번호</label>
+                            <input type="password"placeholder="" name="mb_pwd" class="form-control margin-bottom-20" autocomplete="off">
+                        </div>
+                        <div class="row-half">
+                            <label>계좌비밀번호(확인)</label>
+                            <input type="password" placeholder="" name="mb_pwd2" class="form-control margin-bottom-20" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="row-in">
+                            <label>희망이자지급일</label>
+                            <input type="text" placeholder="매월" name="mb_name" class="form-control margin-bottom-20" value="" autocomplete="off">
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="row-half"></div>
+                        <div class="row-half half-in-btn">
+                            <button id="next-btn-3" type="button" onclick="next(this)" class="join-btn">회원가입</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+		</div>
+	</div>
+</div>
+<div th:replace="/footer"></div>
 <script language="javascript">
 	const regExp = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g; //전체에서 특수문자 찾기
 	const blankExp = /\s/g; //전체에서 공백찾기
@@ -118,172 +263,43 @@
 		}
 	}
 
-	function setTerms(target){
-	    let term = document.getElementById("join_terms");
-	    switch(target){
-	        case document.getElementById("join-terms1"): term.innerHTML="<p>이것은 전자금융거래기본약관</p><p>이것은 전자금융거래기본약관</p><p>이것은 전자금융거래기본약관</p><p>이것은 전자금융거래기본약관</p><p>이것은 전자금융거래기본약관</p><p>이것은 전자금융거래기본약관</p><p>이것은 전자금융거래기본약관</p><p>이것은 전자금융거래기본약관</p>"; break;
-	        case document.getElementById("term2-p"): term.innerHTML="<p>이것은 전자금융서비스이용약관</p><p>이것은 전자금융서비스이용약관</p><p>이것은 전자금융서비스이용약관</p><p>이것은 전자금융서비스이용약관</p><p>이것은 전자금융서비스이용약관</p><p>이것은 전자금융서비스이용약관</p><p>이것은 전자금융서비스이용약관</p><p>이것은 전자금융서비스이용약관</p>"; break;
-	        case document.getElementById("term3-p"): term.innerHTML="<p>이것은 개인정보수집 및 이용동의서</p><p>이것은 개인정보수집 및 이용동의서</p><p>이것은 개인정보수집 및 이용동의서</p><p>이것은 개인정보수집 및 이용동의서</p><p>이것은 개인정보수집 및 이용동의서</p><p>이것은 개인정보수집 및 이용동의서</p><p>이것은 개인정보수집 및 이용동의서</p><p>이것은 개인정보수집 및 이용동의서</p>"; break;
-	    }
-	}
+    const form1 = document.getElementById("join-form1");
+    const form2 = document.getElementById("join-form2");
+    const form3 = document.getElementById("join-form3");
+    const nextbtn1 = document.getElementById('next-btn-1');
+    const nextbtn2 = document.getElementById('next-btn-2');
+    const term = document.getElementById("join_terms");
+
+    function setTerms(target){
+        switch(target){
+            case document.getElementById("term1-p"): term.innerHTML="<p>이것은 전자금융거래기본약관</p><p>이것은 전자금융거래기본약관</p><p>이것은 전자금융거래기본약관</p><p>이것은 전자금융거래기본약관</p><p>이것은 전자금융거래기본약관</p><p>이것은 전자금융거래기본약관</p><p>이것은 전자금융거래기본약관</p><p>이것은 전자금융거래기본약관</p>"; break;
+            case document.getElementById("term2-p"): term.innerHTML="<p>이것은 전자금융서비스이용약관</p><p>이것은 전자금융서비스이용약관</p><p>이것은 전자금융서비스이용약관</p><p>이것은 전자금융서비스이용약관</p><p>이것은 전자금융서비스이용약관</p><p>이것은 전자금융서비스이용약관</p><p>이것은 전자금융서비스이용약관</p><p>이것은 전자금융서비스이용약관</p>"; break;
+            case document.getElementById("term3-p"): term.innerHTML="<p>이것은 개인정보수집 및 이용동의서</p><p>이것은 개인정보수집 및 이용동의서</p><p>이것은 개인정보수집 및 이용동의서</p><p>이것은 개인정보수집 및 이용동의서</p><p>이것은 개인정보수집 및 이용동의서</p><p>이것은 개인정보수집 및 이용동의서</p><p>이것은 개인정보수집 및 이용동의서</p><p>이것은 개인정보수집 및 이용동의서</p>"; break;
+        }
+    }
 
 	function next(target){
-	    let form1 = document.getElementById("join-form1");
-	    let form2 = document.getElementById("join-form2");
-	    let form3 = document.getElementById("join-form3");
-	    let term = document.getElementById("join_terms");
-	    if(target==document.getElementById("next-btn-1")){
+	    if(target==nextbtn1){
 	        term.style.display='none';
 	        form1.style.display = 'none';
             form2.style.display = 'block';
-	    }else if(target==document.getElementById("next-btn-2")){
+	    }else if(target==nextbtn2){
 	        form2.style.display = 'none';
             form3.style.display = 'block';
 	    }else{}
 	}
-	$(window).load(function(){
-        $('#nex-btn-1').click(function(){
-            var element = document.querySelector(".join-terms");
-            if($("join-terms").is(':checked')){
 
-            }
-        });
+	form1.addEventListener('click', function() {
+	    let term_ck1 = document.getElementById('join-terms1').checked;
+	    let term_ck2 = document.getElementById('join-terms2').checked;
+	    let term_ck3 = document.getElementById('join-terms3').checked;
+        if(term_ck1 == true && term_ck2 == true && term_ck3 == true){
+            nextbtn1.style.display = 'block'
+        }else{
+            nextbtn1.style.display = 'none'
+        }
     });
 
+
 </script>
-<head>
-    <title>지금은 뱅크얌 - 회원가입</title>
-</head>
-<%@ include file="/WEB-INF/views/nav.jsp" %>
-<div class="join-header">
-	<div class="inner">
-		<h1 class="join-header-title">회원가입</h1>
-	</div>
-</div>
-<div class="join">
-	<div class="inner">
-		<div class="join-body">
-			<form method="post"  name="join_show" action="join_ok.do" class="join-page" novalidate="novalidate">
-				<div class="page-header">
-                    <h2>회원가입</h2>
-                    <div id="join_terms">약관내용</div>
-                </div>
-                <div id="join-form1">
-                    <div class="row">
-                        <div class="row-in">
-                            <p id="term1-p">
-                            <input id="join-terms1" type="checkbox" name="mb_id" class="join-terms" onclick="setTerms(this)">
-                            <label for="join-terms1">전자금융거래기본약관</label>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="row-in">
-                            <p id="term2-p" onclick="setTerms(this)">
-                            <input id="join-terms2" type="checkbox" name="mb_name" class="join-terms">
-                            <label for="join-terms2">전자금융서비스이용약관</label>
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="row-in">
-                            <p id="term3-p" onclick="setTerms(this)">
-                            <input id="join-terms3" type="checkbox" name="mb_phone" class="join-terms">
-                            <label for="join-terms3">개인정보수집·이용동의</label>
-                            </p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="row-half"></div>
-                        <div class="row-half half-in-btn">
-                            <button id="next-btn-1" type="button" onclick="next(this)" class="join-btn next-btn">다음</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="join-form2" class="join_hidden1">
-                    <div class="row">
-                        <div class="row-in">
-                            <label>이메일</label>
-                            <input type="text" placeholder="" name="mb_id" class="form-control margin-bottom-20" value="" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="row-half">
-                            <label>비밀번호</label>
-                            <input type="password"placeholder="" name="mb_pwd" class="form-control margin-bottom-20" autocomplete="off">
-                        </div>
-                        <div class="row-half">
-                            <label>비밀번호 (확인)</label>
-                            <input type="password" placeholder="" name="mb_pwd2" class="form-control margin-bottom-20" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="row-in">
-                            <label>이름</label>
-                            <input type="text" placeholder="" name="mb_name" class="form-control margin-bottom-20" value="" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="row-in">
-                            <label>전화번호</label>
-                            <input type="number" placeholder="" name="mb_phone" class="form-control margin-bottom-20" value="" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="row-in">
-                            <label>주소</label>
-                            <input type="number" placeholder="" name="mb_phone" class="form-control margin-bottom-20" value="" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="row-half">
-                            <label>직업</label>
-                            <input type="text" placeholder="" name="mb_pwd" class="form-control margin-bottom-20" autocomplete="off">
-                        </div>
-                        <div class="row-half">
-                            <label>연봉</label>
-                            <input type="number" style="align-text:right;" placeholder="만원" name="mb_pwd2" class="form-control margin-bottom-20" autocomplete="off">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="row-half"></div>
-                        <div class="row-half half-in-btn">
-                            <button id="next-btn-2" type="button" onclick="next(this)" class="join-btn">다음</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div id="join-form3" class="join_hidden1">
-                    <div class="row">
-                        <div class="row-half">
-                            <label>계좌비밀번호</label>
-                            <input type="password"placeholder="" name="mb_pwd" class="form-control margin-bottom-20" autocomplete="off">
-                        </div>
-                        <div class="row-half">
-                            <label>계좌비밀번호(확인)</label>
-                            <input type="password" placeholder="" name="mb_pwd2" class="form-control margin-bottom-20" autocomplete="off">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="row-in">
-                            <label>희망이자지급일</label>
-                            <input type="text" placeholder="매월" name="mb_name" class="form-control margin-bottom-20" value="" autocomplete="off">
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="row-half"></div>
-                        <div class="row-half half-in-btn">
-                            <button id="next-btn-3" type="button" onclick="next(this)" class="join-btn">회원가입</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-		</div>
-	</div>
-</div>
-<div th:replace="/footer"></div>
 </html>

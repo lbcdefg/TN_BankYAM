@@ -117,6 +117,15 @@ input:checked + label::before{
 	padding-right: 15px;
 	padding-left: 15px;
 }
+.row-third{
+	width: 75%;
+	float: left;
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
 .row-in label, .row-half label{
 	color: #777;
 	display: inline-block;
@@ -131,34 +140,10 @@ input:checked + label::before{
     border-top: 1px solid #eee;
 	width: 100%;
 }
-.delete-btn{
-	box-shadow: none;
-	color: #fff;
-	background-color: #ca425e;
-	border-color: #bd3535;
 
-	display: inline-block;
-	padding: 6px 12px;
-	margin-bottom: 0;
-	margin-right: 15px;
-	font-size: 14px;
-	font-weight: 400;
-	line-height: 1.42857143;
-	text-align: center;
-	white-space: nowrap;
-	vertical-align: middle;
-	cursor: pointer;
-	user-select: none;
-	background-image: none;
-	border: 1px solid transparent;
-}
 .join-btn{
 	box-shadow: none;
-	color: #fff;
-	background-color: #046241;
-	border-color: #357ebd;
-
-	display: inline-block;
+	display: none;
 	padding: 6px 12px;
 	margin-bottom: 0;
 	font-size: 14px;
@@ -175,4 +160,19 @@ input:checked + label::before{
 .half-in-btn{
 	text-align: right;
     padding-right: 30px;
+}
+.emailcode{
+    height:35px;
+    width:80px;
+    font-size: 0.8rem;
+    color: var(--vsthemecolor);
+    background-color: var(--themecolor);
+    margin-top: 0;
+    transition: all 0.3s;
+}
+
+.emailcode:hover{
+    color: var(--themecolor);
+    background-color: var(--vsthemecolor);
+    border: 1px solid var(--themecolor);
 }
