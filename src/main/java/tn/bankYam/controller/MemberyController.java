@@ -21,4 +21,9 @@ public class MemberyController {
 	public String update(){
 		return "member/update";
 	}
+
+	@GetMapping("profile")
+	public String profile(){
+		return "profile";
+	}
 }
