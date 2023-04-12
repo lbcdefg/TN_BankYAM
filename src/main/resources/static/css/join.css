@@ -158,10 +158,10 @@ input:checked + label::before{
 	border: 1px solid transparent;
 }
 .half-in-btn{
-	text-align: right;
+	text-align: center;
     padding-right: 30px;
 }
-.emailcode{
+.normal-btn{
     height:35px;
     width:80px;
     font-size: 0.8rem;
@@ -171,7 +171,7 @@ input:checked + label::before{
     transition: all 0.3s;
 }
 
-.emailcode:hover{
+.normal-btn:hover{
     color: var(--themecolor);
     background-color: var(--vsthemecolor);
     border: 1px solid var(--themecolor);
