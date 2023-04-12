@@ -5,6 +5,7 @@
     --themecolor: #5F4934;
     --vsthemecolor: white;
     --lightyamcolor: #B39273;
+    --whiteyamcolor: #F7F3EF;
 }
 *{
     font-family: 'Noto Sans KR', sans-serif;
@@ -22,6 +23,9 @@ input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+.body-main{
+    margin: 10rem 0;
 }
 
 /* 네비게이션 */

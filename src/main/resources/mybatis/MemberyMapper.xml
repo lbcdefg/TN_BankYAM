@@ -3,5 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="tn.bankYam.mapper.MemberyMapper">
-
+    <select id="findByEmail" resultType="Membery" parameterType="String">
+        SELECT * FROM MEMBERY WHERE MB_EMAIL=#{mb_email}
+    </select>
 </mapper>
