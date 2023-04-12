@@ -8,11 +8,11 @@
 		const item = document.createElement("li");
 		item.classList.add("album-table-content")
 		item.innerHTML = `<span class="alarmCount">3</span>
-		<a href="postcontent?cp=1&amp;ps=12&amp;cat=all&amp;bt=album&amp;postId=10" class="album-table-img">
+		<a onClick="window.open(this.href, '', 'width=400, height=500'); return false;" class="album-table-img">
 		<img style="vertical-align:top; border:none" src="css/imgs/NoImage.png"></a>
 		<dl>
 			<dt>
-				<a href="postcontent?cp=1&amp;ps=12&amp;cat=all&amp;bt=album&amp;postId=10" class="album-table-sub" title="채팅방이름">
+				<a onClick="window.open(this.href, '', 'width=400, height=500'); return false;" class="album-table-sub" title="채팅방이름">
 				채팅방 이름</a>
 			</dt>
 			<dd>마지막 대화</dd>
@@ -35,11 +35,11 @@
         <ul class="album-table-list">
             <li class="album-table-content">
                 <span class="alarmCount">3</span>
-                <a href="postcontent?cp=1&amp;ps=12&amp;cat=all&amp;bt=album&amp;postId=10" class="album-table-img">
+                <a onClick="window.open('room', '', 'width=400, height=500'); return false;" class="album-table-img">
                 <img style="vertical-align:top; border:none" src="css/imgs/NoImage.png"></a>
                 <dl>
                     <dt>
-                        <a href="postcontent?cp=1&amp;ps=12&amp;cat=all&amp;bt=album&amp;postId=10" class="album-table-sub" title="채팅방이름">
+                        <a onClick="window.open('room', '', 'width=400, height=500'); return false;" class="album-table-sub" title="채팅방이름">
                         채팅방 이름</a>
                     </dt>
                     <dd>마지막 대화</dd>

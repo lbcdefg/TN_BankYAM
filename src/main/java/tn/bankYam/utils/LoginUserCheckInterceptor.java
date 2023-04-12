@@ -15,7 +15,7 @@ public class LoginUserCheckInterceptor implements HandlerInterceptor {
 		HttpSession session = request.getSession(false);
 
 //		if(session == null || session.getAttribute(SessionConst.LOGIN_MEMBER) == null) {
-		if(session == null || session.getAttribute("member") == null) {
+		if(session == null || session.getAttribute("membery") == null) {
 			// 로그인 되지 않음
 			System.out.println("[user미인증 사용자 요청]");
 

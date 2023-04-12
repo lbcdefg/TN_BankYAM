@@ -1,5 +1,22 @@
-<link rel="stylesheet" type="text/css" href="chatRoom.css" />
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<link rel="stylesheet" type="text/css" href="/css/chatRoom.css" />
 <body>
+    <div class="header">
+        <input type="checkbox" id="menuicon">
+        <label for="menuicon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </label>
+        <div class="sidebar">
+            <%-- 파일들 --%>
+            <div>
+            <%-- 대화상대(누르면 대화상대랑 거래내역, 이체) --%>
+        </div>
+    </div>
     <div class="wrap">
         <div class="chat ch1">
             <div class="icon"><i class="fa-solid fa-user"></i></div>
@@ -18,4 +35,5 @@
             <div class="textbox">뭐~ 늘 똑같은 하루 하루를 보내는 중이에요. 코로나가 다시 극성이어서 모이지도 못하구 있군요 ㅠㅠ 얼른 좀 잠잠해졌으면 좋겠습니다요!</div>
         </div>
     </div>
+    <textarea class="chat-text" required="required"></textarea>
 </body>
