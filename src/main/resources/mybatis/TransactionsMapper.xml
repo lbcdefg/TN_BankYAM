@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tn.bankYam.mapper.TransactionsMapper">
+    <resultMap id="membery" type="Membery">
+        <id property="mb_seq" column="mb_seq"/>
+        <id property="mb_email" column="mb_email"/>
+        <id property="mb_pwd" column="mb_pwd"/>
+        <id property="mb_name" column="mb_name"/>
+        <id property="mb_addr" column="mb_addr"/>
+        <id property="mb_phone" column="mb_phone"/>
+        <id property="mb_job" column="mb_job"/>
+        <id property="mb_salary" column="mb_salary"/>
+        <id property="mb_credit" column="mb_credit"/>
+        <id property="mb_imagepath" column="mb_imagepath"/>
+        <id property="mb_rdate" column="mb_rdate"/>
+        <id property="mb_wdate" column="mb_wdate"/>
+    </resultMap>
+
+    <resultMap id="accounty" type="Accounty">
+        <id property="ac_seq" column="ac_seq"/>
+        <id property="ac_pwd" column="ac_pwd"/>
+        <id property="ac_mb_seq" column="ac_mb_seq"/>
+        <id property="ac_balance" column="ac_balance"/>
+        <id property="ac_name" column="ac_name"/>
+        <id property="ac_main" column="ac_main"/>
+        <id property="ac_status" column="ac_status"/>
+        <id property="ac_pd_seq" column="ac_pd_seq"/>
+        <id property="ac_odate" column="ac_odate"/>
+        <id property="ac_xdate" column="ac_xdate"/>
+        <collection property="Membery" resultMap="membery"/>
+    </resultMap>
+
+    <resultMap id="transactions" type="Transactions">
+        <id property="tr_seq" column="tr_seq"/>
+        <id property="tr_ac_seq" column="tr_ac_seq"/>
+        <id property="tr_other_accnum" column="tr_other_accnum"/>
+        <id property="tr_other_bank" column="tr_other_bank"/>
+        <id property="tr_type" column="tr_type"/>
+        <id property="tr_amount" column="tr_amount"/>
+        <id property="tr_after_balance" column="tr_after_balance"/>
+        <id property="tr_msg" column="tr_msg"/>
+        <id property="tr_date" column="tr_date"/>
+        <collection property="Accounty" resultMap="accounty"/>
+    </resultMap>
+
+<!--    거래내역기록-->
+    <insert id="insertTrLog" parameterType="Transactions">
+        <selectKey keyProperty="tr_seq" order="BEFORE" resultType="long">
+            SELECT TRANSACTIONS_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO TRANSACTIONS VALUES (#{tr_seq},
+        TR_AC_SEQ=#{tr_ac_seq}, TR_OTHER_ACCNUM=#{tr_other_accnum},
+        TR_OTHER_BANK=#{tr_other_bank}, TR_TYPE=#{tr_type},
+        TR_AMOUNT=#{tr_amount}, TR_AFTER_BALANCE=#{tr_after_balance},
+        TR_MSG=#{tr_msg}, SYSDATE)
+    </insert>
+<!--    이체내역 전체 다 불러오는것-->
+    <select id="listTrLog" resultType="List">
+        SELECT * FROM TRANSACTIONS T JOIN ACCOUNTY A ON T.TR_AC_SEQ=A.AC_SEQ
+        JOIN MEMBERY M ON A.AC_MB_SEQ=M.MB_SEQ
+    </select>
+</mapper>

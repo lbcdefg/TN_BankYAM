@@ -24,9 +24,13 @@
     margin-left: 5px;
     color:#F7F3EF;
 }
+.row-in{
+    display:flex;
+}
 
 .transfer-inner label{
     margin-left: 5px;
+    width:15%
 }
 .transfer-body .row{
     font-size: 15px;
@@ -35,7 +39,6 @@
     text-align: left;
     padding-bottom: 5px;
 }
-
 .transfer-body .row-in input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{
     margin: auto;
     background-color: #cabcac;
