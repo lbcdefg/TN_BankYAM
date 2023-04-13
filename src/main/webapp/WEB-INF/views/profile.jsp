@@ -8,39 +8,47 @@
 <head>
     <title>얌</title>
     <script>
-        $(function(){
-            $(".list-element1").on("click",function(){
-                if($(".list-element2").hasClass("focus")){
-                    $(".list-element2").removeClass("focus");
-                    $(".list-element1").addClass("focus");
-                    $(".none-table").hide();
-                    $(".list-table").hide();
-                    $(".profile-table").show();
-                }else{
-                    $(".list-element1").addClass("focus");
-                    $(".none-table").hide();
-                    $(".list-table").hide();
-                    $(".profile-table").show();
-                }
-            })
-          })
-          $(function(){
-            $(".list-element2").on("click",function(){
-                if($(".list-element1").hasClass("focus")){
-                    $(".list-element1").removeClass("focus");
-                    $(".list-element2").addClass("focus");
-                    $(".none-table").hide();
-                    $(".profile-table").hide();
-                    $(".list-table").show();
-                }else{
-                    $(".list-element2").addClass("focus");
-                    $(".none-table").hide();
-                    $(".profile-table").hide();
-                    $(".list-table").show();
-                }
-            })
-          })
-    </script>
+            $(function(){
+                $(".list-element1").on("click",function(){
+                    if($(".list-element2").hasClass("focus")){
+                        $(".list-element2").removeClass("focus");
+                        $(".list-element1").addClass("focus");
+                        $(".none-table").hide();
+                        $(".list-table").hide();
+                        $(".profile-table").show();
+                        $(".list-element2-contents").hide();
+                        $(".list-element1-contents").show()
+                    }else{
+                        $(".list-element1").addClass("focus");
+                        $(".none-table").hide();
+                        $(".list-table").hide();
+                        $(".profile-table").show();
+                        $(".list-element2-contents").hide();
+                        $(".list-element1-contents").show()
+                    }
+                })
+              })
+              $(function(){
+                $(".list-element2").on("click",function(){
+                    if($(".list-element1").hasClass("focus")){
+                        $(".list-element1").removeClass("focus");
+                        $(".list-element2").addClass("focus");
+                        $(".none-table").hide();
+                        $(".profile-table").hide();
+                        $(".list-table").show();
+                        $(".list-element1-contents").hide();
+                        $(".list-element2-contents").show();
+                    }else{
+                        $(".list-element2").addClass("focus");
+                        $(".none-table").hide();
+                        $(".profile-table").hide();
+                        $(".list-table").show();
+                        $(".list-element1-contents").hide();
+                        $(".list-element2-contents").show();
+                    }
+                })
+              })
+        </script>
 </head>
 <body>
     <div class="profile-upcontainer">
@@ -65,9 +73,22 @@
                 <li class="list-element1">
                         내 정보
                 </li>
+                <div class="list-element1-contents">
+                    <a href="#">
+                        -프로필변경
+                    </a>
+                </div>
                 <li class="list-element2">
                         계좌 정보
                 </li>
+                <div class="list-element2-contents">
+                    <a href="#">
+                        -계좌 관리
+                    </a>
+                    <a href="#">
+                        -계좌 추가
+                    </a>
+                </div>
             </ul>
         </div>
         <div class="downcontainer-right">

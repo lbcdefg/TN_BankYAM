@@ -70,10 +70,6 @@
     font-size: 20px;
     font-weight: bold;
 }
-.profile-list a{
-    text-decoration: none;
-    color: black;
-}
 .profile-list li{
     width: 200px;
     padding: 5px;
@@ -82,6 +78,34 @@
 .profile-list li:hover{
     background-color: #F7F3EF;
     cursor: pointer;
+}
+.list-element1-contents{
+    width: 200px;
+    height:50px;
+    display: none;
+    padding-top: 10px;
+}
+.list-element1-contents a{
+    display: block;
+    font-size: 14px;
+    text-decoration: none;
+    color: black;
+    padding-left: 10px;
+    padding-top: 5px;
+}
+.list-element2-contents{
+    width: 200px;
+    height:50px;
+    display: none;
+    padding-top: 10px;
+}
+.list-element2-contents a{
+    display: block;
+    font-size: 14px;
+    text-decoration: none;
+    color: black;
+    padding-left: 10px;
+    padding-top: 5px;
 }
 .focus{
     background-color: #F7F3EF;
