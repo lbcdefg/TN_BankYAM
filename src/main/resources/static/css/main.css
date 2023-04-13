@@ -4,34 +4,31 @@
     margin-bottom:15rem;
     width: 70%;
     height: 600px;
-    background-color: red;
     display: inline-flex;
 }
 .main-div-div1{
     width: 60%;
     height: 100%;
-    background-color: aqua;
     background-image: url(/img/indexphoto.jpg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+    transition: all 0.5s;
 }
 .main-div-div2{
     width: 40%;
     height: 100%;
-    background-color: black;
     display: block;
+    transition: all 0.5s;
 }
 .main-button-div1{
     width: 100%;
     height: 50%;
-    background-color: antiquewhite;
     display: flex;
 }
 .main-button-div2{
     width: 100%;
     height: 50%;
-    background-color: blue;
     display: flex;
 }
 .main-button1{
@@ -92,7 +89,7 @@
 }
 .button-content{
     position: absolute;
-    width:50%;
+    width:70%;
     height:30px;
     top: 40px;
     left: 0px;
@@ -173,6 +170,7 @@
     height: 604px;
     left: 35.8%;
     top: 93px;
+    transition: all 0.5s;
 }
 .main-intcom .intcom-div3{
     position: absolute;
@@ -195,6 +193,7 @@
 }
 .intcom-div4 .intcom-div4-tit{
     font-size: 27px;
+    transition: all 0.5s;
 }
 .intcom-div4 .intcom-div4-con{
     font-size: 17px;
@@ -213,5 +212,95 @@
     left: 0;
     bottom: 10px;
     z-index: -1;
+}
+
+@media screen and (max-width: 1270px){
+    .main-div-div1{
+        width:0;
+        margin-left:10%;
+    }
+    .main-div-div2{
+        width: 700px;
+        display: block;
+    }
+    .main-intcom .intcom-div1{
+        display:none;
+    }
+    .main-intcom .intcom-div2{
+        position: relative;
+        width: 1222px;
+        height: 604px;
+        left: 1%;
+        top: -30px;
+    }
+    .intcom-div4 .intcom-div4-tit{
+        display:none;
+    }
+}
+@media screen and (max-width: 726px){
+    .main-div{
+        margin-top:10rem;
+        margin-bottom:0rem;
+    }
+    .main-div-div2{
+            height: 60%;
+    }
+    .main-button1{
+        background-size: 90px;
+    }
+    .main-button2{
+                background-size: 90px;
+    }
+    .main-button3{
+                background-size: 90px;
+    }
+    .main-button4{
+                background-size: 90px;
+    }
+    .button-content{
+        font-size: 25px;
+    }
+    .main-intcom{
+        margin-bottom: 0px;
+    }
+
+}
+@media screen and (max-width: 607px){
+    .main-div{
+        margin-top:13rem;
+        margin-bottom:0rem;
+        height: 500px;
+    }
+    .main-div-div1{
+            width:0;
+            margin-left:5%;
+    }
+    .main-div-div2{
+            height: 55%;
+    }
+    .main-button1{
+        background-size: 90px;
+    }
+    .main-button2{
+                background-size: 90px;
+    }
+    .main-button3{
+                background-size: 90px;
+    }
+    .main-button4{
+                background-size: 90px;
+    }
+    .button-content{
+        top: 10px;
+        font-size: 20px;
+    }
+    .main-tit{
+        display:none;
+
+    }
+    .main-intcom{
+        display:none;
+    }
+
 }
 
