@@ -19,6 +19,14 @@
         <association property="membery" column="mb_seq" resultMap="memberyMap" />
     </resultMap>
 
+    <resultMap type="blocklist" id="blocklistMap">
+        <id property="bl_seq" column="bl_seq"/>
+        <result property="bl_mb_seq" column="bl_mb_seq"/>
+        <result property="bl_bl_mb_seq" column="bl_bl_mb_seq"/>
+        <result property="bl_rdate" column="bl_rdate"/>
+        <association property="membery" column="mb_seq" resultMap="memberyMap" />
+    </resultMap>
+
     <resultMap type="membery" id="memberyMap">
         <id property="mb_seq" column="mb_seq" />
         <result property="mb_email" column="mb_email" />
@@ -48,24 +56,26 @@
         <association property="membery" column="mb_seq" resultMap="memberyMap" />
     </resultMap>
 
-    <select id="searchFriend" resultType="Membery" parameterType="Hashmap">
+    <select id="searchFriend" resultType="list" resultMap="accountyMap" parameterType="Hashmap">
         SELECT
             *
         FROM
-            MEMBERY M
+            accounty a
+
         JOIN
-            ACCOUNTY A
+            membery m
         ON
-            M.MB_SEQ = A.AC_MB_SEQ
+            a.ac_mb_seq = m.mb_seq
         <where>
             <if test="email != 'empty'">
-                M.MB_EMAIL = #{email}
+                m.mb_email = #{email}
             </if>
             <if test="account != 'empty'">
-                A.AC_SEQ = #{account}
+                a.ac_seq = #{account}
             </if>
         </where>
     </select>
+
 
     <select id="selectFrList" resultType="list" resultMap="friendMap" parameterType="Membery">
         SELECT
@@ -75,10 +85,29 @@
         JOIN
             membery m
         ON
-            m.mb_seq = f_mb_seq
+            m.mb_seq = f.f_f_mb_seq
         WHERE
-            f_mb_seq = #{mb_seq}
+            f.f_mb_seq = #{mb_seq}
     </select>
+
+    <select id="checkFrReq" resultType="Friendreq" parameterType="Hashmap">
+        SELECT
+            *
+        FROM
+            FRIENDREQ
+        WHERE
+            (FR_REQ_MB_SEQ = #{myId} OR FR_REQ_MB_SEQ = #{frId})
+        AND
+            (FR_REC_MB_SEQ = #{frId} OR FR_REC_MB_SEQ = #{myId})
+    </select>
+
+    <insert id="insertFrReq" parameterType="Hashmap" >
+        <selectKey keyProperty="fr_seq" order="BEFORE" resultType="long">
+            select FRIENDREQ_SEQ.nextval from dual
+        </selectKey>
+        insert into FRIENDREQ values(#{fr_seq}, #{myId}, #{frId}, '요청', SYSDATE)
+    </insert>
+
 
     <select id="selectReqList" resultType="list" resultMap="friendMap" parameterType="Membery">
         SELECT
@@ -88,7 +117,7 @@
         JOIN
             membery m
         ON
-            m.mb_seq = fr_req_mb_seq
+            m.mb_seq = fr_rec_mb_seq
         WHERE
             fr_req_mb_seq = #{mb_seq}
         AND
@@ -103,10 +132,23 @@
         JOIN
             membery m
         ON
-            m.mb_seq = fr_rec_mb_seq
+            m.mb_seq = fr_req_mb_seq
         WHERE
             fr_rec_mb_seq = #{mb_seq}
         AND
             fr_status = '요청'
+    </select>
+
+    <select id="selectBlList" resultType="list" resultMap="blocklistMap" parameterType="Membery">
+        SELECT
+            *
+        FROM
+            blocklist b
+        JOIN
+            membery m
+        ON
+            m.mb_seq = b.bl_bl_mb_seq
+        WHERE
+            b.bl_mb_seq = #{mb_seq}
     </select>
 </mapper>
