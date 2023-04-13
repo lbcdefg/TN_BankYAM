@@ -13,10 +13,10 @@ public class AccountyServiceImpl implements AccountyService{
     @Override
     public boolean checkAccnumS(long ac_seq) {
         if(mapper.checkAccnum(ac_seq)!=null){
-            System.out.println("Á¸ÀçÇÏ´Â °èÁÂÀÔ´Ï´Ù.");
+            System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.");
             return true;
         }else{
-            System.out.println("Á¸ÀçÇÏÁö ¾Ê´Â °èÁÂÀÔ´Ï´Ù.");
+            System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½.");
             return false;
         }
     }
@@ -24,23 +24,23 @@ public class AccountyServiceImpl implements AccountyService{
     @Override
     public boolean checkPwdS(long ac_pwd) {
         if(mapper.checkPwd(ac_pwd) !=null){
-            System.out.println("ºñ¹Ð¹øÈ£°¡ ÀÏÄ¡ÇÕ´Ï´Ù");
+            System.out.println("ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½Õ´Ï´ï¿½");
             return true;
         }else {
-            System.out.println("ºñ¹Ð¹øÈ£°¡ ÀÏÄ¡ÇÏÁö ¾Ê½À´Ï´Ù");
+            System.out.println("ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ ï¿½ï¿½Ä¡ï¿½ï¿½ï¿½ï¿½ ï¿½Ê½ï¿½ï¿½Ï´ï¿½");
             return false;
         }
     }
 
     @Override
     public boolean checkStatusS(String ac_status) {
-        if(mapper.checkStatus(ac_status)=="»ç¿ëÁß"){
+        if(mapper.checkStatus(ac_status)=="ï¿½ï¿½ï¿½ï¿½ï¿½"){
             return true;
-        }else if(mapper.checkStatus(ac_status)=="ÈÞ¸é"){
-            System.out.println("ÈÞ¸é°èÁÂÀÔ´Ï´Ù");
+        }else if(mapper.checkStatus(ac_status)=="ï¿½Þ¸ï¿½"){
+            System.out.println("ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½");
             return false;
         }else {
-            System.out.println("ÇØÁöµÈ °èÁÂÀÔ´Ï´Ù");
+            System.out.println("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ô´Ï´ï¿½");
             return false;
         }
     }
@@ -50,7 +50,7 @@ public class AccountyServiceImpl implements AccountyService{
         if(mapper.checkPd(ac_pd_seq)==1){
             return true;
         }else{
-            System.out.println("¿¹±Ý°èÁÂ°¡ ¾Æ´Õ´Ï´Ù");
+            System.out.println("ï¿½ï¿½ï¿½Ý°ï¿½ï¿½Â°ï¿½ ï¿½Æ´Õ´Ï´ï¿½");
             return false; 
         }
     }

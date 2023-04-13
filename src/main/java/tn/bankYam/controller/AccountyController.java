@@ -19,13 +19,13 @@ public class AccountyController {
     @Autowired
     TransactionService transactionService;
 
-    //°Å·¡³»¿ª¸®½ºÆ® ºÒ·¯¿À±â
+    //ï¿½Å·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ò·ï¿½ï¿½ï¿½ï¿½ï¿½
     @GetMapping("transactionList")
     public String transactionList(Model model){
 //        model.addAttribute("transactionList");
         return "transactionList";
     }
-    //°èÁÂÀÌÃ¼
+    //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã¼
     @GetMapping("transfer")
     public String transfer(Model model){
         return "transfer";
