@@ -34,32 +34,95 @@
         <div class="frs-rt">
             <div class="frs-list-group">
                 <c:choose>
-                    <c:when test="${not empty frList}">
-                        <a class="frs-group-li-a" style="z-index:2" href="/friend/friends?content=list">친구목록</a>
-                        <a class="frs-group-rq-a" href="/friend/friends?content=req">받은/요청 친구</a>
-                        <a class="frs-group-bk-a" href="/friend/friends?content=block">차단목록</a>
+                    <c:when test="${content == 'list'}">
+                        <a class="frs-group-li-a" style="z-index:3" href="/friend/friends?content=list">친구목록</a>
+                        <a class="frs-group-rq-a" style="z-index:1" href="/friend/friends?content=req">받은/요청 친구</a>
+                        <a class="frs-group-bk-a" style="z-index:1" href="/friend/friends?content=block">차단목록</a>
                     </c:when>
-                    <c:when test="${not empty frReqList && not empty frRecList}">
-                        <a class="frs-group-li-a" href="/friend/friends?content=list">친구목록</a>
-                        <a class="frs-group-rq-a" style="z-index:2" href="/friend/friends?content=req">받은/요청 친구</a>
-                        <a class="frs-group-bk-a" href="/friend/friends?content=block">차단목록</a>
+                    <c:when test="${content == 'req'}">
+                        <a class="frs-group-li-a" style="z-index:1" href="/friend/friends?content=list">친구목록</a>
+                        <a class="frs-group-rq-a" style="z-index:3" href="/friend/friends?content=req">받은/요청 친구</a>
+                        <a class="frs-group-bk-a" style="z-index:1" href="/friend/friends?content=block">차단목록</a>
+                    </c:when>
+                    <c:when test="${content == 'block'}">
+                        <a class="frs-group-li-a" style="z-index:1" href="/friend/friends?content=list">친구목록</a>
+                        <a class="frs-group-rq-a" style="z-index:1" href="/friend/friends?content=req">받은/요청 친구</a>
+                        <a class="frs-group-bk-a" style="z-index:3" href="/friend/friends?content=block">차단목록</a>
                     </c:when>
                 </c:choose>
             </div>
 
             <!-- 친구 리스트 -->
-            <div class="frs-list">
-                <table class="frs-list-table">
-                    <tr class="frs-list-row">
-                        <th class="frs-list-30">프로필사진</th>
-                        <th class="frs-list-30">이름</th>
-                        <th class="frs-list-10"><a href="#">송금</a></th>
-                        <th class="frs-list-10"><a href="#">대화</a></th>
-                        <th class="frs-list-10"><a href="#">삭제</a></th>
-                        <th class="frs-list-10"><a href="#">차단</a></th>
-                    </tr>
-                </table>
-            </div>
+            <c:if test="${content == 'list'}">
+                <div class="frs-list">
+                    <table class="frs-list-table">
+                    <c:if test="${empty frList}">
+                        <tr class="frs-list-row" style="border:none; height:400px">
+                            <td align='center' colspan="5">친구가 없습니다.. 친구를 추가해 보세요!</td>
+                        </tr>
+                    </c:if>
+                    <c:forEach items="${frList}" var="fl">
+                        <tr class="frs-list-row">
+                            <th class="frs-list-15"><img src="${fl.membery.mb_imagepath}" height="45px"/></th>
+                            <th class="frs-list-34">${fl.membery.mb_name}</th>
+                            <th class="frs-list-12"><a href="#">송금</a></th>
+                            <th class="frs-list-12"><a href="#">대화</a></th>
+                            <th class="frs-list-12"><a href="#">삭제</a></th>
+                            <c:set var="loop_flag" value="false" />
+                            <c:forEach items="${frBlocklist}" var="bl">
+                                <c:if test="${bl.membery.mb_seq == fl.membery.mb_seq}">
+                                    <th class="frs-list-15" style="color:#fd8b00">차단상태</a></th>
+                                    <c:set var="loop_flag" value="true"/>
+                                </c:if>
+                            </c:forEach>
+                            <c:if test="${not loop_flag}">
+                                <th class="frs-list-15"><a href="#">차단</a></th>
+                            </c:if>
+                        </tr>
+                    </c:forEach>
+                    </table>
+                </div>
+            </c:if>
+
+
+            <!-- 받은/요청 친구 리스트 -->
+            <c:if test="${content == 'req'}">
+                <div class="frs-req">
+                    <table class="frs-req-table">
+                    <c:if test="${empty frReqList}">
+                        <tr class="frs-req-row" style="border:none; height:250px">
+                            <td align='center' colspan="5">요청하신 [친구]가 없습니다.</td>
+                        </tr>
+                    </c:if>
+                    <c:forEach items="${frReqList}" var="req">
+                        <tr class="frs-req-row">
+                            <th class="frs-list-15"><img src="${req.membery.mb_imagepath}" height="45px"/></th>
+                            <th class="frs-list-34">${req.membery.mb_name}</th>
+                            <th class="frs-list-39">친구요청 한 상태</th>
+                            <th class="frs-list-12"><a href="#">취소</a></th>
+                        </tr>
+                    </c:forEach>
+                    </table>
+                </div>
+                <div class="frs-rec">
+                    <table class="frs-rec-table">
+                    <c:if test="${empty frRecList}">
+                        <tr class="frs-rec-row" style="border:none; height:250px">
+                            <td align='center' colspan="5">요청받은 [친구]가 없습니다.</td>
+                        </tr>
+                    </c:if>
+                    <c:forEach items="${frRecList}" var="rec">
+                        <tr class="frs-rec-row">
+                            <th class="frs-list-15"><img src="${rec.membery.mb_imagepath}" height="45px"/></th>
+                            <th class="frs-list-34">${rec.membery.mb_name}</th>
+                            <th class="frs-list-27">친구요청 받은상태</th>
+                            <th class="frs-list-12"><a href="#">수락</a></th>
+                            <th class="frs-list-12"><a href="#">취소</a></th>
+                        </tr>
+                    </c:forEach>
+                    </table>
+                </div>
+            </c:if>
         </div>
     </div>
 </body>

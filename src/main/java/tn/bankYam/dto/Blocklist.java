@@ -14,7 +14,5 @@ public class Blocklist {
     private long bl_mb_seq;
     private long bl_bl_mb_seq;
     private Date bl_rdate;
-
     private Membery membery;
-    private Membery blMembery;
 }
