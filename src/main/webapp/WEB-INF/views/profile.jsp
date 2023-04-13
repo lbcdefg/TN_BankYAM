@@ -52,13 +52,13 @@
 </head>
 <body>
     <div class="profile-upcontainer">
-        <div style="width:50%;height:100%;display:flex">
+        <div class="profile-div">
             <div class="profile-photo">
-                <img src="/img/yammy.png" style="width:100%;height:100%;object-fit:cover;">
+                <img src="/img/character/yammy.png" style="width:100%;height:100%;object-fit:cover;">
             </div>
             <div>
                 <div class="profile-name">
-                    <h2 style="margin:0;font-size:30px;">박종서</h2> &nbsp;
+                    <h2 style="margin:0;font-size:30px;">${membery.mb_name}</h2> &nbsp;
                     <p style="margin-top:15px;color:lightgray;">(whdtj6292@naver.com)</p>
                 </div>
                 <div class="profile-friends">

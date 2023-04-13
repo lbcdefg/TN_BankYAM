@@ -8,7 +8,11 @@
     width: 100%;
     height: 200px;
     border-bottom: 2px solid #5F4934 ;
-    display: inline-flex;
+}
+.profile-div{
+    width:100%;
+    height:100%;
+    display:flex;
 }
 .profile-photo{
     margin-left: 20px;
@@ -17,6 +21,7 @@
     overflow:hidden;
     border: 0.5px solid #5F4934;
     border-radius: 50%;
+    position:relative;
 }
 .profile-name{
     margin-left: 20px;
@@ -47,10 +52,11 @@
 }
 .profile-downcontainer{
     margin-top: 50px;
-    margin-left: 100px;
+    margin-left: 5%;
     width: 80%;
     height: 800px;
     display: flex;
+    transition:all 0.5s;
 }
 .downcontainer-left{
     width: 25%;
@@ -74,6 +80,7 @@
     width: 200px;
     padding: 5px;
     border-bottom: 0.5px solid #5F4934;
+    transition:all 0.5px;
 }
 .profile-list li:hover{
     background-color: #F7F3EF;
@@ -112,11 +119,10 @@
 }
 .table-div{
     width: 90%;
-    background-color: yellow;
 }
 .list-table{
     border: 1px solid #eee;
-    width: 120%;
+    width: 900px;
     height: 200px;
     font-size: 18px;
     background-color: #F7F3EF;
@@ -125,6 +131,7 @@
     table-layout: fixed;
     display: none;
     margin-top: 20px;
+
 }
 .list-table thead{
     background-color: #5F4934;
@@ -135,12 +142,11 @@
 }
 .list table tbody{
     display:block;
-    overflow:auto;
 }
 .list-table tbody tr:nth-child(2n+1){
     background-color: white;
 }
-.list-table td,tr{
+.list-table td, .list-table tr{
     text-align: center;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -162,17 +168,35 @@
     padding-left: 10px;
     text-align: left;
 }
-.profile-table input{
-    height: 30px;
-    font-size: 18px;
-    background-color: white;
-    border:none;
-    border-radius: 5px;
-}
 .none-table{
     width: 120%;
     height: 200px;
     background-color: #F7F3EF;
     font-size: 18px;
     margin-top: 20px;
+}
+
+@media screen and (max-width: 1470px){
+    .profile-downcontainer{
+        margin-left:0;
+    }
+}
+@media screen and (max-width: 1270px){
+    .table-div{
+        width: 90%;
+        overflow-y:auto;
+    }
+}
+@media screen and (max-width: 790px){
+    .profile-list li{
+        width:100px;
+    }
+    .profile-photo{
+        top:50px;
+        width: 90px;
+        height: 90px;
+    }
+    .profile-name{
+        width: 300px;
+    }
 }

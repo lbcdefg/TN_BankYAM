@@ -24,7 +24,7 @@
                     <a href="#" class="main-button3">
                         <div class="button-content">계좌관리</div>
                     </a>
-                    <a href="#" class="main-button4">
+                    <a href="/friend/friends?content=list" class="main-button4">
                         <div class="button-content">친구관리</div>
                     </a>
                 </div>
