@@ -2,9 +2,7 @@ package tn.bankYam.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.bankYam.dto.Friend;
-import tn.bankYam.dto.Friendreq;
-import tn.bankYam.dto.Membery;
+import tn.bankYam.dto.*;
 import tn.bankYam.mapper.FriendsMapper;
 
 import java.util.HashMap;
@@ -30,13 +28,31 @@ public class FriendsServiceImpl implements FriendsService{
     }
 
     @Override
-    public Membery searchFriend(HashMap<String, Object> hashMap) {
+    public List<Accounty> searchFriend(HashMap<String, Object> hashMap) {
         return friendsMapper.searchFriend(hashMap);
     }
 
     @Override
     public List<Friend> selectFrList(Membery membery){
         return friendsMapper.selectFrList(membery);
+    }
+
+    @Override
+    public HashMap<String, Object> forFrReq(long frId, long myId){
+        HashMap<String, Object> forFrReqMap = new HashMap<>();
+        forFrReqMap.put("frId", frId);
+        forFrReqMap.put("myId", myId);
+        return forFrReqMap;
+    }
+
+    @Override
+    public Friendreq checkFrReq(HashMap<String, Object> hashMap){
+        return friendsMapper.checkFrReq(hashMap);
+    }
+
+    @Override
+    public void insertFrReq(HashMap<String, Object> hashMap){
+        friendsMapper.insertFrReq(hashMap);
     }
 
     @Override
@@ -47,5 +63,10 @@ public class FriendsServiceImpl implements FriendsService{
     @Override
     public List<Friendreq> selectRecList(Membery membery){
         return friendsMapper.selectRecList(membery);
+    }
+
+    @Override
+    public List<Blocklist> selectBlList(Membery membery){
+        return friendsMapper.selectBlList(membery);
     }
 }
