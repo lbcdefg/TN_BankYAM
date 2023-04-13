@@ -1,6 +1,6 @@
 
 .footer-main{
-    position: relative;
+    position: static;
     display: block;
     background-color: #2c2a29;
     width: 100%;
