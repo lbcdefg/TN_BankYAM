@@ -28,6 +28,7 @@
     height: 30%;
     white-space:none;
 }
+
 label{
     display: block;
 }
@@ -46,7 +47,7 @@ input:checked + label::before{
 .join{
 	padding-top: 40px;
     padding-bottom: 40px;
-	width: 1170px;
+	width: 100%;
 	padding-right: 15px;
     padding-left: 15px;
     margin-right: auto;
@@ -54,22 +55,26 @@ input:checked + label::before{
 	color: #333;
     font-size: 13px;
     line-height: 1.6;
+    display: block;
 }
 .join .inner{
 	margin-right: -15px;
     margin-left: -15px;
-	display: flex;
+	display: block;
 }
 .join-body{
 	margin-left: 25%;
-	width: 50%;
-	float: left;
+
+    display: block;
 	position: relative;
+
     min-height: 1px;
     padding-right: 15px;
     padding-left: 15px;
 }
 .join-page{
+    width: 60%;
+    position:relative;
 	color: #555;
     padding: 30px;
     background: #fefefe;
@@ -85,6 +90,9 @@ input:checked + label::before{
 .page-header h2{
 	font-size: 24px;
     margin-bottom: 15px;
+}
+.join-placeholderR::-webkit-input-placeholder{
+    text-align:right;
 }
 .page-header p{
 	color: #555;
@@ -125,8 +133,16 @@ input:checked + label::before{
 	padding-right: 15px;
 	padding-left: 15px;
 }
+.row-1third{
+	width: 25%;
+	float: left;
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+}
 
-.row-in label, .row-half label{
+.row-in label, .row-half label, .row-third label, .row-1third label{
 	color: #777;
 	display: inline-block;
     max-width: 100%;

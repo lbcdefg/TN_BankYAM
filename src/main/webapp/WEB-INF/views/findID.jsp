@@ -4,7 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
 <head>
-    <title>지금은 뱅크얌 - 로그인</title>
+    <title>지금은 뱅크얌</title>
 </head>
 <%@ include file="/WEB-INF/views/nav.jsp" %>
 <body>
@@ -14,13 +14,14 @@
                 <div class="col-sm-6">
                     <form class="login-form-container" action="/member/login_ok" method="post">
                         <div class="reg-header">
-                            <h2>로그인</h2>
+                            <h2>아이디찾기</h2>
                         </div>
                         <div class="margin-bottom-20">
-                            <input type="text" placeholder="아이디 / 이메일" class="form-control" name="mb_email" autofocus="autofocus">
+                            <label>전화번호</label>
+                            <input type="text" placeholder="가입시 사용한 전화번호를 입력하세요" class="form-control" name="mb_email" autofocus="autofocus">
                         </div>
                         <div class="margin-bottom-20">
-                            <input type="password" placeholder="비밀번호" class="form-control" name="mb_pwd">
+                            <p class="form-control" name="mb_pwd">입니다</p>
                         </div>
                         <div class="row">
                             <div class="col-md-6">

@@ -280,6 +280,9 @@ input[type="number"]::-webkit-inner-spin-button {
         display: block;
         filter: invert();
     }
+    .nav-header:hover .response-login{
+        filter: none;
+    }
 }
 @media screen and (min-width: 1001px){
     .nav-menu .menu-show-full{

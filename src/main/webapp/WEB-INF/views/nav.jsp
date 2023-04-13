@@ -18,6 +18,7 @@
     <script src="/js/trim.js"></script>
 </head>
 <body style="margin: 0;">
+    <center>
     <nav class="nav-main">
         <header class="nav-header">
             <div class="nav-header-1">
@@ -63,4 +64,5 @@
             </div>
         </header>
     </nav>
+    </center>
 </body>

@@ -70,4 +70,9 @@ public class MemberyController {
 	public String profile(){
 		return "profile";
 	}
+
+	@GetMapping("findID")
+	public String findid(){
+		return "findID";
+	}
 }
