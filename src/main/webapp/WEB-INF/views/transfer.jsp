@@ -51,7 +51,7 @@
 					<div class="row">
 						<div class="row-in">
 							<label>출금계좌번호</label>
-							<input type="number" placeholder="숫자만 입력해주세요" name="mb_id" class="form-control margin-bottom-20" value="" autocomplete="off">
+							<input type="number" placeholder="숫자만 입력해주세요" name="tr_ac_seq" class="form-control margin-bottom-20" value="" autocomplete="off">
 							<select>
 								<option value="">출금계좌번호조회</option>
 								<option value="1">11111111111111</option>
@@ -64,9 +64,9 @@
 					<div class="row">
 						<div class="row-in">
 							<label>계좌비밀번호</label>
-							<input style="-webkit-text-security: disc;" type="number"placeholder="숫자4자리" name="mb_pwd" class="form-control margin-bottom-20" autocomplete="off">
+							<input style="-webkit-text-security: disc;" type="number"placeholder="숫자4자리" name="ac_pwd" class="form-control margin-bottom-20" autocomplete="off">
 							<label>확인</label>
-							<input style="-webkit-text-security: disc;" type="number" placeholder="숫자4자리" name="mb_pwd2" class="form-control margin-bottom-20" autocomplete="off">
+							<input style="-webkit-text-security: disc;" type="number" placeholder="숫자4자리" name="ac_pwd" class="form-control margin-bottom-20" autocomplete="off">
 						</div>
 					</div>
 
@@ -97,14 +97,14 @@
 					<div class="row">
 						<div class="row-in">
 							<label>입금계좌번호</label>
-							<input type="number" placeholder="숫자만 입력해주세요" name="mb_pwd" class="form-control margin-bottom-20" autocomplete="off">
+							<input type="number" placeholder="숫자만 입력해주세요" name="tr_other_accnum" class="form-control margin-bottom-20" autocomplete="off">
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="row-in">
 							<label>이체금액</label>
-							<input type="number" name="" class="" id='result' value="0">
+							<input type="number" name="tr_amount" class="" id='result' value="0">
 							<input type="button" name="" class="amount" value="만원" onclick='count("plus1")'/>
 							<input type="button" name="" class="amount" value="오만원" onclick='count("plus5")'/>
 							<input type="button" name="" class="amount" value="십만원" onclick='count("plus10")'/>
@@ -116,7 +116,7 @@
 					<div class="row">
 						<div class="row-in">
 							<label>통장메모</label>
-							<input type="text" placeholder="(선택)최대 20자 이내 입력" name="mb_phone" class="form-control margin-bottom-20" value="" autocomplete="off">
+							<input type="text" placeholder="(선택)최대 20자 이내 입력" name="tr_msg" class="form-control margin-bottom-20" value="" autocomplete="off">
 						</div>
 					</div>
 

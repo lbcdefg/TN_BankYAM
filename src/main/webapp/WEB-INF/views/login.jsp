@@ -12,7 +12,7 @@
         <div class="container content">
             <div class="body-row">
                 <div class="col-sm-6">
-                    <form class="login-form-container" action="/member/login_ok" method="post">
+                    <form class="login-form-container" action="login_ok" method="post">
                         <div class="reg-header">
                             <h2>로그인</h2>
                         </div>

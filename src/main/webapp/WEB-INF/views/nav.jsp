@@ -28,7 +28,14 @@
             <div class="nav-header-1">
             <ul class="nav-menu">
                 <li class="nav-menu-item menu-show-full">
-                    <a href="">페이지</a>
+                    <c:choose>
+                        <c:when test="${sessionScope.membery ne null}">
+                            <a href="/member/profile">Mypage</a>
+                        </c:when>
+                        <c:otherwise>
+                            <p ></p>
+                        </c:otherwise>
+                   </c:choose>
                 </li>
                 <li class="nav-menu-item menu-show" id="nav-post">
                     <a href="#">뱅킹</a>

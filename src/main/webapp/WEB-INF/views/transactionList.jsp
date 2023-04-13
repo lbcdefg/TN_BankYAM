@@ -9,7 +9,8 @@
 <%@ include file="/WEB-INF/views/nav.jsp" %>
     <body><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         <div>
-            <button onclick="window.open('transfer', '_blank', 'width=800 height=600')"> 계좌이체 </a>
+            <button onclick="window.open('transfer', '_blank', 'width=800 height=600')"> 계좌이체 </button>
+
         </div>
     </body>
 <%@ include file="/WEB-INF/views/footer.jsp" %>

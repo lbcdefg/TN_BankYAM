@@ -2,6 +2,7 @@ package tn.bankYam.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,8 +68,12 @@ public class MemberyController {
 	}
 
 	@GetMapping("profile")
-	public String profile(){
-		return "profile";
+	public String profile(HttpSession session, HttpServletResponse response, Model model){
+			Membery member = (Membery) session.getAttribute("membery");
+			model.addAttribute("membery", member);
+
+			return "profile";
+
 	}
 
 	@GetMapping("findID")

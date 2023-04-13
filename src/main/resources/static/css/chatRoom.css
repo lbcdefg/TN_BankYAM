@@ -6,6 +6,18 @@
 a {
     text-decoration: none;
 }
+.tone-down{
+	content :'';
+   	position : absolute;
+    	top : 0;
+    	left : 0;
+        width : 100%;
+        height : 100%;
+        background-color : rgba(0,0,0,0.4);
+}
+.tone-down{
+    z-index:1;
+}
 .header{
     width:100%;
     position:relative;
@@ -17,7 +29,7 @@ a {
     margin-right: 13px;
 }
 .wrap {
-    height:480px;
+    height:calc(100% - 124px);
     background-color: #A8C0D6;
     overflow:scroll;
     overflow-x: hidden;
@@ -118,6 +130,7 @@ input[id="menuicon"] + label{
     height: 26px;
     position: relative;
     cursor: pointer;
+    z-index:1;
 }
 input[id="menuicon"] + label span{
     display: block;
@@ -139,7 +152,7 @@ input[id="menuicon"] + label span:nth-child(3){
     bottom:0;
 }
 input[id="menuicon"]:checked + label {
-    z-index:2;
+    z-index:9;
 }
 input[id="menuicon"]:checked + label span{
     background:#000;
@@ -162,14 +175,135 @@ div[class="sidebar"]{
     position:fixed;
     top:0;
     left:-300px;
-    z-index:1;
+    z-index:8;
     transition: all .35s;
+}
+div[class="sidebar"] .menu-list{
+    position:relative;
+    background-color: red;
+    height: 50px;
+}
+.menu-list a{
+    height :26px;
+    display: flex;
+    float: right;
+    margin-right: 10px;
+    margin-top: 17px;
+}
+.menu-list .reversal{
+    filter: invert(1);
+}
+div[class="sidebar"] .file-list{
+    position:relative;
+    background-color: blue;
+    height: 60%;
+    overflow:scroll;
+    overflow-x: hidden;
+}
+.file-list::-webkit-scrollbar{
+	width: 5px; /*스크롤바의 너비*/
+}
+.file-list::-webkit-scrollbar-thumb{
+	background-color: #F54927; /*스크롤바의 색상*/
+}
+.file-list a{
+    display:flex;
+    height:44px;
+}
+.file-list a .file-type{
+    height: 30px;
+    width: 36px;
+    margin: 7px;
+    border: 1px solid;
+    border-radius: 5px;
+    text-align: center;
+}
+.file-list a .file-name{
+    margin-left: 5px;
+    margin-top: 8px;
+}
+div[class="sidebar"] .chat-member{
+    position:relative;
+    background-color: yellow;
+    height: 40%;
+    overflow:scroll;
+    overflow-x: hidden;
+}
+.chat-member::-webkit-scrollbar{
+	width: 5px; /*스크롤바의 너비*/
+}
+.chat-member::-webkit-scrollbar-thumb{
+	background-color: #F54927; /*스크롤바의 색상*/
+}
+.chat-member .member-info{
+    display:flex;
+    height:50px;
+}
+.chat-member .member-info img{
+    height: 100%;
+    border-radius: 25px;
+}
+.chat-member .member-info .me{
+    width: 26px;
+    height: 26px;
+    margin: 12px;
+    text-align: center;
+    background-color: lightblue;
+    border-radius: 5px;
+}
+.chat-member .member-info .send-button{
+    width: 40px;
+    height: 26px;
+    margin: 12px;
+    text-align: center;
+    background-color: lightcoral;
+    border-radius: 5px;
+}
+.chat-member .member-info .name{
+    height: 26px;
+    margin: 12px;
+    text-align: left;
 }
 input[id="menuicon"]:checked + label + div{
     left:0;
 }
 
+.modal {
+  position: absolute;
+  top: 0;
+  left: 0;
 
+  width: 100%;
+  height: 100%;
+
+  display: none;
+
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 11;
+}
+
+.modal.show {
+  display: block;
+}
+
+.modal_body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 300px;
+  height: 450px;
+
+  padding: 40px;
+
+  text-align: center;
+
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+
+  transform: translateX(-50%) translateY(-50%);
+}
 
 
 

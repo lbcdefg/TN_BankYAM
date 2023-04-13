@@ -100,10 +100,10 @@
     justify-content: center;
 }
 
-.frs-group-li-a, .frs-group-rq-a, frs-group-bk-a{
+.frs-group-li-a, .frs-group-rq-a, .frs-group-bk-a{
     width: 20%;
     height: 30px;
-    border: 0.5px solid #f2f2f2;
+    border: 0.5px solid #5F4934;
     border-bottom: none;
     background-color:white;
     margin-right: 10px;
@@ -112,28 +112,74 @@
 }
 
 
-/* 오른쪽 친구목록 요소들 */
+/* (친구목록일때)오른쪽 친구목록 요소들 */
 .frs-list{
-    border: 0.5px solid #f2f2f2;
+    position: relative;
+    border: 0.5px solid #5F4934;
+    padding-top: 5px;
     margin-top:-1px;
     height: 550px;
-    z-index: 1;
+    overflow: auto;
+    z-index: 2;
 }
 
 .frs-list-table{
-    width:97%;
+    width:100%;
+    border-collapse: collapse;
 }
 
 .frs-list-row{
-    border-top: 0.5px solid #f2f2f2;
-    border-bottom: 0.5px solid #f2f2f2;
+    border-bottom: 0.5px solid #B39273;
     height: 45px;
 }
 
-.frs-list-30{
-    width:30%;
+.frs-list-15{
+    width:15%;
 }
 
-.frs-list-10{
-    width:10%;
+.frs-list-34{
+    width:34%;
 }
+
+.frs-list-12{
+    width:12%;
+}
+
+
+/* (받은/요청목록일때)오른쪽 받은/요청목록 요소들 */
+.frs-req{
+    position: relative;
+    border: 0.5px solid #5F4934;
+    padding-top: 5px;
+    margin-top:-1px;
+    height: 275px;
+    overflow: auto;
+    z-index: 2;
+}
+
+.frs-req-table, .frs-rec-table{
+    width:100%;
+    border-collapse: collapse;
+}
+
+.frs-list-39{
+    width:39%;
+    color:#fd8b00;
+}
+
+.frs-rec{
+    position: relative;
+    border: 0.5px solid #5F4934;
+    padding-top: 5px;
+    border-top: none;
+    margin-top:0;
+    height: 275px;
+    overflow: auto;
+    z-index: 2;
+}
+
+.frs-list-27{
+    width:27%;
+    color:#fd8b00;
+}
+

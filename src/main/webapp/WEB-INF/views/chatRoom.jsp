@@ -4,24 +4,88 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <link rel="stylesheet" type="text/css" href="/css/nav.css" />
 <link rel="stylesheet" type="text/css" href="/css/chatRoom.css" />
+<script>
+    function toneDown(){
+        if(!document.getElementById('menuicon').checked){
+            const div = document.createElement("div");
+            div.classList.add("tone-down");
+            document.body.appendChild(div);
+        }else{
+            const div = document.querySelectorAll('.tone-down')[0];
+            div.remove();
+        }
+    }
+</script>
 <body>
     <div class="header">
         <input type="checkbox" id="menuicon">
-        <label for="menuicon">
+        <label for="menuicon" onclick="toneDown()">
             <span></span>
             <span></span>
             <span></span>
         </label>
         <div class="sidebar">
             <%-- 파일들 --%>
-            <div>
-                <a class="chat-file">파일1</a>
-                <a class="chat-file">파일2</a>
+            <div class="menu-list">
+                <a class="btn-open-popup"><img class="reversal" src="/img/friend.png"></a>
+                <a><img src="/img/rename.png"></a>
+                <a><img src="/img/exit.png"></a>
+            </div>
+            <div class="file-list">
+                <a class="chat-file">
+                    <div class="file-type">
+                        txt
+                    </div>
+                    <span class="file-name">파일1</span>
+                </a>
+                <a class="chat-file">
+                    <div class="file-type">
+                    </div>
+                    <span class="file-name">파일1</span>
+                </a>
+                <a class="chat-file">
+                    <div class="file-type">
+                    </div>
+                    <span class="file-name">파일1</span>
+                </a>
+                <a class="chat-file">
+                    <div class="file-type">
+                    </div>
+                    <span class="file-name">파일1</span>
+                </a>
+                <a class="chat-file">
+                    <div class="file-type">
+                    </div>
+                    <span class="file-name">파일1</span>
+                </a>
+                <a class="chat-file">
+                    <div class="file-type">
+                    </div>
+                    <span class="file-name">파일1</span>
+                </a>
+                <a class="chat-file">
+                    <div class="file-type">
+                    </div>
+                    <span class="file-name">파일1</span>
+                </a>
+                <a class="chat-file">
+                    <div class="file-type">
+                    </div>
+                    <span class="file-name">파일1</span>
+                </a>
             </div>
             <%-- 대화상대(누르면 대화상대랑 거래내역, 이체) --%>
-            <div>
-                <a class="group-member">아무개</a>
-                <a class="group-member">아무개</a>
+            <div class="chat-member">
+                <div class="member-info">
+                    <img src="/img/character/sad.png"/>
+                    <div class="me">나</div>
+                    <span class="name">아무개</span>
+                </div>
+                <div class="member-info">
+                    <img src="/img/character/sad.png"/>
+                    <div class="send-button">송금</div>
+                    <span class="name">아무개</span>
+                </div>
             </div>
         </div>
         <span class="group-name">아무개</span>
@@ -65,4 +129,22 @@
         </div>
     </div>
     <textarea class="chat-text" required="required"></textarea>
+    <div class="modal">
+        <div class="modal_body">
+        Modal
+        <a class="modal-close">닫기<a>
+        </div>
+    </div>
 </body>
+<script>
+    const modal = document.querySelector('.modal');
+    const btnOpenPopup = document.querySelector('.btn-open-popup');
+    const btnClosePopup = document.querySelector('.modal-close');
+
+    btnOpenPopup.addEventListener('click', () => {
+        modal.classList.toggle('show');
+    });
+    btnClosePopup.addEventListener('click', () => {
+        modal.classList.toggle('show');
+    });
+</script>
