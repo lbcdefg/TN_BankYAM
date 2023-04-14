@@ -75,14 +75,35 @@ public class FriendController {
                     accountyFr.getMembery().setMb_seq(-1);
                     return accountyFr;
                 }
+                List<Friend> frList = friendsService.selectFrList(membery); // 친구 리스트
+                List<Blocklist> frBlocklist = friendsService.selectBlList(membery); // 차단 리스트
+                List<Friendreq> frReqList = friendsService.selectReqList(membery);  // 요청목록
+                List<Friendreq> frRecList = friendsService.selectRecList(membery);  // 받은목록
+
+                System.out.println("친구목록: " + frList);  //체크
+                System.out.println("차단목록: " + frBlocklist);  //체크
+                System.out.println("친구요청목록: " + frReqList);  //체크
+                System.out.println("친구받은목록: " + frRecList);  //체크
 
                 // 찾은 친구가 이미 내 친구일 때 체크
-                List<Friend> frList = friendsService.selectFrList(membery);
-                System.out.println(frList);
                 if(frList.size() > 0) {
                     for (Friend fr : frList) {
-                        System.out.println("친구: " + fr.getF_f_mb_seq());
-                        System.out.println("나: " + fr.getF_mb_seq());
+                        System.out.println("찾은 친구: " + accountyFr.getMembery().getMb_seq());  //체크
+                        System.out.println("내 친구: " + fr.getF_f_mb_seq());  //체크
+                        System.out.println("나: " + fr.getF_mb_seq());  //체크
+
+                        // 찾은 친구가 차단 친구이면서 내 친구일 때 체크
+                        if(frBlocklist.size() > 0) {
+                            for (Blocklist blockFr : frBlocklist) {
+                                System.out.println("내가 차단한 친구: " + blockFr.getMembery().getMb_seq());  //체크
+
+                                if((blockFr.getMembery().getMb_seq() == accountyFr.getMembery().getMb_seq()) && (fr.getF_f_mb_seq() == accountyFr.getMembery().getMb_seq())){
+                                    accountyFr.getMembery().setMb_seq(-6);
+                                    return accountyFr;
+                                }
+                            }
+                        }
+
                         if(fr.getF_f_mb_seq() == accountyFr.getMembery().getMb_seq()){
                             accountyFr.getMembery().setMb_seq(-2);
                             return accountyFr;
@@ -90,8 +111,43 @@ public class FriendController {
                     }
                 }
 
-                // 찾은 친구가 차단 친구일 때 체크
+                // 찾은 친구가 요청했거나 받은 상태일 때 체크
+                if(frReqList.size() > 0) {
+                    for (Friendreq frReq : frReqList) {
+                        System.out.println("찾은 친구: " + accountyFr.getMembery().getMb_seq());  //체크
+                        System.out.println("내가 친구를 요청한 친구: " + frReq.getMembery().getMb_seq());  //체크
 
+                        if(frReq.getMembery().getMb_seq() == accountyFr.getMembery().getMb_seq()){
+                            accountyFr.getMembery().setMb_seq(-3);
+                            return accountyFr;
+                        }
+                    }
+                }
+
+                if(frRecList.size() > 0) {
+                    for (Friendreq frReq : frRecList) {
+                        System.out.println("찾은 친구: " + accountyFr.getMembery().getMb_seq());  //체크
+                        System.out.println("나에게 친구를 요청한 친구: " + frReq.getMembery().getMb_seq());  //체크
+
+                        if(frReq.getMembery().getMb_seq() == accountyFr.getMembery().getMb_seq()){
+                            accountyFr.getMembery().setMb_seq(-4);
+                            return accountyFr;
+                        }
+                    }
+                }
+
+                // 찾은 친구가 단순 차단 친구일 때 체크
+                if(frBlocklist.size() > 0) {
+                    for (Blocklist blockFr : frBlocklist) {
+                        System.out.println("찾은 친구: " + accountyFr.getMembery().getMb_seq());  //체크
+                        System.out.println("내가 차단한 친구: " + blockFr.getMembery().getMb_seq());  //체크
+
+                        if(blockFr.getMembery().getMb_seq() == accountyFr.getMembery().getMb_seq()){
+                            accountyFr.getMembery().setMb_seq(-5);
+                            return accountyFr;
+                        }
+                    }
+                }
             }
         }
 
@@ -107,7 +163,7 @@ public class FriendController {
             long myId = membery.getMb_seq();
             System.out.println("myId: " + myId);
             System.out.println("frId: " + frId);
-            HashMap<String, Object> forFrReqMap = friendsService.forFrReq(frId, myId);
+            HashMap<String, Object> forFrReqMap = friendsService.forMapIdId(frId, myId);
             Friendreq friendreq = friendsService.checkFrReq(forFrReqMap);
 
             System.out.println(forFrReqMap);
@@ -125,5 +181,18 @@ public class FriendController {
             }
         }
         return "취소됨";
+    }
+
+    @GetMapping("friends_delFr")
+    public String friendsDel(HttpSession session, long frId){
+        Membery membery = (Membery)session.getAttribute("membery");
+
+        if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
+            long myId = membery.getMb_seq();
+            System.out.println("myId: " + myId);
+            System.out.println("frId: " + frId);
+            HashMap<String, Object> forDelMap = friendsService.forMapIdId(frId, myId);
+        }
+        return "redirect:friends";
     }
 }
