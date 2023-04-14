@@ -76,7 +76,21 @@
     color: white;
 }
 
-.frs-plus-btn:hover, .frs-block-btn:hover{
+.frs-send{
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+}
+
+.frs-send-btn{
+    display: none;
+    width: 50%;
+    height: 30px;
+    background-color: #5F4934;
+    color: white;
+}
+
+.frs-plus-btn:hover, .frs-block-btn:hover, .frs-send-btn:hover{
     background-color: #B39273;
     color: white;
 }
@@ -133,6 +147,26 @@
     height: 45px;
 }
 
+.frs-list-row a, .frs-req-row a, .frs-rec-row a{
+    color: #5F4934;
+}
+
+.frs-list-row a:visit, .frs-req-row a:visit, .frs-rec-row a:visit{
+    color: #5F4934;
+}
+
+.frs-list-row a:hover, .frs-req-row a:hover, .frs-rec-row a:hover{
+    color: #B39273;
+}
+
+.frs-click{
+    cursor: pointer;
+}
+
+.frs-click:hover{
+    color: #B39273;
+}
+
 .frs-list-15{
     width:15%;
 }
@@ -162,6 +196,10 @@
     border-collapse: collapse;
 }
 
+.frs-req-row, .frs-rec-row{
+    height: 45px;
+}
+
 .frs-list-39{
     width:39%;
     color:#fd8b00;
@@ -183,3 +221,6 @@
     color:#fd8b00;
 }
 
+.frs-list-24{
+    width:24%;
+}

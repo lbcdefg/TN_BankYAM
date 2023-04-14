@@ -13,7 +13,7 @@ public interface FriendsService {
 
     List<Friend> selectFrList(Membery membery);
 
-    HashMap<String, Object> forFrReq(long id, long myId);
+    HashMap<String, Object> forMapIdId(long id, long myId);
 
     Friendreq checkFrReq(HashMap<String, Object> hashMap);
 
