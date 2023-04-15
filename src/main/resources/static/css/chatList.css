@@ -1,5 +1,6 @@
 .chat-buttons{
-    width: 1000px;
+    display:flex;
+    width: 100px;
     min-height: 1px;
     padding: 0px;
     margin: 16px auto;
