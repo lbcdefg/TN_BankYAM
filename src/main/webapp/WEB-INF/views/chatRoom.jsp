@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <link rel="stylesheet" type="text/css" href="/css/nav.css" />
 <link rel="stylesheet" type="text/css" href="/css/chatRoom.css" />
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script>
     function toneDown(){
         if(!document.getElementById('menuicon').checked){
@@ -92,7 +93,7 @@
     </div>
     <div class="wrap">
         <div class="chat ch1">
-            <div class="icon"><img src="/img/yammy.png" class="fa-solid fa-user"></i></div>
+            <div class="icon"><img src="/img/character/yammy.png" class="fa-solid fa-user"></i></div>
             <div class="chat-content">
                 <div class="chat-info">
                     <span>아무개</span><span>시간</span>
@@ -132,7 +133,49 @@
     <div class="modal">
         <div class="modal_body">
         Modal
-        <a class="modal-close">닫기<a>
+        <a class="modal-close">닫기</a>
+            <div class="friend-list">
+                <label class="member-info" for="1" id="fr-1">
+                    <img src="/img/character/sad.png"/>
+                    <span class="name">아무개</span>
+                    <input type="radio" name="mb_email" id="1">
+                </label>
+                <label class="member-info" for="2" id="fr-2">
+                        <img src="/img/character/sad.png"/>
+                        <span class="name">아무개</span>
+                    <input type="radio" name="mb_email" id="2">
+                </label>
+                <label class="member-info" for="3">
+                    <img src="/img/character/sad.png"/>
+                    <span class="name">아무개</span>
+                    <input type="radio" name="mb_email" id="3">
+                </label>
+                <label class="member-info" for="4">
+                    <img src="/img/character/sad.png"/>
+                    <span class="name">아무개</span>
+                    <input type="radio" name="mb_email" id="4">
+                </label>
+                <label class="member-info" for="5">
+                    <img src="/img/character/sad.png"/>
+                    <span class="name">아무개</span>
+                    <input type="radio" name="mb_email" id="5">
+                </label>
+                <label class="member-info" for="6">
+                    <img src="/img/character/sad.png"/>
+                    <span class="name">아무개</span>
+                    <input type="radio" name="mb_email" id="6">
+                </label>
+                <label class="member-info" for="7">
+                    <img src="/img/character/sad.png"/>
+                    <span class="name">아무개</span>
+                    <input type="radio" name="mb_email" id="7">
+                </label>
+                <label class="member-info" for="8">
+                    <img src="/img/character/sad.png"/>
+                    <span class="name">아무개</span>
+                    <input type="radio" name="mb_email" id="8">
+                </label>
+            </div>
         </div>
     </div>
 </body>
@@ -147,4 +190,13 @@
     btnClosePopup.addEventListener('click', () => {
         modal.classList.toggle('show');
     });
+
+    $(document).ready(function(){
+        $("input[name=mb_email]").click(function(){
+            var checkedId = $("input[name=mb_email]:checked").attr("id");
+            alert(checkedId)
+            $("#fr-" + checkedId).attr("style", "background-color:yellow");
+        });
+    });
+
 </script>
