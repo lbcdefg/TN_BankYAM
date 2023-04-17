@@ -2,6 +2,8 @@ package tn.bankYam.service;
 
 import tn.bankYam.dto.Accounty;
 
+import java.util.List;
+
 public interface AccountyService {
     boolean checkAccnumS(long ac_seq);
     boolean checkPwdS(long ac_pwd);
@@ -10,4 +12,5 @@ public interface AccountyService {
 
     boolean checkPdS(long ac_pd_seq);
     boolean updateS(Accounty accounty);
+    List<Accounty> findAccByMemberId(long ac_mb_seq);
 }

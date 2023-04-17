@@ -60,5 +60,8 @@
         UPDATE ACCOUNTY SET AC_BALANCE=AC_BALANCE + #{ac_balance}
         WHERE AC_SEQ=#{ac_seq}
     </update>
+    <select id="findAccByMemberId" parameterType="long" resultType="Accounty">
+        SELECT * FROM ACCOUNTY WHERE AC_MB_SEQ=#{ac_mb_seq}
+    </select>
 
 </mapper>

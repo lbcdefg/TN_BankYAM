@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import tn.bankYam.dto.Accounty;
 
+import java.util.List;
+
 @Mapper
 @Repository
 public interface AccountyMapper {
@@ -14,4 +16,6 @@ public interface AccountyMapper {
 
     int checkPd(long ac_pd_seq);
     boolean transfer(Accounty accounty);
+
+    List<Accounty> findAccByMemberId(long ac_mb_seq);
 }

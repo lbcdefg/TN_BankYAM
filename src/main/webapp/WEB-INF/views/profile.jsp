@@ -54,12 +54,12 @@
     <div class="profile-upcontainer">
         <div class="profile-div">
             <div class="profile-photo">
-                <img src="/img/character/yammy.png" style="width:100%;height:100%;object-fit:cover;">
+                <img src="${membery.mb_imagepath}" style="width:100%;height:100%;object-fit:cover;">
             </div>
             <div>
                 <div class="profile-name">
                     <h2 style="margin:0;font-size:30px;">${membery.mb_name}</h2> &nbsp;
-                    <p style="margin-top:15px;color:lightgray;">(whdtj6292@naver.com)</p>
+                    <p style="margin-top:15px;color:lightgray;">(${membery.mb_email})</p>
                 </div>
                 <div class="profile-friends">
                     <h3 style="margin: 0;">친구: 145명</h3>
@@ -104,134 +104,51 @@
                         </tr>
                     </thead>
                     <tbody>
+                    <c:forEach items="${accountyList}" var="account">
                         <tr>
                         <td>
                             예금통장
                         </td>
                         <td>
-                            예삐
+                            ${account.ac_name}
                         </td>
                         <td>
-                            937702-00-188684
+                            ${account.ac_seq}
                         </td>
                         <td>
-                            200,580원
+                            ${account.ac_balance}원
                         </td>
                         <td>
-                            2020.06.15
+                            ${account.ac_rdate}
                         </td>
                         </tr>
-                        <tr>
-                            <td>
-                                예금통장
-                            </td>
-                            <td>
-                                예삐
-                            </td>
-                            <td>
-                                937702-00-188684
-                            </td>
-                            <td>
-                                200,580원
-                            </td>
-                            <td>
-                                2020.06.15
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                예금통장
-                            </td>
-                            <td>
-                                예삐
-                            </td>
-                            <td>
-                                937702-00-188684
-                            </td>
-                            <td>
-                                200,580원
-                            </td>
-                            <td>
-                                2020.06.15
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                예금통장
-                            </td>
-                            <td>
-                                예삐
-                            </td>
-                            <td>
-                                937702-00-188684
-                            </td>
-                            <td>
-                                200,580원
-                            </td>
-                            <td>
-                                2020.06.15
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                예금통장
-                            </td>
-                            <td>
-                                예삐
-                            </td>
-                            <td>
-                                937702-00-188684
-                            </td>
-                            <td>
-                                200,580원
-                            </td>
-                            <td>
-                                2020.06.15
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                예금통장
-                            </td>
-                            <td>
-                                예삐
-                            </td>
-                            <td>
-                                937702-00-188684
-                            </td>
-                            <td>
-                                200,580원
-                            </td>
-                            <td>
-                                2020.06.15
-                            </td>
-                        </tr>
+                    </c:forEach>
                     </tbody>
                 </table>
                 <table class="profile-table" cellpadding='7' cellspacing='2'>
                     <tr>
                         <th>이름</th>
-                        <td>박종서</td>
+                        <td>${membery.mb_name}</td>
                     </tr>
                     <tr>
                         <th>이메일</th>
-                        <td>whdtj6292@naver.com</td>
+                        <td>${membery.mb_email}</td>
                     </tr>
                     <tr>
                         <th>주소</th>
-                        <td>서울특별시 강동구 풍성로 45길18, 603호</td>
+                        <td>${membery.mb_addr}</td>
                     </tr>
                     <tr>
                         <th>전화번호</th>
-                        <td>01030296292</td>
+                        <td>${membery.mb_phone}</td>
                     </tr>
                     <tr>
                         <th>직업</th>
-                        <td>풀스택 개발자</td>
+                        <td>${membery.mb_job}</td>
                     </tr>
                     <tr>
                         <th>연봉</th>
-                        <td>1억2천</td>
+                        <td>${membery.mb_salary} 만원</td>
                     </tr>
                 </table>
                 <table class="none-table">
