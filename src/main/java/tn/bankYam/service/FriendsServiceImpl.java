@@ -46,16 +46,6 @@ public class FriendsServiceImpl implements FriendsService{
     }
 
     @Override
-    public Friendreq checkFrReq(HashMap<String, Object> hashMap){
-        return friendsMapper.checkFrReq(hashMap);
-    }
-
-    @Override
-    public void insertFrReq(HashMap<String, Object> hashMap){
-        friendsMapper.insertFrReq(hashMap);
-    }
-
-    @Override
     public List<Friendreq> selectReqList(Membery membery){
         return friendsMapper.selectReqList(membery);
     }
@@ -68,5 +58,40 @@ public class FriendsServiceImpl implements FriendsService{
     @Override
     public List<Blocklist> selectBlList(Membery membery){
         return friendsMapper.selectBlList(membery);
+    }
+
+    @Override
+    public Friendreq checkFrReq(HashMap<String, Object> hashMap){
+        return friendsMapper.checkFrReq(hashMap);
+    }
+
+    @Override
+    public Blocklist checkFrBlock(HashMap<String, Object> hashMap){
+        return friendsMapper.checkFrBlock(hashMap);
+    }
+
+    @Override
+    public void insertFrReq(HashMap<String, Object> hashMap){
+        friendsMapper.insertFrReq(hashMap);
+    }
+
+    @Override
+    public void insertFrBlock(HashMap<String, Object> hashMap){
+        friendsMapper.insertFrBlock(hashMap);
+    }
+
+    @Override
+    public void deleteFr(HashMap<String, Object> hashMap){
+        friendsMapper.deleteFr(hashMap);
+    }
+
+    @Override
+    public void deleteFrReqRec(HashMap<String, Object> hashMap){
+        friendsMapper.deleteFrReqRec(hashMap);
+    }
+
+    @Override
+    public void deleteFrBlock(HashMap<String, Object> hashMap){
+        friendsMapper.deleteFrBlock(hashMap);
     }
 }
