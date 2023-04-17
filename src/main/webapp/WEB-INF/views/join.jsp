@@ -20,7 +20,7 @@
                     <div class="page-header">
                         <h2>회원가입</h2><br/>
                         <div id="join_terms">약관을 모두 확인해주세요</div>
-                        <p id="join_message">메시지</p>
+                        <p id="join_message"></p>
                     </div>
                     <div id="join-form1">
                         <div class="row">
@@ -59,13 +59,14 @@
                         <div class="row">
                             <div class="row-third">
                                 <label>이메일</label>
-                                <input type="text" placeholder="" id="mb_email" name="mb_email" class="form-control margin-bottom-20" value="" autocomplete="off">
+                                <input type="text" id="mb_email" name="mb_email" class="form-control margin-bottom-20" value="" autocomplete="off">
                             </div>
-                            <button id="emailCode-btn" type="button" onclick="next(this)" class="normal-btn" style="margin-top:20px; margin-left:10px;">코드발송</button>
+                            <button id="emailCodebtn" type="button" class="normal-btn" style="margin-top:20px; margin-left:10px; display:none;">코드발송</button>
+                            <button id="emailReset"  type="button" class="normal-btn" style="margin-top:20px; margin-left:10px; display:none;">다시입력</button>
                         </div>
                         <div class="row">
                             <div class="row-in">
-                                <label>인증코드</label>
+                                <label for="emailCode" id="emailCodeTxt">인증코드</label>
                                 <input type="text" placeholder="인증코드를 입력해주세요" id="emailCode" name="emailCode" class="form-control margin-bottom-20" value="" autocomplete="off">
                             </div>
                         </div>
@@ -88,13 +89,19 @@
                         <div class="row">
                             <div class="row-in">
                                 <label>전화번호</label>
-                                <input type="number"id="mb_phone" name="mb_phone" class="form-control margin-bottom-20" value="" autocomplete="off">
+                                <input type="number"id="mb_phone" name="mb_phone" class="form-control margin-bottom-20" placeholder="'-',공백 없이 숫자만 입력해주세요" autocomplete="off">
                             </div>
                         </div>
                         <div class="row">
                             <div class="row-in">
                                 <label>주소</label>
-                                <input type="text"id="mb_addr" name="mb_addr" class="form-control margin-bottom-20">
+                                <input type="text"id="mb_addr" name="mb_addr" class="form-control margin-bottom-20" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="row-in">
+                                <label>상세주소</label>
+                                <input type="text"id="mb_addrdetail" name="mb_addrdetail" class="form-control margin-bottom-20">
                             </div>
                         </div>
                         <div class="row">
@@ -164,82 +171,83 @@
 	const regExp = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g; //전체에서 특수문자 찾기
 	const blankExp = /\s/g; //전체에서 공백찾기
 
-	function check(){
-		var idFoc = f.mb_id;
-		var idVal = idFoc.value;
-		idVal = trim(idVal); //공백제거
-
-		if(idVal.length == 0){ //idVal의 길이가 0이라면
-			alert("아이디를 입력해 주세요");
-			idFoc.focus(); //focus() : 해당 요소에 포커스를 부여하여 텍스트창의 경우 커서를 위치시켜 바로 입력할 수 있게 함
-			return false;
-		}else if(blankExp.test(idVal)){
-			alert("아이디는 공백을 포함할 수 없습니다");
-			idFoc.focus();
-			return false;
-		}else if(check_byte(idVal)>30){
-			alert("아이디가 너무 깁니다");
-			idFoc.focus();
-			return false;
-		}
-		var pwdFoc = f.mb_pwd;
-		var pwdVal = pwdFoc.value;
-		var checkPwdFoc = f.mb_pwd2;
-		var checkPwdVal = checkPwdFoc.value;
-
-		if(pwdVal.length == 0){
-			alert("Password를 입력해 주세요");
-			pwdFoc.focus();
-			return false;
-		}else if(check_byte(pwdVal)<4){
-			alert("비밀번호가 너무 짧습니다");
-			pwdFoc.focus();
-			return false;
-		}else if(check_byte(pwdVal)>30){
-			alert("비밀번호가 너무 깁니다");
-			pwdFoc.focus();
-			return false;
-		}else if(checkPwdVal.length == 0){
-			alert("2차 Password를 입력해 주세요");
-			checkPwdFoc.focus();
-			return false;
-		}else if(pwdVal != checkPwdVal){
-			alert("2차 Password를 확인해 주세요");
-			checkPwdFoc.focus();
-			return false;
-		}
-		var nameFoc = f.mb_name;
-		var nameVal = nameFoc.value;
-		nameVal = trim(nameVal);
-		if(nameVal.length==0){
-			alert("이름을 입력해 주세요");
-			nameFoc.focus();
-			return false;
-		}else if(regExp.test(nameVal) | blankExp.test(nameVal)){
-			alert("이름은 공백이나 특수문자가 포함될 수 없습니다");
-			nameFoc.focus();
-			return false;
-		}else if(nameVal.search(/[0-9]/g) > -1){
-			alert("이름은 숫자는 포함할 수 없습니다");
-			nameFoc.focus();
-			return false;
-		}else if(nameVal.length<2){
-			alert("이름이 너무 짧습니다.");
-			nameFoc.focus();
-			return false;
-		}else if(check_byte(nameVal)>20){
-			alert("이름이 너무 깁니다");
-			nameFoc.focus();
-			return false;
-		}
-		var phoneFoc = f.mb_phone;
-		var phoneVal = phoneFoc.value;
-		if(phoneVal.length!=11){
-			alert("전화번호는 11자리로 작성해주세요.");
-			nameFoc.focus();
-			return false;
-		}
-
+	function check(target){
+	    $("#join_message").html("<span id='emconfirmchk'></span>");
+        $("#emconfirmchk").css({
+            "color" : "#FA3E3E",
+            "font-weight" : "bold",
+            "font-size" : "13px"
+        });
+        if(target == form.mb_email){
+            var emailVal = form.mb_email.value;
+            emailVal = trim(emailVal);
+            if(emailVal.length == 0){
+                $("#join_message").html("<span id='emconfirmchk'>이메일 인증을 진행해주세요</span>");
+                $("#mb_email").focus();
+                return false;
+            }else if(blankExp.test(emailVal)){
+                $("#join_message").html("<span id='emconfirmchk'>이메일 형식에 맞지 않습니다</span>");
+                $("#mb_email").focus();
+                return false;
+            }else if(!checkEmail(emailVal)){
+                 $("#join_message").html("<span id='emconfirmchk'>이메일 형식에 맞지 않습니다</span>");
+                 $("#mb_email").focus();
+                 return false;
+            }
+        }else if(target == form.mb_pwd || target == form.mb_pwd2){
+            var pwdVal = form.mb_pwd.value;
+            var pwd2Val = form.mb_pwd2.value;
+            if(check_byte(pwdVal)<4){
+                $("#join_message").html("<span id='emconfirmchk'>비밀번호가 너무 짧습니다</span>");
+                $("#mb_pwd").focus();
+                return false;
+            }else if(check_byte(pwdVal)>15){
+                $("#join_message").html("<span id='emconfirmchk'>비밀번호가 너무 깁니다</span>");
+                $("#mb_pwd").focus();
+                return false;
+            }else if(checkPwdVal.length == 0){
+                $("#join_message").html("<span id='emconfirmchk'>비밀번호 확인을 진행해주세요</span>");
+                $("#mb_pwd2").focus();
+                return false;
+            }else if(pwdVal != pwd2Val){
+                $("#join_message").html("<span id='emconfirmchk'>두 비밀번호가 일치하지 않습니다</span>");
+                $("#mb_pwd2").focus();
+                return false;
+            }
+        }else if(target == form.mb_name){
+            var nameFoc = f.mb_name;
+            var nameVal = nameFoc.value;
+            nameVal = trim(nameVal);
+            if(nameVal.length==0){
+                $("#join_message").html("<span id='emconfirmchk'>이름을 입력해주세요</span>");
+                $("#mb_name").focus();
+                return false;
+            }else if(regExp.test(nameVal) | blankExp.test(nameVal)){
+                $("#join_message").html("<span id='emconfirmchk'>이름에 공백이나 기호를 입력할 수 없습니다</span>");
+                $("#mb_name").focus();
+                return false;
+            }else if(nameVal.search(/[0-9]/g) > -1){
+                $("#join_message").html("<span id='emconfirmchk'>이름에 숫자를 입력할 수 없습니다</span>");
+                $("#mb_name").focus();
+                return false;
+            }else if(nameVal.length<2){
+                $("#join_message").html("<span id='emconfirmchk'>이름이 너무 짧습니다</span>");
+                $("#mb_name").focus();
+                return false;
+            }else if(check_byte(nameVal)>20){
+                $("#join_message").html("<span id='emconfirmchk'>이름이 너무 깁니다</span>");
+                $("#mb_name").focus();
+                return false;
+            }
+        }else if(target == form.mb_phone){
+            var phoneFoc = form.mb_phone;
+            var phoneVal = phoneFoc.value;
+            if(phoneVal.length!=11){
+                $("#join_message").html("<span id='emconfirmchk'>전화번호는 11자리로 작성해주세요</span>");
+                $("#mb_addrdetail").focus();
+                return false;
+            }
+        }
 		f.submit();
 	}
 
@@ -252,6 +260,30 @@
 			return true;
 		}
 	}
+
+	// 이메일 형식 체크 기능
+    	function checkEmail(str){
+    		var exp = /@/;
+    		if(regExp.test(str)) {
+    			if(str.split('@',2)[1].length != 0){
+    			    console.log("조각1: " + str.split('@',2)[0]);
+    			    console.log("조각2: " + str.split('@',2)[1]);
+    			    str = str.split('@',2)[1];
+    			    if(str.split('.',2)[0].length !=0 && str.split('.',2)[1].length !=0){
+                        console.log("조각2-1: " + str.split('.',2)[0]);
+                        console.log("조각2-2: " + str.split('.',2)[0]);
+    			        emailCodeBtn.style.display = 'block';
+    			        return true;
+    			    }else{
+    			        return false;
+    			    }
+    			}else{
+    			    return false;
+    			}
+    		}else{
+    			return false;
+    		}
+    	}
 
 	// 바이트 체크 기능(모델 Max-length 제한치 적용)
 	function check_byte(str){
@@ -269,162 +301,15 @@
     const nextbtn1 = document.getElementById('next-btn-1');
     const nextbtn2 = document.getElementById('next-btn-2');
     const nextbtn3 = document.getElementById('next-btn-3');
+    const emailCodeBtn = document.getElementById('emailCodebtn');
     const term = document.getElementById("join_terms");
     const form = document.getElementById("join-form");
 
-    $(function(){
-        $("#emailCode").on("click", function(){
-            const emailVal = $("#mb_email").val();
-            if(!emailVal || emailVal.trim() == 0) {
-                emconfirmchk = true;
-                var html = "";
-                html += "<span id='emconfirmchk'>";
-                html += "이메일을 입력해주세요";
-                html += "</span>"
-                $('#checkEmailResult').html(html);
-                $("#emconfirmchk").css({
-                    "color" : "#FA3E3E",
-                    "font-weight" : "bold",
-                    "font-size" : "10px"
-                });
-            } else {
-                $.ajax({
-                    type : "GET",
-                    url : "checkEmail",
-                    data: {email: $("#email").val()},
-                    success : function(result){
-                        console.log("result :" + result);
-                        if (result == true) {
-                            const target = document.getElementById('verifyingCodeBt');
-                            target.disabled = false;
-                            target.style.setProperty("border",".5px solid navy");
-                            emconfirmchk = false;
-                            var html = "";
-                            html += "<span id='emconfirmchk'>";
-                            html += "가입 가능한 이메일입니다.";
-                            html += "</span>"
 
-                            $('#checkEmailResult').html(html);
-                            $("#emconfirmchk").css({
-                                "color" : "#0D6EFD",
-                                "font-weight" : "bold",
-                                "font-size" : "10px"
-                            });
-                        } else if (result == false) {
-                            emconfirmchk = true;
-                            var html = "";
-                            html += "<span id='emconfirmchk'>";
-                            html += "동일한 이메일이 존재합니다.";
-                            html += "</span>"
-                            $('#checkEmailResult').html(html);
-                            $("#emconfirmchk").css({
-                                "color" : "#FA3E3E",
-                                "font-weight" : "bold",
-                                "font-size" : "10px"
-                            });
-                        }
-                    }
-                });
-            }
-        });
-        $("#verifyingCodeBt").on("click", function(){
-            $.ajax({
-                type : "POST",
-                url : "mailConfirm",
-                data: {email: $("#email").val()},
-                success : function(data){
-                    alert("해당 이메일로 인증번호 발송이 완료되었습니다. \n 확인부탁드립니다.")
-                    console.log("data : "+data);
-                    chkEmailConfirm(data);
-                }
-            });
-        });
-        // 이메일 인증번호 체크 함수
-        function chkEmailConfirm(data){
-            $("#verifyingCode").on("keyup", function(){
-                if (data != $('#verifyingCode').val()) { //
-                    codeconfirmchk = false;
-                    $('#checkCodeResult').html("<span id='codeconfirmchk'>인증번호가 잘못되었습니다</span>");
-                    $("#codeconfirmchk").css({
-                        "color" : "#FA3E3E",
-                        "font-weight" : "bold",
-                        "font-size" : "10px"
-                    });
-                    const target = document.getElementById('signupbt');
-                    target.disabled = true;
-                    target.style.setProperty("background-color","rgba(204, 204, 204, .8)");
-                    target.style.setProperty("border","none");
-                    //console.log("중복아이디");
-                } else { // 아니면 중복아님
-                    codeconfirmchk = true;
-                    $('#checkCodeResult').html("<span id='codeconfirmchk'>인증번호 확인 완료</span>");
-                    $("#codeconfirmchk").css({
-                        "color" : "#0D6EFD",
-                        "font-weight" : "bold",
-                        "font-size" : "10px"
-                    });
-                    const target = document.getElementById('signupbt');
-                    target.disabled = false;
-                    target.style.setProperty("background-color","rgb(105,255,51)");
-                    target.style.setProperty("border",".1px solid navy");
-                }
-            });
-        }
-        $("#nick").on("keyup", function(){
-            var nick = $("#nick").val();
-            nick = nick.trim();
-            if(nick.length > 1) {
-                $.ajax({
-                    type : "GET",
-                    url : "checkNick",
-                    data: {nick: $("#nick").val()},
-                    success : function(result){
-                        console.log("result :" + result);
-                        if (result == true) {
-                            nickConfirmChk = false;
-                            var html = "";
-                            html += "<span id='nickConfirmChk'>";
-                            html += "가입 가능한 닉네임입니다.";
-                            html += "</span>"
-                            $('#checkNickResult').html(html);
-                            $("#nickConfirmChk").css({
-                                "color" : "#0D6EFD",
-                                "font-weight" : "bold",
-                                "font-size" : "10px"
-                            });
-                        } else if (result == false) {
-                            nickConfirmChk = true;
-                            var html = "";
-                            html += "<span id='nickConfirmChk'>";
-                            html += "동일한 닉네임이 존재합니다.";
-                            html += "</span>"
-                            $('#checkNickResult').html(html);
-                            $("#nickConfirmChk").css({
-                                "color" : "#FA3E3E",
-                                "font-weight" : "bold",
-                                "font-size" : "10px"
-                            });
-                        }
-                    }
-                });
-            } else if (nick.length <= 1) {
-                nickConfirmChk = true;
-                var html = "";
-                html += "<span id='nickConfirmChk'>";
-                html += "닉네임은 두 글자부터 가능합니다.";
-                html += "</span>"
-                $('#checkNickResult').html(html);
-                $("#nickConfirmChk").css({
-                    "color" : "#FA3E3E",
-                    "font-weight" : "bold",
-                    "font-size" : "10px"
-                });
-            }
-        });
-    });
 
     form.addEventListener('keydown',function() {
         if(event.keyCode == 13){
+            check(event.target);
             if(event.target == form.mb_email){
                 form.emailCode.focus();
             }else if(event.target == form.emailCode){
@@ -470,6 +355,18 @@
 	    }
 	}
 
+	$("#emailReset").click(function() {
+	    document.getElementById('emailReset').style.display = 'none'
+	    emailCodeBtn.style.display = 'block'
+	    document.getElementById('mb_email').readOnly=false;
+	    document.getElementById('emailCode').readOnly=false;
+        document.getElementById('emailCode').setAttribute('style','background-color:white;');
+        document.getElementById('mb_email').setAttribute('style','background-color:white;');
+        document.getElementById('mb_email').value = "";
+        document.getElementById('emailCode').value = "";
+        $("#join_message").html("");
+	});
+
 	form1.addEventListener('click', function() {
 	    let term_ck1 = document.getElementById('join-terms1').checked;
 	    let term_ck2 = document.getElementById('join-terms2').checked;
@@ -482,17 +379,17 @@
     });
 
     form2.addEventListener('keydown', function() {
-        let email = document.getElementById('mb_email').value;
-        let emailCode = document.getElementById('emailCode').value;
-        let pwd = document.getElementById('mb_pwd').value;
-        let pwd2 = document.getElementById('mb_pwd2').value;
-        let name = document.getElementById('mb_name').value;
-        let phone = document.getElementById('mb_phone').value;
-        let addr = document.getElementById('mb_addr').value;
-        let job = document.getElementById('mb_job').value;
-        let sal = document.getElementById('mb_salary').value;
+        var email = document.getElementById('mb_email').value;
+        var emailCodeVal = document.getElementById('emailCode').value;
+        var pwd = document.getElementById('mb_pwd').value;
+        var pwd2 = document.getElementById('mb_pwd2').value;
+        var name = document.getElementById('mb_name').value;
+        var phone = document.getElementById('mb_phone').value;
+        var addr = document.getElementById('mb_addr').value;
+        var job = document.getElementById('mb_job').value;
+        var sal = document.getElementById('mb_salary').value;
 
-        if(email.trim().length != 0 && emailCode.trim().length != 0 && pwd.trim().length != 0 && pwd2.trim().length != 0 && name.trim().length != 0 && phone.trim().length != 0 && addr.trim().length != 0 && sal.trim().length != 0){
+        if(email.trim().length != 0 && emailCodeVal.trim().length != 0 && pwd.trim().length != 0 && pwd2.trim().length != 0 && name.trim().length != 0 && phone.trim().length != 0 && addr.trim().length != 0 && sal.trim().length != 0){
             nextbtn2.style.display = 'block'
             console.log(job);
         }else{
@@ -513,15 +410,65 @@
         }
     });
 
+    // 이메일 인증번호
+    $("#emailCodebtn").click(function() {
+        console.log("코드발송 버튼을 누름");
+       $.ajax({
+          type : "POST",
+          url : "/member/join/mailConfirm",
+          data : {
+             "email" : $("#mb_email").val()
+          },
+          success : function(data){
+             document.getElementById('mb_email').readOnly=true;
+             alert("BankYam : 해당 이메일로 인증번호를 발송하였습니다")
+             console.log("data : "+data);
+             chkEmailConfirm(data, $("#emailCode"), $("#join_message"));
+          }
+       })
+    });
+
+	// 이메일 인증번호 체크 함수
+	function chkEmailConfirm(data, emailCode, join_message){
+	    console.log("인증코드체크 함수에 들어옴");
+	    console.log(data);
+		$("#emailCode").on("keyup", function(){
+			if (data != emailCode.val()){
+				emconfirmchk = false;
+				$("#join_message").html("<span id='emconfirmchk'>인증번호가 잘못되었습니다</span>");
+				$("#emconfirmchk").css({
+					"color" : "#FA3E3E",
+					"font-weight" : "bold",
+					"font-size" : "13px"
+				});
+			}else{
+			    emconfirmchk = true;
+			    $("#join_message").html("<span id='emconfirmchk'>인증번호 확인 완료</span>");
+			    console.log("정답");
+				$("#emconfirmchk").css({
+					"color" : "#0D6EFD",
+					"font-weight" : "bold",
+					"font-size" : "13px"
+				});
+				document.getElementById('emailCode').readOnly=true;
+				emailCodeBtn.style.display = 'none';
+				document.getElementById('emailCode').setAttribute('style','background-color:#c8c8c8;');
+				document.getElementById('mb_email').setAttribute('style','background-color:#c8c8c8;');
+				document.getElementById('emailReset').style.display='block';
+			}
+		})
+	}
+
 </script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+    // 주소찾기
     const mb_addr = document.getElementById("mb_addr")
     mb_addr.addEventListener("click", function(){
         new daum.Postcode({
             oncomplete: function(data) {
                 mb_addr.value = data.address;
-                form.mb_job.focus();
+                form.mb_addrdetail.focus();
             }
         }).open();
     });

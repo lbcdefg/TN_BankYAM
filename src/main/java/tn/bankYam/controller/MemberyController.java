@@ -3,11 +3,10 @@ package tn.bankYam.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import tn.bankYam.dto.Membery;
 import tn.bankYam.service.MemberyService;
+import tn.bankYam.service.RegisterMail;
 import tn.bankYam.utils.SHA256;
 import tn.bankYam.utils.ScriptUtil;
 
@@ -22,6 +21,8 @@ public class MemberyController {
 
 	@Autowired
 	private MemberyService memberyService;
+	@Autowired
+	private RegisterMail registerMail;
 
 	@GetMapping("login")
 	public String login(){
@@ -79,5 +80,13 @@ public class MemberyController {
 	@GetMapping("findID")
 	public String findid(){
 		return "findID";
+	}
+
+	@PostMapping("/join/mailConfirm")
+	@ResponseBody
+	String mailConfirm(@RequestParam("email") String email) throws Exception{
+		String code = registerMail.sendSimpleMessage(email);
+		System.out.println("인증코드: " + code);
+		return code;
 	}
 }
