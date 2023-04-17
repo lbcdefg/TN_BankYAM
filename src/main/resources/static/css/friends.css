@@ -70,7 +70,7 @@
 
 .frs-plus-btn, .frs-block-btn{
     display: none;
-    width: 20%;
+    width: 23%;
     height: 30px;
     background-color: #5F4934;
     color: white;
@@ -114,10 +114,14 @@
     justify-content: center;
 }
 
+.frs-img-circle{
+    border-radius: 50%;
+}
+
 .frs-group-li-a, .frs-group-rq-a, .frs-group-bk-a{
     width: 20%;
     height: 30px;
-    border: 0.5px solid #5F4934;
+    border: 2px solid #5F4934;
     border-bottom: none;
     background-color:white;
     margin-right: 10px;
@@ -129,9 +133,9 @@
 /* (친구목록일때)오른쪽 친구목록 요소들 */
 .frs-list{
     position: relative;
-    border: 0.5px solid #5F4934;
+    border: 2px solid #5F4934;
     padding-top: 5px;
-    margin-top:-1px;
+    margin-top:-2px;
     height: 550px;
     overflow: auto;
     z-index: 2;
@@ -142,7 +146,7 @@
     border-collapse: collapse;
 }
 
-.frs-list-row{
+.frs-list-row, .frs-req-row, .frs-rec-row{
     border-bottom: 0.5px solid #B39273;
     height: 45px;
 }
@@ -183,9 +187,9 @@
 /* (받은/요청목록일때)오른쪽 받은/요청목록 요소들 */
 .frs-req{
     position: relative;
-    border: 0.5px solid #5F4934;
+    border: 2px solid #5F4934;
     padding-top: 5px;
-    margin-top:-1px;
+    margin-top:-2px;
     height: 275px;
     overflow: auto;
     z-index: 2;
@@ -207,7 +211,7 @@
 
 .frs-rec{
     position: relative;
-    border: 0.5px solid #5F4934;
+    border: 2px solid #5F4934;
     padding-top: 5px;
     border-top: none;
     margin-top:0;
