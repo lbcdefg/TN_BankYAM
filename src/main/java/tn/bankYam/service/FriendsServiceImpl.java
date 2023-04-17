@@ -38,7 +38,7 @@ public class FriendsServiceImpl implements FriendsService{
     }
 
     @Override
-    public HashMap<String, Object> forFrReq(long frId, long myId){
+    public HashMap<String, Object> forMapIdId(long frId, long myId){
         HashMap<String, Object> forFrReqMap = new HashMap<>();
         forFrReqMap.put("frId", frId);
         forFrReqMap.put("myId", myId);

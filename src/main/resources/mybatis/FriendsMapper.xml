@@ -109,7 +109,7 @@
     </insert>
 
 
-    <select id="selectReqList" resultType="list" resultMap="friendMap" parameterType="Membery">
+    <select id="selectReqList" resultType="list" resultMap="friendReqMap" parameterType="Membery">
         SELECT
             *
         FROM
@@ -124,7 +124,7 @@
             fr_status = '요청'
     </select>
 
-    <select id="selectRecList" resultType="list" resultMap="friendMap" parameterType="Membery">
+    <select id="selectRecList" resultType="list" resultMap="friendReqMap" parameterType="Membery">
         SELECT
         *
         FROM
@@ -151,4 +151,8 @@
         WHERE
             b.bl_mb_seq = #{mb_seq}
     </select>
+
+    <delete id="deleteFr" parameterType="Hashmap">
+        delete from FRIEND where F_MB_SEQ = #{myId} and F_F_MB_SEQ = #{frId}
+    </delete>
 </mapper>
