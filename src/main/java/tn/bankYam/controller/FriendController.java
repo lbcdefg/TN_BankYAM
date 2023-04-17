@@ -9,8 +9,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import tn.bankYam.dto.*;
 import tn.bankYam.service.FriendsService;
+import tn.bankYam.utils.ScriptUtil;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,7 +26,10 @@ public class FriendController {
     private FriendsService friendsService;
 
     @GetMapping("friends")
-    public String friends(Model model, HttpSession session, String content){
+    public String friends(Model model, HttpServletRequest request, HttpSession session, String content){
+        String queryString = request.getQueryString();  // 친구추가 후 돌아갈 경로 쿼리
+        session.setAttribute("query", queryString); // 쿼리 세션에 담기
+
         //세션 불러오기
         Membery membery = (Membery)session.getAttribute("membery");
         if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
@@ -154,44 +161,120 @@ public class FriendController {
         return accountyFr;
     }
 
-    // 친구 추가 요청 Ajax
-    @PostMapping("friends_reqFr")
-    public @ResponseBody String friendsAdd(Model model, HttpSession session, long frId){
+    // 친구 추가 요청시
+    @GetMapping("friends_AddFr")
+    public String friendsAdd(Model model, HttpServletResponse response, HttpSession session, long frId, String catAdd){
         Membery membery = (Membery)session.getAttribute("membery");
+        String query = (String)session.getAttribute("query");
 
         if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
             long myId = membery.getMb_seq();
-            System.out.println("myId: " + myId);
-            System.out.println("frId: " + frId);
-            HashMap<String, Object> forFrReqMap = friendsService.forMapIdId(frId, myId);
-            Friendreq friendreq = friendsService.checkFrReq(forFrReqMap);
+            System.out.println("myId: " + myId);    // 체크
+            System.out.println("frId: " + frId);    // 체크
 
-            System.out.println(forFrReqMap);
-            System.out.println(friendreq);
+            HashMap<String, Object> forAddMap = friendsService.forMapIdId(frId, myId);
+            System.out.println(forAddMap);    // 체크
+            try {
+                if(catAdd.equals("reqAdd")) {
+                    // 친구추가 요청 / 이미 요청한게 있는지 체크용
+                    // 자바스크립트에서도 체크를 하지만 혹시 모르므로..
+                    Friendreq friendreq = friendsService.checkFrReq(forAddMap);
 
-            // 요청하거나 받은 내용이 없으면 요청 가능!
-            if(friendreq == null) {
-                System.out.println("있으면 들어오면 안됨!");
-                friendsService.insertFrReq(forFrReqMap);
-                List<Friendreq> frReqList = friendsService.selectReqList(membery);
-                List<Friendreq> frRecList = friendsService.selectRecList(membery);
-                model.addAttribute("frReqList", frReqList);
-                model.addAttribute("frRecList", frRecList);
-                return "정상완료";
+                    System.out.println(friendreq);  // 체크
+
+                    // 요청하거나 받은 내용이 없을 때만 요청 가능!
+                    if (friendreq == null) {
+                        friendsService.insertFrReq(forAddMap);
+                        if (query != null) {
+                            // 친구관리 창에서 보던 페이지가 있으면 그곳으로 다시 돌아가기
+                            ScriptUtil.alertAndMovePage(response, "친구신청 완료", "/friend/friends?" + query);
+                        } else {
+                            // 친구관리 창에서 보던 페이지가 있었더라도 query session에 안담기는 문제가 발생할 수도 있으므로
+                            ScriptUtil.alertAndMovePage(response, "친구신청 완료", "/friend/friends?content=req");
+                        }
+                    }
+                }else if(catAdd.equals("blAdd")) {
+                    // 친구차단 / 이미 차단한건지 체크용
+                    // 자바스크립트에서도 체크를 하지만 혹시 모르므로..
+                    Blocklist blocklist = friendsService.checkFrBlock(forAddMap);
+
+                    // 차단하지 않았을 때만 차단 가능!
+                    if (blocklist == null) {
+                        friendsService.insertFrBlock(forAddMap);
+                        if (query != null) {
+                            // 친구관리 창에서 보던 페이지가 있으면 그곳으로 다시 돌아가기
+                            ScriptUtil.alertAndMovePage(response, "친구차단 완료", "/friend/friends?" + query);
+                        } else {
+                            // 친구관리 창에서 보던 페이지가 있었더라도 query session에 안담기는 문제가 발생할 수도 있으므로
+                            ScriptUtil.alertAndMovePage(response, "친구차단 완료", "/friend/friends?content=block");
+                        }
+                    }
+                }
+                ScriptUtil.alertAndBackPage(response, "이상한 경로로 오셨어요.. 절차대로 실행해 주세요!");
+                return null;
+            } catch (IOException ie) {
+                return "redirect:friends";
             }
         }
-        return "취소됨";
+        return "redirect:friends";
     }
 
+    // 친구삭제/요청삭제/받은요청삭제
     @GetMapping("friends_delFr")
-    public String friendsDel(HttpSession session, long frId){
+    public String friendsDel(HttpServletResponse response, HttpSession session, long frId, String catDel){
         Membery membery = (Membery)session.getAttribute("membery");
 
         if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
             long myId = membery.getMb_seq();
-            System.out.println("myId: " + myId);
-            System.out.println("frId: " + frId);
-            HashMap<String, Object> forDelMap = friendsService.forMapIdId(frId, myId);
+            System.out.println("myId: " + myId);    //체크
+            System.out.println("frId: " + frId);    //체크
+            HashMap<String, Object> forDelMap = friendsService.forMapIdId(frId, myId);  // 삭제용 Map
+            forDelMap.put("catDel", catDel);    // 요청, 받은 목록 구분해서 삭제하기용
+            try {
+                if(catDel.equals("frDel")) {
+                    // 친구 리스트에 있는 현재 내 친구일 때만 삭제하기
+                    List<Friend> frList = friendsService.selectFrList(membery); // 친구 리스트
+                    for (Friend fr : frList) {
+                        if (fr.getMembery().getMb_seq() == frId) {
+                            friendsService.deleteFr(forDelMap);
+                            ScriptUtil.alertAndMovePage(response, "친구삭제 완료", "/friend/friends?content=list");
+                        }
+                    }
+                }else if(catDel.equals("reqDel")){
+                    // 요청 리스트에 있는 친구일 때만 삭제하기
+                    List<Friendreq> frReqList = friendsService.selectReqList(membery);  // 요청목록
+                    for (Friendreq frReq : frReqList) {
+                        if (frReq.getMembery().getMb_seq() == frId) {
+                            friendsService.deleteFrReqRec(forDelMap);
+                            ScriptUtil.alertAndMovePage(response, "친구요청 취소 완료", "/friend/friends?content=req");
+                        }
+                    }
+                }else if(catDel.equals("recDel")){
+                    // 받은 리스트에 있는 친구일 때만 삭제하기
+                    List<Friendreq> frRecList = friendsService.selectRecList(membery);  // 받은목록
+                    for (Friendreq frRec : frRecList) {
+                        if (frRec.getMembery().getMb_seq() == frId) {
+                            friendsService.deleteFrReqRec(forDelMap);
+                            ScriptUtil.alertAndMovePage(response, "친구요청 받기 취소 완료", "/friend/friends?content=req");
+                        }
+                    }
+                }else if(catDel.equals("blDel")){
+                    // 차단 리스트에 있는 친구일 때만 삭제하기
+                    List<Blocklist> frBlocklist = friendsService.selectBlList(membery); // 차단 리스트
+                    for (Blocklist frBlock : frBlocklist) {
+                        if (frBlock.getMembery().getMb_seq() == frId) {
+                            friendsService.deleteFrBlock(forDelMap);
+                            ScriptUtil.alertAndMovePage(response, "친구차단 취소 완료", "/friend/friends?content=block");
+                        }
+                    }
+                }
+
+                // 임의의 경로로 접근하는 경우 차단하기
+                ScriptUtil.alertAndBackPage(response, "정확한 경로로 실행해주세요..!");
+                return null;
+            } catch (IOException ie) {
+                return "redirect:friends";
+            }
         }
         return "redirect:friends";
     }

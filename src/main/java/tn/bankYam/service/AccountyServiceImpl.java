@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import tn.bankYam.dto.Accounty;
 import tn.bankYam.mapper.AccountyMapper;
 
+import java.util.List;
+
 @Service
 public class AccountyServiceImpl implements AccountyService{
     @Autowired
@@ -60,5 +62,10 @@ public class AccountyServiceImpl implements AccountyService{
 
         mapper.transfer(accounty);
         return false;
+    }
+
+    @Override
+    public List<Accounty> findAccByMemberId(long ac_mb_seq) {
+        return mapper.findAccByMemberId(ac_mb_seq);
     }
 }

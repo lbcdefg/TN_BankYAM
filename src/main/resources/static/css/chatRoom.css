@@ -304,11 +304,33 @@ input[id="menuicon"]:checked + label + div{
 
   transform: translateX(-50%) translateY(-50%);
 }
-
-
-
-
-
+.friend-list{
+    background-color:blue;
+    position:relative;
+    max-height: 350px;
+    overflow:scroll;
+    overflow-x: hidden;
+}
+.friend-list::-webkit-scrollbar{
+	width: 5px; /*스크롤바의 너비*/
+}
+.friend-list::-webkit-scrollbar-thumb{
+	background-color: #F54927; /*스크롤바의 색상*/
+}
+.friend-list .member-info{
+    display:flex;
+    height:50px;
+}
+.friend-list .member-info img{
+    height: 100%;
+    border-radius: 25px;
+}
+.friend-list .member-info .name{
+    height: 26px;
+    margin: 12px;
+    width: 50%;
+    text-align: left;
+}
 
 
 

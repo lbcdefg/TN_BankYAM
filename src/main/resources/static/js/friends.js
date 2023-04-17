@@ -9,8 +9,16 @@ $(document).ready(function(){
         var resultAddFr = confirm($(".frs-name-profile").text()+"님에게 친구추가를 요청하시겠습니까?");
         if(resultAddFr){
             var frId = $(".frs-plus-btn").attr("id")
-            alert(frId);
-            addFrAjax(frId);
+            location.href="/friend/friends_AddFr?frId=" + frId + "&catAdd=reqAdd";
+        }else{
+            return false;
+        }
+    });
+    $(".frs-block-btn").click(function(){
+        var resultBlFr = confirm($(".frs-name-profile").text()+"님을 차단하시겠습니까?");
+        if(resultBlFr){
+            var frId = $(".frs-plus-btn").attr("id")
+            location.href="/friend/friends_AddFr?frId=" + frId + "&catAdd=blAdd";
         }else{
             return false;
         }
@@ -66,11 +74,8 @@ function checkFrSearchAjax(searchDiv, searchText){
             }else if(accountyFr.membery.mb_seq == -5){
                 alert("차단한 친구")
                 searchFr(searchDiv, accountyFr.membery.mb_name, accountyFr.membery.mb_imagepath, accountyFr.membery.mb_seq, "alreadyBlock");
-            }else if(accountyFr.membery != null && accountyFr.membery.mb_imagepath == null){
-                alert("사진만 없는 멤버")
-                searchFr(searchDiv, accountyFr.membery.mb_name, "/img/character/hi.png", accountyFr.membery.mb_seq);
             }else{
-                alert("다 있는 멤버")
+                alert("새 친구")
                 searchFr(searchDiv, accountyFr.membery.mb_name, accountyFr.membery.mb_imagepath, accountyFr.membery.mb_seq, "newFr");
             }
         },
@@ -141,24 +146,35 @@ function noSearchFr(searchDiv, choice){
 
 }
 
-function addFrAjax(frId){
-    $.ajax({
-        url: "../friend/friends_reqFr",
-        type: "POST",
-        data: {frId: frId},
-        success: function(check){
-            if(check == "취소됨"){
-                alert("이미 친구로 요청하신 상태입니다.");
-            }else if(check == "정상완료"){
-                alert("친구신청 완료!");
-                var searchDiv = $('.frs-findFr');
-                searchFr(searchDiv, $("p.frs-name-profile").text(), $(".frs-img-profile").attr("src"), frId, "alreadyFrReq");
-                $(".frs-plus-btn").hide(); $(".frs-block-btn").hide();
-            }
+function clickFrAdd(frName, frId, catAdd){
+    var isAdd = false;
+    if(catAdd == "blAdd"){
+        var resultAddBl = confirm(frName+"님을 정말 차단하시겠습니까?")
+        if(resultAddBl){isAdd=true;}
+    }
+    if(isAdd){
+        location.href="/friend/friends_AddFr?frId=" + frId + "&catAdd=" + catAdd;
+    }
+    return false;
+}
 
-        },
-        error: function(error){
-            alert("error: " + error);
-        }
-    });
+function clickFrDel(frName, frId, catDel){
+    var isDel = false;
+    if(catDel == "frDel"){
+        var resultDelFr = confirm(frName+"님을 정말 삭제하시겠습니까?")
+        if(resultDelFr){isDel=true;}
+    }else if(catDel == "reqDel"){
+        var resultDelReq = confirm(frName+"님에게 보낸 친구요청을 정말 취소하시겠습니까?")
+        if(resultDelReq){isDel=true;}
+    }else if(catDel == "recDel"){
+        var resultDelRec = confirm(frName+"님에게 받은 친구요청을 정말 취소하시겠습니까?")
+        if(resultDelRec){isDel=true;}
+    }else if(catDel == "blDel"){
+        var resultDelBl = confirm(frName+"님에 대한 차단을 취소하시겠습니까?")
+        if(resultDelBl){isDel=true;}
+    }
+    if(isDel){
+        location.href="/friend/friends_delFr?frId=" + frId + "&catDel=" + catDel;
+    }
+    return false;
 }

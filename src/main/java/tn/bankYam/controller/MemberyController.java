@@ -3,8 +3,13 @@ package tn.bankYam.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import tn.bankYam.dto.Accounty;
 import org.springframework.web.bind.annotation.*;
 import tn.bankYam.dto.Membery;
+import tn.bankYam.service.AccountyService;
 import tn.bankYam.service.MemberyService;
 import tn.bankYam.service.RegisterMail;
 import tn.bankYam.utils.SHA256;
@@ -14,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Controller
 @RequestMapping("member")
@@ -21,6 +27,8 @@ public class MemberyController {
 
 	@Autowired
 	private MemberyService memberyService;
+	@Autowired
+	private AccountyService accountyService;
 	@Autowired
 	private RegisterMail registerMail;
 
@@ -70,10 +78,13 @@ public class MemberyController {
 
 	@GetMapping("profile")
 	public String profile(HttpSession session, HttpServletResponse response, Model model){
-			Membery member = (Membery) session.getAttribute("membery");
-			model.addAttribute("membery", member);
+		Membery member = (Membery) session.getAttribute("membery");
+		Long mb_seq = member.getMb_seq();
+		List<Accounty> accountyList = accountyService.findAccByMemberId(mb_seq);
+		model.addAttribute("membery", member);
+		model.addAttribute("accountyList", accountyList);
 
-			return "profile";
+		return "profile";
 
 	}
 

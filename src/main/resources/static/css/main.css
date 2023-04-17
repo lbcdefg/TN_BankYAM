@@ -161,14 +161,14 @@
     position: absolute;
     width: 818px;
     height: 351px;
-    left: 11%;
+    left: 10%;
     transition: all 0.5s;
 }
 .main-intcom .intcom-div2{
     position: absolute;
-    width: 1222px;
+    width: 700px;
     height: 604px;
-    left: 35.8%;
+    left: 46.8%;
     top: 93px;
     transition: all 0.5s;
 }
@@ -188,7 +188,7 @@
     width: 500px;
     height: 250px;
     top: 62%;
-    left: 19%;
+    left: 18%;
     transition: all 0.5s;
 }
 .intcom-div4 .intcom-div4-tit{

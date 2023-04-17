@@ -90,25 +90,6 @@
             f.f_mb_seq = #{mb_seq}
     </select>
 
-    <select id="checkFrReq" resultType="Friendreq" parameterType="Hashmap">
-        SELECT
-            *
-        FROM
-            FRIENDREQ
-        WHERE
-            (FR_REQ_MB_SEQ = #{myId} OR FR_REQ_MB_SEQ = #{frId})
-        AND
-            (FR_REC_MB_SEQ = #{frId} OR FR_REC_MB_SEQ = #{myId})
-    </select>
-
-    <insert id="insertFrReq" parameterType="Hashmap" >
-        <selectKey keyProperty="fr_seq" order="BEFORE" resultType="long">
-            select FRIENDREQ_SEQ.nextval from dual
-        </selectKey>
-        insert into FRIENDREQ values(#{fr_seq}, #{myId}, #{frId}, '요청', SYSDATE)
-    </insert>
-
-
     <select id="selectReqList" resultType="list" resultMap="friendReqMap" parameterType="Membery">
         SELECT
             *
@@ -152,7 +133,59 @@
             b.bl_mb_seq = #{mb_seq}
     </select>
 
+    <select id="checkFrReq" resultType="Friendreq" parameterType="Hashmap">
+        SELECT
+            *
+        FROM
+            FRIENDREQ
+        WHERE
+            (FR_REQ_MB_SEQ = #{myId} OR FR_REQ_MB_SEQ = #{frId})
+        AND
+            (FR_REC_MB_SEQ = #{frId} OR FR_REC_MB_SEQ = #{myId})
+    </select>
+
+    <select id="checkFrBlock" resultType="Blocklist" parameterType="Hashmap">
+        SELECT
+            *
+        FROM
+            BLOCKLIST
+        WHERE
+            BL_MB_SEQ = #{myId} AND BL_BL_MB_SEQ = #{frId}
+    </select>
+
+    <insert id="insertFrReq" parameterType="Hashmap" >
+        <selectKey keyProperty="fr_seq" order="BEFORE" resultType="long">
+            select FRIENDREQ_SEQ.nextval from dual
+        </selectKey>
+        insert into FRIENDREQ values(#{fr_seq}, #{myId}, #{frId}, '요청', SYSDATE)
+    </insert>
+
+    <insert id="insertFrBlock" parameterType="Hashmap" >
+        <selectKey keyProperty="bl_seq" order="BEFORE" resultType="long">
+            select BLOCKLIST_SEQ.nextval from dual
+        </selectKey>
+        insert into BLOCKLIST values(#{bl_seq}, #{myId}, #{frId}, SYSDATE)
+    </insert>
+
     <delete id="deleteFr" parameterType="Hashmap">
-        delete from FRIEND where F_MB_SEQ = #{myId} and F_F_MB_SEQ = #{frId}
+        delete from FRIEND where (F_MB_SEQ = #{myId} and F_F_MB_SEQ = #{frId})
+        or (F_MB_SEQ = #{frId} and F_F_MB_SEQ = #{myId})
     </delete>
+
+    <delete id="deleteFrReqRec" parameterType="Hashmap">
+        delete from FRIENDREQ
+        <where>
+            <if test="catDel == 'reqDel'">
+                FR_REQ_MB_SEQ = #{myId} and FR_REC_MB_SEQ = #{frId}
+            </if>
+            <if test="catDel == 'recDel'">
+                FR_REQ_MB_SEQ = #{frId} and FR_REC_MB_SEQ = #{myId}
+            </if>
+        </where>
+    </delete>
+
+    <delete id="deleteFrBlock" parameterType="Hashmap">
+        delete from BLOCKLIST where BL_MB_SEQ = #{myId} and BL_BL_MB_SEQ = #{frId}
+    </delete>
+
 </mapper>
