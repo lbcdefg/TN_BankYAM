@@ -17,6 +17,13 @@ public class ScriptUtil {
         out.flush();
     }
 
+    public static void newWindow(HttpServletResponse response, String newPage) throws IOException {
+        init(response);
+        PrintWriter out = response.getWriter();
+        out.println(String.format("<script>window.open('%s', '', 'width=400, height=500');</script>", newPage));
+        out.flush();
+    }
+
     public static void movePage(HttpServletResponse response, String nextPage) throws IOException {
         init(response);
         PrintWriter out = response.getWriter();

@@ -268,7 +268,7 @@ input[id="menuicon"]:checked + label + div{
     left:0;
 }
 
-.modal {
+.modal, .make-chat, .make-group {
   position: absolute;
   top: 0;
   left: 0;
@@ -282,11 +282,11 @@ input[id="menuicon"]:checked + label + div{
   z-index: 11;
 }
 
-.modal.show {
+.modal.show, .make-chat.show, .make-group.show {
   display: block;
 }
 
-.modal_body {
+.modal_body, .make-chat-body, .make-group-body {
   position: absolute;
   top: 50%;
   left: 50%;

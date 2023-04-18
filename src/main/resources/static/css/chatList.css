@@ -27,6 +27,7 @@
 }
 .active{
     background-color: var(--themecolor);
+    margin-right:10px;
 }
 .button-list .active a{
     color: var(--vsthemecolor);
@@ -105,6 +106,7 @@
     color: #666;
 }
 .listPlus{
+    display:none;
     background-color: var(--lightyamcolor);
     width: 60%;
     height: 100px;
