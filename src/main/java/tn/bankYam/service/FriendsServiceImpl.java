@@ -71,6 +71,11 @@ public class FriendsServiceImpl implements FriendsService{
     }
 
     @Override
+    public List<Friend> checkFr(HashMap<String, Object> hashMap){
+        return friendsMapper.checkFr(hashMap);
+    }
+
+    @Override
     public void insertFrReq(HashMap<String, Object> hashMap){
         friendsMapper.insertFrReq(hashMap);
     }
@@ -78,6 +83,16 @@ public class FriendsServiceImpl implements FriendsService{
     @Override
     public void insertFrBlock(HashMap<String, Object> hashMap){
         friendsMapper.insertFrBlock(hashMap);
+    }
+
+    @Override
+    public void insertFrM(HashMap<String, Object> hashMap){
+        friendsMapper.insertFrM(hashMap);
+    }
+
+    @Override
+    public void insertFrF(HashMap<String, Object> hashMap){
+        friendsMapper.insertFrF(hashMap);
     }
 
     @Override
