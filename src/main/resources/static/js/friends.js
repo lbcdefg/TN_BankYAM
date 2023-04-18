@@ -6,8 +6,8 @@ $(document).ready(function(){
         }
     });
     $(".frs-plus-btn").click(function(){
-        var resultAddFr = confirm($(".frs-name-profile").text()+"님에게 친구추가를 요청하시겠습니까?");
-        if(resultAddFr){
+        var resultAddReq = confirm($(".frs-name-profile").text()+"님에게 친구추가를 요청하시겠습니까?");
+        if(resultAddReq){
             var frId = $(".frs-plus-btn").attr("id")
             location.href="/friend/friends_AddFr?frId=" + frId + "&catAdd=reqAdd";
         }else{
@@ -151,6 +151,11 @@ function clickFrAdd(frName, frId, catAdd){
     if(catAdd == "blAdd"){
         var resultAddBl = confirm(frName+"님을 정말 차단하시겠습니까?")
         if(resultAddBl){isAdd=true;}
+    }else if(catAdd == "frAdd"){
+        var resultAddFr = confirm(frName+"님을 친구로 맞이하시겠습니까?")
+        if(resultAddFr){isAdd=true;}
+    }else{
+        alert("정상 경로로 실행해 주세요!");
     }
     if(isAdd){
         location.href="/friend/friends_AddFr?frId=" + frId + "&catAdd=" + catAdd;
@@ -172,6 +177,8 @@ function clickFrDel(frName, frId, catDel){
     }else if(catDel == "blDel"){
         var resultDelBl = confirm(frName+"님에 대한 차단을 취소하시겠습니까?")
         if(resultDelBl){isDel=true;}
+    }else{
+        alert("정상 경로로 실행해 주세요!");
     }
     if(isDel){
         location.href="/friend/friends_delFr?frId=" + frId + "&catDel=" + catDel;

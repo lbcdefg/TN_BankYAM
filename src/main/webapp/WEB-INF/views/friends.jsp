@@ -38,19 +38,19 @@
             <div class="frs-list-group">
                 <c:choose>
                     <c:when test="${content == 'list'}">
-                        <a class="frs-group-li-a" style="z-index:3" href="/friend/friends?content=list">친구목록</a>
+                        <a class="frs-group-li-a" style="z-index:3; color:#fd8b00; font-weight:bold" href="/friend/friends?content=list">친구목록</a>
                         <a class="frs-group-rq-a" style="z-index:1" href="/friend/friends?content=req">받은/요청 친구</a>
                         <a class="frs-group-bk-a" style="z-index:1" href="/friend/friends?content=block">차단목록</a>
                     </c:when>
                     <c:when test="${content == 'req'}">
                         <a class="frs-group-li-a" style="z-index:1" href="/friend/friends?content=list">친구목록</a>
-                        <a class="frs-group-rq-a" style="z-index:3" href="/friend/friends?content=req">받은/요청 친구</a>
+                        <a class="frs-group-rq-a" style="z-index:3; color:#fd8b00; font-weight:bold" href="/friend/friends?content=req">받은/요청 친구</a>
                         <a class="frs-group-bk-a" style="z-index:1" href="/friend/friends?content=block">차단목록</a>
                     </c:when>
                     <c:when test="${content == 'block'}">
                         <a class="frs-group-li-a" style="z-index:1" href="/friend/friends?content=list">친구목록</a>
                         <a class="frs-group-rq-a" style="z-index:1" href="/friend/friends?content=req">받은/요청 친구</a>
-                        <a class="frs-group-bk-a" style="z-index:3" href="/friend/friends?content=block">차단목록</a>
+                        <a class="frs-group-bk-a" style="z-index:3; color:#fd8b00; font-weight:bold" href="/friend/friends?content=block">차단목록</a>
                     </c:when>
                 </c:choose>
             </div>
@@ -61,26 +61,31 @@
                     <table class="frs-list-table">
                     <c:if test="${empty frList}">
                         <tr class="frs-list-row" style="border:none; height:400px">
-                            <td align='center' colspan="5">친구가 없습니다.. 친구를 추가해 보세요!</td>
+                            <td class="fontS-25" align='center' colspan="5">친구가 없습니다.. 친구를 추가해 보세요!</td>
                         </tr>
                     </c:if>
                     <c:forEach items="${frList}" var="fl">
                         <tr class="frs-list-row">
-                            <th class="frs-list-15"><img class="frs-img-circle" src="${fl.membery.mb_imagepath}" height="45px"/></th>
-                            <th class="frs-list-34 frs-click" onclick="clickFrName('frs-${fl.membery.mb_seq}')">${fl.membery.mb_name}</th>
+                            <td class="frs-list-15"><img class="frs-img-circle" src="${fl.membery.mb_imagepath}" height="45px"/></td>
+                            <td class="frs-list-34 frs-click" onclick="clickFrName('frs-${fl.membery.mb_seq}')">
+                                <fmt:formatDate var="frsDate" value="${fl.f_rdate}" pattern="yyyy-MM-dd" />
+                                <c:if test="${nowTime == frsDate}">
+                                    <span class="fontS-10 color-fb8b00">new</span>&nbsp;
+                                </c:if>
+                                ${fl.membery.mb_name}</td>
                             <input type="hidden" class="frs-${fl.membery.mb_seq}" id="${fl.membery.mb_email}"/>
-                            <th class="frs-list-12"><a href="#">송금</a></th>
-                            <th class="frs-list-12"><a href="#">대화</a></th>
-                            <th class="frs-list-12"><a class="frs-click" onclick="clickFrDel('${fl.membery.mb_name}', ${fl.membery.mb_seq}, 'frDel')">삭제</a></th>
+                            <td class="frs-list-12"><a href="#">송금</a></td>
+                            <td class="frs-list-12"><a href="#">대화</a></td>
+                            <td class="frs-list-12"><a class="frs-click" onclick="clickFrDel('${fl.membery.mb_name}', ${fl.membery.mb_seq}, 'frDel')">삭제</a></td>
                             <c:set var="loop_flag" value="false" />
                             <c:forEach items="${frBlocklist}" var="bl">
                                 <c:if test="${bl.membery.mb_seq == fl.membery.mb_seq}">
-                                    <th class="frs-list-15" style="color:#fd8b00">차단상태</a></th>
+                                    <td class="frs-list-15" style="color:#fd8b00">차단상태</a></td>
                                     <c:set var="loop_flag" value="true"/>
                                 </c:if>
                             </c:forEach>
                             <c:if test="${not loop_flag}">
-                                <th class="frs-list-15"><a class="frs-click" onclick="clickFrAdd('${fl.membery.mb_name}', ${fl.membery.mb_seq}, 'blAdd')">차단</a></th>
+                                <td class="frs-list-15"><a class="frs-click" onclick="clickFrAdd('${fl.membery.mb_name}', ${fl.membery.mb_seq}, 'blAdd')">차단</a></td>
                             </c:if>
                         </tr>
                     </c:forEach>
@@ -95,16 +100,17 @@
                     <table class="frs-req-table">
                     <c:if test="${empty frReqList}">
                         <tr class="frs-req-row" style="border:none; height:250px">
-                            <td align='center' colspan="5">요청하신 [친구]가 없습니다.</td>
+                            <td class="fontS-25" align='center' colspan="5">요청하신 [친구]가 없습니다.</td>
                         </tr>
                     </c:if>
                     <c:forEach items="${frReqList}" var="req">
                         <tr class="frs-req-row">
-                            <th class="frs-list-15"><img class="frs-img-circle" src="${req.membery.mb_imagepath}" height="45px"/></th>
-                            <th class="frs-list-34 frs-click" onclick="clickFrName('frs-${req.membery.mb_seq}')">${req.membery.mb_name}</th>
+                            <td class="frs-list-15"><img class="frs-img-circle" src="${req.membery.mb_imagepath}" height="45px"/></td>
+                            <td class="frs-list-34 frs-click" onclick="clickFrName('frs-${req.membery.mb_seq}')">${req.membery.mb_name}</td>
                             <input type="hidden" class="frs-${req.membery.mb_seq}" id="${req.membery.mb_email}"/>
-                            <th class="frs-list-39">친구요청 한 상태</th>
-                            <th class="frs-list-12"><a class="frs-click" onclick="clickFrDel('${req.membery.mb_name}', ${req.membery.mb_seq}, 'reqDel')">취소</a></th>
+                            <td class="frs-list-27 color-fb8b00">친구요청 한 상태</td>
+                            <td class="frs-list-15"><a class="frs-click" onclick="clickFrAdd('${req.membery.mb_name}', ${req.membery.mb_seq}, 'blAdd')">차단</a></td>
+                            <td class="frs-list-12"><a class="frs-click" onclick="clickFrDel('${req.membery.mb_name}', ${req.membery.mb_seq}, 'reqDel')">취소</a></td>
                         </tr>
                     </c:forEach>
                     </table>
@@ -113,17 +119,17 @@
                     <table class="frs-rec-table">
                     <c:if test="${empty frRecList}">
                         <tr class="frs-rec-row" style="border:none; height:250px">
-                            <td align='center' colspan="5">요청받은 [친구]가 없습니다.</td>
+                            <td class="fontS-25" align='center' colspan="5">요청받은 [친구]가 없습니다.</td>
                         </tr>
                     </c:if>
                     <c:forEach items="${frRecList}" var="rec">
                         <tr class="frs-rec-row">
-                            <th class="frs-list-15"><img class="frs-img-circle" src="${rec.membery.mb_imagepath}" height="45px"/></th>
-                            <th class="frs-list-34 frs-click" onclick="clickFrName('frs-${rec.membery.mb_seq}')">${rec.membery.mb_name}</th>
+                            <td class="frs-list-15"><img class="frs-img-circle" src="${rec.membery.mb_imagepath}" height="45px"/></td>
+                            <td class="frs-list-34 frs-click" onclick="clickFrName('frs-${rec.membery.mb_seq}')">${rec.membery.mb_name}</td>
                             <input type="hidden" class="frs-${rec.membery.mb_seq}" id="${rec.membery.mb_email}"/>
-                            <th class="frs-list-27">친구요청 받은상태</th>
-                            <th class="frs-list-12"><a href="#">수락</a></th>
-                            <th class="frs-list-12"><a class="frs-click" onclick="clickFrDel('${rec.membery.mb_name}', ${rec.membery.mb_seq}, 'recDel')">취소</a></th>
+                            <td class="frs-list-27 color-fb8b00">친구요청 받은상태</td>
+                            <td class="frs-list-12"><a class="frs-click" onclick="clickFrAdd('${rec.membery.mb_name}', ${rec.membery.mb_seq}, 'frAdd')">수락</a></td>
+                            <td class="frs-list-12"><a class="frs-click" onclick="clickFrDel('${rec.membery.mb_name}', ${rec.membery.mb_seq}, 'recDel')">취소</a></td>
                         </tr>
                     </c:forEach>
                     </table>
@@ -136,16 +142,16 @@
                     <table class="frs-list-table">
                     <c:if test="${empty frBlocklist}">
                         <tr class="frs-list-row" style="border:none; height:400px">
-                            <td align='center' colspan="5">차단하신 친구가 없어요!</td>
+                            <td class="fontS-25" align='center' colspan="5">차단하신 친구가 없어요!</td>
                         </tr>
                     </c:if>
                     <c:forEach items="${frBlocklist}" var="bl">
                         <tr class="frs-list-row">
-                            <th class="frs-list-15"><img class="frs-img-circle" src="${bl.membery.mb_imagepath}" height="45px"/></th>
-                            <th class="frs-list-34 frs-click" onclick="clickFrName('frs-${bl.membery.mb_seq}')">${bl.membery.mb_name}</th>
+                            <td class="frs-list-15"><img class="frs-img-circle" src="${bl.membery.mb_imagepath}" height="45px"/></td>
+                            <td class="frs-list-34 frs-click" onclick="clickFrName('frs-${bl.membery.mb_seq}')">${bl.membery.mb_name}</td>
                             <input type="hidden" class="frs-${bl.membery.mb_seq}" id="${bl.membery.mb_email}"/>
-                            <th class="frs-list-27">차단된 상태</th>
-                            <th class="frs-list-24"><a class="frs-click" onclick="clickFrDel('${bl.membery.mb_name}', ${bl.membery.mb_seq}, 'blDel')">차단취소</a></th>
+                            <td class="frs-list-27 color-fb8b00">차단된 상태</td>
+                            <td class="frs-list-24"><a class="frs-click" onclick="clickFrDel('${bl.membery.mb_name}', ${bl.membery.mb_seq}, 'blDel')">차단취소</a></td>
                         </tr>
                     </c:forEach>
                     </table>

@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
@@ -38,8 +40,13 @@ public class FriendController {
                 List<Friend> frList = friendsService.selectFrList(membery);
                 List<Blocklist> frBlocklist = friendsService.selectBlList(membery);
                 System.out.println("친구목록: " + frList);  //체크
+
+                LocalDate localDate = LocalDate.now();  // 오늘 친구된 사람 new 뿌려주기용
+                Date nowTime = java.sql.Date.valueOf(localDate);
+
                 model.addAttribute("frList", frList);
                 model.addAttribute("frBlocklist", frBlocklist);
+                model.addAttribute("nowTime", nowTime);
             }else if(content.equals("req")){
                 System.out.println("요청목록 뽑기");  //체크
                 List<Friendreq> frReqList = friendsService.selectReqList(membery);  // 요청목록
@@ -163,7 +170,7 @@ public class FriendController {
 
     // 친구 추가 요청시
     @GetMapping("friends_AddFr")
-    public String friendsAdd(Model model, HttpServletResponse response, HttpSession session, long frId, String catAdd){
+    public String friendsAdd(HttpServletResponse response, HttpSession session, long frId, String catAdd){
         Membery membery = (Membery)session.getAttribute("membery");
         String query = (String)session.getAttribute("query");
 
@@ -176,10 +183,9 @@ public class FriendController {
             System.out.println(forAddMap);    // 체크
             try {
                 if(catAdd.equals("reqAdd")) {
-                    // 친구추가 요청 / 이미 요청한게 있는지 체크용
+                    // 친구추가 요청 / 이미 요청한게 있는지 체크 필요
                     // 자바스크립트에서도 체크를 하지만 혹시 모르므로..
                     Friendreq friendreq = friendsService.checkFrReq(forAddMap);
-
                     System.out.println(friendreq);  // 체크
 
                     // 요청하거나 받은 내용이 없을 때만 요청 가능!
@@ -194,9 +200,10 @@ public class FriendController {
                         }
                     }
                 }else if(catAdd.equals("blAdd")) {
-                    // 친구차단 / 이미 차단한건지 체크용
+                    // 친구차단 / 이미 차단한건지 체크 필요
                     // 자바스크립트에서도 체크를 하지만 혹시 모르므로..
                     Blocklist blocklist = friendsService.checkFrBlock(forAddMap);
+                    System.out.println(blocklist);  // 체크
 
                     // 차단하지 않았을 때만 차단 가능!
                     if (blocklist == null) {
@@ -208,6 +215,21 @@ public class FriendController {
                             // 친구관리 창에서 보던 페이지가 있었더라도 query session에 안담기는 문제가 발생할 수도 있으므로
                             ScriptUtil.alertAndMovePage(response, "친구차단 완료", "/friend/friends?content=block");
                         }
+                    }
+                }else if(catAdd.equals("frAdd")) {
+                    // 친구수락 / 이미 친구인지 체크 필요
+                    // 자바스크립트에서도 체크를 하지만 혹시 모르므로..
+                    List<Friend> frList = friendsService.checkFr(forAddMap);
+                    System.out.println(frList);  // 체크
+                    System.out.println(frList.size());  // 체크
+
+                    // 친구가 아닐 때는 size 0
+                    if (frList.size() == 0) {
+                        friendsService.insertFrM(forAddMap);    // 나 - 친구 : 친구목록 추가
+                        friendsService.insertFrF(forAddMap);    // 친구 - 나 : 친구목록 추가
+                        forAddMap.put("catDel", "recDel");
+                        friendsService.deleteFrReqRec(forAddMap);   // 친구 받기 목록에서 제거
+                        ScriptUtil.alertAndMovePage(response, "친구수락 완료", "/friend/friends?content=req");
                     }
                 }
                 ScriptUtil.alertAndBackPage(response, "이상한 경로로 오셨어요.. 절차대로 실행해 주세요!");
