@@ -27,16 +27,6 @@
             </div>
             <div class="nav-header-1">
             <ul class="nav-menu">
-                <li class="nav-menu-item menu-show-full">
-                    <c:choose>
-                        <c:when test="${sessionScope.membery ne null}">
-                            <a href="/member/profile">Mypage</a>
-                        </c:when>
-                        <c:otherwise>
-                            <p ></p>
-                        </c:otherwise>
-                   </c:choose>
-                </li>
                 <li class="nav-menu-item menu-show" id="nav-post">
                     <a href="#">뱅킹</a>
                     <div class="nav-post-box">
@@ -56,7 +46,12 @@
                     <a href="">뱅크얌</a>
                 </li>
                 <li class="nav-menu-item log-btn">
-                    <button class="log-btn-full" onclick="location.href='/member/join'">JOIN</button>
+                    <c:if test="${sessionScope.membery eq null}">
+                        <button class="log-btn-full" onclick="location.href='/member/join'">JOIN</button>
+                    </c:if>
+                    <c:if test="${sessionScope.membery ne null}">
+                        <button class="log-btn-full" onclick="location.href='/member/profile'">PROFILE</button>
+                    </c:if>
                 </li>
                 <li class="nav-menu-item log-btn">
                     <c:if test="${sessionScope.membery eq null}">
@@ -67,7 +62,12 @@
                     </c:if>
                 </li>
             </ul>
-            <div class="response-login"><button class="response-login-button"><img src="/img/login.png" id="login-image" style="width:100%;height:100%;object-fit:cover;"/></button></div>
+            <c:if test="${sessionScope.membery eq null}">
+            <div class="response-login"><button class="response-login-button" onclick="location.href='/member/login'"><img src="/img/login.png" id="login-image" style="width:100%;height:100%;object-fit:cover;"/></button></div>
+            </c:if>
+            <c:if test="${sessionScope.membery ne null}">
+                <div class="response-login"><button class="response-login-button" onclick="location.href='/member/profile'"><img src="/img/login.png" id="login-image" style="width:100%;height:100%;object-fit:cover;"/></button></div>
+            </c:if>
             </div>
         </header>
     </nav>

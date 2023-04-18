@@ -6,4 +6,7 @@
     <select id="findByEmail" resultType="Membery" parameterType="String">
         SELECT * FROM MEMBERY WHERE MB_EMAIL=#{mb_email}
     </select>
+    <update id="editProfile" parameterType="Membery">
+        UPDATE MEMBERY SET  MB_NAME=#{mb_name},MB_ADDR=#{mb_addr},MB_DADDR=#{mb_daddr},MB_PHONE=#{mb_phone},MB_JOB=#{mb_job},MB_SALARY=#{mb_salary} WHERE MB_SEQ = #{mb_seq}
+    </update>
 </mapper>
