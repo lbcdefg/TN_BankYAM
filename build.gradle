@@ -36,6 +36,8 @@ dependencies {
 	implementation 'com.oracle.database.jdbc:ojdbc11' //for Oracle Jdbc
 
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16' // Jdbc 로그 확인용
+
+	implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.1' // 회원가입 이메일인증
 }
 
 tasks.named('test') {
