@@ -32,6 +32,7 @@ public class MemberyController {
 	@Autowired
 	private RegisterMail registerMail;
 
+
 	@GetMapping("login")
 	public String login(){
 		return "login";
@@ -99,5 +100,16 @@ public class MemberyController {
 		String code = registerMail.sendSimpleMessage(email);
 		System.out.println("인증코드: " + code);
 		return code;
+	}
+
+	@GetMapping("/join/mailCheck")
+	@ResponseBody
+	String mailCheck(@RequestParam("email") String email){
+		Membery membery = memberyService.findByEmailS(email);
+		System.out.println("입력한이메일: " + email + ", 회원: " + membery);
+		if(membery!=null){
+			return "true";
+		}
+		return "false";
 	}
 }

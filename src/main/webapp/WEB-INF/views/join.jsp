@@ -16,7 +16,7 @@
     <div class="join">
         <div class="inner">
             <div class="join-body">
-                <form method="post"  id="join-form" action="join_ok.do" class="join-page" novalidate="novalidate">
+                <form method="post"  id="join-form" action="join_ok" class="join-page" novalidate="novalidate">
                     <div class="page-header">
                         <h2>회원가입</h2><br/>
                         <div id="join_terms">약관을 모두 확인해주세요</div>
@@ -62,7 +62,7 @@
                                 <input type="text" id="mb_email" name="mb_email" class="form-control margin-bottom-20" value="" autocomplete="off">
                             </div>
                             <button id="emailCodebtn" type="button" class="normal-btn" style="margin-top:20px; margin-left:10px; display:none;">코드발송</button>
-                            <button id="emailReset"  type="button" class="normal-btn" style="margin-top:20px; margin-left:10px; display:none;">다시입력</button>
+                            <button id="emailReset"  type="button" class="normal-btn" style="margin-top:20px; margin-left:10px;">다시입력</button>
                         </div>
                         <div class="row">
                             <div class="row-in">
@@ -101,7 +101,7 @@
                         <div class="row">
                             <div class="row-in">
                                 <label>상세주소</label>
-                                <input type="text"id="mb_addrdetail" name="mb_addrdetail" class="form-control margin-bottom-20">
+                                <input type="text"id="mb_daddr" name="mb_daddr" class="form-control margin-bottom-20">
                             </div>
                         </div>
                         <div class="row">
@@ -172,6 +172,7 @@
 	const blankExp = /\s/g; //전체에서 공백찾기
 
 	function check(target){
+	    emconfirmchk = false;
 	    $("#join_message").html("<span id='emconfirmchk'></span>");
         $("#emconfirmchk").css({
             "color" : "#FA3E3E",
@@ -184,15 +185,37 @@
             if(emailVal.length == 0){
                 $("#join_message").html("<span id='emconfirmchk'>이메일 인증을 진행해주세요</span>");
                 $("#mb_email").focus();
+                emailCodeBtn.style.display = 'none';
                 return false;
             }else if(blankExp.test(emailVal)){
-                $("#join_message").html("<span id='emconfirmchk'>이메일 형식에 맞지 않습니다</span>");
+                $("#join_message").html("<span id='emconfirmchk'>공백을 포함할 수 없습니다</span>");
                 $("#mb_email").focus();
+                emailCodeBtn.style.display = 'none';
                 return false;
             }else if(!checkEmail(emailVal)){
                  $("#join_message").html("<span id='emconfirmchk'>이메일 형식에 맞지 않습니다</span>");
                  $("#mb_email").focus();
+                 emailCodeBtn.style.display = 'none';
                  return false;
+            }else{
+                $.ajax({
+                    type : "GET",
+                    url : "join/mailCheck",
+                    data : {email: $("#mb_email").val()},
+                    success : function(result){
+                        if(result == 'false'){
+                            emailCodeBtn.style.display = 'block';
+                            $("#join_message").html("<span id='emconfirmchk'>코드발송 버튼을 눌러주세요</span>");
+                            $("#emailCode").focus();
+                            return true;
+                        }else{
+                            $("#join_message").html("<span id='emconfirmchk'>이미 가입된 이메일입니다</span>");
+                            $("#mb_email").focus();
+                            emailCodeBtn.style.display = 'none';
+                            return false;
+                        }
+                    }
+                });
             }
         }else if(target == form.mb_pwd || target == form.mb_pwd2){
             var pwdVal = form.mb_pwd.value;
@@ -205,7 +228,7 @@
                 $("#join_message").html("<span id='emconfirmchk'>비밀번호가 너무 깁니다</span>");
                 $("#mb_pwd").focus();
                 return false;
-            }else if(checkPwdVal.length == 0){
+            }else if(pwdVal.length == 0){
                 $("#join_message").html("<span id='emconfirmchk'>비밀번호 확인을 진행해주세요</span>");
                 $("#mb_pwd2").focus();
                 return false;
@@ -213,10 +236,12 @@
                 $("#join_message").html("<span id='emconfirmchk'>두 비밀번호가 일치하지 않습니다</span>");
                 $("#mb_pwd2").focus();
                 return false;
+            }else{
+                $("#mb_name").focus();
+                return true;
             }
         }else if(target == form.mb_name){
-            var nameFoc = f.mb_name;
-            var nameVal = nameFoc.value;
+            var nameVal = form.mb_name.value;
             nameVal = trim(nameVal);
             if(nameVal.length==0){
                 $("#join_message").html("<span id='emconfirmchk'>이름을 입력해주세요</span>");
@@ -238,17 +263,62 @@
                 $("#join_message").html("<span id='emconfirmchk'>이름이 너무 깁니다</span>");
                 $("#mb_name").focus();
                 return false;
+            }else{
+                $("#mb_phone").focus();
+                return true;
             }
         }else if(target == form.mb_phone){
+            var phoneExp = /[e+-.]/g;
             var phoneFoc = form.mb_phone;
             var phoneVal = phoneFoc.value;
             if(phoneVal.length!=11){
-                $("#join_message").html("<span id='emconfirmchk'>전화번호는 11자리로 작성해주세요</span>");
-                $("#mb_addrdetail").focus();
+                $("#join_message").html("<span id='emconfirmchk'>숫자 11자리로만 입력 가능합니다</span>");
+                $("#mb_phone").focus();
+                return false;
+            }else if(phoneExp.test(phoneVal)){
+                $("#join_message").html("<span id='emconfirmchk'>숫자 11자리로만 입력 가능합니다</span>");
+                $("#mb_phone").focus();
+                return false;
+            }else{
+                $("#mb_daddr").focus();
+                return true;
+            }
+        }else if(target == form.mb_addr){
+            var addrVal = form.mb_addr.value;
+            if(addrVal.length==0){
+                $("#join_message").html("<span id='emconfirmchk'>주소를 검색해주세요</span>");
+                $("#mb_daddr").focus();
+                return false;
+            }else{
+                $("#mb_daddr").focus();
+                return true;
+            }
+        }else if(target == form.mb_daddr){
+            var addrdVal = form.mb_daddr.value;
+            if(addrdVal.length==0){
+                $("#join_message").html("<span id='emconfirmchk'>상세주소를 입력해주세요</span>");
+                $("#mb_daddr").focus();
+                return false;
+            }else{
+                $("#mb_salary").focus();
+                return true;
+            }
+        }else if(target == form.mb_salary){
+            var salVal = form.mb_salary.value;
+            if(salVal.length==0){
+                $("#join_message").html("<span id='emconfirmchk'>연봉을 입력해주세요</span>");
                 return false;
             }
+            return true;
+        }else{
+            $("#join_message").html("<span id='emconfirmchk'>모두 입력해주세요</span>");
+            $("#emconfirmchk").css({
+                "color" : "#FA3E3E",
+                "font-weight" : "bold",
+                "font-size" : "13px"
+            });
+            return false;
         }
-		f.submit();
 	}
 
 	// 비밀번호 형식 체크 기능
@@ -262,28 +332,23 @@
 	}
 
 	// 이메일 형식 체크 기능
-    	function checkEmail(str){
-    		var exp = /@/;
-    		if(regExp.test(str)) {
-    			if(str.split('@',2)[1].length != 0){
-    			    console.log("조각1: " + str.split('@',2)[0]);
-    			    console.log("조각2: " + str.split('@',2)[1]);
-    			    str = str.split('@',2)[1];
-    			    if(str.split('.',2)[0].length !=0 && str.split('.',2)[1].length !=0){
-                        console.log("조각2-1: " + str.split('.',2)[0]);
-                        console.log("조각2-2: " + str.split('.',2)[0]);
-    			        emailCodeBtn.style.display = 'block';
-    			        return true;
-    			    }else{
-    			        return false;
-    			    }
-    			}else{
-    			    return false;
-    			}
-    		}else{
-    			return false;
-    		}
-    	}
+    function checkEmail(str){
+        var exp = /@/;
+        if(exp.test(str)) {
+            if(str.split('@',2)[1].length != 0){
+                str = str.split('@',2)[1];
+                if(str.split('.',2)[0].length !=0 && str.split('.',2)[1].length !=0){
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
 
 	// 바이트 체크 기능(모델 Max-length 제한치 적용)
 	function check_byte(str){
@@ -294,7 +359,6 @@
 		return stringByteLength
 	}
 
-
     const form1 = document.getElementById("join-form1");
     const form2 = document.getElementById("join-form2");
     const form3 = document.getElementById("join-form3");
@@ -302,37 +366,9 @@
     const nextbtn2 = document.getElementById('next-btn-2');
     const nextbtn3 = document.getElementById('next-btn-3');
     const emailCodeBtn = document.getElementById('emailCodebtn');
+    const emailReset = document.getElementById('emailReset');
     const term = document.getElementById("join_terms");
     const form = document.getElementById("join-form");
-
-
-
-    form.addEventListener('keydown',function() {
-        if(event.keyCode == 13){
-            check(event.target);
-            if(event.target == form.mb_email){
-                form.emailCode.focus();
-            }else if(event.target == form.emailCode){
-                form.mb_pwd.focus();
-            }else if(event.target == form.mb_pwd){
-                form.mb_pwd2.focus();
-            }else if(event.target == form.mb_pwd2){
-                form.mb_name.focus();
-            }else if(event.target == form.mb_name){
-                form.mb_phone.focus();
-            }else if(event.target == form.mb_phone){
-                form.mb_job.focus();
-            }else if(event.target == form.mb_job){
-                form.mb_salary.focus();
-            }else if(event.target == form.mb_acpwd){
-                form.mb_acpwd2.focus();
-            }else if(event.target == form.mb_acpwd2){
-                form.mb_rate.focus();
-            }else{
-                check();
-            }
-        }
-    });
 
     function setTerms(target){
         switch(target){
@@ -348,16 +384,24 @@
 	        form1.style.display = 'none';
             form2.style.display = 'block';
 	    }else if(target==nextbtn2){
-	        form2.style.display = 'none';
-            form3.style.display = 'block';
+            if($('#mb_email').is('[readonly]') && $('#emailCode').is('[readonly]')){
+                form2.style.display = 'none';
+                form3.style.display = 'block';
+            }else{
+                emconfirmchk = false;
+                $("#join_message").html("<span id='emconfirmchk'>이메일 인증이 되지 않았습니다</span>");
+                $("#emconfirmchk").css({
+                    "color" : "#FA3E3E",
+                    "font-weight" : "bold",
+                    "font-size" : "13px"
+                });
+            }
 	    }else{
 	        form.submit();
 	    }
 	}
 
 	$("#emailReset").click(function() {
-	    document.getElementById('emailReset').style.display = 'none'
-	    emailCodeBtn.style.display = 'block'
 	    document.getElementById('mb_email').readOnly=false;
 	    document.getElementById('emailCode').readOnly=false;
         document.getElementById('emailCode').setAttribute('style','background-color:white;');
@@ -378,35 +422,58 @@
         }
     });
 
-    form2.addEventListener('keydown', function() {
-        var email = document.getElementById('mb_email').value;
-        var emailCodeVal = document.getElementById('emailCode').value;
-        var pwd = document.getElementById('mb_pwd').value;
-        var pwd2 = document.getElementById('mb_pwd2').value;
-        var name = document.getElementById('mb_name').value;
-        var phone = document.getElementById('mb_phone').value;
-        var addr = document.getElementById('mb_addr').value;
-        var job = document.getElementById('mb_job').value;
-        var sal = document.getElementById('mb_salary').value;
+    form2.addEventListener('keydown',function() {
+        if(event.keyCode == 13){
+            check(event.target);
+            if($('#mb_email').is('[readonly]') && $('#emailCode').is('[readonly]')){
+                if(check(form.mb_pwd) && check(form.mb_pwd2) && check(form.mb_name) && check(form.mb_phone) && check(form.mb_daddr) && check(form.mb_salary)){
+                    nextbtn2.style.display = 'block';
+                }else{
+                    nextbtn2.style.display = 'none';
+                }
+            }
+        }
+    });
 
-        if(email.trim().length != 0 && emailCodeVal.trim().length != 0 && pwd.trim().length != 0 && pwd2.trim().length != 0 && name.trim().length != 0 && phone.trim().length != 0 && addr.trim().length != 0 && sal.trim().length != 0){
-            nextbtn2.style.display = 'block'
-            console.log(job);
-        }else{
-            nextbtn2.style.display = 'none'
+    form2.addEventListener('click',function() {
+        check(event.target);
+        if($('#mb_email').is('[readonly]') && $('#emailCode').is('[readonly]')){
+            if(check(form.mb_pwd) && check(form.mb_pwd2) && check(form.mb_name) && check(form.mb_phone) && check(form.mb_daddr) && check(form.mb_salary)){
+                nextbtn2.style.display = 'block';
+            }else{
+                nextbtn2.style.display = 'none';
+            }
         }
     });
 
     form3.addEventListener('keydown', function(){
         let acpwd = document.getElementById('mb_acpwd').value;
         let acpwd2 = document.getElementById('mb_acpwd2').value;
-        let rate = document.getElementById('mb_rate').value;
-
-        if(acpwd.trim().length != 0 && acpwd2.trim().length != 0){
-            nextbtn3.style.display = 'block'
-            console.log(rate);
-        }else{
+        var exp = /[e+-.]/g;
+        if(acpwd.length!=4 | exp.test(acpwd)){
+            $("#join_message").html("<span id='emconfirmchk'>계좌비밀번호는 숫자 4자리입니다</span>");
+            $("#mb_acpwd").focus();
             nextbtn3.style.display = 'none'
+            return false;
+        }else if(acpwd2.length!=4 | exp.test(acpwd2)){
+            $("#join_message").html("<span id='emconfirmchk'>비밀번호를 확인해주세요</span>");
+            $("#mb_acpwd2").focus();
+            nextbtn3.style.display = 'none'
+            return false;
+        }else if(acpwd != acpwd2){
+            $("#join_message").html("<span id='emconfirmchk'>두 비밀번호가 일치하지 않습니다</span>");
+            $("#mb_acpwd2").focus();
+            nextbtn3.style.display = 'none'
+            return false;
+        }else{
+            emconfirmchk = true;
+            $("#join_message").html("<span id='emconfirmchk'>회원가입 버튼을 누르시면 완료됩니다</span>");
+            $("#emconfirmchk").css({
+                "color" : "#0D6EFD",
+                "font-weight" : "bold",
+                "font-size" : "13px"
+            });
+            nextbtn3.style.display = 'block'
         }
     });
 
@@ -423,6 +490,8 @@
              document.getElementById('mb_email').readOnly=true;
              alert("BankYam : 해당 이메일로 인증번호를 발송하였습니다")
              console.log("data : "+data);
+             form.emailCode.focus();
+             emailCodeBtn.style.display = 'none';
              chkEmailConfirm(data, $("#emailCode"), $("#join_message"));
           }
        })
@@ -454,7 +523,6 @@
 				emailCodeBtn.style.display = 'none';
 				document.getElementById('emailCode').setAttribute('style','background-color:#c8c8c8;');
 				document.getElementById('mb_email').setAttribute('style','background-color:#c8c8c8;');
-				document.getElementById('emailReset').style.display='block';
 			}
 		})
 	}
@@ -468,7 +536,7 @@
         new daum.Postcode({
             oncomplete: function(data) {
                 mb_addr.value = data.address;
-                form.mb_addrdetail.focus();
+                form.mb_daddr.focus();
             }
         }).open();
     });
