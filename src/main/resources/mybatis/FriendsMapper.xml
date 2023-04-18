@@ -88,6 +88,8 @@
             m.mb_seq = f.f_f_mb_seq
         WHERE
             f.f_mb_seq = #{mb_seq}
+        ORDER BY
+            m.mb_name
     </select>
 
     <select id="selectReqList" resultType="list" resultMap="friendReqMap" parameterType="Membery">
@@ -103,6 +105,8 @@
             fr_req_mb_seq = #{mb_seq}
         AND
             fr_status = '요청'
+        ORDER BY
+            m.mb_name
     </select>
 
     <select id="selectRecList" resultType="list" resultMap="friendReqMap" parameterType="Membery">
@@ -118,6 +122,8 @@
             fr_rec_mb_seq = #{mb_seq}
         AND
             fr_status = '요청'
+        ORDER BY
+            m.mb_name
     </select>
 
     <select id="selectBlList" resultType="list" resultMap="blocklistMap" parameterType="Membery">
@@ -131,6 +137,8 @@
             m.mb_seq = b.bl_bl_mb_seq
         WHERE
             b.bl_mb_seq = #{mb_seq}
+        ORDER BY
+            m.mb_name
     </select>
 
     <select id="checkFrReq" resultType="Friendreq" parameterType="Hashmap">
@@ -153,6 +161,17 @@
             BL_MB_SEQ = #{myId} AND BL_BL_MB_SEQ = #{frId}
     </select>
 
+    <select id="checkFr" resultType="Friend" parameterType="Hashmap">
+        SELECT
+            *
+        FROM
+            FRIEND
+        WHERE
+            (F_MB_SEQ = #{myId} and F_F_MB_SEQ = #{frId})
+        OR
+            (F_MB_SEQ = #{frId} and F_F_MB_SEQ = #{myId})
+    </select>
+
     <insert id="insertFrReq" parameterType="Hashmap" >
         <selectKey keyProperty="fr_seq" order="BEFORE" resultType="long">
             select FRIENDREQ_SEQ.nextval from dual
@@ -165,6 +184,20 @@
             select BLOCKLIST_SEQ.nextval from dual
         </selectKey>
         insert into BLOCKLIST values(#{bl_seq}, #{myId}, #{frId}, SYSDATE)
+    </insert>
+
+    <insert id="insertFrM" parameterType="Hashmap">
+        <selectKey keyProperty="f_seq" order="BEFORE" resultType="long">
+            select FRIEND_SEQ.nextval from dual
+        </selectKey>
+            insert into FRIEND values(#{f_seq}, #{myId}, #{frId}, SYSDATE)
+    </insert>
+
+    <insert id="insertFrF" parameterType="Hashmap">
+        <selectKey keyProperty="f_seq" order="BEFORE" resultType="long">
+            select FRIEND_SEQ.nextval from dual
+        </selectKey>
+        insert into FRIEND values(#{f_seq}, #{frId}, #{myId}, SYSDATE)
     </insert>
 
     <delete id="deleteFr" parameterType="Hashmap">
