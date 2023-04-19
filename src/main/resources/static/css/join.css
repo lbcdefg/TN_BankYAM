@@ -141,6 +141,9 @@ input:checked + label::before{
 	padding-right: 15px;
 	padding-left: 15px;
 }
+#mb_salary{
+    width:70%;
+}
 
 .row-in label, .row-half label, .row-third label, .row-1third label{
 	color: #777;
@@ -178,6 +181,16 @@ input:checked + label::before{
     padding-right: 30px;
 }
 .normal-btn{
+    height:35px;
+    width:80px;
+    font-size: 0.8rem;
+    color: var(--vsthemecolor);
+    background-color: var(--themecolor);
+    margin-top: 0;
+    transition: all 0.3s;
+}
+.edit-btn{
+    margin-left:70%;
     height:35px;
     width:80px;
     font-size: 0.8rem;

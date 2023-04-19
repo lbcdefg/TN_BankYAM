@@ -15,6 +15,7 @@ public class Membery {
     private String mb_pwd;
     private String mb_name;
     private String mb_addr;
+    private String mb_daddr;
     private String mb_phone;
     private String mb_job;
     private long mb_salary;

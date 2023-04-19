@@ -25,9 +25,15 @@ public interface FriendsMapper {
 
     Blocklist checkFrBlock(HashMap<String, Object> hashMap);
 
+    List<Friend> checkFr(HashMap<String, Object> hashMap);
+
     void insertFrReq(HashMap<String, Object> hashMap);
 
     void insertFrBlock(HashMap<String, Object> hashMap);
+
+    void insertFrM(HashMap<String, Object> hashMap);
+
+    void insertFrF(HashMap<String, Object> hashMap);
 
     void deleteFr(HashMap<String, Object> hashMap);
 

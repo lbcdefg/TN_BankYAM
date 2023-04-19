@@ -14,4 +14,9 @@ public class MemberServiceImpl implements MemberyService{
 	public Membery findByEmailS(String mb_email) {
 		return memberyMapper.findByEmail(mb_email);
 	}
+
+	@Override
+	public void editProfile(Membery membery) {
+		memberyMapper.editProfile(membery);
+	}
 }

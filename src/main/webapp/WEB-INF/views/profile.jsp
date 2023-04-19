@@ -61,9 +61,6 @@
                     <h2 style="margin:0;font-size:30px;">${membery.mb_name}</h2> &nbsp;
                     <p style="margin-top:15px;color:lightgray;">(${membery.mb_email})</p>
                 </div>
-                <div class="profile-friends">
-                    <h3 style="margin: 0;">친구: 145명</h3>
-                </div>
             </div>
         </div>
     </div>
@@ -74,8 +71,11 @@
                         내 정보
                 </li>
                 <div class="list-element1-contents">
-                    <a href="#">
+                    <a href="/member/editProfile">
                         -프로필변경
+                    </a>
+                    <a href="/friend/friends?content=list">
+                        -친구관리
                     </a>
                 </div>
                 <li class="list-element2">
@@ -107,7 +107,7 @@
                     <c:forEach items="${accountyList}" var="account">
                         <tr>
                         <td>
-                            예금통장
+                            ${account.product.pd_name}
                         </td>
                         <td>
                             ${account.ac_name}

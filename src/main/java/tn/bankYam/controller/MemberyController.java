@@ -78,10 +78,11 @@ public class MemberyController {
 	}
 
 	@GetMapping("profile")
-	public String profile(HttpSession session, HttpServletResponse response, Model model){
+	public String profile(HttpSession session, Model model){
 		Membery member = (Membery) session.getAttribute("membery");
 		Long mb_seq = member.getMb_seq();
 		List<Accounty> accountyList = accountyService.findAccByMemberId(mb_seq);
+		System.out.println(member);
 		model.addAttribute("membery", member);
 		model.addAttribute("accountyList", accountyList);
 
@@ -111,5 +112,22 @@ public class MemberyController {
 			return "true";
 		}
 		return "false";
+  }
+  
+	@GetMapping("editProfile")
+	public String editProfile(HttpSession session, Model model){
+		Membery member = (Membery) session.getAttribute("membery");
+		model.addAttribute("membery", member);
+		return "editProfile";
+	}
+  
+	@PostMapping("editProfile_ok")
+	public void editProfile_ok(HttpSession session, Membery editInfo,HttpServletResponse response,Model model)throws IOException{
+		Membery member = (Membery) session.getAttribute("membery");
+		editInfo.setMb_seq(member.getMb_seq());
+		memberyService.editProfile(editInfo);
+		editInfo = memberyService.findByEmailS(editInfo.getMb_email());
+		session.setAttribute("membery",editInfo);
+		ScriptUtil.alertAndMovePage(response, "프로필변경 완료", "profile");
 	}
 }
