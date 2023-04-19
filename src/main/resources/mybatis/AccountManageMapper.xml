@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tn.bankYam.mapper.AccountManageMapper">
+
+    <resultMap type="membery" id="memberyMap">
+        <id property="mb_seq" column="mb_seq" />
+        <result property="mb_email" column="mb_email" />
+        <result property="mb_pwd" column="mb_pwd" />
+        <result property="mb_name" column="mb_name" />
+        <result property="mb_addr" column="mb_addr" />
+        <result property="mb_phone" column="mb_phone" />
+        <result property="mb_job" column="mb_job" />
+        <result property="mb_salary" column="mb_salary" />
+        <result property="mb_credit" column="mb_credit" />
+        <result property="mb_imagepath" column="mb_imagepath" />
+        <result property="mb_rdate" column="mb_rdate" />
+        <result property="mb_wdate" column="mb_wdate" />
+    </resultMap>
+
+    <resultMap type="accounty" id="accountyMap">
+        <id property="ac_seq" column="ac_seq" />
+        <result property="ac_pwd" column="ac_pwd" />
+        <result property="ac_mb_seq" column="ac_mb_seq" />
+        <result property="ac_balance" column="ac_balance" />
+        <result property="ac_name" column="ac_name" />
+        <result property="ac_main" column="ac_main" />
+        <result property="ac_status" column="ac_status" />
+        <result property="ac_pd_seq" column="ac_pd_seq" />
+        <result property="ac_rdate" column="ac_rdate" />
+        <result property="ac_udate" column="ac_udate" />
+        <result property="ac_xdate" column="ac_xdate" />
+        <association property="membery" column="mb_seq" resultMap="memberyMap" />
+    </resultMap>
+
+    <select id="selectAcList" resultType="list" resultMap="accountyMap" parameterType="Membery">
+        SELECT
+            *
+        FROM
+            membery m
+        JOIN
+            accounty a
+        ON
+            m.mb_seq = a.ac_mb_seq
+        WHERE
+            m.mb_seq = #{mb_seq}
+        ORDER BY
+            a.ac_main
+        DESC
+    </select>
+
+    <select id="checkAcBeforeMain" resultType="Accounty" resultMap="accountyMap" parameterType="long">
+        SELECT
+            *
+        FROM
+            membery m
+        JOIN
+            accounty a
+        ON
+            m.mb_seq = a.ac_mb_seq
+        WHERE
+            m.mb_seq = #{mb_seq}
+        AND
+            a.ac_main = '주'
+    </select>
+
+    <select id="checkAc" resultType="Accounty" parameterType="Hashmap">
+        SELECT
+            *
+        FROM
+            membery m
+        JOIN
+            accounty a
+        ON
+            m.mb_seq = a.ac_mb_seq
+        WHERE
+            m.mb_seq = #{membery.mb_seq}
+        AND
+            a.ac_seq = #{ac_seq}
+    </select>
+
+    <update id="updateAcMain" parameterType="Accounty">
+        update Accounty set SUBJECT=#{subject}, CONTENT=#{content}, STATUS=#{status}, PINFOID=#{pinfoId}, PUDATE=SYSDATE where POSTID=#{postId}
+    </update>
+</mapper>

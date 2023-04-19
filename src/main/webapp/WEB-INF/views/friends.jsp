@@ -17,7 +17,7 @@
     <div class="frs-frame body-main">
         <div class="frs-lt">
             <div class="frs-search">
-                <input type="text" class="frs-search-input" id="searchFr" size="20"/>
+                <input type="text" class="frs-search-input" id="searchFr" placeholder="이메일 또는 계좌번호" size="20"/>
                 <button type="button" class="frs-search-btn" onclick="checkFrSearch()">검색</button>
             </div>
             <div class="frs-findFr">
@@ -80,7 +80,7 @@
                             <c:set var="loop_flag" value="false" />
                             <c:forEach items="${frBlocklist}" var="bl">
                                 <c:if test="${bl.membery.mb_seq == fl.membery.mb_seq}">
-                                    <td class="frs-list-15" style="color:#fd8b00">차단상태</a></td>
+                                    <td class="frs-list-15" style="color:#fd8b00">차단상태</td>
                                     <c:set var="loop_flag" value="true"/>
                                 </c:if>
                             </c:forEach>
