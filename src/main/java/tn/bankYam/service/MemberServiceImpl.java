@@ -35,6 +35,9 @@ public class MemberServiceImpl implements MemberyService{
 	}
 
 	@Override
+	public void joinMembery(Membery membery){
+		memberyMapper.joinMembery(membery);
+  }
 	public void updateImagepath(MultipartFile file, Membery membery) throws IOException {
 		String origName = file.getOriginalFilename(); // 원래 파일 이름 추출
 		String uuid = UUID.randomUUID().toString(); // 파일 이름으로 쓸 uuid 생성

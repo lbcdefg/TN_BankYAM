@@ -60,9 +60,14 @@
                             <div class="row-third">
                                 <label>이메일</label>
                                 <input type="text" id="mb_email" name="mb_email" class="form-control margin-bottom-20" value="" autocomplete="off">
+
                             </div>
-                            <button id="emailCodebtn" type="button" class="normal-btn" style="margin-top:20px; margin-left:10px; display:none;">코드발송</button>
-                            <button id="emailReset"  type="button" class="normal-btn" style="margin-top:20px; margin-left:10px;">다시입력</button>
+                            <div class="row-1third">
+                                <div class="join-wbtn">
+                                    <button id="emailCodebtn" type="button" class="normal-btn" style="display:none;">코드발송</button>&nbsp;
+                                    <button id="emailReset"  type="button" class="normal-btn">다시입력</button>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="row-in">
@@ -108,11 +113,11 @@
                             <div class="row-half">
                                 <label>직업</label>
                                 <select id="mb_job" name="mb_job" class="form-control margin-bottom-20">
-                                    <option value="unemployed" name="">무직</option>
-                                    <option value="student" name="">학생</option>
-                                    <option value="owner" name="">자영업</option>
-                                    <option value="officeWorker" name="">회사원</option>
-                                    <option value="publicOfficial" name="">공무원</option>
+                                    <option value="무직" name="">무직</option>
+                                    <option value="학생" name="">학생</option>
+                                    <option value="자영업" name="">자영업</option>
+                                    <option value="회사원" name="">회사원</option>
+                                    <option value="공무원" name="">공무원</option>
                                 </select>
                             </div>
                             <div class="row-half">
@@ -143,7 +148,7 @@
                         <div class="row">
                             <div class="row-in">
                                 <label>희망이자지급일</label>
-                                <select id="mb_rate" name="mb_rate" class="form-control margin-bottom-20 join-placeholderR">
+                                <select id="ac_udate" name="ac_udate" class="form-control margin-bottom-20 join-placeholderR">
                                     <option value="1" name="">매월 1일</option>
                                     <option value="5" name="">매월 5일</option>
                                     <option value="10" name="">매월 10일</option>
@@ -170,7 +175,18 @@
 <script language="javascript">
 	const regExp = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g; //전체에서 특수문자 찾기
 	const blankExp = /\s/g; //전체에서 공백찾기
+	const form1 = document.getElementById("join-form1");
+    const form2 = document.getElementById("join-form2");
+    const form3 = document.getElementById("join-form3");
+    const nextbtn1 = document.getElementById('next-btn-1');
+    const nextbtn2 = document.getElementById('next-btn-2');
+    const nextbtn3 = document.getElementById('next-btn-3');
+    const emailCodeBtn = document.getElementById('emailCodebtn');
+    const emailReset = document.getElementById('emailReset');
+    const term = document.getElementById("join_terms");
+    const form = document.getElementById("join-form");
 
+    // form2 유효성검사
 	function check(target){
 	    emconfirmchk = false;
 	    $("#join_message").html("<span id='emconfirmchk'></span>");
@@ -359,17 +375,7 @@
 		return stringByteLength
 	}
 
-    const form1 = document.getElementById("join-form1");
-    const form2 = document.getElementById("join-form2");
-    const form3 = document.getElementById("join-form3");
-    const nextbtn1 = document.getElementById('next-btn-1');
-    const nextbtn2 = document.getElementById('next-btn-2');
-    const nextbtn3 = document.getElementById('next-btn-3');
-    const emailCodeBtn = document.getElementById('emailCodebtn');
-    const emailReset = document.getElementById('emailReset');
-    const term = document.getElementById("join_terms");
-    const form = document.getElementById("join-form");
-
+    // form1에서 라벨클릭시 해당 이용약관 보이기
     function setTerms(target){
         switch(target){
             case document.getElementById("term1-p"): term.innerHTML="<p>전자금융거래기본약관</p><p>Tropical Night 주식회사(이하 'TN'이라 함)은 이용자가 뱅크얌 홈페이지 서비스를 이용하기 위해 제공하신 개인정보를 매우 소중히 여기며, 이용자가 안심하고 뱅크얌 홈페이지 서비스를 이용하실 수 있도록 이용자의 개인정보보호에 최선을 다하고 있습니다. TN은 '정보통신망 이용촉진 및 정보보호 등에 관한 법률' 및 '개인정보보호법' 상의 개인정보보호 규정과 동 법률의 시행령을 준수하고 있으며, TN의 개인정보처리방침은 정부의 법률이나 TN의 내부 방침 변경 등으로 인하여 변경될 수 있으므로, 이러한 변경의 경우 변경사항을 이용자가 쉽게 확인하실 수 있도록 뱅크얌 홈페이지에 게시하고 있습니다. TN이 취급하는 모든 개인정보는 관련법령에 근거하거나 이용자의 동의에 의하여 수집 • 보유 및 처리되고 있습니다.</p><p></br>1. 개인정보의 수집 및 이용목적</br>(1) 서비스 제공을 위한 계약의 체결 및 서비스 이행</br>- 컨텐츠 제공, 금융거래 본인 인증 및 금융서비스 제공 등</br>- 이벤트 또는 행사에 참가하는 경우 인적사항의 확인, 당선 또는 당첨 여부 확인 및 안내, 이벤트 또는 행사 진행 관련 안내, 물품배송</br>(2) 회원관리</br>- 회원가입 및 서비스 이용시 본인의 확인, 분쟁조정을 위한 기록보존, 불만처리 등 민원처리, 고지사항 전달</br>- 불량회원의 부정 이용 방지와 비인가 사용 방지</br>- 회원의 관심분야에 따른 각종 개인 맞춤 서비스의 제공</br>- 회원가입 경로 파악 및 앱 內 행태정보를 통한 서비스 개선</br>- 상담신청에 대한 응대 등</br></p>"; break;
@@ -378,12 +384,16 @@
         }
     }
 
+
+    // 각 form 에서 다음 혹은 가입 버튼 클릭시
 	function next(target){
 	    if(target==nextbtn1){
+	        console.log("다음1버튼 클릭");
 	        term.style.display='none';
 	        form1.style.display = 'none';
             form2.style.display = 'block';
 	    }else if(target==nextbtn2){
+	        console.log("다음2버튼 클릭");
             if($('#mb_email').is('[readonly]') && $('#emailCode').is('[readonly]')){
                 form2.style.display = 'none';
                 form3.style.display = 'block';
@@ -396,21 +406,13 @@
                     "font-size" : "13px"
                 });
             }
-	    }else{
+	    }else if(target==nextbtn3){
 	        form.submit();
 	    }
 	}
 
-	$("#emailReset").click(function() {
-	    document.getElementById('mb_email').readOnly=false;
-	    document.getElementById('emailCode').readOnly=false;
-        document.getElementById('emailCode').setAttribute('style','background-color:white;');
-        document.getElementById('mb_email').setAttribute('style','background-color:white;');
-        document.getElementById('mb_email').value = "";
-        document.getElementById('emailCode').value = "";
-        $("#join_message").html("");
-	});
 
+    // form1 다음페이지 버튼 활성화과정
 	form1.addEventListener('click', function() {
 	    let term_ck1 = document.getElementById('join-terms1').checked;
 	    let term_ck2 = document.getElementById('join-terms2').checked;
@@ -422,6 +424,20 @@
         }
     });
 
+
+    // form2 에서 다시입력 버튼 클릭시 event
+    $("#emailReset").click(function() {
+        document.getElementById('mb_email').readOnly=false;
+        document.getElementById('emailCode').readOnly=false;
+        document.getElementById('emailCode').setAttribute('style','background-color:white;');
+        document.getElementById('mb_email').setAttribute('style','background-color:white;');
+        document.getElementById('mb_email').value = "";
+        document.getElementById('emailCode').value = "";
+        $("#join_message").html("");
+    });
+
+
+    // form2 다음페이지 버튼 활성화과정
     form2.addEventListener('keydown',function() {
         if(event.keyCode == 13){
             check(event.target);
@@ -434,7 +450,6 @@
             }
         }
     });
-
     form2.addEventListener('click',function() {
         check(event.target);
         if($('#mb_email').is('[readonly]') && $('#emailCode').is('[readonly]')){
@@ -446,6 +461,8 @@
         }
     });
 
+
+    // form3 유효성검사
     form3.addEventListener('keydown', function(){
         let acpwd = document.getElementById('mb_acpwd').value;
         let acpwd2 = document.getElementById('mb_acpwd2').value;
@@ -477,6 +494,7 @@
         }
     });
 
+
     // 이메일 인증번호
     $("#emailCodebtn").click(function() {
         console.log("코드발송 버튼을 누름");
@@ -496,6 +514,7 @@
           }
        })
     });
+
 
 	// 이메일 인증번호 체크 함수
 	function chkEmailConfirm(data, emailCode, join_message){

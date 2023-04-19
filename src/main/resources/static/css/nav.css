@@ -75,7 +75,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .nav-menu{
     display: inline-flex;
     width: auto;
-    height:45px;
+    height:50px;
     justify-content: flex-end;
     align-items: end;
     padding: 0px;
@@ -85,7 +85,7 @@ input[type="number"]::-webkit-inner-spin-button {
     display: inline-block;
     float: left;
     margin-left: 15px;
-    font-size: 10px;
+    font-size: 18px;
     border-bottom: 0px solid transparent;
     transition: all 0.2s;
     width:130px;
@@ -94,7 +94,7 @@ input[type="number"]::-webkit-inner-spin-button {
 .nav-menu-item a {
     display: block;
     padding: 10px 15px;
-    font-size: 1.3rem;
+    font-size: 1.8rem;
     font-weight: 300;
     color: var(--vsthemecolor);
     transition: all 0.5s;
@@ -216,16 +216,16 @@ input[type="number"]::-webkit-inner-spin-button {
 
 @media screen and (max-width: 700px){
     .nav-header{
-        height: 80px;
+        height: 100px;
     }
     .nav-image{
-        height: 50px;
+        height: 90px;
         margin-left: 10px;
         margin-right: 10px;
     }
     .nav-header:hover .nav-image-hover{
         display: block;
-        height: 50px;
+        height: 90px;
         width:auto;
         margin-top: 3px;
         margin-left: 11px;
@@ -250,16 +250,16 @@ input[type="number"]::-webkit-inner-spin-button {
 
 @media screen and (min-width: 701px){
     .nav-header{
-        height: 80px;
+        height: 120px;
     }
     .nav-image{
-        height: 60px;
+        height: 90px;
         margin-left: 10px;
         margin-right: 10px;
     }
     .nav-header:hover .nav-image-hover{
         display: block;
-        height: 60px;
+        height: 90px;
         width:auto;
         margin-top: 5px;
         margin-left: 12px;
@@ -279,7 +279,7 @@ input[type="number"]::-webkit-inner-spin-button {
         display: none;
     }
     .response-login{
-        width: 40px;
+        width: 50px;
         display: block;
         filter: invert();
     }
@@ -300,7 +300,13 @@ input[type="number"]::-webkit-inner-spin-button {
         filter: none;
     }
 }
-@media screen and (min-width: 1270px){
+@media screen and (max-width: 1270px){
+    .nav-menu{
+        padding-right:30px;
+    }
+}
+
+@media screen and (min-width: 1271px){
     .nav-header{
         height: 100px;
     }
