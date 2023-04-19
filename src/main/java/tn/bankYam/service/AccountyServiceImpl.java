@@ -3,6 +3,7 @@ package tn.bankYam.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.bankYam.dto.Accounty;
+import tn.bankYam.dto.Product;
 import tn.bankYam.mapper.AccountyMapper;
 
 import java.util.List;
@@ -67,5 +68,10 @@ public class AccountyServiceImpl implements AccountyService{
     @Override
     public List<Accounty> findAccByMemberId(long ac_mb_seq) {
         return mapper.findAccByMemberId(ac_mb_seq);
+    }
+
+    @Override
+    public Product findPdBySeq(long seq){
+        return mapper.findPdBySeq(seq);
     }
 }

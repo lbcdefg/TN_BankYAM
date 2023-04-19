@@ -9,16 +9,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import tn.bankYam.dto.Accounty;
 import org.springframework.web.bind.annotation.*;
 import tn.bankYam.dto.Membery;
+import tn.bankYam.dto.Product;
 import tn.bankYam.service.AccountyService;
 import tn.bankYam.service.MemberyService;
 import tn.bankYam.service.RegisterMail;
 import tn.bankYam.utils.SHA256;
 import tn.bankYam.utils.ScriptUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
 import java.util.List;
 
 @Controller
@@ -129,5 +132,43 @@ public class MemberyController {
 		editInfo = memberyService.findByEmailS(editInfo.getMb_email());
 		session.setAttribute("membery",editInfo);
 		ScriptUtil.alertAndMovePage(response, "프로필변경 완료", "profile");
+	}
+
+	@PostMapping("join_ok")
+	public String joinMember(Membery membery, HttpServletRequest request) throws NoSuchAlgorithmException {
+		// view에서 받아온 값 외 신용점수 + 비밀번호 복호화해서 insert 보내기
+		membery.setMb_credit(setCredit(membery.getMb_job(),membery.getMb_salary()));
+		membery.setMb_pwd(SHA256.encrypt(membery.getMb_pwd()));
+		memberyService.joinMembery(membery);
+
+		//
+		Accounty accounty = new Accounty();
+		Membery memberyVal = memberyService.findByEmailS(membery.getMb_email());
+		accounty.setMembery(memberyVal);
+		Product product = accountyService.findPdBySeq(1);
+		accounty.setProduct(product);
+
+		return "redirect:/";
+	}
+
+	public long setCredit(String job,long sal){ //신용점수계산
+		int job_score;
+		long sal_score = (sal-3000)/100;
+
+		switch(job){
+			case "자영업" : job_score = -50; break;
+			case "회사원" : job_score = 50; break;
+			case "공무원" : job_score = 100; break;
+			default: job_score = 0;
+		}
+
+		long credit = 650 + job_score + sal_score;
+		if(credit > 900){
+			return 900;
+		}else if(credit < 650){
+			return 650;
+		}else{
+			return credit;
+		}
 	}
 }

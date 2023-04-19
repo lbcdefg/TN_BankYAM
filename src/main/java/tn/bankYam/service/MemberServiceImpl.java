@@ -19,4 +19,9 @@ public class MemberServiceImpl implements MemberyService{
 	public void editProfile(Membery membery) {
 		memberyMapper.editProfile(membery);
 	}
+
+	@Override
+	public void joinMembery(Membery membery){
+		memberyMapper.joinMembery(membery);
+	}
 }
