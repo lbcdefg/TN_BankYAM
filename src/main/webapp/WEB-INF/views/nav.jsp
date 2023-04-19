@@ -32,7 +32,7 @@
                     <div class="nav-post-box">
                         <a class="hidden-a" href="#">이체</a>
                         <a class="hidden-a" href="#">거래내역</a>
-                        <a class="hidden-a" href="#">계좌관리</a>
+                        <a class="hidden-a" href="/accountM/accounts">계좌관리</a>
                     </div>
                 </li>
                 <li class="nav-menu-item menu-show" id="nav-post">

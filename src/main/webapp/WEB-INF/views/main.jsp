@@ -21,7 +21,7 @@
                     </a>
                 </div>
                 <div class="main-button-div2">
-                    <a href="#" class="main-button3">
+                    <a href="/accountM/accounts" class="main-button3">
                         <div class="button-content">계좌관리</div>
                     </a>
                     <a href="/friend/friends?content=list" class="main-button4">
