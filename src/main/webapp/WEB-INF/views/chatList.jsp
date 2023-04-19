@@ -27,8 +27,8 @@
 <div class="body-main">
     <div class="chat-buttons">
         <ul class="button-list">
-            <li><a href="/board/list.do">마지막 대화 시간</a></li>
-            <li><a href="/board/list.do">채팅방 이름</a></li>
+            <%--<li><a href="/board/list.do">마지막 대화 시간</a></li>
+            <li><a href="/board/list.do">채팅방 이름</a></li> --%>
             <li class="active btn-open-chat"><a>채팅방 만들기</a></li>
             <li class="active btn-open-group"><a>그룹 채팅방 만들기</a></li>
         </ul>
@@ -38,7 +38,7 @@
             <c:forEach var="chatroom" items="${chatroomList}">
                 <li class="album-table-content">
                     <span class="alarmCount">${chatroom.status_count}</span>
-                    <a onClick="window.open('room?cr_seq='+${chatroom.cr_seq}, '', 'width=400, height=500'); return false;" class="album-table-img">
+                    <a onClick="windowOpen(${chatroom.cr_seq}); return false;" class="album-table-img">
                     <c:if test="${fn:length(chatroom.memberyList) == 2}">
                         <c:forEach var="membery" items="${chatroom.memberyList}">
                             <c:if test="${membery.mb_seq != sessionScope.membery.mb_seq}">
@@ -51,7 +51,7 @@
                     </c:if>
                     <dl>
                         <dt>
-                            <a onClick="window.open('room?cr_seq='+${chatroom.cr_seq}, '', 'width=400, height=500'); return false;" class="album-table-sub" title="채팅방이름">
+                            <a onClick="windowOpen(${chatroom.cr_seq}); return false;" class="album-table-sub" title="채팅방이름">
                                 <c:if test="${chatroom.cr_name != null}">
                                     ${chatroom.cr_name}
                                 </c:if>
@@ -65,7 +65,7 @@
                             </a>
                         </dt>
                         <dd>${chatroom.chatcontent.cc_content}</dd>
-                        <dd>${chatroom.chatcontent.cc_rdate}</dd>
+                        <dd>${chatroom.chatcontent.cc_rdate_day} ${chatroom.chatcontent.cc_rdate_time}</dd>
                     </dl>
                 </li>
             </c:forEach>
@@ -75,7 +75,7 @@
                 <img style="vertical-align:top; border:none" src="css/imgs/NoImage.png"></a>
                 <dl>
                     <dt>
-                        <a onClick="window.open('room', '', 'width=400, height=500'); return false;" class="album-table-sub" title="채팅방이름">
+                        <a onClick="windowOpen()" class="album-table-sub" title="채팅방이름">
                         채팅방 이름</a>
                     </dt>
                     <dd>마지막 대화</dd>
@@ -90,7 +90,7 @@
             <div class="make-chat-body">
                 일대일 채팅방 만들기
                 <a class="chat-close">닫기</a>
-                <button>만들기</button>
+                <input type="button" onclick="makeRoom('chat')" value="만들기"/>
                 <div class="friend-list">
                     <c:forEach var="friend" items="${frList}">
                         <label class="member-info" for="r-${friend.membery.mb_seq}" id="fr-1">
@@ -114,7 +114,7 @@
         <div class="make-group-body">
         그룹 채팅방 만들기
         <a class="group-close">닫기</a>
-        <button>만들기</button>
+        <input type="button" onclick="makeRoom('group')" value="만들기"/>
             <div class="friend-list">
                 <c:forEach var="friend" items="${frList}">
                     <label class="member-info" for="c-${friend.membery.mb_seq}" id="fr-1">
@@ -136,6 +136,9 @@
 </body>
 <%@ include file="/WEB-INF/views/footer.jsp" %>
 <script>
+    function windowOpen(roomNumber){
+        window.open('room?cr_seq='+roomNumber, '', 'width=365, height=550');
+    }
     const chatModal = document.querySelector('.make-chat');
     const btnOpenChat = document.querySelector('.btn-open-chat');
     const btnCloseChat = document.querySelector('.chat-close');
@@ -158,4 +161,33 @@
         groupModal.classList.toggle('show');
     });
 
+    function makeRoom(type){
+        var value = new Array();
+        if(type=="chat"){
+            value.push($("input[type=radio][name=f_mb_seq]:checked").val());
+        }else{
+            var list = $("input[type=checkbox][name=f_mb_seq]");
+            for(var i=0; i<list.length; i++){
+                if(list[i].checked){
+                    value.push(list[i].value);
+                }
+            }
+        }
+        if(value.length == 0 || value.length == ""){
+            alert("대화상대를 선택하세요");
+            return false;
+        }
+        $.ajax({
+            url: "insert",
+            type: "GET",
+            data: {f_mb_seq: value},
+            success: function(roomNumber){
+                windowOpen(roomNumber);
+                location.reload();
+            },
+            error: function(error){
+                console.log("error: " + error);
+            }
+        });
+    }
 </script>

@@ -74,6 +74,7 @@ a {
 .wrap .ch2 .chat-content .chat-info{
     float:right;
     margin-right: 10px;
+    margin-left:  65px;
 }
 .wrap .chat .chat-content .textbox {
     position: relative;

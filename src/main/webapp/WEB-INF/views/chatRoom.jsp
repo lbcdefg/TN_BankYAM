@@ -33,9 +33,17 @@
                 <a><img src="/img/exit.png"></a>
             </div>
             <div class="file-list">
+                <c:forEach var="file" items="${files}">
+                    <a class="chat-file">
+                        <div class="file-type">
+                            ${fn:substring(file.cf_orgnm,fn:indexOf(file.cf_orgnm,'.'),fn:length(file.cf_orgnm)) }
+                        </div>
+                        <span class="file-name">${file.cf_orgnm}</span>
+                    </a>
+                </c:forEach>
                 <a class="chat-file">
                     <div class="file-type">
-                        txt
+                        ${fn:substring('A.txt',fn:indexOf('A.txt','.')+1,fn:length('A.txt')) }
                     </div>
                     <span class="file-name">파일1</span>
                 </a>
@@ -78,56 +86,59 @@
             <%-- 대화상대(누르면 대화상대랑 거래내역, 이체) --%>
             <div class="chat-member">
                 <div class="member-info">
-                    <img src="/img/character/sad.png"/>
+                    <img src="${sessionScope.membery.mb_imagepath}"/>
                     <div class="me">나</div>
-                    <span class="name">아무개</span>
+                    <span class="name">${sessionScope.membery.mb_name}</span>
                 </div>
-                <div class="member-info">
-                    <img src="/img/character/sad.png"/>
-                    <div class="send-button">송금</div>
-                    <span class="name">아무개</span>
-                </div>
+                <c:forEach var="membery" items="${roomInfo.memberyList}">
+                    <c:if test="${membery.mb_seq != sessionScope.membery.mb_seq}">
+                         <div class="member-info">
+                             <img src="${membery.mb_imagepath}"/>
+                             <div class="send-button">송금</div>
+                             <span class="name">${membery.mb_name}</span>
+                         </div>
+                    </c:if>
+                </c:forEach>
             </div>
         </div>
-        <span class="group-name">아무개</span>
+        <span class="group-name">
+            <c:if test="${roomInfo.cr_name ne '' || roomInfo.cr_name ne null}">
+                ${roomInfo.cr_name}
+            </c:if>
+            <c:if test="${roomInfo.cr_name eq '' || roomInfo.cr_name eq null}">
+                <c:forEach var="membery" items="${roomInfo.memberyList}">
+                    <c:if test="${membery.mb_seq != sessionScope.membery.mb_seq}">
+                        ${membery.mb_name}&nbsp;
+                    </c:if>
+                </c:forEach>
+            </c:if>
+        </span>
     </div>
-    <div class="wrap">
-        <div class="chat ch1">
-            <div class="icon"><img src="/img/character/yammy.png" class="fa-solid fa-user"></i></div>
-            <div class="chat-content">
-                <div class="chat-info">
-                    <span>아무개</span><span>시간</span>
+    <div class="wrap" id="wrap">
+        <c:forEach var="content" items="${contents}">
+            <c:if test="${sessionScope.membery.mb_seq eq content.membery.mb_seq}">
+                <div class="chat ch2">
+                    <div class="icon"><img src="${sessionScope.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                    <div class="chat-content">
+                        <div class="chat-info">
+                            <span>${content.membery.mb_name}</span><span>${content.cc_rdate_time}</span>
+                        </div>
+                        <div class="textbox">${content.cc_content}</div>
+                    </div>
                 </div>
-                <div class="textbox">안녕하세요. 반갑습니다.</div>
-            </div>
-        </div>
-        <div class="chat ch2">
-            <div class="icon"><i class="fa-solid fa-user"></i></div>
-            <div class="chat-content">
-                <div class="chat-info">
-                    <span>아무개</span><span>시간</span>
+            </c:if>
+            <c:if test="${sessionScope.membery.mb_seq ne content.membery.mb_seq}">
+                <div class="chat ch1">
+                    <div class="icon"><img src="${content.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                    <div class="chat-content">
+                        <div class="chat-info">
+                            <span>${content.membery.mb_name}</span><span>${content.cc_rdate_time}</span>
+                        </div>
+                        <div class="textbox">${content.cc_content}</div>
+                    </div>
                 </div>
-                <div class="textbox">안녕하세요. 친절한효자손입니다. 그동안 잘 지내셨어요?</div>
-            </div>
-        </div>
-        <div class="chat ch1">
-            <div class="icon"><i class="fa-solid fa-user"></i></div>
-            <div class="chat-content">
-                <div class="chat-info">
-                    <span>아무개</span><span>시간</span>
-                </div>
-                <div class="textbox">아유~ 너무요너무요! 요즘 어떻게 지내세요?</div>
-            </div>
-        </div>
-        <div class="chat ch2">
-            <div class="icon"><i class="fa-solid fa-user"></i></div>
-            <div class="chat-content">
-                <div class="chat-info">
-                    <span>아무개</span><span>시간</span>
-                </div>
-                <div class="textbox">뭐~ 늘 똑같은 하루 하루를 보내는 중이에요. 코로나가 다시 극성이어서 모이지도 못하구 있군요 ㅠㅠ 얼른 좀 잠잠해졌으면 좋겠습니다요!</div>
-            </div>
-        </div>
+            </c:if>
+        </c:forEach>
     </div>
     <textarea class="chat-text" required="required"></textarea>
     <div class="modal">
@@ -180,6 +191,7 @@
     </div>
 </body>
 <script>
+    $("#wrap").scrollTop($("#wrap")[0].scrollHeight);
     const modal = document.querySelector('.modal');
     const btnOpenPopup = document.querySelector('.btn-open-popup');
     const btnClosePopup = document.querySelector('.modal-close');
