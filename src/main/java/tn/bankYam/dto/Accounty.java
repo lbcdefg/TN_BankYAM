@@ -23,4 +23,5 @@ public class Accounty {
     private Date ac_xdate;
 
     private Membery membery;
+    private Product product;
 }
