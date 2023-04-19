@@ -61,6 +61,12 @@
                     <h2 style="margin:0;font-size:30px;">${membery.mb_name}</h2> &nbsp;
                     <p style="margin-top:15px;color:lightgray;">(${membery.mb_email})</p>
                 </div>
+                <div>
+                    <form name="f" action="edit_photo_ok" method="post" enctype="multipart/form-data">
+                    <input type="file" id="upload_btn" class="upload_btn" name="file">
+                    <label for="upload_btn" id="upload_btn_label">사진변경</label>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -110,7 +116,7 @@
                             ${account.product.pd_name}
                         </td>
                         <td>
-                            ${account.ac_name}
+                            ${account.ac_name}(${account.ac_main})
                         </td>
                         <td>
                             ${account.ac_seq}
@@ -160,4 +166,9 @@
         </div>
     </div>
 </body>
+        <script>
+            $("#upload_btn").on("change", function(event){
+               f.submit();
+            });
+        </script>
 <%@ include file="/WEB-INF/views/footer.jsp" %>

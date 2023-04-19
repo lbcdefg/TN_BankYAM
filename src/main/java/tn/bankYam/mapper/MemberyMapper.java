@@ -5,7 +5,8 @@ import tn.bankYam.dto.Membery;
 
 @Mapper
 public interface MemberyMapper {
-	Membery findBySeq(long mb_seq);
 	Membery findByEmail(String mb_email);
-	void editProfile(Membery membery);
+	Membery findBySeq(Long mb_seq);
+	 void editProfile(Membery membery);
+	void updateImagepath(Membery membery);
 }

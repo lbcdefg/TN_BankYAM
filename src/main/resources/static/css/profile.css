@@ -32,6 +32,25 @@
     border-bottom: 0.5px solid rgb(156, 156, 156);
     padding-bottom: 10px;
 }
+.upload_btn{
+    display:none;
+}
+#upload_btn_label{
+    display:inline-block;
+    text-transform: uppercase;
+    color:var(--vsthemecolor);
+    background-color: var(--themecolor);
+    text-align: center;
+    height:20px;
+    padding:12px 25px;
+    font-size:13px;
+    user-select:none;
+    cursor:pointer;
+    border-radius:5px;
+    margin-left: 20px;
+    margin-top: 15px;
+
+}
 
 
 .profile-edit{
@@ -139,7 +158,7 @@
 .list table tbody{
     display:block;
 }
-.list-table tbody tr:nth-child(2n+1){
+.list-table tbody tr:nth-child(1){
     background-color: white;
 }
 .list-table td, .list-table tr{
