@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
 import tn.bankYam.dto.Accounty;
 import org.springframework.web.bind.annotation.*;
 import tn.bankYam.dto.Membery;
@@ -122,12 +123,27 @@ public class MemberyController {
 	}
   
 	@PostMapping("editProfile_ok")
-	public void editProfile_ok(HttpSession session, Membery editInfo,HttpServletResponse response,Model model)throws IOException{
+	public void editProfile_ok(HttpSession session, Membery editInfo,HttpServletResponse response)throws IOException{
 		Membery member = (Membery) session.getAttribute("membery");
-		editInfo.setMb_seq(member.getMb_seq());
-		memberyService.editProfile(editInfo);
-		editInfo = memberyService.findByEmailS(editInfo.getMb_email());
-		session.setAttribute("membery",editInfo);
-		ScriptUtil.alertAndMovePage(response, "프로필변경 완료", "profile");
+		if(member.getMb_pwd().equals(editInfo.getMb_pwd()) ) {
+			editInfo.setMb_seq(member.getMb_seq());
+			memberyService.editProfile(editInfo);
+			editInfo = memberyService.findByEmailS(editInfo.getMb_email());
+			session.setAttribute("membery", editInfo);
+			ScriptUtil.alertAndMovePage(response, "프로필변경 완료", "profile");
+		}else {
+			ScriptUtil.alertAndBackPage(response,"비밀번호가 일치하지 않아요");
+		}
+	}
+	@PostMapping("edit_photo_ok")
+	public void edit_photo_ok(HttpSession session, Membery editPhoto, HttpServletResponse response, MultipartFile file) throws IOException{
+		Membery member = (Membery) session.getAttribute("membery");
+		editPhoto.setMb_seq(member.getMb_seq());
+		System.out.println(file.getOriginalFilename());
+		memberyService.updateImagepath(file,editPhoto);
+		editPhoto = memberyService.findBySeq(editPhoto.getMb_seq());
+		session.setAttribute("membery", editPhoto);
+		ScriptUtil.alertAndMovePage(response, "프로필사진 변경 완료", "profile");
+
 	}
 }
