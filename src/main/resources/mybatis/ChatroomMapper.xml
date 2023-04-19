@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tn.bankYam.mapper.ChatroomMapper">
+
+    <resultMap id="chatmember" type="Chatmember">
+        <result property="cm_cr_seq" column="CM_CR_SEQ" />
+        <result property="cm_mb_seq" column="CM_MB_SEQ" />
+        <association property="membery" column="mb_seq" resultMap="membery"/>
+    </resultMap>
+    <resultMap id="membery" type="Membery">
+        <id property="mb_seq" column="mb_seq" />
+        <result property="mb_email" column="mb_email" />
+        <result property="mb_pwd" column="mb_pwd" />
+        <result property="mb_name" column="mb_name" />
+        <result property="mb_addr" column="mb_addr" />
+        <result property="mb_phone" column="mb_phone" />
+        <result property="mb_job" column="mb_job" />
+        <result property="mb_salary" column="mb_salary" />
+        <result property="mb_credit" column="mb_credit" />
+        <result property="mb_imagepath" column="mb_imagepath" />
+        <result property="mb_rdate" column="mb_rdate" />
+        <result property="mb_wdate" column="mb_wdate" />
+    </resultMap>
+    <resultMap id="chatfile" type="Chatfile">
+        <id property="cf_seq" column="CF_SEQ" />
+        <result property="cf_orgnm" column="CF_ORGNM" />
+        <result property="cf_savednm" column="CF_SAVEDNM" />
+        <result property="cf_savedpath" column="CF_SAVEDPATH" />
+        <result property="cf_size" column="CF_SIZE" />
+    </resultMap>
+    <resultMap id="chatcontent" type="Chatcontent">
+        <id property="cc_seq" column="CC_SEQ" />
+        <result property="cc_content" column="CC_CONTENT" />
+        <result property="cc_rdate" column="CC_RDATE" />
+        <result property="cc_rdate_day" column="CC_RDATE_DAY" />
+        <result property="cc_rdate_time" column="CC_RDATE_TIME" />
+        <association property="membery" resultMap="membery" />
+        <association property="chatfile" resultMap="chatfile" />
+    </resultMap>
+    <resultMap id="chatroom" type="Chatroom">
+        <id property="cr_seq" column="CR_SEQ" />
+        <result property="cr_name" column="CR_NAME" />
+        <result property="cr_rdate" column="CR_RDATE" />
+        <result property="cr_udate" column="CR_UDATE" />
+        <result property="status_count" column="STATUS_COUNT" />
+        <association property="chatcontent" resultMap="chatcontent" />
+        <collection column="cr_seq" property="memberyList" ofType="Membery"
+                    javaType="list" select="selectChatMember" />
+    </resultMap>
+    <select id="selectChatRoom" resultMap="chatroom" parameterType="map">
+        SELECT CR_SEQ, CR_NAME, CR_RDATE, CR_UDATE, CC_CR_SEQ, CC_CONTENT, CC_RDATE,
+        TO_CHAR(CC_RDATE, 'YYYY-MM-DD') CC_RDATE_DAY, TO_CHAR(CC_RDATE, 'HH24:MI:SS') CC_RDATE_TIME,
+        (SELECT COUNT(*) FROM CHATSTATUS JOIN CHATCONTENT ON CS_CC_SEQ=CC_SEQ WHERE CC_CR_SEQ=CR_SEQ GROUP BY CC_CR_SEQ) STATUS_COUNT
+        FROM CHATROOM CR
+        LEFT JOIN
+        (SELECT CT.CC_CR_SEQ, CT.CC_CONTENT, CT.CC_RDATE
+        FROM CHATCONTENT CT
+        JOIN
+        (SELECT CC_CR_SEQ, MAX(CC_SEQ) CC_SEQ
+        FROM CHATCONTENT
+        GROUP BY CC_CR_SEQ) CT2
+        ON CT.CC_SEQ = CT2.CC_SEQ) CC
+        ON CR.CR_SEQ=CC.CC_CR_SEQ
+        WHERE CR_SEQ IN(SELECT CM_CR_SEQ FROM CHATMEMBER WHERE CM_MB_SEQ=#{mb_seq})
+        ORDER BY CC_RDATE DESC
+    </select>
+    <select id="selectChatMember" resultType="Membery" parameterType="long">
+        SELECT * FROM CHATMEMBER CM JOIN MEMBERY MB ON CM.CM_MB_SEQ = MB.MB_SEQ WHERE CM.CM_CR_SEQ=#{cr_seq}
+    </select>
+    <select id="checkRoom" resultType="Chatmember" parameterType="map">
+        SELECT *
+        FROM CHATMEMBER
+        WHERE CM_CR_SEQ IN(SELECT CM_CR_SEQ FROM CHATMEMBER WHERE CM_MB_SEQ=#{mb_seq})
+            AND CM_MB_SEQ!=#{mb_seq} AND CM_MB_SEQ=#{f_mb_seq}
+    </select>
+    <insert id="insertRoom" parameterType="Chatroom">
+        <selectKey keyProperty="cr_seq" order="BEFORE" resultType="long">
+            SELECT CHATROOM_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO CHATROOM VALUES(#{cr_seq}, #{cr_name}, SYSDATE, SYSDATE)
+    </insert>
+    <insert id="insertMember" parameterType="Chatmember">
+        INSERT INTO CHATMEMBER VALUES(#{cm_cr_seq}, #{cm_mb_seq})
+    </insert>
+
+    <select id="selectRoom" resultMap="chatroom" parameterType="long">
+        SELECT * FROM CHATROOM WHERE CR_SEQ=#{cr_seq}
+    </select>
+    <select id="selectContent" parameterType="long" resultMap="chatcontent">
+        SELECT CC_SEQ, CC_CONTENT, CC_RDATE,
+            TO_CHAR(CC_RDATE, 'YYYY-MM-DD') CC_RDATE_DAY, TO_CHAR(CC_RDATE, 'HH24:MI:SS') CC_RDATE_TIME,
+            MB_SEQ, MB_NAME, MB_IMAGEPATH, CF_SEQ, CF_ORGNM, CF_SIZE
+        FROM CHATCONTENT JOIN MEMBERY ON CC_MB_SEQ=MB_SEQ
+            LEFT JOIN CHATFILE ON CC_CF_SEQ=CF_SEQ
+        WHERE CC_CR_SEQ=#{cr_seq}
+        ORDER BY CC_RDATE
+    </select>
+    <select id="selectFiles" resultType="Chatfile" parameterType="long">
+        SELECT * FROM CHATFILE JOIN CHATCONTENT ON CF_SEQ=CC_CF_SEQ WHERE CC_CR_SEQ=#{cr_seq} ORDER BY CC_RDATE
+    </select>
+</mapper>
