@@ -216,16 +216,16 @@ input[type="number"]::-webkit-inner-spin-button {
 
 @media screen and (max-width: 700px){
     .nav-header{
-        height: 50px;
+        height: 80px;
     }
     .nav-image{
-        height: 40px;
+        height: 50px;
         margin-left: 10px;
         margin-right: 10px;
     }
     .nav-header:hover .nav-image-hover{
         display: block;
-        height: 40px;
+        height: 50px;
         width:auto;
         margin-top: 3px;
         margin-left: 11px;
@@ -239,7 +239,7 @@ input[type="number"]::-webkit-inner-spin-button {
         display: none;
     }
     .response-login{
-        width: 35px;
+        width: 45px;
         display: block;
         filter: invert();
     }

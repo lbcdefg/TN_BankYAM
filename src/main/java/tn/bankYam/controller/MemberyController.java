@@ -32,6 +32,7 @@ public class MemberyController {
 	@Autowired
 	private RegisterMail registerMail;
 
+
 	@GetMapping("login")
 	public String login(){
 		return "login";
@@ -101,12 +102,25 @@ public class MemberyController {
 		System.out.println("인증코드: " + code);
 		return code;
 	}
+
+	@GetMapping("/join/mailCheck")
+	@ResponseBody
+	String mailCheck(@RequestParam("email") String email){
+		Membery membery = memberyService.findByEmailS(email);
+		System.out.println("입력한이메일: " + email + ", 회원: " + membery);
+		if(membery!=null){
+			return "true";
+		}
+		return "false";
+  }
+  
 	@GetMapping("editProfile")
 	public String editProfile(HttpSession session, Model model){
 		Membery member = (Membery) session.getAttribute("membery");
 		model.addAttribute("membery", member);
 		return "editProfile";
 	}
+  
 	@PostMapping("editProfile_ok")
 	public void editProfile_ok(HttpSession session, Membery editInfo,HttpServletResponse response,Model model)throws IOException{
 		Membery member = (Membery) session.getAttribute("membery");
@@ -115,6 +129,5 @@ public class MemberyController {
 		editInfo = memberyService.findByEmailS(editInfo.getMb_email());
 		session.setAttribute("membery",editInfo);
 		ScriptUtil.alertAndMovePage(response, "프로필변경 완료", "profile");
-
 	}
 }
