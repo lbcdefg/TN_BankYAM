@@ -20,8 +20,8 @@ public class LoginUserCheckInterceptor implements HandlerInterceptor {
 			System.out.println("[user미인증 사용자 요청]");
 
 			//로그인으로 redirect
-			//ScriptUtil.alertAndMovePage(response, "로그인이 필요한 서비스입니다.", "/member/login");
-			//return false;
+			ScriptUtil.alertAndMovePage(response, "로그인이 필요한 서비스입니다.", "/member/login");
+			return false;
 		}
 		// 로그인 되어있을 떄
 		return true;

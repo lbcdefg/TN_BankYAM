@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Date;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -14,4 +15,8 @@ public class Chatroom {
     private String cr_name;
     private Date cr_rdate;
     private Date cr_udate;
+    private long status_count;
+
+    private Chatcontent chatcontent;
+    private List<Membery> memberyList;
 }
