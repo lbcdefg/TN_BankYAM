@@ -51,7 +51,8 @@
         <result property="ac_main" column="ac_main" />
         <result property="ac_status" column="ac_status" />
         <result property="ac_pd_seq" column="ac_pd_seq" />
-        <result property="ac_odate" column="ac_odate" />
+        <result property="ac_rdate" column="ac_rdate" />
+        <result property="ac_udate" column="ac_udate" />
         <result property="ac_xdate" column="ac_xdate" />
         <association property="membery" column="mb_seq" resultMap="memberyMap" />
     </resultMap>

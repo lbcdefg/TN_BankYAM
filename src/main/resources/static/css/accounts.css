@@ -1,0 +1,112 @@
+.acs-frame{
+    width: 100%;
+}
+
+/* 계좌주 이름 */
+.acs-title{
+    padding-left:50px;
+    color: var(--themecolor);
+}
+
+/* 계좌 리스트 테이블 메인 div, size */
+.acs-table-size{
+    width: 90%;
+    height: 500px;
+    margin: auto;
+    overflow: auto;
+}
+
+/* 계좌 리스트 테이블 */
+.acs-list-table{
+    width:100%;
+    border-collapse: collapse;
+}
+
+.acs-list-head{
+    height: 55px;
+    text-align: center;
+    margin-bottom:10px;
+}
+
+.acs-list-row{
+    border-bottom: 0.5px solid #B39273;
+    height: 60px;
+    text-align: center;
+}
+
+.acs-nameM{
+    float:right;
+    margin-right:10px;
+}
+
+.acs-nameM-btn{
+    background-color:#F7F3EF;
+    color: #B39273;
+}
+
+.acs-nameM-btn:hover{
+    color: #5F4934;
+}
+
+.acs-click{
+    cursor: pointer;
+}
+
+.color-fb8b00{
+    color: #fb8b00;
+}
+
+.acs-list-row a{
+    color: #B39273;
+}
+
+.acs-list-row a:visit{
+    color: #B39273;
+}
+
+.acs-list-row a:hover{
+    color: #5F4934;
+}
+
+.fontS-35{
+    font-size: 35px;
+}
+
+.fontS-25{
+    font-size: 25px;
+}
+
+.fontS-12{
+    font-size: 12px;
+}
+
+.acs-list-23{
+    width:23%;
+}
+
+.acs-list-20{
+    width:20%;
+}
+
+.acs-list-12{
+    width:12%;
+}
+
+.acs-list-10{
+    width:10%;
+}
+
+.acs-list-5{
+    width:5%;
+}
+
+/* 해지관련 문의 안내 */
+.acs-info{
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+.acs-p-info{
+    color: var(--themecolor);
+}
