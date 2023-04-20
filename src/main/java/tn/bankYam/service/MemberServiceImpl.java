@@ -47,6 +47,7 @@ public class MemberServiceImpl implements MemberyService{
 		System.out.println(savedPath);
 
 		file.transferTo(new File(savedPath));
+		savedPath=savedPath.substring(savedPath.lastIndexOf("/img"));
 		membery.setMb_imagepath(savedPath);
 		memberyMapper.updateImagepath(membery);
 	}
