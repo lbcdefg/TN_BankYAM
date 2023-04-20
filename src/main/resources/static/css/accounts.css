@@ -2,19 +2,33 @@
     width: 100%;
 }
 
+
 /* 계좌주 이름 */
 .acs-title{
     padding-left:50px;
     color: var(--themecolor);
 }
 
+
 /* 계좌 리스트 테이블 메인 div, size */
-.acs-table-size{
+.acs-table-size350{
     width: 90%;
-    height: 500px;
+    height: 375px;
     margin: auto;
     overflow: auto;
 }
+
+.acs-table-size300{
+    width: 90%;
+    height: 325px;
+    margin: auto;
+    overflow: auto;
+}
+
+.marginTop100{
+    margin-top:100px;
+}
+
 
 /* 계좌 리스트 테이블 */
 .acs-list-table{
@@ -30,11 +44,11 @@
 
 .acs-list-row{
     border-bottom: 0.5px solid #B39273;
-    height: 60px;
+    height: 70px;
     text-align: center;
 }
 
-.acs-nameM{
+.acs-nameM-btnDiv{
     float:right;
     margin-right:10px;
 }
@@ -76,8 +90,8 @@
     font-size: 25px;
 }
 
-.fontS-12{
-    font-size: 12px;
+.fontS-15{
+    font-size: 15px;
 }
 
 .acs-list-23{
@@ -100,13 +114,54 @@
     width:5%;
 }
 
-/* 해지관련 문의 안내 */
-.acs-info{
-    width: 100%;
-    height: auto;
-    text-align: center;
+
+/* 별칭 설정 추가창 */
+.acs-nameM {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1.1);
+  transition: visibility 0s linear 0.25s, opacity 0.25s, 0s, transform 0.25s;
 }
 
-.acs-p-info{
-    color: var(--themecolor);
+.show-acs-nameM{
+     opacity: 1;
+     visibility: visible;
+     transform: scale(1.0);
+     transition: visibility 0s linear 0s, opacity 0.25s 0s, transform 0.25s;
+}
+
+.acs-nameM-body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 200px;
+  padding: 30px;
+  text-align: center;
+  background-color:#B39273;
+  border-radius: 10px;
+  box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+  transform: translateX(-50%) translateY(-50%);
+}
+
+.acs-nameMA-btn, .acs-nameMC-btn{
+    background-color:#F7F3EF;
+    color: #B39273;
+    border: none;
+}
+
+.acs-nameMA-btn:hover, .acs-nameMC-btn:hover{
+    color: #5F4934;
+}
+
+.acs-nameM-ps{
+    width: 70%;
+    height: 50px;
+    margin: auto;
 }

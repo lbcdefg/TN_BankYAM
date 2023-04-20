@@ -13,7 +13,15 @@ import java.util.List;
 public interface AccountManageMapper {
     List<Accounty> selectAcList(Membery membery);
 
+    List<Accounty> selectAcXList(Membery membery);
+
     List<Accounty> checkAcBeforeMain(long mb_seq);
 
     Accounty checkAc(HashMap<String, Object> hashMap);
+
+    void updateAcNewMain(Accounty accounty);
+
+    void updateAcBeforeMain(Accounty accounty);
+
+    void updateAcName(Accounty accounty);
 }

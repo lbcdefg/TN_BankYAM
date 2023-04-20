@@ -21,6 +21,11 @@ public class AccountManageServiceImpl implements AccountManageService{
     }
 
     @Override
+    public List<Accounty> selectAcXList(Membery membery){
+        return accountManageMapper.selectAcXList(membery);
+    }
+
+    @Override
     public HashMap<String, Object> forMapIdId(long acId, long myId){
         HashMap<String, Object> forAcMap = new HashMap<>();
         forAcMap.put("acId", acId);
@@ -36,5 +41,20 @@ public class AccountManageServiceImpl implements AccountManageService{
     @Override
     public Accounty checkAc(HashMap<String, Object> hashMap){
         return accountManageMapper.checkAc(hashMap);
+    }
+
+    @Override
+    public void updateAcNewMain(Accounty accounty){
+        accountManageMapper.updateAcNewMain(accounty);
+    }
+
+    @Override
+    public void updateAcBeforeMain(Accounty accounty){
+        accountManageMapper.updateAcBeforeMain(accounty);
+    }
+
+    @Override
+    public void updateAcName(Accounty accounty){
+        accountManageMapper.updateAcName(accounty);
     }
 }
