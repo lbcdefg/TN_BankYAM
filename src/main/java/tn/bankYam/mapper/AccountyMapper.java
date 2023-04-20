@@ -11,15 +11,11 @@ import java.util.List;
 @Repository
 public interface AccountyMapper {
     Accounty checkAccnum(long ac_seq);
-    Accounty checkPwd(long ac_pwd);
-
+    Accounty checkPwd(String ac_pwd);
     String checkStatus(String ac_status);
-
     int checkPd(long ac_pd_seq);
     boolean transfer(Accounty accounty);
-
     List<Accounty> findAccByMemberId(long ac_mb_seq);
-
     Product findPdBySeq(long seq);
     void insertAcc(Accounty accounty);
 }

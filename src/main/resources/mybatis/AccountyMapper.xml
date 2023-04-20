@@ -3,6 +3,7 @@
 <mapper namespace="tn.bankYam.mapper.AccountyMapper">
     <resultMap id="membery" type="Membery">
         <id property="mb_seq" column="mb_seq"/>
+
         <result property="mb_email" column="mb_email"/>
         <result property="mb_pwd" column="mb_pwd"/>
         <result property="mb_name" column="mb_name"/>
@@ -15,46 +16,50 @@
         <result property="mb_imagepath" column="mb_imagepath"/>
         <result property="mb_rdate" column="mb_rdate"/>
         <result property="mb_wdate" column="mb_wdate"/>
+
     </resultMap>
 
     <resultMap id="product" type="Product">
         <id property="pd_seq" column="pd_seq"/>
-        <result property="pd_type" column="pd_type"/>
-        <result property="pd_name" column="pd_name"/>
-        <result property="pd_rate" column="pd_rate"/>
-        <result property="pd_rdate" column="pd_rdate"/>
-        <result property="pd_xdate" column="pd_xdate"/>
+        <id property="pd_type" column="pd_type"/>
+        <id property="pd_name" column="pd_name"/>
+        <id property="pd_rate" column="pd_rate"/>
+        <id property="pd_rdate" column="pd_rdate"/>
+        <id property="pd_xdate" column="pd_xdate"/>
     </resultMap>
 
     <resultMap id="accounty" type="Accounty">
         <id property="ac_seq" column="ac_seq"/>
-        <result property="ac_pwd" column="ac_pwd"/>
-        <result property="ac_mb_seq" column="ac_mb_seq"/>
-        <result property="ac_balance" column="ac_balance"/>
-        <result property="ac_name" column="ac_name"/>
-        <result property="ac_main" column="ac_main"/>
-        <result property="ac_status" column="ac_status"/>
-        <result property="ac_pd_seq" column="ac_pd_seq"/>
-        <result property="ac_rdate" column="ac_rdate"/>
-        <result property="ac_udate" column="ac_udate"/>
-        <result property="ac_xdate" column="ac_xdate"/>
+        <id property="ac_pwd" column="ac_pwd"/>
+        <id property="ac_mb_seq" column="ac_mb_seq"/>
+        <id property="ac_balance" column="ac_balance"/>
+        <id property="ac_name" column="ac_name"/>
+        <id property="ac_main" column="ac_main"/>
+        <id property="ac_status" column="ac_status"/>
+        <id property="ac_pd_seq" column="ac_pd_seq"/>
+        <id property="ac_rdate" column="ac_rdate"/>
+        <id property="ac_udate" column="ac_udate"/>
+        <id property="ac_xdate" column="ac_xdate"/>
         <collection property="membery" resultMap="membery"/>
         <collection property="product" resultMap="product"/>
     </resultMap>
 
-    <select id="checkAccnum" parameterType="long">
-        SELECT AC_SEQ FROM ACCOUNTY WHERE AC_SEQ=#{ac_seq}
+    <select id="checkAccnum" resultType="Accounty" parameterType="long">
+        SELECT AC_SEQ FROM ACCOUNTY A
+        JOIN MEMBERY M
+        ON A.AC_MB_SEQ = M.MB_SEQ
+        WHERE M.MB_SEQ = #{mb_seq}
     </select>
 
-    <select id="checkPwd" parameterType="long">
+    <select id="checkPwd" resultType="Accounty" parameterType="String">
         SELECT AC_PWD FROM ACCOUNTY WHERE AC_PWD=#{ac_pwd}
     </select>
 
-    <select id="checkStatus" parameterType="String">
+    <select id="checkStatus" resultType="String" parameterType="String">
         SELECT AC_STATUS FROM ACCOUNTY WHERE AC_STATUS=#{ac_status}
     </select>
 
-    <select id="checkPd" parameterType="long">
+    <select id="checkPd" resultType="String" parameterType="long">
         SELECT AC_PD_SEQ FROM ACCOUNTY A JOIN PRODUCT P ON A.AC_PD_SEQ=P.PD_SEQ
     </select>
 

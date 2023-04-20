@@ -21,9 +21,9 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
+	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.springframework.boot:spring-boot-devtools:2.0.4.RELEASE'
+	implementation 'org.springframework.boot:spring-boot-devtools'
 
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0' // for Mybatis
 
@@ -38,6 +38,7 @@ dependencies {
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16' // Jdbc 로그 확인용
 
 	implementation 'org.springframework.boot:spring-boot-starter-mail:2.7.1' // 회원가입 이메일인증
+	developmentOnly("org.springframework.boot:spring-boot-devtools") //저장시 서버 자동재시작
 }
 
 tasks.named('test') {

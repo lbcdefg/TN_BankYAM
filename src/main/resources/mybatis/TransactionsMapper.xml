@@ -25,9 +25,10 @@
         <id property="ac_main" column="ac_main"/>
         <id property="ac_status" column="ac_status"/>
         <id property="ac_pd_seq" column="ac_pd_seq"/>
-        <id property="ac_odate" column="ac_odate"/>
+        <id property="ac_rdate" column="ac_rdate"/>
+        <id property="ac_udate" column="ac_udate"/>
         <id property="ac_xdate" column="ac_xdate"/>
-        <collection property="Membery" resultMap="membery"/>
+        <collection property="membery" resultMap="membery"/>
     </resultMap>
 
     <resultMap id="transactions" type="Transactions">
@@ -40,7 +41,7 @@
         <id property="tr_after_balance" column="tr_after_balance"/>
         <id property="tr_msg" column="tr_msg"/>
         <id property="tr_date" column="tr_date"/>
-        <collection property="Accounty" resultMap="accounty"/>
+        <collection property="accounty" resultMap="accounty"/>
     </resultMap>
 
 <!--    거래내역기록-->
@@ -55,8 +56,12 @@
         TR_MSG=#{tr_msg}, SYSDATE)
     </insert>
 <!--    이체내역 전체 다 불러오는것-->
-    <select id="listTrLog" resultType="List">
-        SELECT * FROM TRANSACTIONS T JOIN ACCOUNTY A ON T.TR_AC_SEQ=A.AC_SEQ
-        JOIN MEMBERY M ON A.AC_MB_SEQ=M.MB_SEQ
+    <select id="selectTrList" resultType="list" resultMap="transactions" parameterType="Membery">
+        SELECT * FROM MEMBERY M
+        JOIN ACCOUNTY A
+        ON M.MB_SEQ = A.AC_MB_SEQ
+        JOIN TRANSACTIONS T
+        ON A.AC_SEQ = T.TR_AC_SEQ
+        WHERE M.MB_SEQ = #{mb_seq}
     </select>
 </mapper>
