@@ -6,7 +6,19 @@
     <select id="findByEmail" resultType="Membery" parameterType="String">
         SELECT * FROM MEMBERY WHERE MB_EMAIL=#{mb_email}
     </select>
+    <select id="findBySeq" resultType="Membery" parameterType="Long">
+        SELECT * FROM MEMBERY WHERE MB_SEQ=#{mb_seq}
+    </select>
     <update id="editProfile" parameterType="Membery">
         UPDATE MEMBERY SET  MB_NAME=#{mb_name},MB_ADDR=#{mb_addr},MB_DADDR=#{mb_daddr},MB_PHONE=#{mb_phone},MB_JOB=#{mb_job},MB_SALARY=#{mb_salary} WHERE MB_SEQ = #{mb_seq}
+    </update>
+    <insert id="joinMembery" parameterType="Membery">
+        <selectKey resultType="long" keyProperty="mb_seq" order="BEFORE">
+            SELECT MEMBERY_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO MEMBERY VALUES(#{mb_seq}, #{mb_email}, #{mb_pwd}, #{mb_name}, #{mb_addr},#{mb_daddr},#{mb_phone},#{mb_job},#{mb_salary},#{mb_credit}, '/img/character/hi.png', SYSDATE, NULL);
+    </insert>
+    <update id="updateImagepath" parameterType="Membery">
+        UPDATE MEMBERY SET MB_IMAGEPATH=#{mb_imagepath} WHERE MB_SEQ=#{mb_seq}
     </update>
 </mapper>

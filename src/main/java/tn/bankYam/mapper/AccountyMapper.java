@@ -3,6 +3,7 @@ package tn.bankYam.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import tn.bankYam.dto.Accounty;
+import tn.bankYam.dto.Product;
 
 import java.util.List;
 
@@ -18,4 +19,6 @@ public interface AccountyMapper {
     boolean transfer(Accounty accounty);
 
     List<Accounty> findAccByMemberId(long ac_mb_seq);
+
+    Product findPdBySeq(long seq);
 }

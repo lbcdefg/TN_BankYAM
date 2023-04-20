@@ -16,6 +16,8 @@ public class Chatcontent {
     private long cc_cf_seq;
     private String cc_content;
     private Date cc_rdate;
+    private String cc_rdate_day;
+    private String cc_rdate_time;
 
     private Chatroom chatroom;
     private Membery membery;

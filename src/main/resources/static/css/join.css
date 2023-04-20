@@ -63,7 +63,7 @@ input:checked + label::before{
 	display: block;
 }
 .join-body{
-	margin-left: 25%;
+	margin-left: 20%;
 
     display: block;
 	position: relative;
@@ -133,9 +133,15 @@ input:checked + label::before{
 	padding-right: 15px;
 	padding-left: 15px;
 }
+.join-wbtn{
+    display: flex;
+    text-align: center;
+    margin-top:22px;
+}
 .row-1third{
 	width: 25%;
 	float: left;
+	display : inline;
 	position: relative;
 	min-height: 1px;
 	padding-right: 15px;
@@ -199,6 +205,14 @@ input:checked + label::before{
     margin-top: 0;
     transition: all 0.3s;
 }
+.edit-profile-photo{
+    overflow:hidden;
+    border: 0.5px solid #5F4934;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+}
+
 
 .normal-btn:hover{
     color: var(--themecolor);
@@ -208,7 +222,7 @@ input:checked + label::before{
 
 @media screen and (max-width: 900px){
     .join-page{
-        width: 80%;
+        width: 90%;
         padding: 5px;
     }
     .join-body{
@@ -216,12 +230,33 @@ input:checked + label::before{
     }
 }
 
-@media screen and (max-width: 900px){
+@media screen and (max-width: 1000px){
     .join-page{
         width: 80%;
         padding: 5px;
     }
     .join-body{
-    	margin-left: 5%;
+    	margin-left: 10%;
+    }
+    .row-in label, .row-half label, .row-third label, .row-1third label{
+    	color: #777;
+    	display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+    .page-header h2{
+    	font-size: 35px;
+    }
+}
+
+@media screen and (max-width: 1100px){
+    .join-page{
+        width: 80%;
+        padding: 5px;
+    }
+    .join-body{
+    	margin-left: 15%;
     }
 }

@@ -62,7 +62,9 @@
         WHERE AC_SEQ=#{ac_seq}
     </update>
     <select id="findAccByMemberId" parameterType="long" resultMap="accounty">
-        SELECT * FROM ACCOUNTY A JOIN PRODUCT P ON A.AC_PD_SEQ = P.PD_SEQ JOIN MEMBERY M ON A.AC_MB_SEQ = M.MB_SEQ WHERE A.AC_MB_SEQ = #{mb_seq}
+        SELECT * FROM ACCOUNTY A JOIN PRODUCT P ON A.AC_PD_SEQ = P.PD_SEQ JOIN MEMBERY M ON A.AC_MB_SEQ = M.MB_SEQ WHERE A.AC_MB_SEQ = #{mb_seq} ORDER BY DECODE(AC_MAIN, '주', 1)
     </select>
-
+    <select id="findPdBySeq" parameterType="long" resultMap="product">
+        SELECT * FROM PRODUCT WHERE PD_SEQ=#{pd_seq};
+    </select>
 </mapper>
