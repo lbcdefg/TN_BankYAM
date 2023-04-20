@@ -43,9 +43,36 @@
             m.mb_seq = a.ac_mb_seq
         WHERE
             m.mb_seq = #{mb_seq}
+        AND
+            a.ac_status != '해지'
         ORDER BY
-            a.ac_main
-        DESC
+            a.ac_status
+        ,
+            a.ac_rdate
+
+    </select>
+
+    <select id="selectAcXList" resultType="list" resultMap="accountyMap" parameterType="Membery">
+        SELECT
+            *
+        FROM
+            membery m
+        JOIN
+            accounty a
+        ON
+            m.mb_seq = a.ac_mb_seq
+        WHERE
+            m.mb_seq = #{mb_seq}
+        AND
+        (
+            a.ac_status = '해지'
+        OR
+            a.ac_status = '복구신청'
+        )
+        ORDER BY
+            a.ac_rdate
+        ,
+            a.ac_status
     </select>
 
     <select id="checkAcBeforeMain" resultType="Accounty" resultMap="accountyMap" parameterType="long">
@@ -63,7 +90,7 @@
             a.ac_main = '주'
     </select>
 
-    <select id="checkAc" resultType="Accounty" parameterType="Hashmap">
+    <select id="checkAc" resultType="Accounty" resultMap="accountyMap" parameterType="Hashmap">
         SELECT
             *
         FROM
@@ -73,12 +100,20 @@
         ON
             m.mb_seq = a.ac_mb_seq
         WHERE
-            m.mb_seq = #{membery.mb_seq}
+            m.mb_seq = #{myId}
         AND
-            a.ac_seq = #{ac_seq}
+            a.ac_seq = #{acId}
     </select>
 
-    <update id="updateAcMain" parameterType="Accounty">
-        update Accounty set SUBJECT=#{subject}, CONTENT=#{content}, STATUS=#{status}, PINFOID=#{pinfoId}, PUDATE=SYSDATE where POSTID=#{postId}
+    <update id="updateAcNewMain" parameterType="Accounty">
+        update Accounty set AC_MAIN='주' WHERE AC_SEQ=#{ac_seq}
+    </update>
+
+    <update id="updateAcBeforeMain" parameterType="Accounty">
+        update Accounty set AC_MAIN='부' WHERE AC_SEQ=#{ac_seq}
+    </update>
+
+    <update id="updateAcName" parameterType="Accounty">
+        update Accounty set AC_NAME=#{ac_name} WHERE AC_SEQ=#{ac_seq}
     </update>
 </mapper>

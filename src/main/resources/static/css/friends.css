@@ -248,6 +248,11 @@
         text-align:center;
         font-size: 25px;
     }
+
+    .frs-name-profile{
+        font-size:25px;
+    }
+
     .frs-lt, .frs-rt{
         width:85%;
         margin: auto;
@@ -284,6 +289,23 @@
     .frs-req, .frs-rec{
         height: 500px;
     }
+
+    .frs-list-row, .frs-req-row, .frs-rec-row{
+        height: 60px;
+        font-size: 25px;
+    }
+}
+
+@media(max-width: 900px){
+    .frs-list-row, .frs-req-row, .frs-rec-row{
+        font-size: 20px;
+    }
+}
+
+@media(max-width: 700px){
+    .frs-list-row, .frs-req-row, .frs-rec-row{
+        font-size: 16px;
+    }
 }
 
 @media(max-width: 650px){
@@ -300,7 +322,7 @@
     }
 
     .frs-list-row, .frs-req-row, .frs-rec-row{
-        font-size:15px;
+        font-size: 14px;
     }
 }
 
@@ -324,7 +346,7 @@
     }
 
     .frs-list-row, .frs-req-row, .frs-rec-row{
-        font-size:12px;
+        font-size: 12px;
     }
 }
 
@@ -339,6 +361,6 @@
     }
 
     .frs-list-row, .frs-req-row, .frs-rec-row{
-        font-size:9px;
+        font-size: 10px;
     }
 }
