@@ -44,7 +44,7 @@ public class AccountManageController {
                     List<Accounty> acBeforeMain = accountManageService.checkAcBeforeMain(membery.getMb_seq());
                     System.out.println(acBeforeMain); // 체크
 
-                    // 주 계좌가 하나여야 하므로 체크(없거나 2개 이상이면 DB에 문제가 있는 것임!!!)
+                    // 주 계좌가 하나여야 하므로 체크(가입할 때 1개 가입되므로 없거나 2개 이상이면 DB에 문제가 있는 것임!!!)
                     if (acBeforeMain.size() == 1) {
 
                         // 주인 및 계좌 체크
