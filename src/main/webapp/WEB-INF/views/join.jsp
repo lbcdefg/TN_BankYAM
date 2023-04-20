@@ -138,17 +138,17 @@
                         <div class="row">
                             <div class="row-half">
                                 <label>계좌비밀번호</label>
-                                <input type="password" id="mb_acpwd" name="mb_acpwd" class="form-control margin-bottom-20" autocomplete="off">
+                                <input type="password" id="ac_pwd" name="ac_pwd" class="form-control margin-bottom-20" autocomplete="off">
                             </div>
                             <div class="row-half">
                                 <label>계좌비밀번호(확인)</label>
-                                <input type="password" id="mb_acpwd2" name="mb_acpwd2" class="form-control margin-bottom-20" autocomplete="off">
+                                <input type="password" id="ac_pwd2" name="ac_pwd2" class="form-control margin-bottom-20" autocomplete="off">
                             </div>
                         </div>
                         <div class="row">
                             <div class="row-in">
                                 <label>희망이자지급일</label>
-                                <select id="ac_udate" name="ac_udate" class="form-control margin-bottom-20 join-placeholderR">
+                                <select id="ac_udated" name="ac_udated" class="form-control margin-bottom-20 join-placeholderR">
                                     <option value="1" name="">매월 1일</option>
                                     <option value="5" name="">매월 5일</option>
                                     <option value="10" name="">매월 10일</option>
@@ -220,6 +220,7 @@
                     data : {email: $("#mb_email").val()},
                     success : function(result){
                         if(result == 'false'){
+                            console.log("입력된 이메일은 : " + $("#mb_email").val());
                             emailCodeBtn.style.display = 'block';
                             $("#join_message").html("<span id='emconfirmchk'>코드발송 버튼을 눌러주세요</span>");
                             $("#emailCode").focus();
@@ -407,7 +408,18 @@
                 });
             }
 	    }else if(target==nextbtn3){
-	        form.submit();
+	        // 희망이자지급일이 오늘 날짜보다 이전 날짜로 설정되어있을 경우
+            const date = new Date();
+            const day = date.getDate();
+
+            if($("#ac_udated").val()< day){
+                let udateConfirm = confirm("이자는 개설 1달 경과 이후부터 지급 가능합니다. 확인 하시면 다음 다음달 선택일에 지급됩니다");
+                if(udateConfirm == true){
+                    form.submit();
+                }
+            }else{
+                form.submit();
+            }
 	    }
 	}
 
@@ -464,22 +476,22 @@
 
     // form3 유효성검사
     form3.addEventListener('keydown', function(){
-        let acpwd = document.getElementById('mb_acpwd').value;
-        let acpwd2 = document.getElementById('mb_acpwd2').value;
+        let acpwd = document.getElementById('ac_pwd').value;
+        let acpwd2 = document.getElementById('ac_pwd2').value;
         var exp = /[e+-.]/g;
         if(acpwd.length!=4 | exp.test(acpwd)){
             $("#join_message").html("<span id='emconfirmchk'>계좌비밀번호는 숫자 4자리입니다</span>");
-            $("#mb_acpwd").focus();
+            $("#ac_pwd").focus();
             nextbtn3.style.display = 'none'
             return false;
         }else if(acpwd2.length!=4 | exp.test(acpwd2)){
             $("#join_message").html("<span id='emconfirmchk'>비밀번호를 확인해주세요</span>");
-            $("#mb_acpwd2").focus();
+            $("#ac_pwd2").focus();
             nextbtn3.style.display = 'none'
             return false;
         }else if(acpwd != acpwd2){
             $("#join_message").html("<span id='emconfirmchk'>두 비밀번호가 일치하지 않습니다</span>");
-            $("#mb_acpwd2").focus();
+            $("#ac_pwd2").focus();
             nextbtn3.style.display = 'none'
             return false;
         }else{
@@ -545,6 +557,8 @@
 			}
 		})
 	}
+
+
 
 </script>
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>

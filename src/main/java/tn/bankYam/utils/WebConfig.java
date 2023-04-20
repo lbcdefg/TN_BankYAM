@@ -12,7 +12,7 @@ public class WebConfig implements WebMvcConfigurer {
 			"/member/login", "/member/login_ok",
 			"/cate/**", "/js/**",
 			"/css/**","/img/**",
-			"/member/join", "/member/join_ok",
+			"/member/join", "/member/join_ok", "/member/join/mailCheck", "/member/join/mailConfirm",
 
 			"/error"};
 	@Override

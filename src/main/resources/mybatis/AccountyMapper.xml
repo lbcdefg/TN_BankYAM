@@ -7,6 +7,7 @@
         <result property="mb_pwd" column="mb_pwd"/>
         <result property="mb_name" column="mb_name"/>
         <result property="mb_addr" column="mb_addr"/>
+        <result property="mb_daddr" column="mb_daddr"/>
         <result property="mb_phone" column="mb_phone"/>
         <result property="mb_job" column="mb_job"/>
         <result property="mb_salary" column="mb_salary"/>
@@ -65,6 +66,12 @@
         SELECT * FROM ACCOUNTY A JOIN PRODUCT P ON A.AC_PD_SEQ = P.PD_SEQ JOIN MEMBERY M ON A.AC_MB_SEQ = M.MB_SEQ WHERE A.AC_MB_SEQ = #{mb_seq} ORDER BY DECODE(AC_MAIN, '주', 1)
     </select>
     <select id="findPdBySeq" parameterType="long" resultMap="product">
-        SELECT * FROM PRODUCT WHERE PD_SEQ=#{pd_seq};
+        SELECT * FROM PRODUCT WHERE PD_SEQ=#{pd_seq}
     </select>
+    <insert id="insertAcc" parameterType="Accounty">
+        <selectKey resultType="long" keyProperty="ac_seq" order="BEFORE">
+            SELECT ACCOUNTY_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO ACCOUNTY VALUES(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 0, #{ac_name}, '주', '사용중', #{ac_pd_seq}, SYSDATE, add_months(to_date(concat((select to_char(sysdate, 'YYMM') from dual),TO_NUMBER(#{ac_status})),'YYMMDD'),#{ac_balance}), null)
+    </insert>
 </mapper>

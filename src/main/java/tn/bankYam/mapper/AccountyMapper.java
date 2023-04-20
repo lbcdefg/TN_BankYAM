@@ -21,4 +21,5 @@ public interface AccountyMapper {
     List<Accounty> findAccByMemberId(long ac_mb_seq);
 
     Product findPdBySeq(long seq);
+    void insertAcc(Accounty accounty);
 }
