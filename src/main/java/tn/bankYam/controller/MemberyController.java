@@ -148,6 +148,7 @@ public class MemberyController {
 		session.setAttribute("membery", editPhoto);
 		ScriptUtil.alertAndMovePage(response, "프로필사진 변경 완료", "profile");
 
+
 	}
 
 	@PostMapping("join_ok")
