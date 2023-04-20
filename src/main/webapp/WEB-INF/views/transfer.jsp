@@ -7,14 +7,14 @@
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script language="javascript">
     $(function(){
-        console.log(${ac_seq});
-        $("#acSeq").val(<%= request.getAttribute("ac_seq") %>);
+        console.log(${chkAcc});
+
     });
 
 	const regExp = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g; //전체에서 특수문자 찾기
 	const blankExp = /\s/g; //전체에서 공백찾기
 	function newPage(){
-		location.href="C:/Users/ZEN/Desktop/confirmation.html";
+		location.href="confirmation";
 	}
 	function count(type)  {
 		// 결과를 표시할 element
@@ -55,13 +55,12 @@
 					<div class="row">
 						<div class="row-in">
 							<label>출금계좌번호</label>
-							<select>
-							    <c:forEach var="seq" items="${list}"
-                                <option value="${seq.ac_seq}"selected></option>
-
+                            <select>
+							    <c:forEach var="seq" items="${list}">
+                                    <option value="${seq.ac_seq}">계좌 선택</option>
+                                    <option>${seq.ac_seq}</option>
+                                </c:forEach>
                             </select>
-							<input id="acSeq" type="number" placeholder="숫자만 입력해주세요" name="ac_seq" class="form-control margin-bottom-20" value="" autocomplete="off">
-
 						</div>
 					</div>
 

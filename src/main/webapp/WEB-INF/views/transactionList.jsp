@@ -20,7 +20,6 @@
             <div>
                 <table>
                     <tr>
-
                         <th>계좌번호</th>
                         <th>타인 계좌번호</th>
                         <th>은행</th>
