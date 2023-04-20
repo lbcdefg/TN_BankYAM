@@ -16,34 +16,34 @@ public class AccountyServiceImpl implements AccountyService{
     @Override
     public boolean checkAccnumS(long ac_seq) {
         if(mapper.checkAccnum(ac_seq)!=null){
-            System.out.println("�����ϴ� �����Դϴ�.");
+            System.out.println("");
             return true;
         }else{
-            System.out.println("�������� �ʴ� �����Դϴ�.");
+            System.out.println("");
             return false;
         }
     }
 
     @Override
-    public boolean checkPwdS(long ac_pwd) {
+    public boolean checkPwdS(String ac_pwd) {
         if(mapper.checkPwd(ac_pwd) !=null){
-            System.out.println("��й�ȣ�� ��ġ�մϴ�");
+            System.out.println("");
             return true;
         }else {
-            System.out.println("��й�ȣ�� ��ġ���� �ʽ��ϴ�");
+            System.out.println("");
             return false;
         }
     }
 
     @Override
     public boolean checkStatusS(String ac_status) {
-        if(mapper.checkStatus(ac_status)=="�����"){
+        if(mapper.checkStatus(ac_status)=="사용중"){
             return true;
-        }else if(mapper.checkStatus(ac_status)=="�޸�"){
-            System.out.println("�޸�����Դϴ�");
+        }else if(mapper.checkStatus(ac_status)=="해지"){
+            System.out.println("");
             return false;
         }else {
-            System.out.println("������ �����Դϴ�");
+            System.out.println("");
             return false;
         }
     }
@@ -53,16 +53,18 @@ public class AccountyServiceImpl implements AccountyService{
         if(mapper.checkPd(ac_pd_seq)==1){
             return true;
         }else{
-            System.out.println("���ݰ��°� �ƴմϴ�");
+            System.out.println("");
             return false; 
         }
     }
 
     @Override
     public boolean updateS(Accounty accounty) {
-
-        mapper.transfer(accounty);
-        return false;
+        if(checkAccnumS(accounty.getAc_seq()) && checkPwdS(accounty.getAc_pwd()) && checkStatusS(accounty.getAc_status())&&checkPdS(accounty.getAc_pd_seq()))
+            return true;
+        else {
+            return false;
+        }
     }
 
     @Override
