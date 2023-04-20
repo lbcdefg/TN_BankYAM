@@ -6,6 +6,11 @@
 <link rel="stylesheet" type="text/css" href="/css/transfer.css" />
 <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script language="javascript">
+    $(function(){
+        console.log(${ac_seq});
+        $("#acSeq").val(<%= request.getAttribute("ac_seq") %>);
+    });
+
 	const regExp = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g; //전체에서 특수문자 찾기
 	const blankExp = /\s/g; //전체에서 공백찾기
 	function newPage(){
@@ -47,17 +52,16 @@
 		<div class="inner">
 			<div class="transfer-body">
 				<form method="post" name="f" action="transfer_ok" class="transfer-page" novalidate="novalidate">
-					
 					<div class="row">
 						<div class="row-in">
 							<label>출금계좌번호</label>
-							<input type="number" placeholder="숫자만 입력해주세요" name="tr_ac_seq" class="form-control margin-bottom-20" value="" autocomplete="off">
 							<select>
-								<option value="">출금계좌번호조회</option>
-								<option value="1">11111111111111</option>
-								<option value="2">22222222222222</option>
-								<option value="3">33333333333333</option>
-							</select>
+							    <c:forEach var="seq" items="${list}"
+                                <option value="${seq.ac_seq}"selected></option>
+
+                            </select>
+							<input id="acSeq" type="number" placeholder="숫자만 입력해주세요" name="ac_seq" class="form-control margin-bottom-20" value="" autocomplete="off">
+
 						</div>
 					</div>
 
@@ -65,7 +69,7 @@
 						<div class="row-in">
 							<label>계좌비밀번호</label>
 							<input style="-webkit-text-security: disc;" type="number"placeholder="숫자4자리" name="ac_pwd" class="form-control margin-bottom-20" autocomplete="off">
-							<label>확인</label>
+							<label id="confirm_btn">확인</label>
 							<input style="-webkit-text-security: disc;" type="number" placeholder="숫자4자리" name="ac_pwd" class="form-control margin-bottom-20" autocomplete="off">
 						</div>
 					</div>

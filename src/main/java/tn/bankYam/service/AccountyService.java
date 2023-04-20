@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface AccountyService {
     boolean checkAccnumS(long ac_seq);
-    boolean checkPwdS(long ac_pwd);
+    boolean checkPwdS(String ac_pwd);
 
     boolean checkStatusS(String ac_status);
 

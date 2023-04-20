@@ -25,9 +25,10 @@
         <id property="ac_main" column="ac_main"/>
         <id property="ac_status" column="ac_status"/>
         <id property="ac_pd_seq" column="ac_pd_seq"/>
-        <id property="ac_odate" column="ac_odate"/>
+        <id property="ac_rdate" column="ac_rdate"/>
+        <id property="ac_udate" column="ac_udate"/>
         <id property="ac_xdate" column="ac_xdate"/>
-        <collection property="Membery" resultMap="membery"/>
+        <collection property="membery" resultMap="membery"/>
     </resultMap>
 
     <resultMap id="transactions" type="Transactions">
@@ -40,7 +41,7 @@
         <id property="tr_after_balance" column="tr_after_balance"/>
         <id property="tr_msg" column="tr_msg"/>
         <id property="tr_date" column="tr_date"/>
-        <collection property="Accounty" resultMap="accounty"/>
+        <collection property="accounty" resultMap="accounty"/>
     </resultMap>
 
 <!--    거래내역기록-->

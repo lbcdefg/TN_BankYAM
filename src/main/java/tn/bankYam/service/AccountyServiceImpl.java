@@ -25,7 +25,7 @@ public class AccountyServiceImpl implements AccountyService{
     }
 
     @Override
-    public boolean checkPwdS(long ac_pwd) {
+    public boolean checkPwdS(String ac_pwd) {
         if(mapper.checkPwd(ac_pwd) !=null){
             System.out.println("");
             return true;
@@ -37,9 +37,9 @@ public class AccountyServiceImpl implements AccountyService{
 
     @Override
     public boolean checkStatusS(String ac_status) {
-        if(mapper.checkStatus(ac_status)==""){
+        if(mapper.checkStatus(ac_status)=="사용중"){
             return true;
-        }else if(mapper.checkStatus(ac_status)==""){
+        }else if(mapper.checkStatus(ac_status)=="해지"){
             System.out.println("");
             return false;
         }else {
@@ -60,9 +60,11 @@ public class AccountyServiceImpl implements AccountyService{
 
     @Override
     public boolean updateS(Accounty accounty) {
-
-        mapper.transfer(accounty);
-        return false;
+        if(checkAccnumS(accounty.getAc_seq()) && checkPwdS(accounty.getAc_pwd()) && checkStatusS(accounty.getAc_status())&&checkPdS(accounty.getAc_pd_seq()))
+            return true;
+        else {
+            return false;
+        }
     }
 
     @Override
