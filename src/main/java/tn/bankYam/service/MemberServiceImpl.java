@@ -9,9 +9,7 @@ import tn.bankYam.mapper.MemberyMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.file.*;
 import java.util.UUID;
 
 @Service
@@ -37,6 +35,7 @@ public class MemberServiceImpl implements MemberyService{
 		memberyMapper.editProfile(membery);
 	}
 
+
 	@Override
 	public void joinMembery(Membery membery){
 		memberyMapper.joinMembery(membery);
@@ -57,6 +56,9 @@ public class MemberServiceImpl implements MemberyService{
 		//file.transferTo(new File(savedPath));
 		savedPath=savedPath.substring(savedPath.lastIndexOf("/img"));
 		membery.setMb_imagepath(savedPath);
+
+
+
 		memberyMapper.updateImagepath(membery);
 	}
 }
