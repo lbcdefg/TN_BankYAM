@@ -76,4 +76,8 @@ public class AccountyServiceImpl implements AccountyService{
     public Product findPdBySeq(long seq){
         return mapper.findPdBySeq(seq);
     }
+    @Override
+    public void insertAcc(Accounty accounty){
+        mapper.insertAcc(accounty);
+    }
 }

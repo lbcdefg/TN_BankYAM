@@ -23,6 +23,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -111,6 +113,7 @@ public class MemberyController {
 	@ResponseBody
 	String mailCheck(@RequestParam("email") String email){
 		Membery membery = memberyService.findByEmailS(email);
+		System.out.println(membery);
 		System.out.println("입력한이메일: " + email + ", 회원: " + membery);
 		if(membery!=null){
 			return "true";
@@ -158,13 +161,31 @@ public class MemberyController {
 		membery.setMb_pwd(SHA256.encrypt(membery.getMb_pwd()));
 		memberyService.joinMembery(membery);
 
-		//
+		// 기본계좌 생성하기, Accoounty 여기서 만들어줘서넘김
 		Accounty accounty = new Accounty();
 		Membery memberyVal = memberyService.findByEmailS(membery.getMb_email());
-		accounty.setMembery(memberyVal);
+		accounty.setAc_mb_seq(memberyVal.getMb_seq());
 		Product product = accountyService.findPdBySeq(1);
 		accounty.setProduct(product);
+		accounty.setAc_pd_seq(product.getPd_seq());
+		accounty.setAc_name(product.getPd_name());
+		String acPwd = request.getParameter("ac_pwd");
+		accounty.setAc_pwd(SHA256.encrypt(acPwd));
+		accounty.setMembery(memberyVal);
+		accounty.setAc_status(request.getParameter("ac_udated")); //실제 ac_status 값을 세팅해주려는게 아니라 숫자값(ac_udated) 하나를 mapper로 보내야하는데 Map쓰기 싫어서 그냥 빈 컬럼쓴거임. mapper에서 바꿔줄거임
 
+		LocalDate now = LocalDate.now();
+		int nowDD = now.getDayOfMonth();
+		int udateDD = Integer.parseInt(request.getParameter("ac_udated"));
+		// 희망이자지급일자(udateDD)와 현재날짜를 비교해서 1,2 중에 하나 넘겨줌
+		if(udateDD< nowDD){
+			//실제 ac_balance 값을 세팅해주려는게 아니라 숫자값 하나를 mapper로 보내야하는데 Map쓰기 싫어서 그냥 빈 컬럼쓴거임. mapper에서 바꿔줄거임
+			accounty.setAc_balance(2);
+		}else{
+			accounty.setAc_balance(1);
+		}
+
+		accountyService.insertAcc(accounty);
 		return "redirect:/";
 	}
 

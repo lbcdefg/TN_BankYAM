@@ -17,4 +17,5 @@ public interface AccountyMapper {
     boolean transfer(Accounty accounty);
     List<Accounty> findAccByMemberId(long ac_mb_seq);
     Product findPdBySeq(long seq);
+    void insertAcc(Accounty accounty);
 }
