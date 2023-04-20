@@ -19,6 +19,5 @@ public class Transactions {
     private long tr_after_balance;
     private String tr_msg;
     private Date tr_date;
-
     private Accounty accounty;
 }

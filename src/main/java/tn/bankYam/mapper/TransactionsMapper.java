@@ -2,6 +2,7 @@ package tn.bankYam.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+import tn.bankYam.dto.Membery;
 import tn.bankYam.dto.Transactions;
 
 import java.util.List;
@@ -10,5 +11,5 @@ import java.util.List;
 @Repository
 public interface TransactionsMapper {
     void insertTrLog(Transactions transactions);
-    List<Transactions> listTrLog();
+    List<Transactions> selectTrList(Membery membery);
 }
