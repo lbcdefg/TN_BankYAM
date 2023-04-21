@@ -148,13 +148,23 @@
                         <div class="row">
                             <div class="row-in">
                                 <label>희망이자지급일</label>
-                                <select id="ac_udated" name="ac_udated" class="form-control margin-bottom-20 join-placeholderR">
-                                    <option value="1" name="">매월 1일</option>
-                                    <option value="5" name="">매월 5일</option>
-                                    <option value="10" name="">매월 10일</option>
-                                    <option value="15" name="">매월 15일</option>
-                                    <option value="20" name="">매월 20일</option>
-                                    <option value="25" name="">매월 25일</option>
+                                <select id="ac_udated" name="ac_udated" class="form-control margin-bottom-20">
+                                    <option value="1">매월 1일</option>
+                                    <option value="5">매월 5일</option>
+                                    <option value="10">매월 10일</option>
+                                    <option value="15">매월 15일</option>
+                                    <option value="20">매월 20일</option>
+                                    <option value="25">매월 25일</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="row-in">
+                                <label>계좌개설목적</label>
+                                <select id="ac_purpose" name="ac_purpose" class="form-control margin-bottom-20">
+                                    <option value="예금">예금</option>
+                                    <option value="급여">급여</option>
+                                    <option value="생활비">생활비</option>
                                 </select>
                             </div>
                         </div>
@@ -219,7 +229,7 @@
                     url : "join/mailCheck",
                     data : {email: $("#mb_email").val()},
                     success : function(result){
-                        if(result == 'false'){
+                        if(!result){
                             console.log("입력된 이메일은 : " + $("#mb_email").val());
                             emailCodeBtn.style.display = 'block';
                             $("#join_message").html("<span id='emconfirmchk'>코드발송 버튼을 눌러주세요</span>");
