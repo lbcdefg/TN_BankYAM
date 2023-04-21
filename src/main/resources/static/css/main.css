@@ -98,22 +98,18 @@
     transition: all 0.5s;
 }
 .main-button1:hover{
-    transform: scale(1.02);
     background-position: bottom 10px right 20px;
     background-color: #B39273;
 }
 .main-button2:hover{
-    transform: scale(1.02);
     background-position: bottom 10px right 20px;
     background-color: #B39273;
 }
 .main-button3:hover{
-    transform: scale(1.02);
     background-position: bottom 10px right 10px;
     background-color: #B39273;
 }
 .main-button4:hover{
-    transform: scale(1.02);
     background-position: bottom 20px right 10px;
     background-color: #B39273;
 }
