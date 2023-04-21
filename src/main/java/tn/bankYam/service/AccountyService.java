@@ -12,7 +12,7 @@ public interface AccountyService {
     boolean checkStatusS(String ac_status);
 
     boolean checkPdS(long ac_pd_seq);
-    boolean updateS(Accounty accounty);
+    boolean transferS(Accounty accounty);
     List<Accounty> findAccByMemberId(long ac_mb_seq);
     Product findPdBySeq(long seq);
     void insertAcc(Accounty accounty);

@@ -49,10 +49,14 @@ public class AccountyController {
 
         return "transfer";
     }
+    @PostMapping("transfer_chk")
+    public String transferChk(){
+        return "confirmation";
+    }
     @PostMapping ("transfer_ok")
     public String transferOk(Model model, HttpSession session, Accounty accounty){
         Membery membery = (Membery)session.getAttribute("membery");
-        model.addAttribute("transfer", accountyService.updateS(accounty));
+        model.addAttribute("transfer", accountyService.transferS(accounty));
         return "redirect:profile";
     }
 

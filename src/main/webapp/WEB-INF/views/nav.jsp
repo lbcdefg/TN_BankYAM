@@ -16,6 +16,15 @@
     <script type="text/javascript" language="javascript"
     			src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="/js/trim.js"></script>
+    <script language="javascript">
+        function openTrPop(){
+            var tr_width = '600';
+            var tr_height = '600';
+            var tr_left = Math.ceil(( window.screen.width - tr_width )/2);
+            var tr_top = Math.ceil(( window.screen.height - tr_height )/2);
+            var popup = window.open('/account/transfer','transfer', 'width='+ tr_width +', height='+ tr_height +', left=' + tr_left + ', top='+ tr_top);
+        }
+    </script>
 </head>
 <body style="margin: 0;">
     <center>
@@ -30,7 +39,12 @@
                 <li class="nav-menu-item menu-show" id="nav-post">
                     <a href="#">뱅킹</a>
                     <div class="nav-post-box">
-                        <a class="hidden-a" href="#">이체</a>
+                        <c:if test="${sessionScope.membery eq null}">
+                            <a href="/account/transactionList" target="_self" class="hidden-a">이체</a>
+                        </c:if>
+                        <c:if test="${sessionScope.membery ne null}">
+                            <a onclick="openTrPop()" target="_blank" class="hidden-a">이체</a>
+                        </c:if>
                         <a class="hidden-a" href="/account/transactionList">거래내역</a>
                         <a class="hidden-a" href="/accountM/accounts">계좌관리</a>
                     </div>
