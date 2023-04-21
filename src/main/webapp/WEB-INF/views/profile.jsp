@@ -9,6 +9,20 @@
     <title>얌</title>
     <script>
             $(function(){
+                var windowWidth = $(window).width();
+                $(window).resize(function(){
+                    if(this.resizeTO){
+                        clearTimeout(this.resizeTO);
+                    }
+                    this.resizeTO = setTimeout(function(){
+                        $(this).trigger('resizeEnd');
+                    });
+                });
+
+                $(window).on('resizeEnd', function(){
+                    windowWidth = $(window).width();
+                });
+
                 $(".list-element1").on("click",function(){
                     if($(".list-element2").hasClass("focus")){
                         $(".list-element2").removeClass("focus");
@@ -17,18 +31,21 @@
                         $(".profile-acs-list-table").hide();
                         $(".profile-table").show();
                         $(".list-element2-contents").hide();
-                        $(".list-element1-contents").show()
+                        if(windowWidth > 659){
+                            $(".list-element1-contents").show();
+                        }
                     }else{
                         $(".list-element1").addClass("focus");
                         $(".none-table").hide();
                         $(".profile-acs-list-table").hide();
                         $(".profile-table").show();
                         $(".list-element2-contents").hide();
-                        $(".list-element1-contents").show()
+                        if(windowWidth > 659){
+                            $(".list-element1-contents").show();
+                        }
                     }
-                })
-              })
-              $(function(){
+                });
+
                 $(".list-element2").on("click",function(){
                     if($(".list-element1").hasClass("focus")){
                         $(".list-element1").removeClass("focus");
@@ -37,17 +54,21 @@
                         $(".profile-table").hide();
                         $(".profile-acs-list-table").show();
                         $(".list-element1-contents").hide();
-                        $(".list-element2-contents").show();
+                        if(windowWidth > 659){
+                            $(".list-element2-contents").show();
+                        }
                     }else{
                         $(".list-element2").addClass("focus");
                         $(".none-table").hide();
                         $(".profile-table").hide();
                         $(".profile-acs-list-table").show();
                         $(".list-element1-contents").hide();
-                        $(".list-element2-contents").show();
+                        if(windowWidth > 659){
+                            $(".list-element2-contents").show();
+                        }
                     }
-                })
-              })
+                });
+              });
         </script>
 </head>
 <body>
@@ -104,9 +125,10 @@
                         <tr class="profile-acs-list-head">
                             <th class="profile-acs-list-5"></th>
                             <th class="profile-acs-list-18">계좌번호</th>
-                            <th class="profile-acs-list-18">계좌별칭</th>
+                            <th class="profile-acs-list-8">계좌별칭</th>
                             <th class="profile-acs-list-10">계좌상태</th>
-                            <th class="profile-acs-list-10">계좌생성일</th>
+                            <th class="profile-acs-list-10">잔액</th>
+                            <th class="profile-acs-list-9">계좌생성일</th>
                         </tr>
                         <c:if test="${empty accountyList}">
                             <tr class="profile-acs-list-row" style="border:none; height:400px">
@@ -127,11 +149,12 @@
                                 <c:set var="mainAcSeq" value="${fn:substring(acSeqS,5,11)}"/>
                                 <c:set var="lastAcSeq" value="${fn:substring(acSeqS,11,12)}"/>
                                 <td class="profile-acs-list-20">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}</td>
-                                <td class="profile-acs-list-23"><span class="acn">${ac.ac_name}</span></td>
+                                <td class="profile-acs-list-8"><span class="acn">${ac.ac_name}</span></td>
                                 <td class="profile-acs-list-10">${ac.ac_status}</td>
                             <c:if test="${ac.ac_status == '사용중' or ac.ac_status == '휴면'}">
                                 <td class="profile-acs-list-10"><span class="acn">${ac.ac_balance}</span></td>
                             </c:if>
+                                <td class="profile-acs-list-9">${ac.ac_rdate}</td>
                             </tr>
                         </c:forEach>
                     </table>
