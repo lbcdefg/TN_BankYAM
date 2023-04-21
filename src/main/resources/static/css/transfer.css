@@ -1,90 +1,101 @@
-
-.transfer-header{
-    border-collapse: collapse;
-    background-color: #B39273;
-}
-
-.transfer h1{
-    padding-bottom: 10px;
-}
-
-.transfer{
-    padding: 30px;
-}
-
-.transfer-inner{
-    border: 7px solid #B39273;
-    border-radius: 5px;
-    line-height: 30px;
-    color: #3B3838;
-    background-color: #F7F3EF;
-}
-
-.transfer-inner h3{
-    margin-left: 5px;
-    color:#F7F3EF;
-}
-.row-in{
-    display:flex;
-}
-
-.transfer-inner label{
-    margin-left: 5px;
-    width:15%
-}
-.transfer-body .row{
-    font-size: 15px;
-    font-weight: bold;
-    color: #3B3838;
+.transfer-table{
+    border-collapse: separate;
+    border-spacing: 1px;
     text-align: left;
-    padding-bottom: 5px;
+    line-height: 1.5;
+    border-top: 1px solid #ccc;
+    margin: 20px 10px;
 }
-.transfer-body .row-in input[type="number"]::-webkit-outer-spin-button,input[type="number"]::-webkit-inner-spin-button{
-    margin: auto;
-    background-color: #cabcac;
-    border-bottom: 2px solid #B39273;
-    border-top: 2px solid #B39273;
+.transfer-table th {
+    width: 150px;
+    padding: 10px;
+    font-weight: bold;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+    background: #F7F3EF;
+}
+.transfer-table td {
+    width: 450px;
+    padding: 10px;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+}
+
+.amount-button{
+    padding: 10px;
+    text-align: center;
+
+}
+.fontS-35{
+    font-size: 35px;
+    text-align: center;
+
+}
+
+.transfer-table input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
 
-/* .transfer-body .row-in label{
-    width: 30%;
-} */
-.amount{
-    background-color: #B39273;
-    border: none;
-    border-radius: 4px;
-    box-shadow: 0px 2px 0px #5F4934;
-    font-size: 13px;
-}
-.amount:active{
-    box-shadow: 0 0 #5F4934 ; 
-    background-color: #B39273;
-}
-
-
-
 .transfer-btn{
-    margin: auto;
-    display: block;
-    width: 100px;
-    background-color: #B39273;
-    border: none;
-    border-radius: 4px;
-    box-shadow: 0px 4px 0px #91765d;
-    display :inline-block;
-    padding: 10px 15px;
-    font-size: 15px;
-}
-
-.transfer-btn:active{
-    box-shadow: 0 0 #5F4934 ; 
-    background-color: #B39273;
-    display :inline-block
-}
-
-.confirm{
+    margin-left: 300px;
+    height: 35px;
+    width: 80px;
+    font-size: 0.8rem;
+    color: white;
+    background-color: #5F4934;
+    margin-top: 0;
+    transition: all 0.3s;
     text-align: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+.amount-btn{
+    height: 35px;
+    width: 80px;
+    font-size: 0.8rem;
+    color: white;
+    background-color: #5F4934;
+    margin-top: 0;
+    transition: all 0.3s;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
 }
 
+
+.transfer-table select{
+    width: 200px;
+    border: 1px solid #C4C4C4;
+    box-sizing: border-box;
+    border-radius: 10px;
+    padding: 12px 13px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.transfer-table select:focus{
+    border: 1px solid #5F4934;
+    box-sizing: border-box;
+    border-radius: 10px;
+    outline: 3px solid #F7F3EF;
+    border-radius: 10px;
+}
+
+.transfer-input{
+    width: 300px;
+    height: 32px;
+    font-size: 15px;
+    border: 0;
+    border-radius: 15px;
+    outline: none;
+    padding-left: 10px;
+    background-color: #F7F3EF;
+
+}

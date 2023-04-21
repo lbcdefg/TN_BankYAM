@@ -59,9 +59,9 @@ public class AccountyServiceImpl implements AccountyService{
     }
 
     @Override
-    public boolean updateS(Accounty accounty) {
+    public boolean transferS(Accounty accounty) {
         if(checkAccnumS(accounty.getAc_seq()) && checkPwdS(accounty.getAc_pwd()) && checkStatusS(accounty.getAc_status())&&checkPdS(accounty.getAc_pd_seq()))
-            return true;
+            return mapper.transfer(accounty);
         else {
             return false;
         }

@@ -40,18 +40,23 @@ public class AccountyController {
     @GetMapping("transfer")
     public String transfer(Model model, HttpSession session, Accounty accounty){
         Membery membery = (Membery)session.getAttribute("membery");
+        List<Accounty> list = accountyService.findAccByMemberId(membery.getMb_seq());
 
-        //model.addAttribute("ac_seq", accountyService.checkAccnumS(accounty.getAc_seq()));
-        model.addAttribute("ac_mb_seq", accountyService.checkAccnumS(membery.getMb_seq()));
-        //model.addAttribute("ac_pwd", accountyService.checkPwdS(accounty.getAc_pwd()));
-        //model.addAttribute("ac_status", accountyService.checkStatusS(accounty.getAc_status()));
-        //model.addAttribute("ac_pd_seq",accountyService.checkPdS(accounty.getAc_pd_seq()));
+        //로그인한 계정에 계좌가 존재하는지 체크
+        model.addAttribute("chkAcc", accountyService.checkAccnumS(membery.getMb_seq()));
+        //로그인한 계정에 대한 계좌 리스트
+        model.addAttribute("list", list);
+
         return "transfer";
+    }
+    @PostMapping("transfer_chk")
+    public String transferChk(){
+        return "confirmation";
     }
     @PostMapping ("transfer_ok")
     public String transferOk(Model model, HttpSession session, Accounty accounty){
         Membery membery = (Membery)session.getAttribute("membery");
-        model.addAttribute("transfer", accountyService.updateS(accounty));
+        model.addAttribute("transfer", accountyService.transferS(accounty));
         return "redirect:profile";
     }
 
