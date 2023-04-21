@@ -116,4 +116,13 @@
     <update id="updateAcName" parameterType="Accounty">
         update Accounty set AC_NAME=#{ac_name} WHERE AC_SEQ=#{ac_seq}
     </update>
+
+    <select id="checkPs" resultType="String" parameterType="long">
+        SELECT
+            AC_PWD
+        FROM
+            ACCOUNTY
+        WHERE
+            AC_SEQ = #{ac_seq}
+    </select>
 </mapper>

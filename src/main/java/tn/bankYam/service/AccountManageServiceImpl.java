@@ -57,4 +57,9 @@ public class AccountManageServiceImpl implements AccountManageService{
     public void updateAcName(Accounty accounty){
         accountManageMapper.updateAcName(accounty);
     }
+
+    @Override
+    public String checkPs(long ac_seq){
+        return accountManageMapper.checkPs(ac_seq);
+    }
 }

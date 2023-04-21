@@ -6,16 +6,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import tn.bankYam.dto.*;
 import tn.bankYam.service.AccountManageService;
+import tn.bankYam.utils.SHA256;
 import tn.bankYam.utils.ScriptUtil;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.Date;
-import java.time.LocalDate;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -96,5 +96,28 @@ public class AccountManageController {
             }
         }
         return "accounts";
+    }
+
+    @PostMapping("accounts_psCheck")
+    public @ResponseBody String accounts_psCheck(HttpSession session, long ac_seq, int ac_ps) throws NoSuchAlgorithmException {
+        Membery membery = (Membery)session.getAttribute("membery");
+
+        if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
+            // 암호 받아서 비교하기
+            System.out.println("계좌번호: " + ac_seq);
+            System.out.println("기존 계좌 비밀번호(입력값): " + ac_ps);
+
+            // 입력 비밀번호 코드화 및 체크
+            String codePs = SHA256.encrypt(ac_ps+"");
+            String codeVs = accountManageService.checkPs(ac_seq);
+            System.out.println("입력비밀번호 코드: " + codePs);
+            System.out.println("DB비밀번호 코드: " + codeVs);
+
+            // 비밀번호 체크
+            if(codeVs.equals(codePs)){
+                return "allow";
+            }
+        }
+        return "cancel";
     }
 }
