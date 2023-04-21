@@ -127,11 +127,22 @@ public class MemberyController {
 		model.addAttribute("membery", member);
 		return "editProfile";
 	}
+	@GetMapping("checkPwd")
+	@ResponseBody
+	public boolean checkPwd(HttpSession session, @RequestParam("pwd") String pwd) throws NoSuchAlgorithmException{
+		Membery member = (Membery) session.getAttribute("membery");
+		String pwd2 = member.getMb_pwd();
+		if(pwd2.equals(SHA256.encrypt((pwd)))){
+			return true;
+		}else {
+		    return false;
+		}
+	}
   
 	@PostMapping("editProfile_ok")
-	public void editProfile_ok(HttpSession session, Membery editInfo,HttpServletResponse response)throws IOException{
+	public void editProfile_ok(HttpSession session, Membery editInfo,HttpServletResponse response)throws IOException,NoSuchAlgorithmException{
 		Membery member = (Membery) session.getAttribute("membery");
-		if(member.getMb_pwd().equals(editInfo.getMb_pwd()) ) {
+		if(member.getMb_pwd().equals(SHA256.encrypt(editInfo.getMb_pwd())) ) {
 			editInfo.setMb_seq(member.getMb_seq());
 			memberyService.editProfile(editInfo);
 			editInfo = memberyService.findByEmailS(editInfo.getMb_email());

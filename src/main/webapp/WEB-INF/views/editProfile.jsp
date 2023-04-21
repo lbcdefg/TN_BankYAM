@@ -75,6 +75,7 @@
                                 <div class="row-in">
                                     <label>비밀번호</label>
                                     <input type="password" id="mb_pwd" name="mb_pwd" class="form-control margin-bottom-20" autocomplete="off">
+                                    <p id="checkPwd"></p>
                                 </div>
                             </div>
                         </div>
@@ -192,6 +193,24 @@
 		})(str)
 		return stringByteLength
 	}
+	$("#mb_pwd").keyup(function(){
+	    $.ajax({
+	        type: "GET",
+	        url: "checkPwd",
+	        data: {pwd: $("#mb_pwd").val()},
+	        success: function(result){
+	            if(result){
+	                console.log("입력된 전화번호는 : " + $("#mb_pwd").val());
+	                $("#checkPwd").html("마자용");
+	                return true;
+	            }else{
+	                console.log("입력된 전화번호는 : " + $("#mb_pwd").val());
+	                $("#checkPwd").html("틀린 비밀번호");
+	                return false;
+	            }
+	        }
+	    })
+	})
 
 
 </script>

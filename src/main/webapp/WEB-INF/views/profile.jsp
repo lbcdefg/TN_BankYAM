@@ -14,14 +14,14 @@
                         $(".list-element2").removeClass("focus");
                         $(".list-element1").addClass("focus");
                         $(".none-table").hide();
-                        $(".list-table").hide();
+                        $(".profile-acs-list-table").hide();
                         $(".profile-table").show();
                         $(".list-element2-contents").hide();
                         $(".list-element1-contents").show()
                     }else{
                         $(".list-element1").addClass("focus");
                         $(".none-table").hide();
-                        $(".list-table").hide();
+                        $(".profile-acs-list-table").hide();
                         $(".profile-table").show();
                         $(".list-element2-contents").hide();
                         $(".list-element1-contents").show()
@@ -35,14 +35,14 @@
                         $(".list-element2").addClass("focus");
                         $(".none-table").hide();
                         $(".profile-table").hide();
-                        $(".list-table").show();
+                        $(".profile-acs-list-table").show();
                         $(".list-element1-contents").hide();
                         $(".list-element2-contents").show();
                     }else{
                         $(".list-element2").addClass("focus");
                         $(".none-table").hide();
                         $(".profile-table").hide();
-                        $(".list-table").show();
+                        $(".profile-acs-list-table").show();
                         $(".list-element1-contents").hide();
                         $(".list-element2-contents").show();
                     }
@@ -99,38 +99,43 @@
         </div>
         <div class="downcontainer-right">
             <div class="table-div">
-                <table class="list-table" cellpadding='7' cellspacing='2'>
-                    <thead>
-                        <tr>
-                            <th>종류</th>
-                            <th>별칭</th>
-                            <th>계좌번호</th>
-                            <th>잔액</th>
-                            <th>개설일자</th>
+                <div class="profile-acs-table-size350">
+                    <table class="profile-acs-list-table">
+                        <tr class="profile-acs-list-head">
+                            <th class="profile-acs-list-5"></th>
+                            <th class="profile-acs-list-18">계좌번호</th>
+                            <th class="profile-acs-list-18">계좌별칭</th>
+                            <th class="profile-acs-list-10">계좌상태</th>
+                            <th class="profile-acs-list-10">계좌생성일</th>
                         </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach items="${accountyList}" var="account">
-                        <tr>
-                        <td>
-                            ${account.product.pd_name}
-                        </td>
-                        <td>
-                            ${account.ac_name}(${account.ac_main})
-                        </td>
-                        <td>
-                            ${account.ac_seq}
-                        </td>
-                        <td>
-                            ${account.ac_balance}원
-                        </td>
-                        <td>
-                            ${account.ac_rdate}
-                        </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
+                        <c:if test="${empty accountyList}">
+                            <tr class="profile-acs-list-row" style="border:none; height:400px">
+                                <td class="profile-fontS-35" align='center' colspan="6">계좌가 없습니다.. 불가능할텐데.. 왜죠!?</td>
+                            </tr>
+                        </c:if>
+                        <c:forEach items="${accountyList}" var="ac">
+                            <tr class="profile-acs-list-row">
+                                <td class="profile-acs-list-5 acm" id="${ac.ac_seq}" name="${ac.ac_main}">${ac.ac_main}</td>
+                                <c:set var="ac_Seq" value="${ac.ac_seq}"/>
+                                <%
+                                    Long acSeq=(Long)pageContext.getAttribute("ac_Seq");
+                                    String acSeqS = Long.toString(acSeq);
+                                    pageContext.setAttribute("acSeqS", acSeqS);
+                                %>
+                                <c:set var="firstAcSeq" value="${fn:substring(acSeqS,0,3)}"/>
+                                <c:set var="secondAcSeq" value="${fn:substring(acSeqS,3,5)}"/>
+                                <c:set var="mainAcSeq" value="${fn:substring(acSeqS,5,11)}"/>
+                                <c:set var="lastAcSeq" value="${fn:substring(acSeqS,11,12)}"/>
+                                <td class="profile-acs-list-20">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}</td>
+                                <td class="profile-acs-list-23"><span class="acn">${ac.ac_name}</span></td>
+                                <td class="profile-acs-list-10">${ac.ac_status}</td>
+                            <c:if test="${ac.ac_status == '사용중' or ac.ac_status == '휴면'}">
+                                <td class="profile-acs-list-10"><span class="acn">${ac.ac_balance}</span></td>
+                            </c:if>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
                 <table class="profile-table" cellpadding='7' cellspacing='2'>
                     <tr>
                         <th>이름</th>

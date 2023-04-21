@@ -70,11 +70,15 @@ a {
 .wrap .ch1 .chat-content .chat-info{
     width:100%;
     margin-left: 10px;
+    font-size: 11px;
+    color: gray;
 }
 .wrap .ch2 .chat-content .chat-info{
     float:right;
     margin-right: 10px;
     margin-left:  65px;
+    font-size: 11px;
+    color: gray;
 }
 .wrap .chat .chat-content .textbox {
     position: relative;
@@ -181,7 +185,7 @@ div[class="sidebar"]{
 }
 div[class="sidebar"] .menu-list{
     position:relative;
-    background-color: red;
+    border-bottom: 1px solid beige;
     height: 50px;
 }
 .menu-list a{
@@ -196,7 +200,7 @@ div[class="sidebar"] .menu-list{
 }
 div[class="sidebar"] .file-list{
     position:relative;
-    background-color: blue;
+    border-bottom: 1px solid beige;
     height: 60%;
     overflow:scroll;
     overflow-x: hidden;
@@ -225,7 +229,6 @@ div[class="sidebar"] .file-list{
 }
 div[class="sidebar"] .chat-member{
     position:relative;
-    background-color: yellow;
     height: 40%;
     overflow:scroll;
     overflow-x: hidden;
@@ -242,6 +245,7 @@ div[class="sidebar"] .chat-member{
 }
 .chat-member .member-info img{
     height: 100%;
+    width: 50px;
     border-radius: 25px;
 }
 .chat-member .member-info .me{
