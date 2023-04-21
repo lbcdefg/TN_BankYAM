@@ -25,6 +25,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -97,8 +98,23 @@ public class MemberyController {
 	}
 
 	@GetMapping("findID")
-	public String findid(){
-		return "findID";
+	public String findID(){
+		return "findMember";
+	}
+	@GetMapping("findPW")
+	public String findPW(){
+		return "findMember";
+	}
+	@GetMapping("findID/phoneCheck")
+	@ResponseBody
+	Membery phoneCheck(@RequestParam("phone") String phone){
+		Membery membery = memberyService.findByPhone(phone);
+		System.out.println(membery);
+		System.out.println("입력한전화번호: " + phone + ", 회원: " + membery);
+		if(membery!=null){
+			return membery;
+		}
+		return null;
 	}
 
 	@PostMapping("/join/mailConfirm")
@@ -111,15 +127,15 @@ public class MemberyController {
 
 	@GetMapping("/join/mailCheck")
 	@ResponseBody
-	String mailCheck(@RequestParam("email") String email){
+	Membery mailCheck(@RequestParam("email") String email){
 		Membery membery = memberyService.findByEmailS(email);
 		System.out.println(membery);
 		System.out.println("입력한이메일: " + email + ", 회원: " + membery);
 		if(membery!=null){
-			return "true";
+			return membery;
 		}
-		return "false";
-  }
+		return null;
+    }
   
 	@GetMapping("editProfile")
 	public String editProfile(HttpSession session, Model model){
@@ -208,5 +224,16 @@ public class MemberyController {
 		}else{
 			return credit;
 		}
+	}
+
+	@PostMapping("editPwd")
+	public String editPwd(HttpServletRequest request) throws NoSuchAlgorithmException{
+		String mb_email = request.getParameter("mb_email");
+		String mb_pwd = SHA256.encrypt(request.getParameter("mb_pwd"));
+		HashMap<String, String> hashMap = new HashMap<String, String>();
+		hashMap.put("mb_email", mb_email);
+		hashMap.put("mb_pwd", mb_pwd);
+		memberyService.editPwd(hashMap);
+		return "redirect:/";
 	}
 }

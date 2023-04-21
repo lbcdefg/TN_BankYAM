@@ -21,4 +21,10 @@
     <update id="updateImagepath" parameterType="Membery">
         UPDATE MEMBERY SET MB_IMAGEPATH=#{mb_imagepath} WHERE MB_SEQ=#{mb_seq}
     </update>
+    <select id="findByPhone" resultType="Membery" parameterType="String">
+        SELECT * FROM MEMBERY WHERE MB_PHONE=#{mb_phone}
+    </select>
+    <update id="editPwd" parameterType="hashmap">
+        UPDATE MEMBERY SET MB_PWD=#{mb_pwd} WHERE MB_EMAIL=#{mb_email}
+    </update>
 </mapper>
