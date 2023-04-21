@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import tn.bankYam.dto.Chatmember;
 import tn.bankYam.dto.Chatroom;
 import tn.bankYam.dto.Membery;
@@ -58,7 +59,15 @@ public class ChatController {
 			}
 		}
 		//채팅방 만들고 채팅인원 인서트 한번에 서비스 합시다.
-		long roomNumber = chatroomService.makeRoomS(membery.getMb_seq(), f_mb_seq);
+		long roomNumber = chatroomService.makeRoomS(membery, f_mb_seq);
 		return roomNumber;
+	}
+
+	@RequestMapping("/mychatt")
+	@ResponseBody
+	public ModelAndView chatt() {
+		ModelAndView mv = new ModelAndView();
+		mv.setViewName("chatting");
+		return mv;
 	}
 }

@@ -30,10 +30,12 @@
     </resultMap>
     <resultMap id="chatcontent" type="Chatcontent">
         <id property="cc_seq" column="CC_SEQ" />
+        <result property="cc_cr_seq" column="CC_CR_SEQ" />
         <result property="cc_content" column="CC_CONTENT" />
         <result property="cc_rdate" column="CC_RDATE" />
         <result property="cc_rdate_day" column="CC_RDATE_DAY" />
         <result property="cc_rdate_time" column="CC_RDATE_TIME" />
+        <result property="cc_status_count" column="cc_status_count" />
         <association property="membery" resultMap="membery" />
         <association property="chatfile" resultMap="chatfile" />
     </resultMap>
@@ -87,7 +89,7 @@
         SELECT * FROM CHATROOM WHERE CR_SEQ=#{cr_seq}
     </select>
     <select id="selectContent" parameterType="long" resultMap="chatcontent">
-        SELECT CC_SEQ, CC_CONTENT, CC_RDATE,
+        SELECT CC_SEQ, CC_CONTENT, CC_RDATE, (SELECT COUNT(*) FROM CHATSTATUS WHERE CS_CC_SEQ=CC_SEQ) CC_STATUS_COUNT,
             TO_CHAR(CC_RDATE, 'YYYY-MM-DD') CC_RDATE_DAY, TO_CHAR(CC_RDATE, 'HH24:MI:SS') CC_RDATE_TIME,
             MB_SEQ, MB_NAME, MB_IMAGEPATH, CF_SEQ, CF_ORGNM, CF_SIZE
         FROM CHATCONTENT JOIN MEMBERY ON CC_MB_SEQ=MB_SEQ
@@ -97,5 +99,20 @@
     </select>
     <select id="selectFiles" resultType="Chatfile" parameterType="long">
         SELECT * FROM CHATFILE JOIN CHATCONTENT ON CF_SEQ=CC_CF_SEQ WHERE CC_CR_SEQ=#{cr_seq} ORDER BY CC_RDATE
+    </select>
+    <insert id="insertContent" parameterType="Chatcontent">
+        <selectKey keyProperty="cc_seq" resultType="long" order="BEFORE">
+            SELECT CHATCONTENT_SEQ.nextval FROM DUAL
+        </selectKey>
+        INSERT INTO CHATCONTENT VALUES(#{cc_seq}, #{cc_cr_seq}, #{cc_mb_seq}, null, #{cc_content}, SYSDATE)
+    </insert>
+    <select id="selectContentBySeq" parameterType="long" resultMap="chatcontent">
+        SELECT CC_SEQ, CC_CR_SEQ, CC_CONTENT, CC_RDATE,
+        TO_CHAR(CC_RDATE, 'YYYY-MM-DD') CC_RDATE_DAY, TO_CHAR(CC_RDATE, 'HH24:MI:SS') CC_RDATE_TIME,
+        MB_SEQ, MB_NAME, MB_IMAGEPATH, CF_SEQ, CF_ORGNM, CF_SIZE
+        FROM CHATCONTENT JOIN MEMBERY ON CC_MB_SEQ=MB_SEQ
+        LEFT JOIN CHATFILE ON CC_CF_SEQ=CF_SEQ
+        WHERE CC_SEQ=#{cc_seq}
+        ORDER BY CC_RDATE
     </select>
 </mapper>

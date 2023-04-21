@@ -62,35 +62,62 @@ a {
     color: #aaa;
     transform: translateX(-50%);
 }
-.wrap .chat .chat-content{
+.wrap .chat.ch1 .chat-content{
     position: relative;
     display: inline-block;
     width: 88%;
 }
-.wrap .ch1 .chat-content .chat-info{
+.wrap .chat.ch2 .chat-content{
+    position: relative;
+    display: flex;
+    width: 88%;
+    justify-content: end;
+}
+.wrap .ch1 .chat-content .chat-name{
     width:100%;
     margin-left: 10px;
     font-size: 11px;
     color: gray;
 }
 .wrap .ch2 .chat-content .chat-info{
-    float:right;
+    display: inline-flex;
     margin-right: 10px;
-    margin-left:  65px;
     font-size: 11px;
     color: gray;
+    text-align: right;
 }
-.wrap .chat .chat-content .textbox {
+.wrap .ch1 .chat-content .chat-text-info{
+    display: flex;
+}
+.wrap .ch1 .chat-content .chat-text-info .chat-info{
+    display: inline-flex;
+    margin-left: 10px;
+}
+.wrap .ch1 .chat-content .chat-text-info .chat-info span{
+    font-size: 11px;
+    color: gray;
+    flex-direction: column-reverse;
+    display: inline-flex;
+}
+.wrap .ch2 .chat-content .chat-info span{
+    flex-direction: column-reverse;
+    display: inline-flex;
+}
+.textbox {
     position: relative;
     display: inline-block;
-    max-width: calc(100% - 70px);
+    max-width: calc(100% - 100px);
     padding: 10px;
     margin-top: 7px;
     font-size: 13px;
     border-radius: 10px;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 .wrap .ch2 .chat-content .textbox{
     float:right;
+    word-break: break-all;
+    word-wrap: break-word;
 }
 .wrap .chat .textbox::before {
     position: absolute;
