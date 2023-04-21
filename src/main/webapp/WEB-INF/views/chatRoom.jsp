@@ -86,6 +86,7 @@
             <%-- 대화상대(누르면 대화상대랑 거래내역, 이체) --%>
             <div class="chat-member">
                 <div class="member-info">
+                    <input type="hidden" id="session_seq" value="${membery.mb_seq}" />
                     <img src="${sessionScope.membery.mb_imagepath}"/>
                     <div class="me">나</div>
                     <span class="name">${sessionScope.membery.mb_name}</span>
@@ -102,6 +103,7 @@
             </div>
         </div>
         <span class="group-name">
+            <input type="hidden" id="cr_seq" value="${roomInfo.cr_seq}" />
             <c:if test="${roomInfo.cr_name ne '' || roomInfo.cr_name ne null}">
                 ${roomInfo.cr_name}
             </c:if>
@@ -121,7 +123,7 @@
                     <div class="icon"><img src="${sessionScope.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
                     <div class="chat-content">
                         <div class="chat-info">
-                            <span>${content.membery.mb_name}</span><span>${content.cc_rdate_time}</span>
+                            <span>${content.cc_rdate_time}<br/><span>1</span></span>
                         </div>
                         <div class="textbox">${content.cc_content}</div>
                     </div>
@@ -131,16 +133,22 @@
                 <div class="chat ch1">
                     <div class="icon"><img src="${content.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
                     <div class="chat-content">
-                        <div class="chat-info">
-                            <span>${content.membery.mb_name}</span><span>${content.cc_rdate_time}</span>
+                        <div class="chat-name">
+                            <span>${content.membery.mb_name}</span>
                         </div>
-                        <div class="textbox">${content.cc_content}</div>
+                        <div class="chat-text-info">
+                            <div class="textbox">${content.cc_content}</div>
+                            <div class="chat-info">
+                                <span>${content.cc_rdate_time}<br/><span>1</span></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </c:if>
         </c:forEach>
     </div>
-    <textarea class="chat-text" required="required"></textarea>
+    <textarea class="chat-text" required="required" id='msg'></textarea>
+    <input type='button' value='전송' id='btnSend'>
     <div class="modal">
         <div class="modal_body">
         Modal
@@ -212,3 +220,4 @@
     });
 
 </script>
+<script src='/js/chatt.js'></script>

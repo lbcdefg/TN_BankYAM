@@ -2,13 +2,11 @@ package tn.bankYam.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tn.bankYam.dto.Chatcontent;
-import tn.bankYam.dto.Chatfile;
-import tn.bankYam.dto.Chatmember;
-import tn.bankYam.dto.Chatroom;
+import tn.bankYam.dto.*;
 import tn.bankYam.mapper.ChatroomMapper;
 import tn.bankYam.mapper.MemberyMapper;
 
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 
@@ -19,6 +17,7 @@ public class ChatroomServiceImpl implements ChatroomService{
 
 	@Autowired
 	private MemberyMapper memberyMapper;
+
 
 
 	@Override
@@ -35,11 +34,16 @@ public class ChatroomServiceImpl implements ChatroomService{
 	}
 
 	@Override
-	public long makeRoomS(long mb_seq, List<Long> f_mb_seq_list) {
+	public List<Membery> selectChatMemberS(long cr_seq) {
+		return chatroomMapper.selectChatMember(cr_seq);
+	}
+
+	@Override
+	public long makeRoomS(Membery membery, List<Long> f_mb_seq_list) {
 		
 		//채팅방 만들기
 		Chatroom chatroom = new Chatroom();
-		String cr_name = "";
+		String cr_name = membery.getMb_name() + " ";
 		for(Long f_mb_seq : f_mb_seq_list){
 			cr_name += memberyMapper.findBySeq(f_mb_seq).getMb_name() + " ";
 		}
@@ -50,7 +54,7 @@ public class ChatroomServiceImpl implements ChatroomService{
 		//만든 채팅방에 나 추가하기
 		Chatmember chatmemberMy = new Chatmember();
 		chatmemberMy.setCm_cr_seq(chatroom.getCr_seq());
-		chatmemberMy.setCm_mb_seq(mb_seq);
+		chatmemberMy.setCm_mb_seq(membery.getMb_seq());
 		chatroomMapper.insertMember(chatmemberMy);
 		
 		//만든 채팅방에 친구 추가하기
@@ -76,6 +80,17 @@ public class ChatroomServiceImpl implements ChatroomService{
 	@Override
 	public List<Chatfile> selectFilesS(long cr_seq) {
 		return chatroomMapper.selectFiles(cr_seq);
+	}
+
+	@Override
+	public Chatcontent insertContentS(Chatcontent chatcontent) {
+		chatroomMapper.insertContent(chatcontent);
+		return chatcontent;
+	}
+
+	@Override
+	public Chatcontent selectContentBySeqS(long cc_seq) {
+		return chatroomMapper.selectContentBySeq(cc_seq);
 	}
 
 
