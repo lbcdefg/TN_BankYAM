@@ -23,12 +23,13 @@
             <table class="acs-list-table">
                 <tr class="acs-list-head">
                     <th class="acs-list-5"></th>
-                    <th class="acs-list-18">계좌번호</th>
-                    <th class="acs-list-18">계좌별칭</th>
-                    <th class="acs-list-12">주 계좌설정</th>
+                    <th class="acs-list-17">계좌번호</th>
+                    <th class="acs-list-17">계좌별칭</th>
+                    <th class="acs-list-11">주 계좌설정</th>
                     <th class="acs-list-10">계좌상태</th>
                     <th class="acs-list-10">휴면전환</th>
                     <th class="acs-list-10">해지신청</th>
+                    <th class="acs-list-10">비밀번호 변경</th>
                     <th class="acs-list-10">계좌생성일</th>
                 </tr>
                 <c:if test="${empty acList}">
@@ -49,9 +50,10 @@
                         <c:set var="secondAcSeq" value="${fn:substring(acSeqS,3,5)}"/>
                         <c:set var="mainAcSeq" value="${fn:substring(acSeqS,5,11)}"/>
                         <c:set var="lastAcSeq" value="${fn:substring(acSeqS,11,12)}"/>
-                        <td class="acs-list-20">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}</td>
-                        <td class="acs-list-23"><span class="acn">${ac.ac_name}</span><div class="acs-nameM-btnDiv"><button type="button" class="acs-nameM-btn" onclick="modifyName('${ac.ac_name}',${ac.ac_seq})">수정</button></div></td>
-                        <td class="acs-list-12">
+                        <td class="acs-list-27">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}
+                        <br><span class="fontS-12 color-B39273">잔액: <fmt:formatNumber value="${ac.ac_balance}" pattern="#,###" /> 원</span></td>
+                        <td class="acs-list-17"><span class="acn">${ac.ac_name}</span><div class="acs-nameM-btnDiv"><button type="button" class="acs-nameM-btn" onclick="modifyName('${ac.ac_name}',${ac.ac_seq})">수정</button></div></td>
+                        <td class="acs-list-11">
                             <c:if test="${ac.ac_status == '사용중'}">
                                 <input type="radio" name="acr" id="acr-${ac.ac_seq}"/>
                             </c:if>
@@ -65,9 +67,16 @@
                                 <a class="acs-click" onclick="">휴면취소</a>
                             </c:if>
                         </td>
-                    <c:if test="${ac.ac_status == '사용중' or ac.ac_status == '휴면'}">
-                        <td class="acs-list-10"><a class="acs-click" onclick="">해지신청</a></td>
-                    </c:if>
+                        <td class="acs-list-10">
+                        <c:if test="${ac.ac_status == '사용중' or ac.ac_status == '휴면'}">
+                            <a class="acs-click" onclick="">해지신청</a>
+                        </c:if>
+                        </td>
+                        <td class="acs-list-10">
+                        <c:if test="${ac.ac_status == '사용중'}">
+                            <a class="acs-click" onclick="modifyPs(${ac.ac_seq})">변경</a>
+                        </c:if>
+                        </td>
                         <td class="acs-list-10">${ac.ac_rdate}</td>
                     </tr>
                 </c:forEach>
@@ -79,11 +88,11 @@
             <table class="acs-list-table">
                 <tr class="acs-list-head">
                     <th class="acs-list-5"></th>
-                    <th class="acs-list-20">계좌번호</th>
-                    <th class="acs-list-23">계좌별칭</th>
-                    <th class="acs-list-12">복구문의</th>
+                    <th class="acs-list-17">계좌번호</th>
+                    <th class="acs-list-17">계좌별칭</th>
+                    <th class="acs-list-11">복구문의</th>
                     <th class="acs-list-10">계좌상태</th>
-                    <th class="acs-list-20">해지일자</th>
+                    <th class="acs-list-30">해지일자</th>
                     <th class="acs-list-10">계좌생성일</th>
                 </tr>
                 <c:if test="${empty acXList}">
@@ -104,9 +113,9 @@
                         <c:set var="secondAcSeq" value="${fn:substring(acSeqS,3,5)}"/>
                         <c:set var="mainAcSeq" value="${fn:substring(acSeqS,5,11)}"/>
                         <c:set var="lastAcSeq" value="${fn:substring(acSeqS,11,12)}"/>
-                        <td class="acs-list-20">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}</td>
-                        <td class="acs-list-23"><span class="acn">${ac.ac_name}</span><div class="acs-nameM-btnDiv"><button type="button" class="acs-nameM-btn" onclick="modifyName('${ac.ac_name}',${ac.ac_seq})">수정</button></div></td>
-                        <td class="acs-list-12">
+                        <td class="acs-list-17">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}</td>
+                        <td class="acs-list-17"><span class="acn">${ac.ac_name}</span><div class="acs-nameM-btnDiv"><button type="button" class="acs-nameM-btn" onclick="modifyName('${ac.ac_name}',${ac.ac_seq})">수정</button></div></td>
+                        <td class="acs-list-11">
                             <c:if test="${ac.ac_status == '해지'}">
                                 <a class="acs-click" onclick="">복구신청</a>
                             </c:if>
@@ -115,7 +124,7 @@
                             </c:if>
                         </td>
                         <td class="acs-list-10">${ac.ac_status}</td>
-                        <td class="acs-list-20">${ac.ac_xdate}</td>
+                        <td class="acs-list-30">${ac.ac_xdate}</td>
                         <td class="acs-list-10">${ac.ac_rdate}</td>
                     </tr>
                 </c:forEach>
@@ -127,17 +136,51 @@
             <div class="acs-nameM-body">
                 <h2 style="font-size: 30px; color:#F7F3EF; margin-bottom:10%">계좌별칭 설정</h2>
                 <form name="acnf" method="post" action="accounts_nameC">
-                    <input type="text" class="ac-name" name="ac_name" maxlength="15" spellcheck="false"/>
+                    <input type="text" class="ac-name" name="ac_name" maxlength="15" spellcheck="false" autocomplete='off'/>
                     <input type="hidden" class="ac-receptor"/>
                     <input type="hidden" class="ac-receptor2" name="ac_seq"/>
+                    &nbsp;
                     <input type="button" class="acs-nameMA-btn acs-click" onclick="modifySubmit()" value="변경"/>&nbsp;
-                    <input type="button" class="acs-nameMC-btn acs-click" onclick="modifyCancle()" value="취소">
+                    <input type="button" class="acs-nameMC-btn acs-click" onclick="modifyCancel()" value="취소">
                 </form>
                 <div class="acs-nameM-ps">
                 </div>
             </div>
         </div>
 
+        <!-- 계좌 비밀번호 변경 mini 새 창 -->
+        <div class="acs-psM">
+            <div class="acs-psM-body">
+                <h2 style="font-size: 30px; color:#F7F3EF; margin-bottom:10%">계좌 비밀번호 변경</h2>
+                <div class="acs-psM-inputGroup">
+                    <input type="hidden" class="ac-receptor"/>
+                    <div style="width:100%; height:30px">
+                        <span class="fontS-15 color-F7F3EF">기존 비밀번호 </span>&nbsp;
+                        <input type="password" pattern="[0-9]*" class="ac-ps" name="ac_ps" maxlength="4" spellcheck="false" autocomplete='off'/>&nbsp;
+                        <input type="button" class="acs-psMA-btn acs-click" onclick="psCheck()" value="확인"/>
+                    </div>
+                    <div class="acs-psM-ps1"></div>
+                    <input type="hidden" class="ac-receptor2" name="ac_seq"/>
+                    <form name="acpf" method="post" action="accounts_psChange">
+                        <div style="width:100%; height:30px">
+                            <span class="fontS-15 color-F7F3EF">신규 비밀번호 </span>&nbsp;
+                            <input type="password" pattern="[0-9]*" class="ac-newPs" name="ac_ps" maxlength="4" spellcheck="false" autocomplete='off' disabled/>
+                        </div>
+                        <div class="acs-psM-ps2"></div>
+                        <div style="width:100%; height:30px">
+                            <span class="fontS-15 color-F7F3EF">비밀번호 확인 </span>&nbsp;
+                            <input type="password" pattern="[0-9]*" class="ac-newPs-check" name="ac_ps" maxlength="4" spellcheck="false" autocomplete='off' disabled/>
+                        </div>
+                        <div class="acs-psM-ps3"></div>
+                        <input type="hidden" class="ac-receptor3" name="ac_seq"/>
+                        <div class="acs-psM-btnGroup">
+                            <input type="button" class="acs-psMA-btn acs-click" onclick="psSubmit()" value="변경"/>&nbsp;
+                            <input type="button" class="acs-psMC-btn acs-click" onclick="psCancel()" value="취소">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 

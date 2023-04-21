@@ -24,4 +24,6 @@ public interface AccountManageMapper {
     void updateAcBeforeMain(Accounty accounty);
 
     void updateAcName(Accounty accounty);
+
+    String checkPs(long ac_seq);
 }

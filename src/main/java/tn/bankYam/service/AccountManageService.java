@@ -23,4 +23,6 @@ public interface AccountManageService {
     void updateAcBeforeMain(Accounty accounty);
 
     void updateAcName(Accounty accounty);
+
+    String checkPs(long ac_seq);
 }
