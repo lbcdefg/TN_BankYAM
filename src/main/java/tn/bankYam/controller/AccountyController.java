@@ -40,12 +40,12 @@ public class AccountyController {
     @GetMapping("transfer")
     public String transfer(Model model, HttpSession session, Accounty accounty){
         Membery membery = (Membery)session.getAttribute("membery");
-        List<Accounty> list = accountyService.findAccByMemberId(membery.getMb_seq());
+        List<Accounty> accList = accountyService.findAccByMemberId(membery.getMb_seq());
 
         //로그인한 계정에 계좌가 존재하는지 체크
         model.addAttribute("chkAcc", accountyService.checkAccnumS(membery.getMb_seq()));
         //로그인한 계정에 대한 계좌 리스트
-        model.addAttribute("list", list);
+        model.addAttribute("list", accList);
 
         return "transfer";
     }

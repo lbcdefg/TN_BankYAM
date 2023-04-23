@@ -3,72 +3,37 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-<link rel="stylesheet" type="text/css" href="/css/transfer.css" />
-<script  src="http://code.jquery.com/jquery-latest.min.js"></script>
-<script language="javascript">
-	const regExp = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g; //전체에서 특수문자 찾기
-	const blankExp = /\s/g; //전체에서 공백찾기
-	function newPage(){
-		location.href="receipt";
-	}
-</script>
 
 <body>
-	<div class="transfer">
-		<div class="transfer-inner">
-		<h1 class="confirm">이체 확인</h1>
-            <div class="transfer-header">
-                <div class="inner">
-                    <h3 class="transfer-header-title">출금정보</h3>
-                </div>
-            </div>
-            <div class="inner">
-                <div class="transfer-body">
-                    <form method="post" name="f" action="transfer_ok" class="transfer-page" novalidate="novalidate">
-
-                        <div class="row">
-                            <div class="row-in">
-                                <label>출금계좌번호</label>
-                            </div>
-                        </div>
-                        <div class="transfer-header">
-                            <div class="inner">
-                                <h3 class="transfer-header-title">입금정보</h3>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="row-in">
-                                <label>입금은행</label>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="row-in">
-                                <label>입금계좌번호</label>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="row-in">
-                                <label>이체금액</label>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="row-in">
-                                <label>통장메모</label>
-                            </div>
-                        </div>
-                        <div class="confirm">
-                            <div class="">
-                                <button type="button" onclick="location.href='../'" class="transfer-btn">이전단계</button>
-                                <button type="button" onclick="newPage()" class="transfer-btn">이체하기</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-	    </div>
-	</div>
+    <form method="post" name="f" action="transfer_chk" class="" novalidate="novalidate">
+        <table class="transfer-table">
+            <tr>
+                <th scope="row">출금 계좌번호</th>
+                    <td>${ac_seq}</td>
+            </tr>
+            <tr>
+                <th scope="row">은행</th>
+                <td>${}</td>
+            </tr>
+            <tr>
+                <th scope="row">입금 계좌번호</th>
+                <td>
+                    <input class="transfer-input" type="number" name="tr_other_accnum">
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">이체 금액</th>
+                <td>
+                    <input class="transfer-input" type="number" name="tr_amount" id='result'>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row">통장 메모</th>
+                <td>
+                    <input class="transfer-input" type="text" placeholder="(선택)최대 20자 이내 입력" name="tr_msg">
+                </td>
+            </tr>
+        </table>
+        <button type="button" onclick="newPage()" class="transfer-btn">확인</button>
+    </form>
 </body>

@@ -79,4 +79,9 @@
         </selectKey>
         INSERT INTO ACCOUNTY VALUES(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 0, #{ac_name}, '주', '사용중', #{ac_pd_seq}, SYSDATE, add_months(to_date(concat((select to_char(sysdate, 'YYMM') from dual),TO_NUMBER(#{ac_status})),'YYMMDD'),#{ac_balance}), null)
     </insert>
+    <select id="selectContentAcc" parameterType="long">
+        SELECT AC_SEQ, AC_PWD, AC_BALANCE FROM ACCOUNTY A JOIN MEMBERY M
+        ON A.AC_MB_SEQ = M.MB_SEQ
+        WHERE A.AC_MB_SEQ=#{mb_seq}
+    </select>
 </mapper>

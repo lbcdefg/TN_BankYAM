@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
+
 <script language="javascript">
 	const regExp = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g; //전체에서 특수문자 찾기
 	const blankExp = /\s/g; //전체에서 공백찾기
@@ -45,11 +46,12 @@
     <form method="post" name="f" action="transfer_chk" class="" novalidate="novalidate">
         <table class="transfer-table">
             <tr>
+                <input type="hidden" id="ac_seq" value="${accList.ac_seq}">
                 <th scope="row">출금 계좌번호</th>
                     <td>
                     <select>
-                        <c:forEach var="seq" items="${list}">
-                            <option value="${seq.ac_seq}">계좌 선택</option>
+                        <c:forEach var="accList" items="${accList}">
+                            <option value="${accList.ac_seq}">계좌 선택</option>
                             <option>${seq.ac_seq}</option>
                         </c:forEach>
                     </select>
@@ -64,6 +66,7 @@
             <tr>
                 <th scope="row">비밀번호 확인</th>
                 <td>
+
                     <input class="transfer-input" placeholder="숫자만 입력해주세요" type="text" name="ac_pwd_chk">
                 </td>
             </tr>

@@ -37,7 +37,6 @@
                     </c:if>
                     <c:forEach items="${trList}" var="tr">
                         <tr class="tr-list-row">
-
                             <td class="tr-list-10" name="${tr.tr_ac_seq}">${tr.tr_ac_seq}</td>
                             <td class="tr-list-10" name="${tr.tr_other_accnum}">${tr.tr_other_accnum}</td>
                             <td class="tr-list-10" name="${tr.tr_other_bank}">${tr.tr_other_bank}</td>

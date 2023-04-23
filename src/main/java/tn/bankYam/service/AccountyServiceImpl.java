@@ -2,6 +2,7 @@ package tn.bankYam.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.bankYam.dto.Accounty;
 import tn.bankYam.dto.Product;
 import tn.bankYam.mapper.AccountyMapper;
@@ -59,6 +60,7 @@ public class AccountyServiceImpl implements AccountyService{
     }
 
     @Override
+    @Transactional //(rollbackOn = RollBackException.class, dontRollbackOn = RuntimeException.class)
     public boolean transferS(Accounty accounty) {
         if(checkAccnumS(accounty.getAc_seq()) && checkPwdS(accounty.getAc_pwd()) && checkStatusS(accounty.getAc_status())&&checkPdS(accounty.getAc_pd_seq()))
             return mapper.transfer(accounty);
