@@ -49,20 +49,22 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="row-in">
-                                <button id="next-btn-1" type="button" onclick="next(this)" class="join-btn normal-btn next-btn">다음</button>
+                            <div class="row-1quater"></div>
+                            <div class="row-1quater">
+                                <button id="next-btn-1" type="button" onclick="next(this)" class="join-btn normal-btn next-btn margin-bottom-20">다음</button>
                             </div>
+                            <div class="row-1quater"></div>
                         </div>
                     </div>
 
                     <div id="join-form2" class="join_hidden1">
                         <div class="row">
-                            <div class="row-third">
+                            <div class="row-3quater">
                                 <label>이메일</label>
                                 <input type="text" id="mb_email" name="mb_email" class="form-control margin-bottom-20" value="" autocomplete="off">
 
                             </div>
-                            <div class="row-1third">
+                            <div class="row-1quater">
                                 <div class="join-wbtn">
                                     <button id="emailCodebtn" type="button" class="normal-btn" style="display:none;">코드발송</button>&nbsp;
                                     <button id="emailReset"  type="button" class="normal-btn">다시입력</button>
@@ -127,10 +129,12 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="row-in"></div>
-                            <div class="row-in half-in-btn">
-                                <button id="next-btn-2" type="button" onclick="next(this)" class="join-btn normal-btn next-btn">다음</button>
+                            <div class="row-1quater"></div>
+
+                            <div class="row-1quater half-in-btn">
+                                <button id="next-btn-2" type="button" onclick="next(this)" class="join-btn normal-btn next-btn margin-bottom-20">다음</button>
                             </div>
+                            <div class="row-1quater"></div>
                         </div>
                     </div>
 
@@ -170,10 +174,11 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="row-in"></div>
-                            <div class="row-in half-in-btn">
-                                <button id="next-btn-3" type="button" onclick="next(this)" class="join-btn">회원가입</button>
+                            <div class="row-1quater"></div>
+                            <div class="row-1quater half-in-btn">
+                                <button id="next-btn-3" type="button" onclick="next(this)" class="join-btn normal-btn margin-bottom-20">회원가입</button>
                             </div>
+                            <div class="row-1quater"></div>
                         </div>
                     </div>
                 </form>
