@@ -37,6 +37,9 @@ label::before{
     width: 13px;
     height: 13px;
 }
+input[class=acpwd]:invalid {
+    border: 3px solid red;
+}
 
 input:checked + label::before{
     content: "";
@@ -88,7 +91,7 @@ input:checked + label::before{
     border-bottom: solid 1px #eee;
 }
 .page-header h2{
-	font-size: 24px;
+	font-size: 30px;
     margin-bottom: 15px;
 }
 .join-placeholderR::-webkit-input-placeholder{
@@ -107,6 +110,8 @@ input:checked + label::before{
 	display: flex;
 	margin-right: -15px;
 	margin-left: -15px;
+	justify-content:space-between;
+	align-content:center;
 }
 .row-in{
 	width: 100%;
@@ -125,21 +130,30 @@ input:checked + label::before{
 	padding-right: 15px;
 	padding-left: 15px;
 }
-.row-third{
+.row-3quater{
 	width: 75%;
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+	align-items:center;
+}
+.join-wbtn{
+    display: flex;
+    text-align: center;
+    margin-top: 40px;
+}
+.row-1quater{
+	width: 25%;
 	float: left;
+	display : inline;
 	position: relative;
 	min-height: 1px;
 	padding-right: 15px;
 	padding-left: 15px;
 }
-.join-wbtn{
-    display: flex;
-    text-align: center;
-    margin-top:22px;
-}
 .row-1third{
-	width: 25%;
+	width: 35%;
 	float: left;
 	display : inline;
 	position: relative;
@@ -151,7 +165,7 @@ input:checked + label::before{
     width:70%;
 }
 
-.row-in label, .row-half label, .row-third label, .row-1third label{
+.row-in label, .row-half label, .row-3quater label, .row-1quater label{
 	color: #777;
 	display: inline-block;
     max-width: 100%;
@@ -181,6 +195,7 @@ input:checked + label::before{
 	user-select: none;
 	background-image: none;
 	border: 1px solid transparent;
+	margin-left:20%;
 }
 .half-in-btn{
 	text-align: center;
@@ -220,17 +235,70 @@ input:checked + label::before{
     border: 1px solid var(--themecolor);
 }
 
-@media screen and (max-width: 900px){
+@media screen and (min-width: 500px){
     .join-page{
         width: 90%;
         padding: 5px;
     }
     .join-body{
-    	margin-left: 5%;
+    	margin-left: 0%;
+    }
+
+    .row-in label, .row-half label, .row-3quater label, .row-1quater label{
+        color: #777;
+        display: inline-block;
+        max-width: 100%;
+        margin-bottom: 5px;
+        font-weight: 700;
+        font-size: 1.3rem;
+    }
+    .row-3quater{
+        width: 55%;
+    }
+    .row-1quater{
+        width: 45%;
+        padding: 0;
+    }
+
+}
+
+@media screen and (min-width: 650px){
+    .row-3quater{
+        width: 65%;
+    }
+    .row-1quater{
+        width: 35%;
+        padding: 0;
     }
 }
 
-@media screen and (max-width: 1000px){
+@media screen and (min-width: 750px){
+    .join-wbtn{
+        margin-left:15%;
+        margin-right:5%;
+    }
+}
+
+@media screen and (min-width: 900px){
+    .join-body{
+    	margin-left: 5%;
+    }
+    .join-btn{
+        margin-left:30%;
+    }
+    .join-wbtn{
+        margin-left:10%;
+        margin-right:5%;
+    }
+    .row-3quater{
+        width: 70%;
+    }
+    .row-1quater{
+        width: 30%;
+    }
+}
+
+@media screen and (min-width: 1000px){
     .join-page{
         width: 80%;
         padding: 5px;
@@ -238,7 +306,13 @@ input:checked + label::before{
     .join-body{
     	margin-left: 10%;
     }
-    .row-in label, .row-half label, .row-third label, .row-1third label{
+    .join-wbtn{
+        margin-left:5%;
+        margin-right:5%;
+        margin-top:40px;
+    }
+
+    .row-in label, .row-half label, .row-3quater label, .row-1quater label{
     	color: #777;
     	display: inline-block;
         max-width: 100%;
@@ -249,14 +323,44 @@ input:checked + label::before{
     .page-header h2{
     	font-size: 35px;
     }
+    .join-btn{
+        margin-left:35%;
+    }
 }
 
-@media screen and (max-width: 1100px){
+@media screen and (min-width: 1100px){
     .join-page{
-        width: 80%;
+        width: 70%;
         padding: 5px;
     }
     .join-body{
     	margin-left: 15%;
+    }
+
+}
+
+@media screen and (min-width: 1400px){
+    .join-page{
+        width: 770px;
+        padding: 5px;
+        margin-left:10%;
+    }
+    .row-3quater{
+        width: 75%;
+    }
+    .row-1quater{
+        width: 25%;
+    }
+    .join-wbtn{
+        margin-left:3px;
+        margin-top:43px;
+    }
+}
+
+@media screen and (min-width: 1400px){
+    .join-page{
+        width: 770px;
+        padding: 5px;
+        margin-left:15%;
     }
 }

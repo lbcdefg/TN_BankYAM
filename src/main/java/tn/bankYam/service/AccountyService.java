@@ -3,6 +3,7 @@ package tn.bankYam.service;
 import tn.bankYam.dto.Accounty;
 import tn.bankYam.dto.Product;
 
+import java.util.HashMap;
 import java.util.List;
 
 public interface AccountyService {
@@ -11,5 +12,5 @@ public interface AccountyService {
     void transferS(Accounty accounty);
     List<Accounty> findAccByMemberId(long ac_mb_seq);
     Product findPdBySeq(long seq);
-    void insertAcc(Accounty accounty);
+    void insertAcc(HashMap<String, Object> map);
 }

@@ -189,30 +189,28 @@ public class MemberyController {
 		memberyService.joinMembery(membery);
 
 		// 기본계좌 생성하기, Accoounty 여기서 만들어줘서넘김
+		HashMap<String, Object> hashMap = new HashMap<String, Object>();
 		Accounty accounty = new Accounty();
 		Membery memberyVal = memberyService.findByEmailS(membery.getMb_email());
-		accounty.setAc_mb_seq(memberyVal.getMb_seq());
+		hashMap.put("ac_mb_seq", memberyVal.getMb_seq());
 		Product product = accountyService.findPdBySeq(1);
-		accounty.setProduct(product);
-		accounty.setAc_pd_seq(product.getPd_seq());
-		accounty.setAc_name(product.getPd_name());
-		String acPwd = request.getParameter("ac_pwd");
-		accounty.setAc_pwd(SHA256.encrypt(acPwd));
-		accounty.setMembery(memberyVal);
-		accounty.setAc_status(request.getParameter("ac_udated")); //실제 ac_status 값을 세팅해주려는게 아니라 숫자값(ac_udated) 하나를 mapper로 보내야하는데 Map쓰기 싫어서 그냥 빈 컬럼쓴거임. mapper에서 바꿔줄거임
+		hashMap.put("membery", memberyVal);
+		hashMap.put("ac_pd_seq", product.getPd_seq());
+		hashMap.put("ac_name",product.getPd_name());
+		hashMap.put("ac_pwd", SHA256.encrypt(request.getParameter("ac_pwd")));
+		hashMap.put("ac_udated",request.getParameter("ac_udated"));
+		hashMap.put("ac_purpose", request.getParameter("ac_purpose"));
 
 		LocalDate now = LocalDate.now();
 		int nowDD = now.getDayOfMonth();
 		int udateDD = Integer.parseInt(request.getParameter("ac_udated"));
 		// 희망이자지급일자(udateDD)와 현재날짜를 비교해서 1,2 중에 하나 넘겨줌
 		if(udateDD< nowDD){
-			//실제 ac_balance 값을 세팅해주려는게 아니라 숫자값 하나를 mapper로 보내야하는데 Map쓰기 싫어서 그냥 빈 컬럼쓴거임. mapper에서 바꿔줄거임
-			accounty.setAc_balance(2);
+			hashMap.put("addMonths", 2);
 		}else{
-			accounty.setAc_balance(1);
+			hashMap.put("addMonths", 1);
 		}
-
-		accountyService.insertAcc(accounty);
+		accountyService.insertAcc(hashMap);
 		return "redirect:/";
 	}
 

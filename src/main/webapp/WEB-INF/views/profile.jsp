@@ -21,7 +21,12 @@
 
                 $(window).on('resizeEnd', function(){
                     windowWidth = $(window).width();
+                    if(windowWidth<640){
+                        $(".list-element1-contents").hide();
+                        $(".list-element2-contents").hide();
+                    }
                 });
+
 
                 $(".list-element1").on("click",function(){
                     if($(".list-element2").hasClass("focus")){
@@ -31,8 +36,11 @@
                         $(".profile-acs-list-table").hide();
                         $(".profile-table").show();
                         $(".list-element2-contents").hide();
-                        if(windowWidth > 659){
+                        if(windowWidth > 641){
                             $(".list-element1-contents").show();
+                        }else{
+                            $(".list-element1-contents").hide();
+
                         }
                     }else{
                         $(".list-element1").addClass("focus");
@@ -40,8 +48,10 @@
                         $(".profile-acs-list-table").hide();
                         $(".profile-table").show();
                         $(".list-element2-contents").hide();
-                        if(windowWidth > 659){
+                        if(windowWidth > 641){
                             $(".list-element1-contents").show();
+                        }else{
+                            $(".list-element1-contents").hide();
                         }
                     }
                 });
@@ -54,8 +64,10 @@
                         $(".profile-table").hide();
                         $(".profile-acs-list-table").show();
                         $(".list-element1-contents").hide();
-                        if(windowWidth > 659){
+                        if(windowWidth > 641){
                             $(".list-element2-contents").show();
+                        }else{
+                            $(".list-element2-contents").hide();
                         }
                     }else{
                         $(".list-element2").addClass("focus");
@@ -63,8 +75,10 @@
                         $(".profile-table").hide();
                         $(".profile-acs-list-table").show();
                         $(".list-element1-contents").hide();
-                        if(windowWidth > 659){
+                        if(windowWidth > 641){
                             $(".list-element2-contents").show();
+                        }else{
+                            $(".list-element2-contents").hide();
                         }
                     }
                 });
@@ -82,11 +96,16 @@
                     <h2 style="margin:0;font-size:30px;">${membery.mb_name}</h2> &nbsp;
                     <p style="margin-top:15px;color:lightgray;">(${membery.mb_email})</p>
                 </div>
-                <div>
+                <div style="display:flex;">
                     <form name="f" action="edit_photo_ok" method="post" enctype="multipart/form-data">
                     <input type="file" id="upload_btn" class="upload_btn" name="file">
-                    <label for="upload_btn" id="upload_btn_label">사진변경</label>
+                    <label for="upload_btn" id="upload_btn_label" style="height:20px;">사진변경</label>
                     </form>
+                    <c:if test="${membery.mb_email eq 'lee@hanmail.com'}">
+                        <input type="button" class="rate_btn" onclick="#" value="금리업뎃"></button>
+                        <input type="button" class="rate_btn" onclick="#" value="금리적용"></button>
+                    </c:if>
+
                 </div>
             </div>
         </div>
@@ -127,7 +146,6 @@
                             <th class="profile-acs-list-18">계좌번호</th>
                             <th class="profile-acs-list-8">계좌별칭</th>
                             <th class="profile-acs-list-10">계좌상태</th>
-                            <th class="profile-acs-list-10">잔액</th>
                             <th class="profile-acs-list-9">계좌생성일</th>
                         </tr>
                         <c:if test="${empty accountyList}">
@@ -148,12 +166,10 @@
                                 <c:set var="secondAcSeq" value="${fn:substring(acSeqS,3,5)}"/>
                                 <c:set var="mainAcSeq" value="${fn:substring(acSeqS,5,11)}"/>
                                 <c:set var="lastAcSeq" value="${fn:substring(acSeqS,11,12)}"/>
-                                <td class="profile-acs-list-20">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}</td>
+                                <td class="profile-acs-list-20">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}
+                                <br><span class="fontS-12 color-B39273">잔액: <fmt:formatNumber value="${ac.ac_balance}" pattern="#,###" /> 원</span></td>
                                 <td class="profile-acs-list-8"><span class="acn">${ac.ac_name}</span></td>
                                 <td class="profile-acs-list-10">${ac.ac_status}</td>
-                            <c:if test="${ac.ac_status == '사용중' or ac.ac_status == '휴면'}">
-                                <td class="profile-acs-list-10"><span class="acn">${ac.ac_balance}</span></td>
-                            </c:if>
                                 <td class="profile-acs-list-9">${ac.ac_rdate}</td>
                             </tr>
                         </c:forEach>
