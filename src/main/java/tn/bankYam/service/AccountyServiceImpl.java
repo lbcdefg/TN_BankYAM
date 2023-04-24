@@ -81,4 +81,14 @@ public class AccountyServiceImpl implements AccountyService{
     public void insertAcc(HashMap<String, Object> map){
         mapper.insertAcc(map);
     }
+
+    @Override
+    public List<Accounty> findAccounty() {
+        return mapper.findAccounty();
+    }
+
+    @Override
+    public Product recentPd() {
+        return mapper.findRecentPd();
+    }
 }
