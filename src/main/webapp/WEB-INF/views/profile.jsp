@@ -103,7 +103,7 @@
                     </form>
                     <c:if test="${membery.mb_email eq 'lee@hanmail.com'}">
                         <input type="button" class="rate_btn" onclick="#" value="금리업뎃"></button>
-                        <input type="button" class="rate_btn" onclick="#" value="금리적용"></button>
+                        <input type="button" class="rate_btn" onclick="location.href='/admin/ad_update_ok'" value="금리적용"></button>
                     </c:if>
 
                 </div>

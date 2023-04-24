@@ -79,4 +79,10 @@
         </selectKey>
         INSERT INTO ACCOUNTY VALUES(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 0, #{ac_name}, '주', '사용중', #{ac_pd_seq}, 0, #{ac_purpose}, SYSDATE, add_months(to_date(concat((select to_char(sysdate, 'YYMM') from dual),TO_NUMBER(#{ac_udated})),'YYMMDD'),#{addMonths}), null)
     </insert>
+    <select id="findAccounty" resultMap="accounty">
+        SELECT * FROM ACCOUNTY
+    </select>
+    <select id="findRecentPd" resultType="Product">
+        SELECT * FROM (SELECT * FROM PRODUCT WHERE PD_TYPE='예금' ORDER BY PD_SEQ DESC) WHERE ROWNUM = 1
+    </select>
 </mapper>
