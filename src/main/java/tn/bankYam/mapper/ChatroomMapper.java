@@ -20,4 +20,6 @@ public interface ChatroomMapper {
 	List<Chatfile> selectFiles(long cr_seq);
 	void insertContent(Chatcontent chatcontent);
 	Chatcontent selectContentBySeq(long cc_seq);
+
+	void insertStatus(Chatstatus chatstatus);
 }

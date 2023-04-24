@@ -10,7 +10,7 @@ import java.sql.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Chatstatus {
-    private long cs_cr_seq;
+    private long cs_cc_seq;
     private long cs_mb_seq;
     private Date cs_read;
 
