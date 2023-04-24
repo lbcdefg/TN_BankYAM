@@ -25,5 +25,11 @@ public interface AccountManageMapper {
 
     void updateAcName(Accounty accounty);
 
-    String checkPs(long ac_seq);
+    Accounty checkPs(long ac_seq);
+
+    void updateAcPwdCheck(long ac_seq);
+
+    void updateAcPwdWrong(long ac_seq);
+
+    void updateAcPs(Accounty accounty);
 }

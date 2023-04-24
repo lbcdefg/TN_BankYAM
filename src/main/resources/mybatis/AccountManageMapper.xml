@@ -26,6 +26,8 @@
         <result property="ac_main" column="ac_main" />
         <result property="ac_status" column="ac_status" />
         <result property="ac_pd_seq" column="ac_pd_seq" />
+        <result property="ac_pwd_check" column="ac_pwd_check" />
+        <result property="ac_purpose" column="ac_purpose" />
         <result property="ac_rdate" column="ac_rdate" />
         <result property="ac_udate" column="ac_udate" />
         <result property="ac_xdate" column="ac_xdate" />
@@ -117,12 +119,26 @@
         update Accounty set AC_NAME=#{ac_name} WHERE AC_SEQ=#{ac_seq}
     </update>
 
-    <select id="checkPs" resultType="String" parameterType="long">
+
+    <select id="checkPs" resultType="Accounty" resultMap="accountyMap" parameterType="long">
         SELECT
-            AC_PWD
+            *
         FROM
-            ACCOUNTY
+            accounty
         WHERE
-            AC_SEQ = #{ac_seq}
+            ac_seq = #{ac_seq}
     </select>
+
+    <update id="updateAcPwdCheck" parameterType="long">
+        update Accounty set AC_PWD_CHECK=0 WHERE AC_SEQ=#{ac_seq}
+    </update>
+
+    <update id="updateAcPwdWrong" parameterType="long">
+        update Accounty set AC_PWD_CHECK=AC_PWD_CHECK+1 WHERE AC_SEQ=#{ac_seq}
+    </update>
+
+    <update id="updateAcPs" parameterType="Accounty">
+        update Accounty set AC_PWD=#{ac_pwd} WHERE AC_SEQ=#{ac_seq}
+    </update>
+
 </mapper>
