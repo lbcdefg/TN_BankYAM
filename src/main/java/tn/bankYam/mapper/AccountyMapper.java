@@ -19,4 +19,6 @@ public interface AccountyMapper {
     List<Accounty> findAccByMemberId(long ac_mb_seq);
     Product findPdBySeq(long seq);
     void insertAcc(HashMap<String, Object> map);
+    List<String> findDepositPd();
+    Product findDepositPdVal(String pd_name);
 }

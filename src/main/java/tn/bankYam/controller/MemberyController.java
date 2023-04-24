@@ -246,23 +246,4 @@ public class MemberyController {
 		memberyService.editPwd(hashMap);
 		return "redirect:/";
 	}
-
-	@GetMapping("test")
-	public String testJsoup(){
-		String URL = "https://finance.naver.com/item/main.nhn?code=005930";
-		Document doc;
-		try{
-			doc = Jsoup.connect(URL).get();
-			Elements elem = doc.select(".date");
-			String[] str = elem.text().split(" ");
-
-			Elements todaylist = doc.select(".new_totalinfo dl>dd");
-			String juga = todaylist.get(3).text().split(" ")[1];
-
-			System.out.println("삼성전자 주가 : " + juga);
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-		return "redirect:/";
-	}
 }
