@@ -36,6 +36,7 @@ function checkPwd(){
     } else {
         alert("비밀번호가 일치합니다");
         return true;
+
     }
 }
 $(function(){
