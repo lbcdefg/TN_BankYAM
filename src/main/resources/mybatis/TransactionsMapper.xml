@@ -67,4 +67,5 @@
         ON A.AC_SEQ = T.TR_AC_SEQ
         WHERE M.MB_SEQ = #{mb_seq}
     </select>
+
 </mapper>

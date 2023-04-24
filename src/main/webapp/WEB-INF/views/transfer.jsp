@@ -20,7 +20,7 @@
                     <select name="ac_seq">
                     <option value="">계좌 선택</option>
                         <c:forEach var="accList" items="${accList}">
-                            <option value="${accList.ac_seq}">${accList.ac_seq}</option>
+                            <option value="${accList.ac_seq}">${accList.ac_seq}(${accList.ac_main})</option>
                         </c:forEach>
                     </select>
                     </td>
@@ -28,21 +28,21 @@
             <tr>
                 <th scope="row">계좌 비밀번호</th>
                 <td>
-                    <input class="transfer-input" placeholder="숫자만 입력해주세요" type="text" name="ac_pwd">
-                    <input type="hidden" name="ac_pwd">
+                    <input class="pw" placeholder="숫자만 입력해주세요" type="password" name="ac_pwd" id="password_1" style="width: 300px;height: 32px;font-size: 15px;border: 0;border-radius: 15px;outline: none;padding-left: 10px;background-color: #F7F3EF;">
                 </td>
             </tr>
             <tr>
                 <th scope="row">비밀번호 확인</th>
                 <td>
-                    <input class="transfer-input" placeholder="숫자만 입력해주세요" type="text" name="ac_pwd">
-                    <input type="hidden" name="ac_pwd">
+                    <input class="pw" placeholder="숫자만 입력해주세요" type="password" name="ac_pwd" id="password_2" style="width: 300px;height: 32px;font-size: 15px;border: 0;border-radius: 15px;outline: none;padding-left: 10px;background-color: #F7F3EF;">
+                    <span id="alert-success" style="display: none;">비밀번호가 일치합니다.</span>
+                    <span id="alert-danger" style="display: none; color: #d92742; font-weight: bold; ">비밀번호가 일치하지 않습니다.</span>
                 </td>
             </tr>
             <tr>
                 <th scope="row">은행</th>
                 <td>
-                <select>
+                <select name="tn_other_bank" id="tn_other_bank">
                     <option value="">은행선택</option>
                     <option value="뱅크얌">뱅크얌</option>
                     <option value="국민은행">국민은행</option>

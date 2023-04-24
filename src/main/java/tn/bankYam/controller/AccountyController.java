@@ -50,7 +50,7 @@ public class AccountyController {
 
     //계좌이체 확인
     @PostMapping("transfer_chk")
-    public String transferChk(){
+    public String transferChk(Model model, HttpSession session){
 
         return "confirmation";
     }

@@ -1,4 +1,5 @@
 
+
 function newPage(){
     f.submit();
 }
@@ -7,7 +8,6 @@ function count(type)  {
     const resultElement = document.getElementById('result');
     // 현재 화면에 표시된 값
     let number = $('#result').val();
-
 
     // 더하기
     if(type === 'plus1') {
@@ -25,3 +25,37 @@ function count(type)  {
     //resultElement.innerText = number;
     $('#result').val(number);
 }
+
+function checkPwd(){
+    var pwd1 = document.getElementById('ac_pwd1').value;
+    var pwd2 = document.getElementById('ac_pwd2').value;
+
+    if(pwd1 != pwd2){
+        alert("비밀번호가 일치하지않습니다");
+        return false;
+    } else {
+        alert("비밀번호가 일치합니다");
+        return true;
+    }
+}
+$(function(){
+        $("#alert-success").hide();
+        $("#alert-danger").hide();
+        $("input").keyup(function(){
+            var pwd1=$("#ac_pwd1").val();
+            var pwd2=$("#ac_pwd2").val();
+            if(pwd1 != "" || pwd2 != ""){
+                if(pwd1 == pwd2){
+                    $("#alert-success").show();
+                    $("#alert-danger").hide();
+                    $("#submit").removeAttr("disabled");
+                }else{
+                    $("#alert-success").hide();
+                    $("#alert-danger").show();
+                    $("#submit").attr("disabled", "disabled");
+                }
+            }
+        });
+    });
+
+

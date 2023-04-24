@@ -27,7 +27,12 @@ public class AccountyServiceImpl implements AccountyService{
 
     @Override
     public void transferS(Accounty accounty) {
-        mapper.transfer(accounty);
+        if(selectAccNumS(accounty.getAc_seq())!=null){
+            mapper.transfer(accounty);
+        }else {
+            System.out.println("존재하지 않는 계좌입니다.");
+            selectAccNumS(accounty.getAc_seq());
+        }
     }
 
     @Override
@@ -37,7 +42,6 @@ public class AccountyServiceImpl implements AccountyService{
 
     @Override
     public Product findPdBySeq(long seq){
-
         return mapper.findPdBySeq(seq);
     }
     @Override
