@@ -31,8 +31,8 @@ $(document).ready(function(){
 
     // 계좌별칭 변경 창에서 키 입력시 마다 해당 별칭과 동일한 계좌별칭을 가지고 있는지 체크
     $(".ac-name").on("keyup", function(){
-        pTagFrO = $("<p>").text("변경가능합니다.").attr("style", "color:#a7d3dd").addClass("acC");
-        pTagFrX = $("<p>").text("동일한 이름의 계좌가 있습니다.").attr("style", "color:#a7d3dd").addClass("acC");
+        pTagFrO = $("<p>").text("계좌별칭 변경가능").attr("style", "color:#a7d3dd").addClass("acC");
+        pTagFrX = $("<p>").text("동일한 이름의 계좌가 있습니다").attr("style", "color:#a7d3dd").addClass("acC");
         var acNameGroup = $(".acn").length;
         var acNameGroupList = new Array(acNameGroup);
         var acNameVs = $(".ac-name").val();
@@ -52,7 +52,7 @@ $(document).ready(function(){
         }
     });
 
-    // 기존 비밀번호 입력 시 기존 비밀번호와 같은지 체크
+    // 기존 비밀번호 입력 시 숫자 인지 체크
     $(".ac-ps").on("keyup", function(){
         if(isNaN($(".ac-ps").val())){
             $("p.acC1").remove();
@@ -64,45 +64,43 @@ $(document).ready(function(){
 
     // 신규 비밀번호 입력 시 기존 비밀번호와 같은지 체크
     $(".ac-newPs").on("keyup", function(){
-        if($(".ac-newPs").val().length == 4){
+        if(isNaN($(".ac-newPs").val())){
+            $("p.acC2").remove();
+            setPtagAcs("입력은 숫자만 가능합니다", "acC2", ".acs-psM-ps2");
+        }else if($(".ac-newPs").val().length == 4){
             $("p.acC2").remove();
             if($(".ac-ps").val() == $(".ac-newPs").val()){
-                pTagFrX = $("<p>").text("기존 비밀번호와 동일합니다").attr("style", "color:#a7d3dd").addClass("acC2");
-                $(".acs-psM-ps2").append(pTagFrX);
+                setPtagAcs("기존 비밀번호와 동일합니다", "acC2", ".acs-psM-ps2");
             }else{
-                pTagFrO = $("<p>").text("비밀번호 변경가능").attr("style", "color:#a7d3dd").addClass("acC2");
-                $(".acs-psM-ps2").append(pTagFrO);
+                setPtagAcs("비밀번호 변경가능", "acC2", ".acs-psM-ps2");
             }
         }else{
-            $("p.acC2").remove();
-            $("p.acC3").remove();
+            $("p.acC2").remove(); $("p.acC3").remove();
         }
 
         if($(".ac-newPs").val().length == 4 && $(".ac-newPs-check").val().length == 4 && $("p.acC2").text()=="비밀번호 변경가능"){
             $("p.acC3").remove();
             if($(".ac-newPs-check").val() == $(".ac-newPs").val()){
-                pTagFrOO = $("<p>").text("비밀번호 변경가능").attr("style", "color:#a7d3dd").addClass("acC3");
-                $(".acs-psM-ps3").append(pTagFrOO);
+                setPtagAcs("비밀번호 변경가능", "acC3", ".acs-psM-ps3");
             }else{
-                pTagFrXX = $("<p>").text("입력하신 비밀번호와 다릅니다.").attr("style", "color:#a7d3dd").addClass("acC3");
-                $(".acs-psM-ps3").append(pTagFrXX);
+                setPtagAcs("입력하신 비밀번호와 다릅니다", "acC3", ".acs-psM-ps3");
             }
         }
     });
 
-    // 비밀번호 체크 시 기존 비밀번호와 같은지 체크
+    // 신규 비밀번호 확인 입력 시 기존 비밀번호와 같은지 체크
     $(".ac-newPs-check").on("keyup", function(){
-        if($(".ac-newPs-check").val().length == 4){
+        if(isNaN($(".ac-newPs-check").val())){
+            $("p.acC3").remove();
+            setPtagAcs("입력은 숫자만 가능합니다", "acC3", ".acs-psM-ps3");
+        }else if($(".ac-newPs-check").val().length == 4){
             $("p.acC3").remove();
             if($(".ac-newPs-check").val() == $(".ac-newPs").val() && $("p.acC2").text()=="비밀번호 변경가능"){
-                pTagFrO = $("<p>").text("비밀번호 변경가능").attr("style", "color:#a7d3dd").addClass("acC3");
-                $(".acs-psM-ps3").append(pTagFrO);
+                setPtagAcs("비밀번호 변경가능", "acC3", ".acs-psM-ps3");
             }else if($(".ac-newPs-check").val() == $(".ac-newPs").val() && $("p.acC2").text()!="비밀번호 변경가능"){
-                pTagFrO = $("<p>").text("신규 비밀번호를 다시 확인해 주세요.").attr("style", "color:#a7d3dd").addClass("acC3");
-                $(".acs-psM-ps3").append(pTagFrO);
+                setPtagAcs("재설정 비밀번호를 다시 확인해 주세요", "acC3", ".acs-psM-ps3");
             }else{
-                pTagFrX = $("<p>").text("입력하신 비밀번호와 다릅니다.").attr("style", "color:#a7d3dd").addClass("acC3");
-                $(".acs-psM-ps3").append(pTagFrX);
+                setPtagAcs("입력하신 비밀번호와 다릅니다", "acC3", ".acs-psM-ps3");
             }
         }else{
              $("p.acC3").remove();
@@ -124,25 +122,18 @@ function modifyName(name, seq){
     toggleNameM($(".acs-nameM"));
 }
 
-function windowOnClick(target) {
-    if (target === $(".acs-nameM")) {
-        alert("들어는 오냐?");
-        toggleNameM($(".acs-nameM"));
-    }
-}
-
+// 계좌별칭 mini창 여는 클래스 설정
 function toggleNameM(nameM) {
     nameM.toggleClass("show-acs-nameM");
 }
 
 // 계좌별칭 수정창에서 변경 버튼 클릭 시
 function modifySubmit(){
-    if($("p.acC").text() == "변경가능합니다."){
+    if($("p.acC").text() == "계좌별칭 변경가능"){
         document.acnf.submit();
     }else{
         $("p.acC").remove();
-        pTagFrC = $("<p>").text("동일한 이름의 계좌로는 변경할 수 없습니다.").attr("style", "color:#fb8b00").addClass("acC");
-        $(".acs-nameM-ps").append(pTagFrC);
+        setPtagAcs("동일한 이름의 계좌로는 변경할 수 없습니다", "acC", ".acs-nameM-ps");
     }
 }
 
@@ -162,14 +153,14 @@ function modifyCancel(){
 }
 
 
-// 비밀번호 변경창 열림
+// 비밀번호 변경 버튼 클릭시
 function modifyPs(seq){
     $(".ac-receptor").attr("id", seq);
-    $(".ac-receptor2").val(seq);
-    $(".ac-receptor3").val(seq);
+    $(".ac-receptor2").val(seq); $(".ac-receptor3").val(seq);
     togglePsM($(".acs-psM"));
 }
 
+// 비밀번호 변경 mini창 여는 클래스 설정
 function togglePsM(psM) {
     psM.toggleClass("show-acs-psM");
 }
@@ -192,6 +183,7 @@ function psCheck(){
     }
 }
 
+// 기존 비밀번호 체크 Ajax
 function psCheckAjax(ac_ps){
     var ac_seq = $(".ac-receptor2").val();
     alert(ac_seq);
@@ -203,12 +195,20 @@ function psCheckAjax(ac_ps){
         success: function(check){
             alert(check);
             if(check == "allow"){
-                $(".ac-ps").attr("readonly", true);
                 $("p.acC1").remove();
-                setPtagAcs("비밀번호 확인 완료", "acC1", ".acs-psM-ps1");
+                setPtagAcs("비밀번호 확인완료", "acC1", ".acs-psM-ps1");
+                $(".ac-ps").attr("disabled",true);
+                $(".ac-newPs").attr("disabled",false);
+                $(".ac-newPs-check").attr("disabled",false);
+            }else if(check == "0"){
+                $("p.acC1").remove();
+                setPtagAcs("비밀번호 확인 5회 실패... 뱅크얌으로 문의주세요 (02-1234-1234)", "acC1", ".acs-psM-ps1");
             }else if(check == "cancel"){
                 $("p.acC1").remove();
-                setPtagAcs("비밀번호가 다릅니다.", "acC1", ".acs-psM-ps1");
+                setPtagAcs("잘못된 경로, 혹은 문제가 발생.. 뱅크얌으로 문의주세요 (02-1234-1234)", "acC1", ".acs-psM-ps1");
+            }else{
+                $("p.acC1").remove();
+                setPtagAcs("비밀번호 확인 실패.. " + check + "회 남음.", "acC1", ".acs-psM-ps1");
             }
         },
         error: function(error){
@@ -217,17 +217,28 @@ function psCheckAjax(ac_ps){
     });
 }
 
+// 비밀번호 변경창에서 변경 버튼 클릭 시
+function psSubmit(){
+    if($("p.acC1").text() == "비밀번호 확인완료" && $("p.acC2").text() == "비밀번호 변경가능" && $("p.acC3").text() == "비밀번호 변경가능"){
+        document.acpf.submit();
+    }else{
+        alert("비밀번호 변경 내용을 다시 확인해주세요");
+        return false;
+    }
+}
+
 // 비밀번호 변경창에서 취소 버튼 클릭 시
 function psCancel(){
     var psMResult = confirm("비밀번호 변경을 취소하시겠습니까?");
     if(psMResult){
-        $("p.acC1").remove();
-        $("p.acC2").remove();
-        $("p.acC3").remove();
+        $("p.acC1").remove(); $("p.acC2").remove(); $("p.acC3").remove();
         $(".ac-ps").val("");
         $(".ac-newPs").val("");
         $(".ac-newPs-check").val("");
         togglePsM($(".acs-psM"));
+        $(".ac-ps").attr("disabled",false);
+        $(".ac-newPs").attr("disabled",true);
+        $(".ac-newPs-check").attr("disabled",true);
     }else{
         return false;
     }

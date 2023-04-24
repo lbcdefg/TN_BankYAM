@@ -18,6 +18,8 @@ public class Accounty {
     private String ac_main;
     private String ac_status;
     private long ac_pd_seq;
+    private long ac_pwd_check;
+    private String ac_purpose;
     private Date ac_rdate;
     private Date ac_udate;
     private Date ac_xdate;
