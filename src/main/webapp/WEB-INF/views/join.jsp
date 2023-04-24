@@ -49,20 +49,22 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="row-in">
-                                <button id="next-btn-1" type="button" onclick="next(this)" class="join-btn normal-btn next-btn">다음</button>
+                            <div class="row-1quater"></div>
+                            <div class="row-1quater">
+                                <button id="next-btn-1" type="button" onclick="next(this)" class="join-btn normal-btn next-btn margin-bottom-20">다음</button>
                             </div>
+                            <div class="row-1quater"></div>
                         </div>
                     </div>
 
                     <div id="join-form2" class="join_hidden1">
                         <div class="row">
-                            <div class="row-third">
+                            <div class="row-3quater">
                                 <label>이메일</label>
                                 <input type="text" id="mb_email" name="mb_email" class="form-control margin-bottom-20" value="" autocomplete="off">
 
                             </div>
-                            <div class="row-1third">
+                            <div class="row-1quater">
                                 <div class="join-wbtn">
                                     <button id="emailCodebtn" type="button" class="normal-btn" style="display:none;">코드발송</button>&nbsp;
                                     <button id="emailReset"  type="button" class="normal-btn">다시입력</button>
@@ -122,15 +124,20 @@
                             </div>
                             <div class="row-half">
                                 <label>연봉</label>
-                                <input type="number" placeholder="만원" id="mb_salary" name="mb_salary" class="form-control margin-bottom-20 join-placeholderR" autocomplete="off">
+                                <div style="display:flex">
+                                    <input type="number" id="mb_salary" name="mb_salary" class="form-control margin-bottom-20 join-placeholderR" autocomplete="off">
+                                    <label class="margin-bottom-20" style=" padding-left: 5;">만원</label>
+                                </div>
                             </div>
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="row-in"></div>
-                            <div class="row-in half-in-btn">
-                                <button id="next-btn-2" type="button" onclick="next(this)" class="join-btn normal-btn next-btn">다음</button>
+                            <div class="row-1quater"></div>
+
+                            <div class="row-1quater half-in-btn">
+                                <button id="next-btn-2" type="button" onclick="next(this)" class="join-btn normal-btn next-btn margin-bottom-20">다음</button>
                             </div>
+                            <div class="row-1quater"></div>
                         </div>
                     </div>
 
@@ -138,11 +145,11 @@
                         <div class="row">
                             <div class="row-half">
                                 <label>계좌비밀번호</label>
-                                <input type="password" id="ac_pwd" name="ac_pwd" class="form-control margin-bottom-20" autocomplete="off">
+                                <input type="password" pattern="[0-9]*" id="ac_pwd" name="ac_pwd" maxlength="4" spellcheck="false"  class="form-control acpwd margin-bottom-20" autocomplete="off">
                             </div>
                             <div class="row-half">
                                 <label>계좌비밀번호(확인)</label>
-                                <input type="password" id="ac_pwd2" name="ac_pwd2" class="form-control margin-bottom-20" autocomplete="off">
+                                <input type="password" pattern="[0-9]*" id="ac_pwd2" name="ac_pwd2" maxlength="4" spellcheck="false"  class="form-control acpwd margin-bottom-20" autocomplete="off">
                             </div>
                         </div>
                         <div class="row">
@@ -170,10 +177,11 @@
                         </div>
                         <hr>
                         <div class="row">
-                            <div class="row-in"></div>
-                            <div class="row-in half-in-btn">
-                                <button id="next-btn-3" type="button" onclick="next(this)" class="join-btn">회원가입</button>
+                            <div class="row-1quater"></div>
+                            <div class="row-1quater half-in-btn">
+                                <button id="next-btn-3" type="button" onclick="next(this)" class="join-btn normal-btn margin-bottom-20">회원가입</button>
                             </div>
+                            <div class="row-1quater"></div>
                         </div>
                     </div>
                 </form>

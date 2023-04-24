@@ -115,4 +115,8 @@ hr {
      color: #0076C0; 	 
 }
 
-
+@media screen and (min-width: 500px){
+    .login-form-container{
+        margin:5%;
+    }
+}
