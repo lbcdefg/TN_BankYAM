@@ -16,25 +16,29 @@
         <table class="transfer-table">
             <tr>
                 <th scope="row">출금 계좌번호</th>
-                    <td>
+                <td>
                     <select name="ac_seq">
                     <option value="">계좌 선택</option>
                         <c:forEach var="accList" items="${accList}">
                             <option value="${accList.ac_seq}">${accList.ac_seq}(${accList.ac_main})</option>
+                            <c:set var="ac_balance" value="ac_balance"/>
+                            <c:choose>
+                            <c:when test="${ac_balance eq 'ac_balance'}">
+                            </c:when>
                         </c:forEach>
                     </select>
-                    </td>
+                </td>
             </tr>
             <tr>
                 <th scope="row">계좌 비밀번호</th>
                 <td>
-                    <input class="pw" placeholder="숫자만 입력해주세요" type="password" name="ac_pwd" id="password_1" style="width: 300px;height: 32px;font-size: 15px;border: 0;border-radius: 15px;outline: none;padding-left: 10px;background-color: #F7F3EF;">
+                    <input class="transfer-input pw" placeholder="숫자만 입력해주세요" type="password" name="ac_pwd" id="password_1">
                 </td>
             </tr>
             <tr>
                 <th scope="row">비밀번호 확인</th>
                 <td>
-                    <input class="pw" placeholder="숫자만 입력해주세요" type="password" name="ac_pwd" id="password_2" style="width: 300px;height: 32px;font-size: 15px;border: 0;border-radius: 15px;outline: none;padding-left: 10px;background-color: #F7F3EF;">
+                    <input class="transfer-input pw" placeholder="숫자만 입력해주세요" type="password" name="ac_pwd" id="password_2">
                     <span id="alert-success" style="display: none;">비밀번호가 일치합니다.</span>
                     <span id="alert-danger" style="display: none; color: #d92742; font-weight: bold; ">비밀번호가 일치하지 않습니다.</span>
                 </td>
@@ -85,3 +89,13 @@
         <button style="margin-left:300px" type="button" onclick="newPage()" class="transfer-btn">다음</button>
     </form>
 </body>
+
+<script>
+    $(function(){
+        console.log(1);
+
+        var a = JSON.stringify(${accInfoList});
+
+        console.log(a);
+    });
+</script>

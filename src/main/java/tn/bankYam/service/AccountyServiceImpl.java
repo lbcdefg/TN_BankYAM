@@ -21,8 +21,8 @@ public class AccountyServiceImpl implements AccountyService{
     }
 
     @Override
-    public Accounty selectAccInfoS(String ac_pwd) {
-        return mapper.selectAccInfo(ac_pwd);
+    public Accounty selectAccInfoS(long ac_seq) {
+        return mapper.selectAccInfo(ac_seq);
     }
 
     @Override

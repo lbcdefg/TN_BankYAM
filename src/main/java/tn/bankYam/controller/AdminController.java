@@ -43,7 +43,7 @@ public class AdminController {
         }
         return "profile";
   }
-    AccountyService accountyService;
+
 
     @GetMapping("ad_update_ok")
     public String ad_update_ok(){

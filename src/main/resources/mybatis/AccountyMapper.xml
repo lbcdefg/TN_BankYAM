@@ -43,13 +43,13 @@
     </resultMap>
 
     <select id="selectAccNum" resultType="Accounty" parameterType="long">
-        SELECT AC_SEQ,AC_MAIN FROM ACCOUNTY A
+        SELECT AC_SEQ,AC_MAIN,AC_BALANCE FROM ACCOUNTY A
         JOIN MEMBERY M
         ON A.AC_MB_SEQ = M.MB_SEQ
         WHERE M.MB_SEQ = #{mb_seq} AND A.AC_STATUS='사용중' AND A.AC_PD_SEQ=1
     </select>
 
-    <select id="selectAccInfo" resultType="Accounty" parameterType="String">
+    <select id="selectAccInfo" resultType="Accounty" parameterType="long">
         SELECT * FROM ACCOUNTY A JOIN MEMBERY M ON A.AC_MB_SEQ=M.MB_SEQ
         WHERE A.AC_SEQ=#{ac_seq}
     </select>
@@ -80,9 +80,10 @@
     </select>
     <select id="findDepositPdVal" parameterType="String" resultMap="product">
         SELECT * FROM (SELECT * FROM PRODUCT WHERE PD_NAME =#{pd_name} ORDER BY PD_RDATE DESC) WHERE ROWNUM=1
-    <select id="findAccounty" resultMap="accounty">
-        SELECT * FROM ACCOUNTY
     </select>
+<!--    <select id="findAccounty" resultMap="accounty">-->
+<!--        SELECT * FROM ACCOUNTY-->
+<!--    </select>-->
     <select id="findRecentPd" resultType="Product">
         SELECT * FROM (SELECT * FROM PRODUCT WHERE PD_TYPE='예금' ORDER BY PD_SEQ DESC) WHERE ROWNUM = 1
     </select>
