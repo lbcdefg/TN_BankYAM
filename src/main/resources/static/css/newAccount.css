@@ -1,0 +1,80 @@
+.nac-frame{
+    width: 100%;
+}
+
+.nac-frame-header{
+    width: 100%;
+    height: auto;
+    text-align: center;
+}
+
+.nac-header-title{
+    color: var(--themecolor);
+}
+
+
+.nac-main {
+    width: 60%;
+    height:600px;
+    margin: auto;
+    background: #fefefe;
+    color: #555;
+    font-size: 13px;
+    line-height: 1.6;
+    border: solid 1px #eee;
+    box-shadow: 0 0 3px #eee;
+}
+
+.nac-form{
+    width: 100%;
+    height:600px;
+}
+
+
+/* 각 행 요소*/
+.nac-row{
+	display: flex;
+	margin-top:15px;
+}
+
+.nac-row-half{
+	width: 50%;
+	float: left;
+	position: relative;
+	min-height: 1px;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+.row-in-select{
+    width: 100%;
+    float: left;
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-bottom: 10px;
+}
+
+.row-in-select label{
+    color: #777;
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+/* 각종 유틸 기능 */
+input[type=password]:invalid {
+    border: 3px solid red;
+}
+
+.nac-psC-pTag1, .nac-psC-pTag2{
+    height: 25px;
+    margin: auto;
+    text-align: center;
+}
+
+.naC1, .naC2{
+    margin: auto;
+}
