@@ -38,10 +38,11 @@
 #upload_btn_label{
     display:inline-block;
     text-transform: uppercase;
-    color:var(--vsthemecolor);
-    background-color: var(--themecolor);
+    color:var(--themecolor);
+    background-color:var(--vsthemecolor);
+    border:0.5px solid var(--themecolor);
     text-align: center;
-    height:20px;
+    height:44px;
     padding:12px 25px;
     font-size:13px;
     user-select:none;
@@ -49,7 +50,32 @@
     border-radius:5px;
     margin-left: 20px;
     margin-top: 15px;
-
+    transition:all 0.2s;
+}
+#upload_btn_label:hover{
+    background-color:var(--themecolor);
+    color:var(--vsthemecolor);
+}
+.rate_btn{
+    display:inline-block;
+    text-transform: uppercase;
+    color:var(--themecolor);
+    background-color:var(--vsthemecolor);
+    border:0.5px solid var(--themecolor);
+    text-align: center;
+    height:44px;
+    padding:12px 25px;
+    font-size:13px;
+    user-select:none;
+    cursor:pointer;
+    border-radius:5px;
+    margin-left: 20px;
+    margin-top: 15px;
+    transition:all 0.2s;
+}
+.rate_btn:hover{
+    background-color:var(--themecolor);
+    color:var(--vsthemecolor);
 }
 
 

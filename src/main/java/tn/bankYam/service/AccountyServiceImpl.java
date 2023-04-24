@@ -6,6 +6,7 @@ import tn.bankYam.dto.Accounty;
 import tn.bankYam.dto.Product;
 import tn.bankYam.mapper.AccountyMapper;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -77,7 +78,7 @@ public class AccountyServiceImpl implements AccountyService{
         return mapper.findPdBySeq(seq);
     }
     @Override
-    public void insertAcc(Accounty accounty){
-        mapper.insertAcc(accounty);
+    public void insertAcc(HashMap<String, Object> map){
+        mapper.insertAcc(map);
     }
 }

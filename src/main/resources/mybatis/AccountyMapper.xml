@@ -73,10 +73,10 @@
     <select id="findPdBySeq" parameterType="long" resultMap="product">
         SELECT * FROM PRODUCT WHERE PD_SEQ=#{pd_seq}
     </select>
-    <insert id="insertAcc" parameterType="Accounty">
+    <insert id="insertAcc" parameterType="hashmap">
         <selectKey resultType="long" keyProperty="ac_seq" order="BEFORE">
             SELECT ACCOUNTY_SEQ.NEXTVAL FROM DUAL
         </selectKey>
-        INSERT INTO ACCOUNTY VALUES(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 0, #{ac_name}, '주', '사용중', #{ac_pd_seq}, SYSDATE, add_months(to_date(concat((select to_char(sysdate, 'YYMM') from dual),TO_NUMBER(#{ac_status})),'YYMMDD'),#{ac_balance}), null)
+        INSERT INTO ACCOUNTY VALUES(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 0, #{ac_name}, '주', '사용중', #{ac_pd_seq}, 0, #{ac_purpose}, SYSDATE, add_months(to_date(concat((select to_char(sysdate, 'YYMM') from dual),TO_NUMBER(#{ac_udated})),'YYMMDD'),#{addMonths}), null)
     </insert>
 </mapper>
