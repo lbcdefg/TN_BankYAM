@@ -2,6 +2,7 @@ package tn.bankYam.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.bankYam.dto.Accounty;
 import tn.bankYam.dto.Product;
 import tn.bankYam.mapper.AccountyMapper;
@@ -15,56 +16,22 @@ public class AccountyServiceImpl implements AccountyService{
     AccountyMapper mapper;
 
     @Override
-    public boolean checkAccnumS(long ac_seq) {
-        if(mapper.checkAccnum(ac_seq)!=null){
-            System.out.println("");
-            return true;
-        }else{
-            System.out.println("");
-            return false;
-        }
+    public List<Accounty> selectAccNumS(long ac_seq) {
+        return mapper.selectAccNum(ac_seq);
     }
 
     @Override
-    public boolean checkPwdS(String ac_pwd) {
-        if(mapper.checkPwd(ac_pwd) !=null){
-            System.out.println("");
-            return true;
+    public Accounty selectAccInfoS(String ac_pwd) {
+        return mapper.selectAccInfo(ac_pwd);
+    }
+
+    @Override
+    public void transferS(Accounty accounty) {
+        if(selectAccNumS(accounty.getAc_seq())!=null){
+            mapper.transfer(accounty);
         }else {
-            System.out.println("");
-            return false;
-        }
-    }
-
-    @Override
-    public boolean checkStatusS(String ac_status) {
-        if(mapper.checkStatus(ac_status)=="사용중"){
-            return true;
-        }else if(mapper.checkStatus(ac_status)=="해지"){
-            System.out.println("");
-            return false;
-        }else {
-            System.out.println("");
-            return false;
-        }
-    }
-
-    @Override
-    public boolean checkPdS(long ac_pd_seq) {
-        if(mapper.checkPd(ac_pd_seq)==1){
-            return true;
-        }else{
-            System.out.println("");
-            return false; 
-        }
-    }
-
-    @Override
-    public boolean transferS(Accounty accounty) {
-        if(checkAccnumS(accounty.getAc_seq()) && checkPwdS(accounty.getAc_pwd()) && checkStatusS(accounty.getAc_status())&&checkPdS(accounty.getAc_pd_seq()))
-            return mapper.transfer(accounty);
-        else {
-            return false;
+            System.out.println("존재하지 않는 계좌입니다.");
+            selectAccNumS(accounty.getAc_seq());
         }
     }
 

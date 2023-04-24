@@ -25,6 +25,8 @@
         <id property="ac_main" column="ac_main"/>
         <id property="ac_status" column="ac_status"/>
         <id property="ac_pd_seq" column="ac_pd_seq"/>
+        <id property="ac_pwd_check" column="ac_pwd_check"/>
+        <id property="ac_purpose" column="ac_purpose"/>
         <id property="ac_rdate" column="ac_rdate"/>
         <id property="ac_udate" column="ac_udate"/>
         <id property="ac_xdate" column="ac_xdate"/>
@@ -65,4 +67,5 @@
         ON A.AC_SEQ = T.TR_AC_SEQ
         WHERE M.MB_SEQ = #{mb_seq}
     </select>
+
 </mapper>

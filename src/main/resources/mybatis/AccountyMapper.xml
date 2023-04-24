@@ -3,7 +3,6 @@
 <mapper namespace="tn.bankYam.mapper.AccountyMapper">
     <resultMap id="membery" type="Membery">
         <id property="mb_seq" column="mb_seq"/>
-
         <result property="mb_email" column="mb_email"/>
         <result property="mb_pwd" column="mb_pwd"/>
         <result property="mb_name" column="mb_name"/>
@@ -16,7 +15,6 @@
         <result property="mb_imagepath" column="mb_imagepath"/>
         <result property="mb_rdate" column="mb_rdate"/>
         <result property="mb_wdate" column="mb_wdate"/>
-
     </resultMap>
 
     <resultMap id="product" type="Product">
@@ -44,36 +42,34 @@
         <collection property="product" resultMap="product"/>
     </resultMap>
 
-    <select id="checkAccnum" resultType="Accounty" parameterType="long">
-        SELECT AC_SEQ FROM ACCOUNTY A
+    <select id="selectAccNum" resultType="Accounty" parameterType="long">
+        SELECT AC_SEQ,AC_MAIN FROM ACCOUNTY A
         JOIN MEMBERY M
         ON A.AC_MB_SEQ = M.MB_SEQ
-        WHERE M.MB_SEQ = #{mb_seq}
+        WHERE M.MB_SEQ = #{mb_seq} AND A.AC_STATUS='사용중' AND A.AC_PD_SEQ=1
     </select>
 
-    <select id="checkPwd" resultType="Accounty" parameterType="String">
-        SELECT AC_PWD FROM ACCOUNTY WHERE AC_PWD=#{ac_pwd}
-    </select>
-
-    <select id="checkStatus" resultType="String" parameterType="String">
-        SELECT AC_STATUS FROM ACCOUNTY WHERE AC_STATUS=#{ac_status}
-    </select>
-
-    <select id="checkPd" resultType="String" parameterType="long">
-        SELECT AC_PD_SEQ FROM ACCOUNTY A JOIN PRODUCT P ON A.AC_PD_SEQ=P.PD_SEQ
+    <select id="selectAccInfo" resultType="Accounty" parameterType="String">
+        SELECT * FROM ACCOUNTY A JOIN MEMBERY M ON A.AC_MB_SEQ=M.MB_SEQ
+        WHERE A.AC_SEQ=#{ac_seq}
     </select>
 
     <update id="transfer" parameterType="Accounty">
         UPDATE ACCOUNTY SET AC_BALANCE=AC_BALANCE + #{ac_balance}
         WHERE AC_SEQ=#{ac_seq}
     </update>
+
     <select id="findAccByMemberId" parameterType="long" resultMap="accounty">
-        SELECT * FROM ACCOUNTY A JOIN PRODUCT P ON A.AC_PD_SEQ = P.PD_SEQ JOIN MEMBERY M ON A.AC_MB_SEQ = M.MB_SEQ WHERE A.AC_MB_SEQ = #{mb_seq} ORDER BY DECODE(AC_MAIN, '주', 1)
+        SELECT * FROM ACCOUNTY A JOIN PRODUCT P
+        ON A.AC_PD_SEQ = P.PD_SEQ JOIN MEMBERY M ON A.AC_MB_SEQ = M.MB_SEQ
+        WHERE A.AC_MB_SEQ = #{mb_seq} ORDER BY DECODE(AC_MAIN, '주', 1)
     </select>
+
     <select id="findPdBySeq" parameterType="long" resultMap="product">
         SELECT * FROM PRODUCT WHERE PD_SEQ=#{pd_seq}
     </select>
-    <insert id="insertAcc" parameterType="hashmap">
+
+    <insert id="insertAcc" parameterType="Accounty">
         <selectKey resultType="long" keyProperty="ac_seq" order="BEFORE">
             SELECT ACCOUNTY_SEQ.NEXTVAL FROM DUAL
         </selectKey>

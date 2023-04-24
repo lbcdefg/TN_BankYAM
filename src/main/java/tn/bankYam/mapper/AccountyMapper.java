@@ -11,11 +11,9 @@ import java.util.List;
 @Mapper
 @Repository
 public interface AccountyMapper {
-    Accounty checkAccnum(long ac_seq);
-    Accounty checkPwd(String ac_pwd);
-    String checkStatus(String ac_status);
-    int checkPd(long ac_pd_seq);
-    boolean transfer(Accounty accounty);
+    List<Accounty> selectAccNum(long ac_seq);
+    Accounty selectAccInfo(String ac_pwd);
+    void transfer(Accounty accounty);
     List<Accounty> findAccByMemberId(long ac_mb_seq);
     Product findPdBySeq(long seq);
     void insertAcc(HashMap<String, Object> map);

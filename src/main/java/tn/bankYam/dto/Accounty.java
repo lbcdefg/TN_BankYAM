@@ -23,7 +23,6 @@ public class Accounty {
     private Date ac_rdate;
     private Date ac_udate;
     private Date ac_xdate;
-
     private Membery membery;
     private Product product;
 }

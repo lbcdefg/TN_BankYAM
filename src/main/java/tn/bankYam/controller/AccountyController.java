@@ -29,35 +29,38 @@ public class AccountyController {
     TransactionService transactionService;
 
 
+    //거래내역 불러오기
     @GetMapping("transactionList")
     public String transactionList(Model model, HttpSession session){
         Membery membery = (Membery)session.getAttribute("membery");
         List<Transactions> trList = transactionService.selectTrListS(membery);
-        System.out.println(trList);
         model.addAttribute("trList",trList);
         return "transactionList";
     }
+
+    //계좌이체 창
     @GetMapping("transfer")
-    public String transfer(Model model, HttpSession session, Accounty accounty){
+    public String transfer(Model model, HttpSession session){
         Membery membery = (Membery)session.getAttribute("membery");
-        List<Accounty> list = accountyService.findAccByMemberId(membery.getMb_seq());
-
-        //로그인한 계정에 계좌가 존재하는지 체크
-        model.addAttribute("chkAcc", accountyService.checkAccnumS(membery.getMb_seq()));
+        List<Accounty> accList = accountyService.selectAccNumS(membery.getMb_seq());
         //로그인한 계정에 대한 계좌 리스트
-        model.addAttribute("list", list);
-
+        model.addAttribute("accList", accList);
         return "transfer";
     }
+
+    //계좌이체 확인
     @PostMapping("transfer_chk")
-    public String transferChk(){
+    public String transferChk(Model model, HttpSession session){
+
         return "confirmation";
     }
+
+    //계좌이체
     @PostMapping ("transfer_ok")
     public String transferOk(Model model, HttpSession session, Accounty accounty){
         Membery membery = (Membery)session.getAttribute("membery");
-        model.addAttribute("transfer", accountyService.transferS(accounty));
-        return "redirect:profile";
+        accountyService.transferS(accounty);
+        return "receipt";
     }
 
 }
