@@ -77,8 +77,13 @@
         <selectKey resultType="long" keyProperty="ac_seq" order="BEFORE">
             SELECT ACCOUNTY_SEQ.NEXTVAL FROM DUAL
         </selectKey>
-        INSERT INTO ACCOUNTY VALUES(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 0, #{ac_name}, '주', '사용중', #{ac_pd_seq}, 0, #{ac_purpose}, SYSDATE, add_months(to_date(concat((select to_char(sysdate, 'YYMM') from dual),TO_NUMBER(#{ac_udated})),'YYMMDD'),#{addMonths}), null)
+        INSERT INTO ACCOUNTY VALUES(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 0, #{ac_name}, '주', '사용중', #{ac_pd_seq}, 0, #{ac_purpose}, SYSDATE, ADD_MONTHS(TO_DATE(CONCAT((SELECT TO_CHAR(SYSDATE, 'YYMM') FROM DUAL),TO_NUMBER(#{ac_udated})),'YYMMDD'),#{addMonths}), null)
     </insert>
+    <select id="findDepositPd" resultType="String">
+        SELECT PD_NAME FROM(SELECT * FROM PRODUCT WHERE PD_TYPE='예금') GROUP BY PD_NAME
+    </select>
+    <select id="findDepositPdVal" parameterType="String" resultMap="product">
+        SELECT * FROM (SELECT * FROM PRODUCT WHERE PD_NAME =#{pd_name} ORDER BY PD_RDATE DESC) WHERE ROWNUM=1
     <select id="findAccounty" resultMap="accounty">
         SELECT * FROM ACCOUNTY
     </select>
