@@ -9,14 +9,17 @@
 <head>
     <link href="/css/accounts.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <title>BankYam Friends</title>
+    <title>BankYam Accounts</title>
 </head>
 
 <body>
     <div class="acs-frame body-main">
+        <div class="acs-body-head">
         <c:if test="${not empty membery}">
             <p class="acs-title fontS-35">${membery.mb_name} 님의 계좌</p>
+            <button class="new-ac-btn" onclick="location.href='newAccount'">새 계좌 개설</button>
         </c:if>
+        </div>
 
         <!-- 사용중/휴면 계좌들 관리 -->
         <div class="acs-table-size350">

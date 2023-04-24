@@ -153,4 +153,9 @@ public class AccountManageController {
         }
         return "accounts";
     }
+
+    @GetMapping("newAccount")
+    public String newAccount(){
+        return "newAccount";
+    }
 }
