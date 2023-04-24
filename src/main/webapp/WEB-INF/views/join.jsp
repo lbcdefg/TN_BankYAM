@@ -124,7 +124,10 @@
                             </div>
                             <div class="row-half">
                                 <label>연봉</label>
-                                <input type="number" placeholder="만원" id="mb_salary" name="mb_salary" class="form-control margin-bottom-20 join-placeholderR" autocomplete="off">
+                                <div style="display:flex">
+                                    <input type="number" id="mb_salary" name="mb_salary" class="form-control margin-bottom-20 join-placeholderR" autocomplete="off">
+                                    <label class="margin-bottom-20" style=" padding-left: 5;">만원</label>
+                                </div>
                             </div>
                         </div>
                         <hr>
@@ -142,11 +145,11 @@
                         <div class="row">
                             <div class="row-half">
                                 <label>계좌비밀번호</label>
-                                <input type="password" id="ac_pwd" name="ac_pwd" class="form-control margin-bottom-20" autocomplete="off">
+                                <input type="password" pattern="[0-9]*" id="ac_pwd" name="ac_pwd" maxlength="4" spellcheck="false"  class="form-control acpwd margin-bottom-20" autocomplete="off">
                             </div>
                             <div class="row-half">
                                 <label>계좌비밀번호(확인)</label>
-                                <input type="password" id="ac_pwd2" name="ac_pwd2" class="form-control margin-bottom-20" autocomplete="off">
+                                <input type="password" pattern="[0-9]*" id="ac_pwd2" name="ac_pwd2" maxlength="4" spellcheck="false"  class="form-control acpwd margin-bottom-20" autocomplete="off">
                             </div>
                         </div>
                         <div class="row">

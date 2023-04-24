@@ -37,6 +37,9 @@ label::before{
     width: 13px;
     height: 13px;
 }
+input[class=acpwd]:invalid {
+    border: 3px solid red;
+}
 
 input:checked + label::before{
     content: "";
@@ -88,7 +91,7 @@ input:checked + label::before{
     border-bottom: solid 1px #eee;
 }
 .page-header h2{
-	font-size: 24px;
+	font-size: 30px;
     margin-bottom: 15px;
 }
 .join-placeholderR::-webkit-input-placeholder{
@@ -138,7 +141,7 @@ input:checked + label::before{
 .join-wbtn{
     display: flex;
     text-align: center;
-    margin-top:30px;
+    margin-top: 40px;
 }
 .row-1quater{
 	width: 25%;
@@ -247,7 +250,7 @@ input:checked + label::before{
         max-width: 100%;
         margin-bottom: 5px;
         font-weight: 700;
-        font-size: 1.1rem;
+        font-size: 1.3rem;
     }
     .row-3quater{
         width: 55%;
@@ -269,11 +272,14 @@ input:checked + label::before{
     }
 }
 
-@media screen and (min-width: 900px){
-    .join-page{
-        width: 90%;
-        padding: 5px;
+@media screen and (min-width: 750px){
+    .join-wbtn{
+        margin-left:15%;
+        margin-right:5%;
     }
+}
+
+@media screen and (min-width: 900px){
     .join-body{
     	margin-left: 5%;
     }
@@ -281,7 +287,7 @@ input:checked + label::before{
         margin-left:30%;
     }
     .join-wbtn{
-        margin-left:0%;
+        margin-left:10%;
         margin-right:5%;
     }
     .row-3quater{
@@ -301,7 +307,7 @@ input:checked + label::before{
     	margin-left: 10%;
     }
     .join-wbtn{
-        margin-left:0%;
+        margin-left:5%;
         margin-right:5%;
         margin-top:40px;
     }
@@ -335,13 +341,26 @@ input:checked + label::before{
 
 @media screen and (min-width: 1400px){
     .join-page{
-        width: 80%;
+        width: 770px;
         padding: 5px;
+        margin-left:10%;
     }
     .row-3quater{
         width: 75%;
     }
     .row-1quater{
         width: 25%;
+    }
+    .join-wbtn{
+        margin-left:3px;
+        margin-top:43px;
+    }
+}
+
+@media screen and (min-width: 1400px){
+    .join-page{
+        width: 770px;
+        padding: 5px;
+        margin-left:15%;
     }
 }
