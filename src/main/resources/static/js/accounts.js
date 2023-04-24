@@ -31,8 +31,6 @@ $(document).ready(function(){
 
     // 계좌별칭 변경 창에서 키 입력시 마다 해당 별칭과 동일한 계좌별칭을 가지고 있는지 체크
     $(".ac-name").on("keyup", function(){
-        pTagFrO = $("<p>").text("계좌별칭 변경가능").attr("style", "color:#a7d3dd").addClass("acC");
-        pTagFrX = $("<p>").text("동일한 이름의 계좌가 있습니다").attr("style", "color:#a7d3dd").addClass("acC");
         var acNameGroup = $(".acn").length;
         var acNameGroupList = new Array(acNameGroup);
         var acNameVs = $(".ac-name").val();
@@ -43,12 +41,15 @@ $(document).ready(function(){
                 isCheck = true;
             }
         }
-        if(isCheck){
+        if(trim(acNameVs).length == 0){
             $("p.acC").remove();
-            $(".acs-nameM-ps").append(pTagFrX);
+            setPtagAcs("아무것도 입력하지 않으셨습니다", "acC", ".acs-nameM-ps");
+        }else if(isCheck){
+            $("p.acC").remove();
+            setPtagAcs("동일한 이름의 계좌가 있습니다", "acC", ".acs-nameM-ps");
         }else{
             $("p.acC").remove();
-            $(".acs-nameM-ps").append(pTagFrO);
+            setPtagAcs("계좌별칭 변경가능", "acC", ".acs-nameM-ps");
         }
     });
 
@@ -57,16 +58,23 @@ $(document).ready(function(){
         if(isNaN($(".ac-ps").val())){
             $("p.acC1").remove();
             setPtagAcs("입력은 숫자만 가능합니다", "acC1", ".acs-psM-ps1");
+        }else if($(".ac-ps").val().replace(/\s/g,"").length < 4){
+            $("p.acC1").remove();
+            setPtagAcs("공백은 포함할 수 없습니다", "acC1", ".acs-psM-ps1");
         }else{
             $("p.acC1").remove();
+            setPtagAcs("확인가능", "acC1", ".acs-psM-ps1");
         }
     });
 
-    // 신규 비밀번호 입력 시 기존 비밀번호와 같은지 체크
+    // 신규 비밀번호 입력 시 비밀번호 확인과 같은지 체크
     $(".ac-newPs").on("keyup", function(){
         if(isNaN($(".ac-newPs").val())){
             $("p.acC2").remove();
             setPtagAcs("입력은 숫자만 가능합니다", "acC2", ".acs-psM-ps2");
+         }else if($(".ac-newPs").val().replace(/\s/g,"").length < 4){
+            $("p.acC2").remove();
+            setPtagAcs("공백은 포함할 수 없습니다", "acC2", ".acs-psM-ps2");
         }else if($(".ac-newPs").val().length == 4){
             $("p.acC2").remove();
             if($(".ac-ps").val() == $(".ac-newPs").val()){
@@ -93,6 +101,9 @@ $(document).ready(function(){
         if(isNaN($(".ac-newPs-check").val())){
             $("p.acC3").remove();
             setPtagAcs("입력은 숫자만 가능합니다", "acC3", ".acs-psM-ps3");
+        }else if($(".ac-newPs-check").val().replace(/\s/g,"").length < 4){
+            $("p.acC3").remove();
+            setPtagAcs("공백은 포함할 수 없습니다", "acC3", ".acs-psM-ps3");
         }else if($(".ac-newPs-check").val().length == 4){
             $("p.acC3").remove();
             if($(".ac-newPs-check").val() == $(".ac-newPs").val() && $("p.acC2").text()=="비밀번호 변경가능"){
@@ -132,8 +143,7 @@ function modifySubmit(){
     if($("p.acC").text() == "계좌별칭 변경가능"){
         document.acnf.submit();
     }else{
-        $("p.acC").remove();
-        setPtagAcs("동일한 이름의 계좌로는 변경할 수 없습니다", "acC", ".acs-nameM-ps");
+        return false;
     }
 }
 
@@ -170,12 +180,15 @@ function togglePsM(psM) {
 function psCheck(){
     var ac_ps = $(".ac-ps").val();
     if(isNaN(ac_ps)){
-        alert("비밀번호는 숫자만 입력해 주세요.");
+        alert("비밀번호는 숫자만 입력해 주세요");
+        return false;
+    }else if($(".ac-ps").val().replace(/\s/g,"").length < 4){
+        alert("공백을 포함할 수 없습니다");
         return false;
     }else if(ac_ps.length != 4){
-        alert("4자리의 비밀번호를 입력해 주세요.");
+        alert("4자리의 비밀번호를 입력해 주세요");
         return false;
-    }else if(!isNaN(ac_ps) && ac_ps.length == 4){
+    }else if(!isNaN(ac_ps) && ac_ps.length == 4 && !blankExp.test($(".ac-ps").val())){
         psCheckAjax(ac_ps);
     }else{
         alert("뭔진 모르지만 그거 안돼요..");

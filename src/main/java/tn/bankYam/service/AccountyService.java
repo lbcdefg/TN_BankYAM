@@ -19,4 +19,6 @@ public interface AccountyService {
     void insertAcc(HashMap<String, Object> map);
     List<String> findDepositPd();
     Product findDepositPdVal(String pd_name);
+    List<Accounty> findAccounty();
+    Product recentPd();
 }

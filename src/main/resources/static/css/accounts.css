@@ -2,6 +2,14 @@
     width: 100%;
 }
 
+/* 계좌주명 및 새계좌생성 버튼 그룹 */
+.acs-body-head{
+    display: inline-flex;
+    justify-content: space-between;
+    width:100%;
+    height: auto;
+    align-items: center;
+}
 
 /* 계좌주 이름 */
 .acs-title{
@@ -9,17 +17,29 @@
     color: var(--themecolor);
 }
 
+.new-ac-btn{
+    background-color:#F7F3EF;
+    color: #B39273;
+    margin-right: 100px;
+    padding: 15px 20px;
+    font-size: 17px;
+}
+
+.new-ac-btn:hover{
+    color: #5F4934;
+}
+
 
 /* 계좌 리스트 테이블 메인 div, size */
 .acs-table-size350{
-    width: 90%;
+    width: 95%;
     height: 375px;
     margin: auto;
     overflow: auto;
 }
 
 .acs-table-size300{
-    width: 90%;
+    width: 95%;
     height: 325px;
     margin: auto;
     overflow: auto;
@@ -51,6 +71,7 @@
 .acs-nameM-btnDiv{
     float:right;
     margin-right:10px;
+    margin-top: 3px;
 }
 
 .acs-nameM-btn{

@@ -21,4 +21,6 @@ public interface AccountyMapper {
     void insertAcc(HashMap<String, Object> map);
     List<String> findDepositPd();
     Product findDepositPdVal(String pd_name);
+    List<Accounty> findAccounty();
+    Product findRecentPd();
 }

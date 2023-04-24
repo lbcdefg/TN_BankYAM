@@ -84,5 +84,10 @@
     </select>
     <select id="findDepositPdVal" parameterType="String" resultMap="product">
         SELECT * FROM (SELECT * FROM PRODUCT WHERE PD_NAME =#{pd_name} ORDER BY PD_RDATE DESC) WHERE ROWNUM=1
+    <select id="findAccounty" resultMap="accounty">
+        SELECT * FROM ACCOUNTY
+    </select>
+    <select id="findRecentPd" resultType="Product">
+        SELECT * FROM (SELECT * FROM PRODUCT WHERE PD_TYPE='예금' ORDER BY PD_SEQ DESC) WHERE ROWNUM = 1
     </select>
 </mapper>
