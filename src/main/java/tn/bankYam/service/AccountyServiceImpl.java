@@ -14,7 +14,6 @@ public class AccountyServiceImpl implements AccountyService{
     @Autowired
     AccountyMapper mapper;
 
-
     @Override
     public List<Accounty> selectAccNumS(long ac_seq) {
         return mapper.selectAccNum(ac_seq);

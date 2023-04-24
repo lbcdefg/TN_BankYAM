@@ -51,6 +51,7 @@ public class AccountyController {
     //계좌이체 확인
     @PostMapping("transfer_chk")
     public String transferChk(){
+
         return "confirmation";
     }
 
@@ -59,8 +60,7 @@ public class AccountyController {
     public String transferOk(Model model, HttpSession session, Accounty accounty){
         Membery membery = (Membery)session.getAttribute("membery");
         accountyService.transferS(accounty);
-        model.addAttribute("transfer");
-        return "redirect:profile";
+        return "receipt";
     }
 
 }

@@ -42,7 +42,7 @@
         <collection property="product" resultMap="product"/>
     </resultMap>
 
-    <select id="selectAccNum" resultType="List" parameterType="long">
+    <select id="selectAccNum" resultType="Accounty" parameterType="long">
         SELECT AC_SEQ FROM ACCOUNTY A
         JOIN MEMBERY M
         ON A.AC_MB_SEQ = M.MB_SEQ

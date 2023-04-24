@@ -3,41 +3,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-
-<script language="javascript">
-	const regExp = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g; //전체에서 특수문자 찾기
-	const blankExp = /\s/g; //전체에서 공백찾기
-	function newPage(){
-		f.submit();
-	}
-	function count(type)  {
-		// 결과를 표시할 element
-		const resultElement = document.getElementById('result');
-		// 현재 화면에 표시된 값
-		let number = $('#result').val();
-
-
-		// 더하기
-		if(type === 'plus1') {
-		  number = parseInt(number) + 10000;
-		}else if(type === 'plus5')  {
-		  number = parseInt(number) + 50000;
-		}else if(type === 'plus10')  {
-			number = parseInt(number) + 100000;
-		}else if(type === 'plus100')  {
-			number = parseInt(number) + 1000000;
-		}else if(type === 'minus'){
-			number = 0;
-		}
-		// 결과 출력
-		//resultElement.innerText = number;
-		$('#result').val(number);
-	}
-</script>
-
 <head>
     <link href="/css/transfer.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/js/transfer.js"></script>
     <title>BankYam transfer</title>
 </head>
 
@@ -46,13 +15,12 @@
     <form method="post" name="f" action="transfer_chk" class="" novalidate="novalidate">
         <table class="transfer-table">
             <tr>
-                <input type="hidden" id="ac_seq" value="${accList.ac_seq}">
                 <th scope="row">출금 계좌번호</th>
                     <td>
-                    <select>
+                    <select name="ac_seq">
+                    <option value="">계좌 선택</option>
                         <c:forEach var="accList" items="${accList}">
-                            <option value="${accList.ac_seq}">계좌 선택</option>
-                            <option>${seq.ac_seq}</option>
+                            <option value="${accList.ac_seq}">${accList.ac_seq}</option>
                         </c:forEach>
                     </select>
                     </td>
@@ -61,13 +29,14 @@
                 <th scope="row">계좌 비밀번호</th>
                 <td>
                     <input class="transfer-input" placeholder="숫자만 입력해주세요" type="text" name="ac_pwd">
+                    <input type="hidden" name="ac_pwd">
                 </td>
             </tr>
             <tr>
                 <th scope="row">비밀번호 확인</th>
                 <td>
-
-                    <input class="transfer-input" placeholder="숫자만 입력해주세요" type="text" name="ac_pwd_chk">
+                    <input class="transfer-input" placeholder="숫자만 입력해주세요" type="text" name="ac_pwd">
+                    <input type="hidden" name="ac_pwd">
                 </td>
             </tr>
             <tr>
@@ -98,7 +67,7 @@
                 <td>
 
                     <input class="transfer-input" type="number" placeholder="숫자만 입력해주세요" name="tr_amount" id='result' value="0">
-                    <br/>
+                    <br/><br/>
                         <input type="button" name="" class="amount-btn" value="만원" onclick='count("plus1")'/>
                         <input type="button" name="" class="amount-btn" value="오만원" onclick='count("plus5")'/>
                         <input type="button" name="" class="amount-btn" value="십만원" onclick='count("plus10")'/>
@@ -113,6 +82,6 @@
                 </td>
             </tr>
         </table>
-        <button type="button" onclick="newPage()" class="transfer-btn">다음</button>
+        <button style="margin-left:300px" type="button" onclick="newPage()" class="transfer-btn">다음</button>
     </form>
 </body>
