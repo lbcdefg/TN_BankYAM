@@ -156,7 +156,7 @@
                     <input type="hidden" class="ac-receptor"/>
                     <div style="width:100%; height:30px">
                         <span class="fontS-15 color-F7F3EF">기존 비밀번호 </span>&nbsp;
-                        <input type="password" pattern="[0-9]*" class="ac-ps" name="ac_ps" maxlength="4" spellcheck="false" autocomplete='off'/>&nbsp;
+                        <input type="password" pattern="[0-9]*" class="ac-ps" maxlength="4" spellcheck="false" autocomplete='off'/>&nbsp;
                         <input type="button" class="acs-psMA-btn acs-click" onclick="psCheck()" value="확인"/>
                     </div>
                     <div class="acs-psM-ps1"></div>
@@ -164,12 +164,12 @@
                     <form name="acpf" method="post" action="accounts_psChange">
                         <div style="width:100%; height:30px">
                             <span class="fontS-15 color-F7F3EF">신규 비밀번호 </span>&nbsp;
-                            <input type="password" pattern="[0-9]*" class="ac-newPs" name="ac_ps" maxlength="4" spellcheck="false" autocomplete='off' disabled/>
+                            <input type="password" pattern="[0-9]*" class="ac-newPs" name="ac_pwd" maxlength="4" spellcheck="false" autocomplete='off' disabled/>
                         </div>
                         <div class="acs-psM-ps2"></div>
                         <div style="width:100%; height:30px">
                             <span class="fontS-15 color-F7F3EF">비밀번호 확인 </span>&nbsp;
-                            <input type="password" pattern="[0-9]*" class="ac-newPs-check" name="ac_ps" maxlength="4" spellcheck="false" autocomplete='off' disabled/>
+                            <input type="password" pattern="[0-9]*" class="ac-newPs-check" maxlength="4" spellcheck="false" autocomplete='off' disabled/>
                         </div>
                         <div class="acs-psM-ps3"></div>
                         <input type="hidden" class="ac-receptor3" name="ac_seq"/>

@@ -59,7 +59,22 @@ public class AccountManageServiceImpl implements AccountManageService{
     }
 
     @Override
-    public String checkPs(long ac_seq){
+    public Accounty checkPs(long ac_seq){
         return accountManageMapper.checkPs(ac_seq);
+    }
+
+    @Override
+    public void updateAcPwdCheck(long ac_seq){
+        accountManageMapper.updateAcPwdCheck(ac_seq);
+    }
+
+    @Override
+    public void updateAcPwdWrong(long ac_seq){
+        accountManageMapper.updateAcPwdWrong(ac_seq);
+    }
+
+    @Override
+    public void updateAcPs(Accounty accounty){
+        accountManageMapper.updateAcPs(accounty);
     }
 }

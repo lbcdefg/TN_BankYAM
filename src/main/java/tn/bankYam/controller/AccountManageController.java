@@ -84,13 +84,14 @@ public class AccountManageController {
     public String accounts_nameC(Accounty accounty, HttpServletResponse response, HttpSession session){
         //세션 불러오기
         Membery membery = (Membery)session.getAttribute("membery");
+
+        System.out.println(accounty);   // 체크
+
         if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
             try {
                 accountManageService.updateAcName(accounty);
 
-                System.out.println(accounty);   // 체크
-
-                ScriptUtil.alertAndMovePage(response, "주 계좌 설정 완료", "/accountM/accounts");
+                ScriptUtil.alertAndMovePage(response, "계좌 별칭 설정 완료", "/accountM/accounts");
             }catch(IOException ie){
                 return "accounts";
             }
@@ -99,25 +100,57 @@ public class AccountManageController {
     }
 
     @PostMapping("accounts_psCheck")
-    public @ResponseBody String accounts_psCheck(HttpSession session, long ac_seq, int ac_ps) throws NoSuchAlgorithmException {
+    public @ResponseBody String accounts_psCheck(HttpSession session, long ac_seq, long ac_ps) throws NoSuchAlgorithmException {
         Membery membery = (Membery)session.getAttribute("membery");
 
+        System.out.println("계좌번호: " + ac_seq);
+        System.out.println("기존 계좌 비밀번호(입력값): " + ac_ps);
+
         if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
-            // 암호 받아서 비교하기
-            System.out.println("계좌번호: " + ac_seq);
-            System.out.println("기존 계좌 비밀번호(입력값): " + ac_ps);
+            // 비밀번호 체크횟수 먼저 확인하기
+            Accounty checkAc = accountManageService.checkPs(ac_seq);
+
+            if(checkAc.getAc_pwd_check() == 5){
+                return "0";
+            }
 
             // 입력 비밀번호 코드화 및 체크
             String codePs = SHA256.encrypt(ac_ps+"");
-            String codeVs = accountManageService.checkPs(ac_seq);
+            String codeVs = SHA256.encrypt(checkAc.getAc_pwd()+"");
+
             System.out.println("입력비밀번호 코드: " + codePs);
             System.out.println("DB비밀번호 코드: " + codeVs);
 
             // 비밀번호 체크
             if(codeVs.equals(codePs)){
+                // 비밀번호 맞췄을 때 (비밀번호 체크횟수 초기화 -> 0)
+                accountManageService.updateAcPwdCheck(ac_seq);
                 return "allow";
+            }else{
+                // 비밀번호 틀렸을 때(비밀번호 체크횟수 증가 -> 최대5)
+                accountManageService.updateAcPwdWrong(ac_seq);
+                long result = 5 - (checkAc.getAc_pwd_check() + 1);
+                return result+"";
             }
         }
         return "cancel";
+    }
+
+    @PostMapping("accounts_psChange")
+    public String accounts_psChange(Accounty accounty, HttpServletResponse response, HttpSession session) {
+        //세션 불러오기
+        Membery membery = (Membery) session.getAttribute("membery");
+
+        System.out.println(accounty);   // 체크
+        if (membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
+            try {
+                accountManageService.updateAcPs(accounty);
+
+                ScriptUtil.alertAndMovePage(response, "비밀번호 재설정 완료", "/accountM/accounts");
+            } catch (IOException ie) {
+                return "accounts";
+            }
+        }
+        return "accounts";
     }
 }
