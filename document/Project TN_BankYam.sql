@@ -63,7 +63,7 @@ create table ACCOUNTY(
    AC_MAIN varchar2(30),
    AC_STATUS varchar2(20),
    AC_PD_SEQ number,
-   AC_PD_CHECK number(1),
+   AC_PWD_CHECK number(1),
    AC_PURPOSE varchar2(10),
    AC_RDATE date,
    AC_UDATE date,

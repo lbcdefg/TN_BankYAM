@@ -123,7 +123,7 @@
                     <div class="icon"><img src="${sessionScope.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
                     <div class="chat-content">
                         <div class="chat-info">
-                            <span>${content.cc_rdate_time}<br/><span>1</span></span>
+                            <span>${content.cc_rdate_time}<br/><span>${content.cc_status_count}</span></span>
                         </div>
                         <div class="textbox">${content.cc_content}</div>
                     </div>
@@ -139,7 +139,7 @@
                         <div class="chat-text-info">
                             <div class="textbox">${content.cc_content}</div>
                             <div class="chat-info">
-                                <span>${content.cc_rdate_time}<br/><span>1</span></span>
+                                <span>${content.cc_rdate_time}<br/><span>${content.cc_status_count}</span></span>
                             </div>
                         </div>
                     </div>
