@@ -115,4 +115,7 @@
         WHERE CC_SEQ=#{cc_seq}
         ORDER BY CC_RDATE
     </select>
+    <insert id="insertStatus" parameterType="Chatstatus">
+        INSERT INTO CHATSTATUS VALUES (#{cs_cc_seq}, #{cs_mb_seq}, SYSDATE)
+    </insert>
 </mapper>

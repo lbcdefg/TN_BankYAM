@@ -16,4 +16,5 @@ public interface ChatroomService {
 	List<Chatfile> selectFilesS(long cr_seq);
 	Chatcontent insertContentS(Chatcontent chatcontent);
 	Chatcontent selectContentBySeqS(long cc_seq);
+	void insertStatusS(Chatstatus chatstatus);
 }

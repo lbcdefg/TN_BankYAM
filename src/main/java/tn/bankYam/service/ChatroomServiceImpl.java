@@ -93,5 +93,10 @@ public class ChatroomServiceImpl implements ChatroomService{
 		return chatroomMapper.selectContentBySeq(cc_seq);
 	}
 
+	@Override
+	public void insertStatusS(Chatstatus chatstatus) {
+		chatroomMapper.insertStatus(chatstatus);
+	}
+
 
 }

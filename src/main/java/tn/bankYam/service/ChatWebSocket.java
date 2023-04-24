@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.socket.WebSocketSession;
 import tn.bankYam.dto.Chatcontent;
+import tn.bankYam.dto.Chatstatus;
 import tn.bankYam.dto.Membery;
 import tn.bankYam.mapper.ChatroomMapper;
 import tn.bankYam.utils.ServerEndpointConfigurator;
@@ -46,6 +47,7 @@ public class ChatWebSocket {
 
 		chatcontent = chatroomService.selectContentBySeqS(chatcontent.getCc_seq());
 		List<Membery> chatMemberList = chatroomService.selectChatMemberS(chatcontent.getCc_cr_seq());
+		chatcontent.setCc_status_count(chatMemberList.size()-1);
 
 		String jsonInString = mapper.writeValueAsString(chatcontent);
 		System.out.println(jsonInString);
@@ -55,7 +57,19 @@ public class ChatWebSocket {
 			// HttpSessionConfigurator에서 설정한 session값을 가져온다.
 			HttpSession httpSession = (HttpSession) config.getUserProperties().get(ServerEndpointConfigurator.Session);
 			System.out.println((Membery)httpSession.getAttribute("membery"));
-			s.getBasicRemote().sendText(jsonInString);
+			for(Membery membery : chatMemberList){
+				if(((Membery) httpSession.getAttribute("membery")).getMb_seq() == membery.getMb_seq()){
+					s.getBasicRemote().sendText(jsonInString);
+					chatMemberList.remove(membery);
+				}
+			}
+		}
+		for(Membery membery : chatMemberList){
+			System.out.println(membery);
+			Chatstatus chatstatus = new Chatstatus();
+			chatstatus.setCs_cc_seq(chatcontent.getCc_seq());
+			chatstatus.setCs_mb_seq(membery.getMb_seq());
+			chatroomService.insertStatusS(chatstatus);
 		}
 	}
 
