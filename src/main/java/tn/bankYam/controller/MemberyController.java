@@ -1,5 +1,8 @@
 package tn.bankYam.controller;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,9 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Date;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 
@@ -243,6 +244,25 @@ public class MemberyController {
 		hashMap.put("mb_email", mb_email);
 		hashMap.put("mb_pwd", mb_pwd);
 		memberyService.editPwd(hashMap);
+		return "redirect:/";
+	}
+
+	@GetMapping("test")
+	public String testJsoup(){
+		String URL = "https://finance.naver.com/item/main.nhn?code=005930";
+		Document doc;
+		try{
+			doc = Jsoup.connect(URL).get();
+			Elements elem = doc.select(".date");
+			String[] str = elem.text().split(" ");
+
+			Elements todaylist = doc.select(".new_totalinfo dl>dd");
+			String juga = todaylist.get(3).text().split(" ")[1];
+
+			System.out.println("삼성전자 주가 : " + juga);
+		}catch(IOException e){
+			e.printStackTrace();
+		}
 		return "redirect:/";
 	}
 }
