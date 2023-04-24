@@ -96,11 +96,16 @@
                     <h2 style="margin:0;font-size:30px;">${membery.mb_name}</h2> &nbsp;
                     <p style="margin-top:15px;color:lightgray;">(${membery.mb_email})</p>
                 </div>
-                <div>
+                <div style="display:flex;">
                     <form name="f" action="edit_photo_ok" method="post" enctype="multipart/form-data">
                     <input type="file" id="upload_btn" class="upload_btn" name="file">
-                    <label for="upload_btn" id="upload_btn_label">사진변경</label>
+                    <label for="upload_btn" id="upload_btn_label" style="height:20px;">사진변경</label>
                     </form>
+                    <c:if test="${membery.mb_email eq 'lee@hanmail.com'}">
+                        <input type="button" class="rate_btn" onclick="#" value="금리업뎃"></button>
+                        <input type="button" class="rate_btn" onclick="#" value="금리적용"></button>
+                    </c:if>
+
                 </div>
             </div>
         </div>
