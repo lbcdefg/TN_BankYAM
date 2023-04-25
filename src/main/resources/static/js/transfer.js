@@ -38,13 +38,18 @@ function checkPwd(){
     }
 }
 
+
 $(function(){
     var isPwdChecked;
+    var isNullChecked;
     $("#alert-success").hide();
     $("#alert-danger").hide();
+    $("#alert-notnull").hide();
+    $("#alert-null").hide();
     $("input").keyup(function(){
         var pwd1=$("#password_1").val();
         var pwd2=$("#password_2").val();
+        var checkingNull=$("#nuChk").val();
         if(pwd1 != "" || pwd2 != ""){
             if(pwd1 == pwd2){
                 $("#alert-success").show();
@@ -60,11 +65,22 @@ $(function(){
                 console.log(isPwdChecked);
             }
         }
+        if(checkingNull != ""){
+            $("#alert-notnull").show();
+            $("#alert-null").hide();
+            $("#submit").removeAttr("disabled");
+            isNullChecked = true;
+            console.log(isNullChecked);
+
+        }else if(checkingNull == ""){
+            $("#alert-notnull").hide();
+            $("#alert-null").show();
+            $("#submit").attr("disabled", "disabled");
+            isNullChecked = false;
+            console.log(isNullChecked);
+        }
     });
 });
-
-
-
 
 function checkBalance(ac_seq){
     var data = {};
@@ -82,6 +98,22 @@ function checkBalance(ac_seq){
         }
     });
 }
+
+//function calculateBalance(ac_seq){
+//    var data = {};
+//    var ac_seq = document.getElementById('ac_seq').value;
+//    $.ajax({
+//        url:"calculateBalance",
+//        type: "GET",
+//        data: {ac_seq: ac_seq},
+//        success: function(data){
+//            $("#ac-balance-confirm").text(data.ac_balance);
+//        },
+//        error:function(error){
+//            console.log("error:"+error);
+//        }
+//    });
+//}
 
 function maxLengthCheck(object){
     if (object.value.length > object.maxLength){

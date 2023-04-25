@@ -6,6 +6,7 @@
 <head>
     <link href="/css/transfer.css" rel="stylesheet" type="text/css">
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
     <script src="/js/transfer.js"></script>
     <title>BankYam transfer</title>
 </head>
@@ -28,13 +29,13 @@
             <tr>
                 <th scope="row">계좌 비밀번호</th>
                 <td>
-                    <input class="transfer-input pw"  maxlength="4" placeholder="숫자만 입력해주세요" oninput="maxLengthCheck(this)" type="number" name="ac_pwd" id="password_1" style="-webkit-text-security: disc;"required>
+                    <input class="transfer-input pw"  maxlength="4" placeholder="숫자만 입력해주세요" oninput="maxLengthCheck(this)" type="number" name="ac_pwd" id="password_1" style="-webkit-text-security: disc;">
                 </td>
             </tr>
             <tr>
                 <th scope="row">비밀번호 확인</th>
                 <td>
-                    <input class="transfer-input pw" maxlength="4" placeholder="숫자만 입력해주세요" oninput="maxLengthCheck(this)" type="number" name="ac_pwd" id="password_2" style="-webkit-text-security: disc;" required>
+                    <input class="transfer-input" maxlength="4" placeholder="숫자만 입력해주세요" oninput="maxLengthCheck(this)" type="number" name="ac_pwd" id="password_2" style="-webkit-text-security: disc;">
                     <span id="alert-success" style="display: none;">비밀번호가 일치합니다.</span>
                     <span id="alert-danger" style="display: none; color: #d92742; font-weight: bold; ">비밀번호가 일치하지 않습니다.</span>
                 </td>
@@ -42,7 +43,7 @@
             <tr>
                 <th scope="row">은행</th>
                 <td>
-                <select name="tn_other_bank" id="tn_other_bank" required>
+                <select name="tn_other_bank" id="tn_other_bank">
                     <option value="">은행선택</option>
                     <option value="뱅크얌">뱅크얌</option>
                     <option value="국민은행">국민은행</option>
@@ -59,13 +60,15 @@
             <tr>
                 <th scope="row">입금 계좌번호</th>
                 <td>
-                    <input class="transfer-input" type="number" placeholder="숫자만 입력해주세요" id="tr_other_accnum" name="tr_other_accnum" required>
+                    <input class="transfer-input" type="number" placeholder="숫자만 입력해주세요" name="tr_other_accnum" id="nuChk">
+                    <span id="alert-notnull" style="display: none;"></span>
+                    <span id="alert-null" style="display: none; color: #d92742; font-weight: bold; ">필수 입력 값입니다</span>
                 </td>
             </tr>
             <tr>
                 <th scope="row">이체 금액</th>
                 <td>
-                    <input class="transfer-input" type="number" placeholder="숫자만 입력해주세요" name="tr_amount" id='result' value="0" required>
+                    <input class="transfer-input" type="number" placeholder="숫자만 입력해주세요" name="tr_amount" id='result' value="0">
                     잔액:<span id="ac-balance-check"></span>
                     <br/><br/>
                         <input type="button" name="" class="amount-btn" value="만원" onclick='count("plus1")'/>

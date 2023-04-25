@@ -64,7 +64,6 @@ public class AccountyController {
     @ResponseBody
     public Accounty checkBalance(HttpSession session, long ac_seq){
         Accounty accounty = accountyService.selectAccInfoS(ac_seq);
-        System.out.println(accounty);
         return accounty;
     }
 
