@@ -1,7 +1,4 @@
 
-//var data = {};
-//var ac_seq = getId('ac_seq').value;
-//
 
 function newPage(){
     f.submit();
@@ -71,16 +68,20 @@ $(function(){
 
 
 function checkBalance(ac_seq){
+    var data = {};
+    var ac_seq = document.getElementById('ac_seq').value;
     $.ajax({
         url: "checkBalance",
         type: "GET",
         data: {ac_seq: ac_seq},
         success: function(data){
-//        ${.ac-balance-class}.empty();
-            $('#ac-balance-check').append(data.ac_balance);
+            alert(JSON.stringify(data));
+            var dataChange = JSON.stringify(data);
+            $("#ac-balance-check").text(data.ac_balance);
         },
         error: function(error){
             console.log("error: " + error);
         }
     });
 }
+

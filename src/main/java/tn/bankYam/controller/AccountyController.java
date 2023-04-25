@@ -57,7 +57,6 @@ public class AccountyController {
 
         //로그인한 계정에 대한 계좌 리스트
         model.addAttribute("accList", accList);
-        //model.addAttribute("accInfoList", accInfoList);
         return "transfer";
     }
 

@@ -17,12 +17,10 @@
             <tr>
                 <th scope="row">출금 계좌번호</th>
                 <td>
-                    <select name="ac_seq">
+                    <select id="ac_seq"name="ac_seq" onchange="checkBalance()">
                     <option value="">계좌 선택</option>
                         <c:forEach var="acc" items="${accList}">
                             <option value="${acc.ac_seq}">${acc.ac_seq}(${acc.ac_main})</option>
-
-
                         </c:forEach>
                     </select>
                 </td>
@@ -76,7 +74,7 @@
                         <input type="button" name="" class="amount-btn" value="초기화" onclick='count("minus")'/>
                 </td>
                 <td>
-                    <span id="ac-balance-check">${ac_balance}</span>
+                    <span id="ac-balance-check"></span>
                 </td>
             </tr>
             <tr>
@@ -89,13 +87,3 @@
         <button style="margin-left:300px" type="button" onclick="newPage()" class="transfer-btn">다음</button>
     </form>
 </body>
-
-<script>
-    $(function(){
-        console.log(1);
-
-        var a = JSON.stringify(${accInfoList});
-
-        console.log(a);
-    });
-</script>
