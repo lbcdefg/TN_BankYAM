@@ -24,7 +24,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-devtools'
-
+	implementation 'net.sf.json-lib:json-lib:2.4:jdk15'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0' // for Mybatis
 
 	compileOnly 'org.projectlombok:lombok' //for Lombok

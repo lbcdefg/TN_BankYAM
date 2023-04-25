@@ -7,8 +7,145 @@
 <%@ include file="/WEB-INF/views/nav.jsp" %>
 <head>
     <title>얌</title>
-    <script>
+
+</head>
+<body>
+    <div class="profile-upcontainer">
+        <div class="profile-div">
+            <div class="profile-photo">
+                <img src="${membery.mb_imagepath}" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <div>
+                <div class="profile-name">
+                    <h2 style="margin:0;font-size:30px;">${membery.mb_name}</h2> &nbsp;
+                    <p style="margin-top:15px;color:lightgray;">(${membery.mb_email})</p>
+                </div>
+                <div style="display:flex;">
+                    <form name="f" action="edit_photo_ok" method="post" enctype="multipart/form-data">
+                    <input type="file" id="upload_btn" class="upload_btn" name="file">
+                    <label for="upload_btn" id="upload_btn_label" style="height:20px;">사진변경</label>
+                    </form>
+                    <c:if test="${membery.mb_email eq 'admin@gmail.com'}">
+                        <input type="button" id="rate_btn" class="rate_btn" onclick="location.href='/admin/rate_update_ok'" value="금리업뎃"></button>
+                        <input type="button" id="int_btn" class="rate_btn" onclick="location.href='/admin/int_update_ok'" value="금리적용" style="display:none;"></button>
+                        <label class="rate">기준금리</label>
+                        <label id="rate" class="rate-val">${requestScope.rate}%</label>
+                    </c:if>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="profile-downcontainer">
+        <div class="downcontainer-left">
+            <ul class="profile-list">
+                <li class="list-element1">
+                        내 정보
+                </li>
+                <div class="list-element1-contents">
+                    <a href="/member/editProfile">
+                        -프로필변경
+                    </a>
+                    <a href="/friend/friends?content=list">
+                        -친구관리
+                    </a>
+                </div>
+                <c:if test="${membery.mb_email ne 'admin@gmail.com'}">
+                <li class="list-element2">
+                        계좌 정보
+                </li>
+                <div class="list-element2-contents">
+                    <a href="#">
+                        -계좌 관리
+                    </a>
+                    <a href="#">
+                        -계좌 추가
+                    </a>
+                </div>
+                </c:if>
+            </ul>
+        </div>
+        <div class="downcontainer-right">
+            <div class="table-div">
+            <c:if test="${membery.mb_email ne 'admin@gmail.com'}">
+                <div class="profile-acs-table-size350">
+                    <table class="profile-acs-list-table">
+                        <tr class="profile-acs-list-head">
+                            <th class="profile-acs-list-5"></th>
+                            <th class="profile-acs-list-18">계좌번호</th>
+                            <th class="profile-acs-list-8">계좌별칭</th>
+                            <th class="profile-acs-list-10">계좌상태</th>
+                            <th class="profile-acs-list-9">계좌생성일</th>
+                        </tr>
+                        <c:if test="${empty accountyList}">
+                            <tr class="profile-acs-list-row" style="border:none; height:400px">
+                                <td class="profile-fontS-35" align='center' colspan="6">계좌가 없습니다.. 불가능할텐데.. 왜죠!?</td>
+                            </tr>
+                        </c:if>
+                        <c:forEach items="${accountyList}" var="ac">
+                            <tr class="profile-acs-list-row">
+                                <td class="profile-acs-list-5 acm" id="${ac.ac_seq}" name="${ac.ac_main}">${ac.ac_main}</td>
+                                <c:set var="ac_Seq" value="${ac.ac_seq}"/>
+                                <%
+                                    Long acSeq=(Long)pageContext.getAttribute("ac_Seq");
+                                    String acSeqS = Long.toString(acSeq);
+                                    pageContext.setAttribute("acSeqS", acSeqS);
+                                %>
+                                <c:set var="firstAcSeq" value="${fn:substring(acSeqS,0,3)}"/>
+                                <c:set var="secondAcSeq" value="${fn:substring(acSeqS,3,5)}"/>
+                                <c:set var="mainAcSeq" value="${fn:substring(acSeqS,5,11)}"/>
+                                <c:set var="lastAcSeq" value="${fn:substring(acSeqS,11,12)}"/>
+                                <td class="profile-acs-list-20">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}
+                                <br><span class="fontS-12 color-B39273">잔액: <fmt:formatNumber value="${ac.ac_balance}" pattern="#,###" /> 원</span></td>
+                                <td class="profile-acs-list-8"><span class="acn">${ac.ac_name}</span></td>
+                                <td class="profile-acs-list-10">${ac.ac_status}</td>
+                                <td class="profile-acs-list-9">${ac.ac_rdate}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
+                </c:if>
+                <table class="profile-table" cellpadding='7' cellspacing='2'>
+                    <tr>
+                        <th>이름</th>
+                        <td>${membery.mb_name}</td>
+                    </tr>
+                    <tr>
+                        <th>이메일</th>
+                        <td>${membery.mb_email}</td>
+                    </tr>
+                    <tr>
+                        <th>주소</th>
+                        <td>${membery.mb_addr}</td>
+                    </tr>
+                    <tr>
+                        <th>전화번호</th>
+                        <td>${membery.mb_phone}</td>
+                    </tr>
+                    <tr>
+                        <th>직업</th>
+                        <td>${membery.mb_job}</td>
+                    </tr>
+                    <tr>
+                        <th>연봉</th>
+                        <td>${membery.mb_salary} 만원</td>
+                    </tr>
+                </table>
+                <table class="none-table">
+                    <tr>
+                        <th>목록을 선택해주세요</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+        <script>
             $(function(){
+            var url = window.location.href;
+            var urlLast = url.split('/').reverse()[0];
+             if(urlLast == 'rate_update_ok'){
+                $("#int_btn").show();
+            }
                 var windowWidth = $(window).width();
                 $(window).resize(function(){
                     if(this.resizeTO){
@@ -84,134 +221,6 @@
                 });
               });
         </script>
-</head>
-<body>
-    <div class="profile-upcontainer">
-        <div class="profile-div">
-            <div class="profile-photo">
-                <img src="${membery.mb_imagepath}" style="width:100%;height:100%;object-fit:cover;">
-            </div>
-            <div>
-                <div class="profile-name">
-                    <h2 style="margin:0;font-size:30px;">${membery.mb_name}</h2> &nbsp;
-                    <p style="margin-top:15px;color:lightgray;">(${membery.mb_email})</p>
-                </div>
-                <div style="display:flex;">
-                    <form name="f" action="edit_photo_ok" method="post" enctype="multipart/form-data">
-                    <input type="file" id="upload_btn" class="upload_btn" name="file">
-                    <label for="upload_btn" id="upload_btn_label" style="height:20px;">사진변경</label>
-                    </form>
-                    <c:if test="${membery.mb_email eq 'lee@hanmail.com'}">
-                        <input type="button" class="rate_btn" onclick="location.href='/admin/test'" value="금리업뎃"></button>
-                        <input type="button" class="rate_btn" onclick="#" value="금리적용"></button>
-                        <input type="button" class="rate_btn" onclick="#" value="금리업뎃"></button>
-                        <input type="button" class="rate_btn" onclick="location.href='/admin/ad_update_ok'" value="금리적용"></button>
-                    </c:if>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="profile-downcontainer">
-        <div class="downcontainer-left">
-            <ul class="profile-list">
-                <li class="list-element1">
-                        내 정보
-                </li>
-                <div class="list-element1-contents">
-                    <a href="/member/editProfile">
-                        -프로필변경
-                    </a>
-                    <a href="/friend/friends?content=list">
-                        -친구관리
-                    </a>
-                </div>
-                <li class="list-element2">
-                        계좌 정보
-                </li>
-                <div class="list-element2-contents">
-                    <a href="#">
-                        -계좌 관리
-                    </a>
-                    <a href="#">
-                        -계좌 추가
-                    </a>
-                </div>
-            </ul>
-        </div>
-        <div class="downcontainer-right">
-            <div class="table-div">
-                <div class="profile-acs-table-size350">
-                    <table class="profile-acs-list-table">
-                        <tr class="profile-acs-list-head">
-                            <th class="profile-acs-list-5"></th>
-                            <th class="profile-acs-list-18">계좌번호</th>
-                            <th class="profile-acs-list-8">계좌별칭</th>
-                            <th class="profile-acs-list-10">계좌상태</th>
-                            <th class="profile-acs-list-9">계좌생성일</th>
-                        </tr>
-                        <c:if test="${empty accountyList}">
-                            <tr class="profile-acs-list-row" style="border:none; height:400px">
-                                <td class="profile-fontS-35" align='center' colspan="6">계좌가 없습니다.. 불가능할텐데.. 왜죠!?</td>
-                            </tr>
-                        </c:if>
-                        <c:forEach items="${accountyList}" var="ac">
-                            <tr class="profile-acs-list-row">
-                                <td class="profile-acs-list-5 acm" id="${ac.ac_seq}" name="${ac.ac_main}">${ac.ac_main}</td>
-                                <c:set var="ac_Seq" value="${ac.ac_seq}"/>
-                                <%
-                                    Long acSeq=(Long)pageContext.getAttribute("ac_Seq");
-                                    String acSeqS = Long.toString(acSeq);
-                                    pageContext.setAttribute("acSeqS", acSeqS);
-                                %>
-                                <c:set var="firstAcSeq" value="${fn:substring(acSeqS,0,3)}"/>
-                                <c:set var="secondAcSeq" value="${fn:substring(acSeqS,3,5)}"/>
-                                <c:set var="mainAcSeq" value="${fn:substring(acSeqS,5,11)}"/>
-                                <c:set var="lastAcSeq" value="${fn:substring(acSeqS,11,12)}"/>
-                                <td class="profile-acs-list-20">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}
-                                <br><span class="fontS-12 color-B39273">잔액: <fmt:formatNumber value="${ac.ac_balance}" pattern="#,###" /> 원</span></td>
-                                <td class="profile-acs-list-8"><span class="acn">${ac.ac_name}</span></td>
-                                <td class="profile-acs-list-10">${ac.ac_status}</td>
-                                <td class="profile-acs-list-9">${ac.ac_rdate}</td>
-                            </tr>
-                        </c:forEach>
-                    </table>
-                </div>
-                <table class="profile-table" cellpadding='7' cellspacing='2'>
-                    <tr>
-                        <th>이름</th>
-                        <td>${membery.mb_name}</td>
-                    </tr>
-                    <tr>
-                        <th>이메일</th>
-                        <td>${membery.mb_email}</td>
-                    </tr>
-                    <tr>
-                        <th>주소</th>
-                        <td>${membery.mb_addr}</td>
-                    </tr>
-                    <tr>
-                        <th>전화번호</th>
-                        <td>${membery.mb_phone}</td>
-                    </tr>
-                    <tr>
-                        <th>직업</th>
-                        <td>${membery.mb_job}</td>
-                    </tr>
-                    <tr>
-                        <th>연봉</th>
-                        <td>${membery.mb_salary} 만원</td>
-                    </tr>
-                </table>
-                <table class="none-table">
-                    <tr>
-                        <th>목록을 선택해주세요</th>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
-</body>
         <script>
             $("#upload_btn").on("change", function(event){
                f.submit();

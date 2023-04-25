@@ -2,6 +2,7 @@ package tn.bankYam.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import tn.bankYam.dto.*;
 import tn.bankYam.mapper.ChatroomMapper;
 import tn.bankYam.mapper.MemberyMapper;
@@ -39,6 +40,7 @@ public class ChatroomServiceImpl implements ChatroomService{
 	}
 
 	@Override
+	@Transactional
 	public long makeRoomS(Membery membery, List<Long> f_mb_seq_list) {
 		
 		//채팅방 만들기
@@ -56,6 +58,10 @@ public class ChatroomServiceImpl implements ChatroomService{
 		chatmemberMy.setCm_cr_seq(chatroom.getCr_seq());
 		chatmemberMy.setCm_mb_seq(membery.getMb_seq());
 		chatroomMapper.insertMember(chatmemberMy);
+		Chatcontent chatcontentMy = new Chatcontent();
+		chatcontentMy.setCc_cr_seq(chatroom.getCr_seq());
+		chatcontentMy.setCc_content(membery.getMb_name() + "님이 입장하였습니다.");
+		chatroomMapper.insertInOutChat(chatcontentMy);
 		
 		//만든 채팅방에 친구 추가하기
 		for(Long f_mb_seq : f_mb_seq_list){
@@ -63,8 +69,25 @@ public class ChatroomServiceImpl implements ChatroomService{
 			chatmember.setCm_cr_seq(chatroom.getCr_seq());
 			chatmember.setCm_mb_seq(f_mb_seq);
 			chatroomMapper.insertMember(chatmember);
+
+			Membery chatMember = memberyMapper.findBySeq(f_mb_seq);
+			Chatcontent chatcontent = new Chatcontent();
+			chatcontent.setCc_cr_seq(chatroom.getCr_seq());
+			chatcontent.setCc_content(chatMember.getMb_name() + "님이 입장하였습니다.");
+			chatroomMapper.insertInOutChat(chatcontent);
 		}
 		return chatroom.getCr_seq();
+	}
+
+	@Override
+	public void insertMemberS(Chatmember chatmember) {
+		chatroomMapper.insertMember(chatmember);
+
+		Membery chatMember = memberyMapper.findBySeq(chatmember.getCm_mb_seq());
+		Chatcontent chatcontent = new Chatcontent();
+		chatcontent.setCc_cr_seq(chatmember.getCm_cr_seq());
+		chatcontent.setCc_content(chatMember.getMb_name() + "님이 입장하였습니다.");
+		chatroomMapper.insertInOutChat(chatcontent);
 	}
 
 	@Override
@@ -96,6 +119,33 @@ public class ChatroomServiceImpl implements ChatroomService{
 	@Override
 	public void insertStatusS(Chatstatus chatstatus) {
 		chatroomMapper.insertStatus(chatstatus);
+	}
+
+	@Override
+	public void deleteStatusS(long mb_seq, long cr_seq) {
+		HashMap<String, Long> map = new HashMap<>();
+		map.put("mb_seq", mb_seq);
+		map.put("cr_seq", cr_seq);
+		chatroomMapper.deleteStatus(map);
+	}
+
+	@Override
+	public List<Chatcontent> selectStatusCount(long cr_seq) {
+		return chatroomMapper.selectStatusCount(cr_seq);
+	}
+
+	@Override
+	@Transactional
+	public long outChat(Membery membery, long cr_seq) {
+		Chatcontent chatcontent = new Chatcontent();
+		chatcontent.setCc_cr_seq(cr_seq);
+		chatcontent.setCc_content(membery.getMb_name() + "님이 퇴장하였습니다.");
+		chatroomMapper.insertInOutChat(chatcontent);
+		Chatmember chatmember = new Chatmember();
+		chatmember.setCm_cr_seq(cr_seq);
+		chatmember.setCm_mb_seq(membery.getMb_seq());
+		chatroomMapper.deleteOutChat(chatmember);
+		return chatcontent.getCc_seq();
 	}
 
 

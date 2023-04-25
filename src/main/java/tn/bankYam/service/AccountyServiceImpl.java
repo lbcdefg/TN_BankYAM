@@ -21,8 +21,8 @@ public class AccountyServiceImpl implements AccountyService{
     }
 
     @Override
-    public Accounty selectAccInfoS(String ac_pwd) {
-        return mapper.selectAccInfo(ac_pwd);
+    public Accounty selectAccInfoS(long ac_seq) {
+        return mapper.selectAccInfo(ac_seq);
     }
 
     @Override
@@ -66,4 +66,16 @@ public class AccountyServiceImpl implements AccountyService{
     public Product recentPd() {
         return mapper.findRecentPd();
     }
+
+    @Override
+    public void interest(Accounty accounty) {
+        mapper.interest(accounty);
+    }
+    
+    @Override
+    public void insertPd(Product product){ mapper.insertPd(product);}
+    
+    @Override
+    public void updatePdXdate(Product product){ mapper.updatePdXdate(product);}
+
 }

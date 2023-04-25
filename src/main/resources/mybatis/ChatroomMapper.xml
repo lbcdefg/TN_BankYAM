@@ -92,7 +92,7 @@
         SELECT CC_SEQ, CC_CONTENT, CC_RDATE, (SELECT COUNT(*) FROM CHATSTATUS WHERE CS_CC_SEQ=CC_SEQ) CC_STATUS_COUNT,
             TO_CHAR(CC_RDATE, 'YYYY-MM-DD') CC_RDATE_DAY, TO_CHAR(CC_RDATE, 'HH24:MI:SS') CC_RDATE_TIME,
             MB_SEQ, MB_NAME, MB_IMAGEPATH, CF_SEQ, CF_ORGNM, CF_SIZE
-        FROM CHATCONTENT JOIN MEMBERY ON CC_MB_SEQ=MB_SEQ
+        FROM CHATCONTENT LEFT JOIN MEMBERY ON CC_MB_SEQ=MB_SEQ
             LEFT JOIN CHATFILE ON CC_CF_SEQ=CF_SEQ
         WHERE CC_CR_SEQ=#{cr_seq}
         ORDER BY CC_RDATE
@@ -110,7 +110,7 @@
         SELECT CC_SEQ, CC_CR_SEQ, CC_CONTENT, CC_RDATE,
         TO_CHAR(CC_RDATE, 'YYYY-MM-DD') CC_RDATE_DAY, TO_CHAR(CC_RDATE, 'HH24:MI:SS') CC_RDATE_TIME,
         MB_SEQ, MB_NAME, MB_IMAGEPATH, CF_SEQ, CF_ORGNM, CF_SIZE
-        FROM CHATCONTENT JOIN MEMBERY ON CC_MB_SEQ=MB_SEQ
+        FROM CHATCONTENT LEFT JOIN MEMBERY ON CC_MB_SEQ=MB_SEQ
         LEFT JOIN CHATFILE ON CC_CF_SEQ=CF_SEQ
         WHERE CC_SEQ=#{cc_seq}
         ORDER BY CC_RDATE
@@ -118,4 +118,27 @@
     <insert id="insertStatus" parameterType="Chatstatus">
         INSERT INTO CHATSTATUS VALUES (#{cs_cc_seq}, #{cs_mb_seq}, SYSDATE)
     </insert>
+    <delete id="deleteStatus" parameterType="map">
+        DELETE CHATSTATUS
+        WHERE CS_MB_SEQ = #{mb_seq}
+        AND CS_CC_SEQ IN
+        (SELECT CS_CC_SEQ
+        FROM CHATSTATUS JOIN CHATCONTENT ON CS_CC_SEQ = CC_SEQ
+        JOIN CHATROOM ON CC_CR_SEQ = CR_SEQ WHERE CS_MB_SEQ = #{mb_seq} AND CR_SEQ = #{cr_seq})
+    </delete>
+    <select id="selectStatusCount" parameterType="long" resultType="Chatcontent">
+        SELECT *
+        FROM (SELECT CC_SEQ, CC_CR_SEQ,
+            (SELECT COUNT(*) FROM CHATSTATUS WHERE CS_CC_SEQ = CC_SEQ) CC_STATUS_COUNT FROM CHATCONTENT)
+        WHERE CC_CR_SEQ = #{cr_seq} AND CC_STATUS_COUNT > 0
+    </select>
+    <insert id="insertInOutChat" parameterType="Chatcontent">
+        <selectKey keyProperty="cc_seq" resultType="long" order="BEFORE">
+            SELECT CHATCONTENT_SEQ.nextval FROM DUAL
+        </selectKey>
+        INSERT INTO CHATCONTENT VALUES(#{cc_seq}, #{cc_cr_seq}, null, null, #{cc_content}, SYSDATE)
+    </insert>
+    <delete id="deleteOutChat" parameterType="Chatmember">
+        DELETE FROM CHATMEMBER WHERE CM_CR_SEQ = #{cm_cr_seq} AND CM_MB_SEQ = #{cm_mb_seq}
+    </delete>
 </mapper>

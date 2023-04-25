@@ -52,10 +52,10 @@
             SELECT TRANSACTIONS_SEQ.NEXTVAL FROM DUAL
         </selectKey>
         INSERT INTO TRANSACTIONS VALUES (#{tr_seq},
-        TR_AC_SEQ=#{tr_ac_seq}, TR_OTHER_ACCNUM=#{tr_other_accnum},
-        TR_OTHER_BANK=#{tr_other_bank}, TR_TYPE=#{tr_type},
-        TR_AMOUNT=#{tr_amount}, TR_AFTER_BALANCE=#{tr_after_balance},
-        TR_MSG=#{tr_msg}, SYSDATE)
+        #{tr_ac_seq}, #{tr_other_accnum},
+        #{tr_other_bank}, #{tr_type},
+        #{tr_amount}, #{tr_after_balance},
+        #{tr_msg}, SYSDATE)
     </insert>
 
 <!--    이체내역 전체 다 불러오는것-->

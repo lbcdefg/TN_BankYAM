@@ -40,6 +40,11 @@ a {
 .wrap::-webkit-scrollbar-thumb{
 	background-color: #F54927; /*스크롤바의 색상*/
 }
+.in-out-chat{
+    font-size: 13px;
+    text-align: center;
+    margin: 10px;
+}
 .wrap .chat {
     display: flex;
     align-items: flex-start;
@@ -146,12 +151,19 @@ a {
     content: "▶";
     color: #F9EB54;
 }
-.chat-text{
+.send-area{
     width: 100%;
+    display: flex;
+}
+.send-area .chat-text{
+    width: 80%;
     height: 80px;
     resize: none;
 }
-
+.send-area .btn-send{
+    width: 20%;
+    height: 80px;
+}
 input[id="menuicon"]{
     display: none;
 }
@@ -228,7 +240,7 @@ div[class="sidebar"] .menu-list{
 div[class="sidebar"] .file-list{
     position:relative;
     border-bottom: 1px solid beige;
-    height: 60%;
+    height: calc(60% - 25px);
     overflow:scroll;
     overflow-x: hidden;
 }
@@ -256,7 +268,7 @@ div[class="sidebar"] .file-list{
 }
 div[class="sidebar"] .chat-member{
     position:relative;
-    height: 40%;
+    height: calc(40% - 25px);
     overflow:scroll;
     overflow-x: hidden;
 }

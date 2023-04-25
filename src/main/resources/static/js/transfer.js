@@ -40,23 +40,48 @@ function checkPwd(){
     }
 }
 $(function(){
-        $("#alert-success").hide();
-        $("#alert-danger").hide();
-        $("input").keyup(function(){
-            var pwd1=$("#ac_pwd1").val();
-            var pwd2=$("#ac_pwd2").val();
-            if(pwd1 != "" || pwd2 != ""){
-                if(pwd1 == pwd2){
-                    $("#alert-success").show();
-                    $("#alert-danger").hide();
-                    $("#submit").removeAttr("disabled");
-                }else{
-                    $("#alert-success").hide();
-                    $("#alert-danger").show();
-                    $("#submit").attr("disabled", "disabled");
-                }
-            }
-        });
-    });
+    var isPwdChecked;
 
+    $("#alert-success").hide();
+    $("#alert-danger").hide();
+    $("input").keyup(function(){
+        var pwd1=$("#password_1").val();
+        var pwd2=$("#password_2").val();
+        if(pwd1 != "" || pwd2 != ""){
+            if(pwd1 == pwd2){
+                $("#alert-success").show();
+                $("#alert-danger").hide();
+                $("#submit").removeAttr("disabled");
+                isPwdChecked = true;
+                console.log(isPwdChecked);
+            }else{
+                $("#alert-success").hide();
+                $("#alert-danger").show();
+                $("#submit").attr("disabled", "disabled");
+                isPwdChecked = false;
+                console.log(isPwdChecked);
+            }
+        }
+    });
+});
+
+
+
+function checkBalance(ac_seq){
+    var data = {};
+    var ac_seq = document.getElementById('ac_seq').value;
+    $.ajax({
+        url: "checkBalance",
+        type: "GET",
+        data: {ac_seq: ac_seq},
+        success: function(data){
+            alert(JSON.stringify(data));
+            var dataChange = JSON.stringify(data);
+            $("#ac-balance-check").text(data.ac_balance);
+        },
+        error: function(error){
+            console.log("error: " + error);
+        }
+    });
+}
 

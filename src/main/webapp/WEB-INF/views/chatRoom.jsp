@@ -28,9 +28,11 @@
         <div class="sidebar">
             <%-- 파일들 --%>
             <div class="menu-list">
-                <a class="btn-open-popup"><img class="reversal" src="/img/friend.png"></a>
-                <a><img src="/img/rename.png"></a>
-                <a><img src="/img/exit.png"></a>
+                <c:if test="${fn:length(roomInfo.memberyList) != 1}">
+                    <a class="btn-open-popup"><img class="reversal" src="/img/friend.png"></a>
+                    <a><img src="/img/rename.png"></a>
+                </c:if>
+                <a onclick="outChat();"><img src="/img/exit.png"></a>
             </div>
             <div class="file-list">
                 <c:forEach var="file" items="${files}">
@@ -117,85 +119,70 @@
         </span>
     </div>
     <div class="wrap" id="wrap">
+        <c:set var="day" value="" />
         <c:forEach var="content" items="${contents}">
-            <c:if test="${sessionScope.membery.mb_seq eq content.membery.mb_seq}">
-                <div class="chat ch2">
-                    <div class="icon"><img src="${sessionScope.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
-                    <div class="chat-content">
-                        <div class="chat-info">
-                            <span>${content.cc_rdate_time}<br/><span>${content.cc_status_count}</span></span>
-                        </div>
-                        <div class="textbox">${content.cc_content}</div>
-                    </div>
-                </div>
+            <c:if test="${content.cc_rdate_day ne day}">
+                <div class="in-out-chat chatDay">${content.cc_rdate_day}</div>
+                <c:set var="day" value="${content.cc_rdate_day}" />
             </c:if>
-            <c:if test="${sessionScope.membery.mb_seq ne content.membery.mb_seq}">
-                <div class="chat ch1">
-                    <div class="icon"><img src="${content.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
-                    <div class="chat-content">
-                        <div class="chat-name">
-                            <span>${content.membery.mb_name}</span>
-                        </div>
-                        <div class="chat-text-info">
-                            <div class="textbox">${content.cc_content}</div>
+            <c:choose>
+                <c:when test="${null eq content.membery.mb_seq}">
+                    <div class="in-out-chat">${content.cc_content}</div>
+                </c:when>
+                <c:when test="${sessionScope.membery.mb_seq eq content.membery.mb_seq}">
+                    <div class="chat ch2">
+                        <div class="icon"><img src="${sessionScope.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                        <div class="chat-content">
                             <div class="chat-info">
-                                <span>${content.cc_rdate_time}<br/><span>${content.cc_status_count}</span></span>
+                                <span>${content.cc_rdate_time}<br/><span class="status-count" id="sc-${content.cc_seq}">${content.cc_status_count}</span></span>
+                            </div>
+                            <div class="textbox">${content.cc_content}</div>
+                        </div>
+                    </div>
+                </c:when>
+                <c:when test="${sessionScope.membery.mb_seq ne content.membery.mb_seq}">
+                    <div class="chat ch1">
+                        <div class="icon"><img src="${content.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                        <div class="chat-content">
+                            <div class="chat-name">
+                                <span>${content.membery.mb_name}</span>
+                            </div>
+                            <div class="chat-text-info">
+                                <div class="textbox">${content.cc_content}</div>
+                                <div class="chat-info">
+                                    <span>${content.cc_rdate_time}<br/><span class="status-count" id="sc-${content.cc_seq}">${content.cc_status_count}</span></span>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </c:if>
+                </c:when>
+            </c:choose>
         </c:forEach>
     </div>
-    <textarea class="chat-text" required="required" id='msg'></textarea>
-    <input type='button' value='전송' id='btnSend'>
+    <div class="send-area">
+        <textarea class="chat-text" required="required" id='msg'
+        <c:if test="${fn:length(roomInfo.memberyList) == 1}"> readonly </c:if>></textarea>
+        <input type='button' class="btn-send" value='전송' id='btnSend'>
+    </div>
     <div class="modal">
-        <div class="modal_body">
-        Modal
-        <a class="modal-close">닫기</a>
-            <div class="friend-list">
-                <label class="member-info" for="1" id="fr-1">
-                    <img src="/img/character/sad.png"/>
-                    <span class="name">아무개</span>
-                    <input type="radio" name="mb_email" id="1">
-                </label>
-                <label class="member-info" for="2" id="fr-2">
-                        <img src="/img/character/sad.png"/>
-                        <span class="name">아무개</span>
-                    <input type="radio" name="mb_email" id="2">
-                </label>
-                <label class="member-info" for="3">
-                    <img src="/img/character/sad.png"/>
-                    <span class="name">아무개</span>
-                    <input type="radio" name="mb_email" id="3">
-                </label>
-                <label class="member-info" for="4">
-                    <img src="/img/character/sad.png"/>
-                    <span class="name">아무개</span>
-                    <input type="radio" name="mb_email" id="4">
-                </label>
-                <label class="member-info" for="5">
-                    <img src="/img/character/sad.png"/>
-                    <span class="name">아무개</span>
-                    <input type="radio" name="mb_email" id="5">
-                </label>
-                <label class="member-info" for="6">
-                    <img src="/img/character/sad.png"/>
-                    <span class="name">아무개</span>
-                    <input type="radio" name="mb_email" id="6">
-                </label>
-                <label class="member-info" for="7">
-                    <img src="/img/character/sad.png"/>
-                    <span class="name">아무개</span>
-                    <input type="radio" name="mb_email" id="7">
-                </label>
-                <label class="member-info" for="8">
-                    <img src="/img/character/sad.png"/>
-                    <span class="name">아무개</span>
-                    <input type="radio" name="mb_email" id="8">
-                </label>
+        <form action="addChatMember" name="f">
+            <input type="hidden" name="cr_seq" value="${roomInfo.cr_seq}" />
+
+            <div class="modal_body">
+                Modal
+                <a class="modal-close">닫기</a>
+                <input type="button" onclick="addMember()" value="초대"/>
+                <div class="friend-list">
+                    <c:forEach var="friend" items="${friendList}">
+                        <label class="member-info" for="ir-${friend.membery.mb_seq}">
+                            <img src="${friend.membery.mb_imagepath}"/>
+                            <span class="name">${friend.membery.mb_name}</span>
+                            <input type="radio" name="f_f_mb_seq" id="ir-${friend.membery.mb_seq}" value="${friend.membery.mb_seq}">
+                        </label>
+                    </c:forEach>
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </body>
 <script>

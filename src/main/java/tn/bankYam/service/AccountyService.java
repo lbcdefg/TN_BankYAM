@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface AccountyService {
     List<Accounty> selectAccNumS(long ac_seq);
-    Accounty selectAccInfoS(String ac_pwd);
+    Accounty selectAccInfoS(long ac_seq);
     void transferS(Accounty accounty);
     List<Accounty> findAccByMemberId(long ac_mb_seq);
     Product findPdBySeq(long seq);
@@ -17,4 +17,7 @@ public interface AccountyService {
     Product findDepositPdVal(String pd_name);
     List<Accounty> findAccounty();
     Product recentPd();
+    void interest(Accounty accounty);
+    void insertPd(Product product);
+    void updatePdXdate(Product product);
 }

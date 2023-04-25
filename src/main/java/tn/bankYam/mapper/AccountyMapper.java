@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface AccountyMapper {
     List<Accounty> selectAccNum(long ac_seq);
-    Accounty selectAccInfo(String ac_pwd);
+    Accounty selectAccInfo(long ac_seq);
     void transfer(Accounty accounty);
     List<Accounty> findAccByMemberId(long ac_mb_seq);
     Product findPdBySeq(long seq);
@@ -21,4 +21,7 @@ public interface AccountyMapper {
     Product findDepositPdVal(String pd_name);
     List<Accounty> findAccounty();
     Product findRecentPd();
+    void interest(Accounty accounty);
+    void insertPd(Product product);
+    void updatePdXdate(Product product);
 }
