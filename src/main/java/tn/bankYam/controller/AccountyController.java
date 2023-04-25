@@ -1,5 +1,6 @@
 package tn.bankYam.controller;
 
+import net.sf.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,6 +17,7 @@ import tn.bankYam.service.TransactionService;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -40,11 +42,20 @@ public class AccountyController {
 
     //계좌이체 창
     @GetMapping("transfer")
-    public String transfer(Model model, HttpSession session){
+    public String transfer(Model model, HttpSession session, Accounty accounty){
         Membery membery = (Membery)session.getAttribute("membery");
         List<Accounty> accList = accountyService.selectAccNumS(membery.getMb_seq());
+
+        for(int i = 0; i < accList.size(); i++){
+            Accounty accInfo = accountyService.selectAccInfoS(accList.get(i).getAc_seq());
+            accList.get(i).setAc_balance(accInfo.getAc_balance());
+            accList.get(i).setAc_pwd(accInfo.getAc_pwd());
+        }
+        System.out.println(accList);
+
         //로그인한 계정에 대한 계좌 리스트
         model.addAttribute("accList", accList);
+        //model.addAttribute("accInfoList", accInfoList);
         return "transfer";
     }
 
