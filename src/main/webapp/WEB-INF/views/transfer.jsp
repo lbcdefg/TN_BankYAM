@@ -21,10 +21,7 @@
                     <option value="">계좌 선택</option>
                         <c:forEach var="accList" items="${accList}">
                             <option value="${accList.ac_seq}">${accList.ac_seq}(${accList.ac_main})</option>
-                            <c:set var="ac_balance" value="ac_balance"/>
-                            <c:choose>
-                            <c:when test="${ac_balance eq 'ac_balance'}">
-                            </c:when>
+
                         </c:forEach>
                     </select>
                 </td>
