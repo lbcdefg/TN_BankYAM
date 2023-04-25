@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import tn.bankYam.dto.Accounty;
 import tn.bankYam.dto.Membery;
 import tn.bankYam.dto.Transactions;
@@ -42,6 +43,7 @@ public class AccountyController {
 
     //계좌이체 창
     @GetMapping("transfer")
+
     public String transfer(Model model, HttpSession session, Accounty accounty){
         Membery membery = (Membery)session.getAttribute("membery");
         List<Accounty> accList = accountyService.selectAccNumS(membery.getMb_seq());
@@ -57,6 +59,14 @@ public class AccountyController {
         model.addAttribute("accList", accList);
         //model.addAttribute("accInfoList", accInfoList);
         return "transfer";
+    }
+
+    @GetMapping("checkBalance")
+    @ResponseBody
+    public Accounty checkBalance(HttpSession session, long ac_seq){
+        Accounty accounty = accountyService.selectAccInfoS(ac_seq);
+        System.out.println(accounty);
+        return accounty;
     }
 
     //계좌이체 확인

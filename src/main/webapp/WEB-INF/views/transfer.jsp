@@ -19,8 +19,9 @@
                 <td>
                     <select name="ac_seq">
                     <option value="">계좌 선택</option>
-                        <c:forEach var="accList" items="${accList}">
-                            <option value="${accList.ac_seq}">${accList.ac_seq}(${accList.ac_main})</option>
+                        <c:forEach var="acc" items="${accList}">
+                            <option value="${acc.ac_seq}">${acc.ac_seq}(${acc.ac_main})</option>
+
 
                         </c:forEach>
                     </select>
@@ -66,7 +67,6 @@
             <tr>
                 <th scope="row">이체 금액</th>
                 <td>
-
                     <input class="transfer-input" type="number" placeholder="숫자만 입력해주세요" name="tr_amount" id='result' value="0">
                     <br/><br/>
                         <input type="button" name="" class="amount-btn" value="만원" onclick='count("plus1")'/>
@@ -74,6 +74,9 @@
                         <input type="button" name="" class="amount-btn" value="십만원" onclick='count("plus10")'/>
                         <input type="button" name="" class="amount-btn" value="백만원" onclick='count("plus100")'/>
                         <input type="button" name="" class="amount-btn" value="초기화" onclick='count("minus")'/>
+                </td>
+                <td>
+                    <span id="ac-balance-check">${ac_balance}</span>
                 </td>
             </tr>
             <tr>
