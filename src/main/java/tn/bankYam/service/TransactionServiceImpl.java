@@ -12,6 +12,12 @@ import java.util.List;
 public class TransactionServiceImpl implements TransactionService{
     @Autowired
     TransactionsMapper mapper;
+
+    @Override
+    public void insertTrLog(Transactions transactions) {
+        mapper.insertTrLog(transactions);
+    }
+
     @Override
     public List<Transactions> selectTrListS(Membery membery) {
         return mapper.selectTrList(membery);

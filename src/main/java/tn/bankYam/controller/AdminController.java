@@ -9,12 +9,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import tn.bankYam.dto.Transactions;
 import tn.bankYam.service.AccountyService;
 import java.io.IOException;
 import tn.bankYam.dto.Accounty;
 import tn.bankYam.dto.Product;
+import tn.bankYam.service.AccountyService;
+import tn.bankYam.service.TransactionService;
 
 
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 
 @Controller
@@ -22,6 +27,8 @@ import java.util.List;
 public class AdminController {
     @Autowired
     private AccountyService accountyService;
+    @Autowired
+    private TransactionService transactionService;
 
     // 한국은행 기준금리 크롤링
     public Float crawling(){
@@ -38,17 +45,40 @@ public class AdminController {
         }
         return null;
     }
-    @GetMapping("ad_update_ok")
-    public String ad_update_ok(){
+    @GetMapping("int_update_ok")
+    public String int_update_ok(Transactions transactions){
         List<Accounty> accountyList = accountyService.findAccounty();
         Product recentPd = accountyService.recentPd();
-        System.out.println(recentPd);
         for(Accounty account: accountyList) {
             String day = account.getAc_udate().toString().substring(account.getAc_udate().toString().lastIndexOf("-") + 1);
             System.out.println(day);
+            LocalDate now = LocalDate.now();
+            int nowDD = now.getDayOfMonth();
+            int nowMM = now.getMonthValue();
+            int udateDD = Integer.parseInt(day);
+            if(nowDD  == udateDD){
+                account.setAc_balance((long) (account.getAc_balance() * (1 + (account.getProduct().getPd_rate() / 100)/12)));
+                List<String> productList = accountyService.findDepositPd();
+                for (String product : productList) {
+                    if (product.equals(account.getProduct().getPd_name())) {
+                        Product pd = accountyService.findDepositPdVal(account.getProduct().getPd_name());
+                        account.setAc_pd_seq(pd.getPd_seq());
+                        accountyService.interest(account);
+                        transactions.setTr_ac_seq(account.getAc_seq());
+                        transactions.setTr_other_accnum(1234567891);
+                        transactions.setTr_other_bank("뱅크얌");
+                        transactions.setTr_type("입금");
+                        transactions.setTr_amount((long) (account.getAc_balance() * (account.getProduct().getPd_rate() / 100)/12));
+                        transactions.setTr_after_balance((long) (account.getAc_balance() * (1 + (account.getProduct().getPd_rate() / 100)/12)));
+                        transactions.setTr_msg("뱅크얌" +nowMM+"월 이자");
+                        transactionService.insertTrLog(transactions);
+                    }
+                }
+            }
         }
         return "redirect:/member/profile";
     }
+    
 
     @GetMapping("rate_update_ok")
     public String rate_update_ok(Model model){
