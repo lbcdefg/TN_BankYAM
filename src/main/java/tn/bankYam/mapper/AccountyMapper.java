@@ -22,4 +22,6 @@ public interface AccountyMapper {
     List<Accounty> findAccounty();
     Product findRecentPd();
     void interest(Accounty accounty);
+    void insertPd(Product product);
+    void updatePdXdate(Product product);
 }

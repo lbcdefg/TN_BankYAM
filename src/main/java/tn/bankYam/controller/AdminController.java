@@ -6,6 +6,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import tn.bankYam.dto.Transactions;
@@ -29,25 +30,20 @@ public class AdminController {
     @Autowired
     private TransactionService transactionService;
 
-    @GetMapping("test")
-    public String crawling(){
+    // 한국은행 기준금리 크롤링
+    public Float crawling(){
         String URL = "http://www.bok.or.kr/portal/main/main.do";
         Document doc;
         try{
             doc = Jsoup.connect(URL).get();
             Elements elem = doc.select(".ctype1");
             String[] str = elem.text().split(" ");
-            String rate = str[0].substring(0,4);
-            System.out.println("최종금리: " + rate);
-            List<String> list = accountyService.findDepositPd();
-            for(String pd_name:list){
-                System.out.println("pd_name : " + pd_name);
-                System.out.println("product: " + accountyService.findDepositPdVal(pd_name));
-            }
+            Float rate = Float.parseFloat(str[0].substring(0,4));
+            return rate;
         }catch(IOException e){
             e.printStackTrace();
         }
-        return "profile";
+        return null;
     }
     @GetMapping("int_update_ok")
     public String int_update_ok(Transactions transactions){
@@ -79,7 +75,31 @@ public class AdminController {
                     }
                 }
             }
-            }
-        return "redirect:/member/profile";
         }
+        return "redirect:/member/profile";
+    }
+    
+
+    @GetMapping("rate_update_ok")
+    public String rate_update_ok(Model model){
+        Float rate = crawling();
+        System.out.println("최종금리: " + rate);
+        //float rate = 3.8f;
+        List<String> list = accountyService.findDepositPd();
+        float oldRate = accountyService.findDepositPdVal(list.get(0)).getPd_rate();
+        System.out.println("rate: " + rate + ", oldRate : " + oldRate);
+        if(rate != oldRate){ //
+            for(String pd_name:list){
+                //System.out.println("pd_name : " + pd_name);
+                Product product = accountyService.findDepositPdVal(pd_name);
+                accountyService.updatePdXdate(product);
+                Product newProduct = product;
+                newProduct.setPd_rate(rate);
+                //System.out.println("newProduct : " + newProduct);
+                accountyService.insertPd(newProduct);
+            }
+        }
+        model.addAttribute("rate",rate);
+        return "profile";
+    }
 }

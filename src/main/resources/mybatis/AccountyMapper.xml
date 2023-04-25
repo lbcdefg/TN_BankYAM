@@ -73,7 +73,7 @@
         <selectKey resultType="long" keyProperty="ac_seq" order="BEFORE">
             SELECT ACCOUNTY_SEQ.NEXTVAL FROM DUAL
         </selectKey>
-        INSERT INTO ACCOUNTY VALUES(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 0, #{ac_name}, '주', '사용중', #{ac_pd_seq}, 0, #{ac_purpose}, SYSDATE, ADD_MONTHS(TO_DATE(CONCAT((SELECT TO_CHAR(SYSDATE, 'YYMM') FROM DUAL),TO_NUMBER(#{ac_udated})),'YYMMDD'),#{addMonths}), null)
+        INSERT INTO ACCOUNTY VALUES(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 0, #{ac_name}, '주', '사용중', #{ac_pd_seq}, 0, #{ac_purpose}, SYSDATE, ADD_MONTHS(TO_DATE(CONCAT((SELECT TO_CHAR(SYSDATE, 'YYMM') FROM DUAL),TO_NUMBER(#{ac_udated})),'YYMMDD'),#{addMonths}), NULL)
     </insert>
     <select id="findDepositPd" resultType="String">
         SELECT PD_NAME FROM(SELECT * FROM PRODUCT WHERE PD_TYPE='예금') GROUP BY PD_NAME
@@ -87,7 +87,18 @@
     <select id="findRecentPd" resultType="Product">
         SELECT * FROM (SELECT * FROM PRODUCT WHERE PD_TYPE='예금' ORDER BY PD_SEQ DESC) WHERE ROWNUM = 1
     </select>
+
     <update id="interest" parameterType="Accounty">
         UPDATE ACCOUNTY SET AC_BALANCE = #{ac_balance},AC_PD_SEQ= #{ac_pd_seq}, AC_UDATE= ADD_MONTHS(SYSDATE,1) where AC_SEQ= #{ac_seq}
+    </update>
+    <insert id="insertPd" parameterType="Product">
+        <selectKey resultType="long" keyProperty="pd_seq" order="BEFORE">
+            SELECT PRODUCT_SEQ.NEXTVAL FROM DUAL
+        </selectKey>
+        INSERT INTO PRODUCT VALUES(#{pd_seq}, #{pd_type}, #{pd_name}, #{pd_rate}, SYSDATE, NULL)
+    </insert>
+    <update id="updatePdXdate" parameterType="Product">
+        UPDATE PRODUCT SET PD_XDATE = SYSDATE
+        WHERE PD_SEQ=#{pd_seq}
     </update>
 </mapper>
