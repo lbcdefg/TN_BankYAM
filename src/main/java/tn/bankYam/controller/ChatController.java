@@ -94,14 +94,14 @@ public class ChatController {
 	}
 
 	@GetMapping("addChatMember")
-	public String addChatMember(long cr_seq, long f_f_mb_seq, HttpServletResponse response, HttpSession session) throws IOException{
+	@ResponseBody
+	public long addChatMember(long cr_seq, long f_f_mb_seq, HttpSession session){
 		Membery membery = (Membery) session.getAttribute("membery");
 		Chatroom chatroom = chatroomService.selectRoomS(cr_seq);
 		List<Long> f_f_mb_seqList = new ArrayList<>();
 		for(Membery chatMembery : chatroom.getMemberyList()){
 			if(chatMembery.getMb_seq() == f_f_mb_seq){
-				ScriptUtil.alert(response, "잘못된 접근입니다.");
-				return null;
+				return 0;
 			}
 			if(chatMembery.getMb_seq() != membery.getMb_seq())
 				f_f_mb_seqList.add(chatMembery.getMb_seq());
@@ -111,14 +111,13 @@ public class ChatController {
 		if(chatroom.getMemberyList().size() == 2){
 			f_f_mb_seqList.add(f_f_mb_seq);
 			long roomNumber = chatroomService.makeRoomS(membery, f_f_mb_seqList);
-			ScriptUtil.newWindow(response, "room?cr_seq="+roomNumber);
-			return null;
+			return roomNumber;
 		}else{//채팅방이 세명일때 채팅방에 초대하기
 			Chatmember chatmember = new Chatmember();
 			chatmember.setCm_cr_seq(cr_seq);
 			chatmember.setCm_mb_seq(f_f_mb_seq);
 			chatroomService.insertMemberS(chatmember);
-			return "redirect:room?cr_seq="+cr_seq;
+			return cr_seq;
 		}
 	}
 }

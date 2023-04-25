@@ -37,6 +37,9 @@ public class ChatWebSocket {
 		HashMap<String, Object> dataMap = mapper.readValue(data, HashMap.class);
 		Chatcontent chatcontent = new Chatcontent();
 
+		List<Membery> chatMemberList = chatroomService.selectChatMemberS(Long.parseLong((String) dataMap.get("cc_cr_seq")));
+		String jsonInString = "";
+
 		if(!dataMap.get("type").equals("inChat")){
 			if (dataMap.get("type").equals("sendMsg")) {
 				chatcontent.setCc_content((String) dataMap.get("cc_content"));
@@ -49,27 +52,20 @@ public class ChatWebSocket {
 						Long.parseLong((String) dataMap.get("cc_cr_seq")));
 				chatcontent.setCc_seq(cc_seq);
 			}
-		}else {
-			chatcontent.setCc_cr_seq(Long.parseLong((String) dataMap.get("cc_cr_seq")));
-			chatcontent.setCc_mb_seq(Long.parseLong((String) dataMap.get("cc_mb_seq")));
-		}
-		//세션인원중에 보내기
-
-
-		List<Membery> chatMemberList = chatroomService.selectChatMemberS(chatcontent.getCc_cr_seq());
-		String jsonInString = "";
-
-		if(!dataMap.get("type").equals("inChat")) {
 			chatcontent = chatroomService.selectContentBySeqS(chatcontent.getCc_seq());
 			chatcontent.setCc_status_count(chatMemberList.size() - 1);
 			jsonInString = mapper.writeValueAsString(chatcontent);
+
 		}else {
+			chatcontent.setCc_cr_seq(Long.parseLong((String) dataMap.get("cc_cr_seq")));
+			chatcontent.setCc_mb_seq(Long.parseLong((String) dataMap.get("cc_mb_seq")));
+
 			HashMap<String, Object> temp = new HashMap<>();
 			temp.put("inChat", "inChat");
 			temp.put("cc_cr_seq", chatcontent.getCc_cr_seq());
 			jsonInString = mapper.writeValueAsString(temp);
 		}
-
+		//세션인원중에 보내기
 		for(Session s : clients) {
 			System.out.println("send data : " + chatcontent.getCc_content());
 			EndpointConfig config = configs.get(s);
@@ -84,6 +80,8 @@ public class ChatWebSocket {
 				}
 			}
 		}
+
+		chatMemberList = chatroomService.selectChatMemberS(chatcontent.getCc_cr_seq());
 
 		if(!dataMap.get("type").equals("inChat")) {
 			for (Membery membery : chatMemberList) {
