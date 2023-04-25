@@ -41,41 +41,49 @@ readContent(cr_seq);
 ws.onmessage = function(msg){
     var data = JSON.parse(msg.data);
 
-    console.log(data);
     var item;
 
     if(data.cc_cr_seq == cr_seq){
-        if(data.membery.mb_seq == mb_seq){
-             item = `<div class="chat ch2">
-                         <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
-                         <div class="chat-content">
-                             <div class="chat-info">
-                                 <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
+        if(data.inChat == null){
+            if($(".chatDay").last().text() != data.cc_rdate_day){
+                talk.innerHTML += '<div class="in-out-chat chatDay">' + data.cc_rdate_day + '</div>';
+            }
+            if(data.membery == null){//누군가가 퇴장or입장
+                item = `<div class="in-out-chat">${data.cc_content}</div>`
+                location.reload()
+            }else if(data.membery.mb_seq == mb_seq){
+                 item = `<div class="chat ch2">
+                             <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                             <div class="chat-content">
+                                 <div class="chat-info">
+                                     <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
+                                 </div>
+                                 <div class="textbox">${data.cc_content}</div>
                              </div>
-                             <div class="textbox">${data.cc_content}</div>
-                         </div>
-                     </div>`;
-        }else{
-            item = `<div class="chat ch1">
-                        <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
-                        <div class="chat-content">
-                            <div class="chat-name">
-                                <span>${data.membery.mb_name}</span>
-                            </div>
-                            <div class="chat-text-info">
-                                <div class="textbox">${data.cc_content}</div>
-                                <div class="chat-info">
-                                    <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
+                         </div>`;
+            }else{
+                item = `<div class="chat ch1">
+                            <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                            <div class="chat-content">
+                                <div class="chat-name">
+                                    <span>${data.membery.mb_name}</span>
+                                </div>
+                                <div class="chat-text-info">
+                                    <div class="textbox">${data.cc_content}</div>
+                                    <div class="chat-info">
+                                        <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>`;
+                        </div>`;
+            }
+
+            talk.innerHTML += item;
+            talk.scrollTop=talk.scrollHeight;//스크롤바 하단으로 이동
+            readContent(cr_seq);
+        }else{
+            readContent(cr_seq);
         }
-
-
-        talk.innerHTML += item;
-        talk.scrollTop=talk.scrollHeight;//스크롤바 하단으로 이동
-        readContent(cr_seq);
     }
 }
 
@@ -98,8 +106,31 @@ function send(){
 		data.cc_content = msgText;
 		data.cc_cr_seq = cr_seq;
 		data.cc_mb_seq = mb_seq;
+		data.type = "sendMsg";
 		var temp = JSON.stringify(data);
 		ws.send(temp);
 	}
 	msg.value ='';
 }
+
+function outChat(){
+    if(confirm("현재 채팅창에서 퇴장하시겠습니까? 대화내용은 모두 사라집니다.")){
+        data.cc_cr_seq = cr_seq;
+		data.cc_mb_seq = mb_seq;
+		data.type = "deleteChat";
+        var temp = JSON.stringify(data);
+        ws.send(temp);
+        window.close();
+    }
+}
+
+function inChat(){
+    data.cc_cr_seq = cr_seq;
+    data.cc_mb_seq = mb_seq;
+    data.type = "inChat";
+    var temp = JSON.stringify(data);
+    ws.send(temp);
+}
+setTimeout(function() {
+    inChat();
+}, 1000);

@@ -20,4 +20,5 @@ public interface ChatroomService {
 	void insertStatusS(Chatstatus chatstatus);
 	void deleteStatusS(long mb_seq, long cr_seq);
 	List<Chatcontent> selectStatusCount(long cr_seq);
+	long outChat(Membery membery, long cr_seq);
 }
