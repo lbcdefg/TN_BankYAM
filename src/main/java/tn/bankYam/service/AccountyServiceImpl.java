@@ -66,4 +66,9 @@ public class AccountyServiceImpl implements AccountyService{
     public Product recentPd() {
         return mapper.findRecentPd();
     }
+
+    @Override
+    public void interest(Accounty accounty) {
+        mapper.interest(accounty);
+    }
 }

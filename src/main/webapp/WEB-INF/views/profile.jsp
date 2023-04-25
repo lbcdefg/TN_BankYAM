@@ -103,8 +103,9 @@
                     </form>
                     <c:if test="${membery.mb_email eq 'lee@hanmail.com'}">
                         <input type="button" class="rate_btn" onclick="location.href='/admin/test'" value="금리업뎃"></button>
-                        <input type="button" class="rate_btn" onclick="location.href='/admin/ad_update_ok'" value="금리적용"></button>
-                        <
+                        <input type="button" class="rate_btn" onclick="location.href='/admin/int_update_ok'" value="금리적용"></button>
+                        <label class="rate">기준금리</label>
+                        <label id="rate" class="rate-val">3.5%</label>
                     </c:if>
 
                 </div>

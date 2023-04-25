@@ -82,9 +82,12 @@
         SELECT * FROM (SELECT * FROM PRODUCT WHERE PD_NAME =#{pd_name} ORDER BY PD_RDATE DESC) WHERE ROWNUM=1
     </select>
     <select id="findAccounty" resultMap="accounty">
-        SELECT * FROM ACCOUNTY
+        SELECT * FROM ACCOUNTY A JOIN PRODUCT P ON A.AC_PD_SEQ = P.PD_SEQ WHERE A.AC_STATUS='사용중'
     </select>
     <select id="findRecentPd" resultType="Product">
         SELECT * FROM (SELECT * FROM PRODUCT WHERE PD_TYPE='예금' ORDER BY PD_SEQ DESC) WHERE ROWNUM = 1
     </select>
+    <update id="interest" parameterType="Accounty">
+        UPDATE ACCOUNTY SET AC_BALANCE = #{ac_balance},AC_PD_SEQ= #{ac_pd_seq}, AC_UDATE= ADD_MONTHS(SYSDATE,1) where AC_SEQ= #{ac_seq}
+    </update>
 </mapper>

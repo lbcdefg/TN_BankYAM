@@ -17,4 +17,5 @@ public interface AccountyService {
     Product findDepositPdVal(String pd_name);
     List<Accounty> findAccounty();
     Product recentPd();
+    void interest(Accounty accounty);
 }

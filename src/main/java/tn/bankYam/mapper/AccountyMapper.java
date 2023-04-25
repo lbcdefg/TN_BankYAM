@@ -21,4 +21,5 @@ public interface AccountyMapper {
     Product findDepositPdVal(String pd_name);
     List<Accounty> findAccounty();
     Product findRecentPd();
+    void interest(Accounty accounty);
 }
