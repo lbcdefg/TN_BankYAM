@@ -165,13 +165,13 @@
         <input type='button' class="btn-send" value='전송' id='btnSend'>
     </div>
     <div class="modal">
-        <form action="addChatMember">
+        <form action="addChatMember" name="f">
             <input type="hidden" name="cr_seq" value="${roomInfo.cr_seq}" />
 
             <div class="modal_body">
                 Modal
                 <a class="modal-close">닫기</a>
-                <input type="submit" value="초대"/>
+                <input type="button" onclick="addMember()" value="초대"/>
                 <div class="friend-list">
                     <c:forEach var="friend" items="${friendList}">
                         <label class="member-info" for="ir-${friend.membery.mb_seq}">

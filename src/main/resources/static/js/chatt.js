@@ -134,3 +134,27 @@ function inChat(){
 setTimeout(function() {
     inChat();
 }, 1000);
+function chatOpen(roomNumber){
+    window.open('room?cr_seq='+roomNumber, '', 'width=365, height=550');
+}
+function addMember(){
+    if($('input:radio[name=f_f_mb_seq]').is(':checked')){
+        $.ajax({
+            url: "addChatMember",
+            type: "GET",
+            data: {cr_seq: cr_seq, f_f_mb_seq: $("input[name='f_f_mb_seq']:checked").val()},
+            success: function(data){
+                console.log(data);
+                if(cr_seq != data){
+                    chatOpen(data);
+                }else if(cr_seq == 0){
+                    alert("잘못된 접근입니다.")
+                }
+                location.reload();
+            },
+            error: function(error){
+                console.log("error: " + error);
+            }
+        });
+    }
+}
