@@ -5,12 +5,28 @@
 function getId(id){
 	return document.getElementById(id);
 }
+function readContent(cr_seq){
+    $.ajax({
+        url: "readContent",
+        type: "GET",
+        data: {cr_seq: cr_seq},
+        success: function(data){
+            $(".status-count").empty();
+
+            for(var i=0; i<data.length; i++){
+                console.log(data[i]);
+                $('#sc-' + data[i].cc_seq).append(data[i].cc_status_count);
+            }
+        },
+        error: function(error){
+            console.log("error: " + error);
+        }
+    });
+}
 
 var data = {};//전송 데이터(JSON)
 
 var ws ;
-var mid = getId('mid');
-var btnLogin = getId('btnLogin');
 var btnSend = getId('btnSend');
 var talk = getId('wrap');
 var msg = getId('msg');
@@ -19,6 +35,8 @@ var mb_seq = getId('session_seq').value;
 var cr_seq = getId('cr_seq').value;
 
 ws = new WebSocket("ws://" + location.host + "/chat/soket");
+readContent(cr_seq);
+
 
 ws.onmessage = function(msg){
     var data = JSON.parse(msg.data);
@@ -32,7 +50,7 @@ ws.onmessage = function(msg){
                          <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
                          <div class="chat-content">
                              <div class="chat-info">
-                                 <span>${data.cc_rdate_time}<br/><span>${data.cc_status_count}</span></span>
+                                 <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
                              </div>
                              <div class="textbox">${data.cc_content}</div>
                          </div>
@@ -47,7 +65,7 @@ ws.onmessage = function(msg){
                             <div class="chat-text-info">
                                 <div class="textbox">${data.cc_content}</div>
                                 <div class="chat-info">
-                                    <span>${data.cc_rdate_time}<br/><span>${data.cc_status_count}</span></span>
+                                    <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
                                 </div>
                             </div>
                         </div>
@@ -57,6 +75,7 @@ ws.onmessage = function(msg){
 
         talk.innerHTML += item;
         talk.scrollTop=talk.scrollHeight;//스크롤바 하단으로 이동
+        readContent(cr_seq);
     }
 }
 
@@ -83,5 +102,4 @@ function send(){
 		ws.send(temp);
 	}
 	msg.value ='';
-
 }
