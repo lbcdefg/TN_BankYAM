@@ -241,7 +241,6 @@
                             console.log("입력된 이메일은 : " + $("#mb_email").val());
                             emailCodeBtn.style.display = 'block';
                             $("#join_message").html("<span id='emconfirmchk'>코드발송 버튼을 눌러주세요</span>");
-                            $("#emailCode").focus();
                             return true;
                         }else{
                             $("#join_message").html("<span id='emconfirmchk'>이미 가입된 이메일입니다</span>");
@@ -272,7 +271,6 @@
                 $("#mb_pwd2").focus();
                 return false;
             }else{
-                $("#mb_name").focus();
                 return true;
             }
         }else if(target == form.mb_name){
@@ -299,7 +297,6 @@
                 $("#mb_name").focus();
                 return false;
             }else{
-                $("#mb_phone").focus();
                 return true;
             }
         }else if(target == form.mb_phone){
@@ -315,7 +312,6 @@
                 $("#mb_phone").focus();
                 return false;
             }else{
-                $("#mb_daddr").focus();
                 return true;
             }
         }else if(target == form.mb_addr){
@@ -335,7 +331,6 @@
                 $("#mb_daddr").focus();
                 return false;
             }else{
-                $("#mb_salary").focus();
                 return true;
             }
         }else if(target == form.mb_salary){
@@ -427,16 +422,20 @@
             }
 	    }else if(target==nextbtn3){
 	        // 희망이자지급일이 오늘 날짜보다 이전 날짜로 설정되어있을 경우
-            const date = new Date();
-            const day = date.getDate();
+            var date = new Date();
+            var day = date.getDate();
+            var month = date.getMonth() + 1;
 
             if($("#ac_udated").val()< day){
-                let udateConfirm = confirm("이자는 개설 1달 경과 이후부터 지급 가능합니다. 확인 하시면 다음 다음달 선택일에 지급됩니다");
+                let udateConfirm = confirm("이자는 개설 1달 경과 이후부터 지급 가능합니다.\n 확인 하시면 회원가입 및 계좌개설이 완료되며\n 첫 예금이자는 "+(month+2)+"월 "+$("#ac_udated").val()+"일에 지급됩니다");
                 if(udateConfirm == true){
                     form.submit();
                 }
             }else{
-                form.submit();
+                let udateConfirm = confirm("이자는 개설 1달 경과 이후부터 지급 가능합니다.\n 확인 하시면 회원가입 및 계좌개설이 완료되며\n 첫 예금이자는 "+(month+1)+"월 "+$("#ac_udated").val()+"일에 지급됩니다");
+                if(udateConfirm == true){
+                    form.submit();
+                }
             }
 	    }
 	}
@@ -470,7 +469,7 @@
     // form2 다음페이지 버튼 활성화과정
     form2.addEventListener('keydown',function() {
         if(event.keyCode == 13){
-            check(event.target);
+
             if($('#mb_email').is('[readonly]') && $('#emailCode').is('[readonly]')){
                 if(check(form.mb_pwd) && check(form.mb_pwd2) && check(form.mb_name) && check(form.mb_phone) && check(form.mb_daddr) && check(form.mb_salary)){
                     nextbtn2.style.display = 'block';

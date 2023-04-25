@@ -74,10 +74,10 @@
         if(urlLast == 'findPW'){
             findIDForm.style.display = 'none';
             findPWForm.style.display = 'block';
-        }else{
+        }else if(urlLast == 'findID'){
             findIDForm.style.display = 'block';
             findPWForm.style.display = 'none';
-        }
+        }else if{}
     }
 
     // 비번확인시 입력 메일로 코드발송하기

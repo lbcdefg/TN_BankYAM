@@ -105,7 +105,7 @@
                         <input type="button" class="rate_btn" onclick="location.href='/admin/int_update_ok'" value="금리적용"></button>
                         <input type="button" class="rate_btn" onclick="location.href='/admin/rate_update_ok'" value="금리업뎃"></button>
                         <label class="rate">기준금리</label>
-                        <label id="rate" class="rate-val">3.5%</label>
+                        <label id="rate" class="rate-val">${requestScope.rate}%</label>
                     </c:if>
                 </div>
             </div>
