@@ -90,12 +90,11 @@ public class MemberyController {
 		Membery member = (Membery) session.getAttribute("membery");
 		Long mb_seq = member.getMb_seq();
 		List<Accounty> accountyList = accountyService.findAccByMemberId(mb_seq);
-		System.out.println(member);
+		System.out.println("프로필에서 멤버:" + member);
+		System.out.println("프로필에서 계좌:" + accountyList);
 		model.addAttribute("membery", member);
 		model.addAttribute("accountyList", accountyList);
-
 		return "profile";
-
 	}
 
 	@GetMapping("findID")
