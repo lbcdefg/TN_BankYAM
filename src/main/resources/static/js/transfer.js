@@ -29,19 +29,17 @@ function count(type)  {
 function checkPwd(){
     var pwd1 = document.getElementById('ac_pwd1').value;
     var pwd2 = document.getElementById('ac_pwd2').value;
-
     if(pwd1 != pwd2){
         alert("비밀번호가 일치하지않습니다");
         return false;
     } else {
         alert("비밀번호가 일치합니다");
         return true;
-
     }
 }
+
 $(function(){
     var isPwdChecked;
-
     $("#alert-success").hide();
     $("#alert-danger").hide();
     $("input").keyup(function(){
@@ -67,6 +65,7 @@ $(function(){
 
 
 
+
 function checkBalance(ac_seq){
     var data = {};
     var ac_seq = document.getElementById('ac_seq').value;
@@ -75,7 +74,6 @@ function checkBalance(ac_seq){
         type: "GET",
         data: {ac_seq: ac_seq},
         success: function(data){
-            alert(JSON.stringify(data));
             var dataChange = JSON.stringify(data);
             $("#ac-balance-check").text(data.ac_balance);
         },
@@ -84,4 +82,11 @@ function checkBalance(ac_seq){
         }
     });
 }
+
+function maxLengthCheck(object){
+    if (object.value.length > object.maxLength){
+      object.value = object.value.slice(0, object.maxLength);
+    }
+}
+
 
