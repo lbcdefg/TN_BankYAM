@@ -68,6 +68,11 @@ public class ChatroomServiceImpl implements ChatroomService{
 	}
 
 	@Override
+	public void insertMemberS(Chatmember chatmember) {
+		chatroomMapper.insertMember(chatmember);
+	}
+
+	@Override
 	public Chatroom selectRoomS(long cr_seq) {
 		return chatroomMapper.selectRoom(cr_seq);
 	}
@@ -96,6 +101,19 @@ public class ChatroomServiceImpl implements ChatroomService{
 	@Override
 	public void insertStatusS(Chatstatus chatstatus) {
 		chatroomMapper.insertStatus(chatstatus);
+	}
+
+	@Override
+	public void deleteStatusS(long mb_seq, long cr_seq) {
+		HashMap<String, Long> map = new HashMap<>();
+		map.put("mb_seq", mb_seq);
+		map.put("cr_seq", cr_seq);
+		chatroomMapper.deleteStatus(map);
+	}
+
+	@Override
+	public List<Chatcontent> selectStatusCount(long cr_seq) {
+		return chatroomMapper.selectStatusCount(cr_seq);
 	}
 
 
