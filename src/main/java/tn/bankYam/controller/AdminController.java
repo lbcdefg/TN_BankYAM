@@ -42,9 +42,7 @@ public class AdminController {
             e.printStackTrace();
         }
         return "profile";
-  }
-
-
+    }
     @GetMapping("ad_update_ok")
     public String ad_update_ok(){
         List<Accounty> accountyList = accountyService.findAccounty();
