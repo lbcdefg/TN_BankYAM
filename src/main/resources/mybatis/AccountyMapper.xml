@@ -80,6 +80,7 @@
     </select>
     <select id="findDepositPdVal" parameterType="String" resultMap="product">
         SELECT * FROM (SELECT * FROM PRODUCT WHERE PD_NAME =#{pd_name} ORDER BY PD_RDATE DESC) WHERE ROWNUM=1
+    </select>
     <select id="findAccounty" resultMap="accounty">
         SELECT * FROM ACCOUNTY
     </select>
