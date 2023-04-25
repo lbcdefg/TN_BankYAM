@@ -12,10 +12,9 @@
     color: var(--themecolor);
 }
 
-
 .nac-main {
     width: 60%;
-    height:600px;
+    height:700px;
     margin: auto;
     background: #fefefe;
     color: #555;
@@ -27,14 +26,24 @@
 
 .nac-form{
     width: 100%;
-    height:600px;
+    height:700px;
 }
 
 
 /* 각 행 요소*/
+.nac-row-block{
+    margin-top:15px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
 .nac-row{
 	display: flex;
 	margin-top:15px;
+}
+
+.row-in-input{
+    width: 100%;
 }
 
 .nac-row-half{
@@ -56,7 +65,7 @@
     margin-bottom: 10px;
 }
 
-.row-in-select label{
+.nac-main label{
     color: #777;
     display: inline-block;
     max-width: 100%;
@@ -64,17 +73,55 @@
     font-weight: 700;
 }
 
+.nac-btn-row{
+    display: block;
+    margin-top: 15px;
+    width: 100%
+}
+
+.nac-btn-group{
+    display: inline-flex;
+    width: 100%;
+    height: 50px;
+    justify-content: center;
+}
+
+.nac-btn-group button{
+    background-color:#F7F3EF;
+    color: #B39273;
+    width:80px;
+    height:50px;
+    margin-right: 20px;
+    font-size: 14px;
+}
+
+.nac-btn-group button:hover{
+    color: #5F4934;
+}
+
 /* 각종 유틸 기능 */
 input[type=password]:invalid {
     border: 3px solid red;
 }
 
-.nac-psC-pTag1, .nac-psC-pTag2{
+.margin-bottom-30{
+    margin-bottom: 30px;
+}
+
+.nac-psC-pTag0, .nac-psC-pTag1, .nac-psC-pTag2, .nac-psC-pTag3{
     height: 25px;
     margin: auto;
     text-align: center;
 }
 
-.naC1, .naC2{
+.nac-submit{
+    margin-right:30px;
+}
+
+.naC0, .naC1, .naC2{
     margin: auto;
+}
+
+.naC3{
+    font-size:20px;
 }

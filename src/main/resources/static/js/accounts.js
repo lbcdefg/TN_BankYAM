@@ -188,7 +188,7 @@ function psCheck(){
     }else if(ac_ps.length != 4){
         alert("4자리의 비밀번호를 입력해 주세요");
         return false;
-    }else if(!isNaN(ac_ps) && ac_ps.length == 4 && !blankExp.test($(".ac-ps").val())){
+    }else if(!isNaN(ac_ps) && ac_ps.length == 4){
         psCheckAjax(ac_ps);
     }else{
         alert("뭔진 모르지만 그거 안돼요..");

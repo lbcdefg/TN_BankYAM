@@ -32,4 +32,8 @@ public interface AccountManageMapper {
     void updateAcPwdWrong(long ac_seq);
 
     void updateAcPs(Accounty accounty);
+
+    List<Accounty> myAllAcBySeq(long mb_seq);
+
+    void insertAc(Accounty accounty);
 }
