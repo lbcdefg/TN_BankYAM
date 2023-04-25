@@ -17,14 +17,10 @@
             <tr>
                 <th scope="row">출금 계좌번호</th>
                 <td>
-                    <select name="ac_seq">
+                    <select id="ac_seq"name="ac_seq" onchange="checkBalance()">
                     <option value="">계좌 선택</option>
-                        <c:forEach var="accList" items="${accList}">
-                            <option value="${accList.ac_seq}">${accList.ac_seq}(${accList.ac_main})</option>
-                            <c:set var="ac_balance" value="ac_balance"/>
-                            <c:choose>
-                            <c:when test="${ac_balance eq 'ac_balance'}">
-                            </c:when>
+                        <c:forEach var="acc" items="${accList}">
+                            <option value="${acc.ac_seq}">${acc.ac_seq}(${acc.ac_main})</option>
                         </c:forEach>
                     </select>
                 </td>
@@ -69,7 +65,6 @@
             <tr>
                 <th scope="row">이체 금액</th>
                 <td>
-
                     <input class="transfer-input" type="number" placeholder="숫자만 입력해주세요" name="tr_amount" id='result' value="0">
                     <br/><br/>
                         <input type="button" name="" class="amount-btn" value="만원" onclick='count("plus1")'/>
@@ -77,6 +72,9 @@
                         <input type="button" name="" class="amount-btn" value="십만원" onclick='count("plus10")'/>
                         <input type="button" name="" class="amount-btn" value="백만원" onclick='count("plus100")'/>
                         <input type="button" name="" class="amount-btn" value="초기화" onclick='count("minus")'/>
+                </td>
+                <td>
+                    <span id="ac-balance-check"></span>
                 </td>
             </tr>
             <tr>
@@ -89,13 +87,3 @@
         <button style="margin-left:300px" type="button" onclick="newPage()" class="transfer-btn">다음</button>
     </form>
 </body>
-
-<script>
-    $(function(){
-        console.log(1);
-
-        var a = JSON.stringify(${accInfoList});
-
-        console.log(a);
-    });
-</script>
