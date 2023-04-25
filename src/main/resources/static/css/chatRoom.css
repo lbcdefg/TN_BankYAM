@@ -40,6 +40,11 @@ a {
 .wrap::-webkit-scrollbar-thumb{
 	background-color: #F54927; /*스크롤바의 색상*/
 }
+.in-out-chat{
+    font-size: 13px;
+    text-align: center;
+    margin: 10px;
+}
 .wrap .chat {
     display: flex;
     align-items: flex-start;

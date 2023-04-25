@@ -23,4 +23,6 @@ public interface ChatroomMapper {
 	void insertStatus(Chatstatus chatstatus);
 	void deleteStatus(HashMap<String, Long> map);
 	List<Chatcontent> selectStatusCount(long cr_seq);
+	void insertInOutChat(Chatcontent chatcontent);
+	void deleteOutChat(Chatmember chatmember);
 }
