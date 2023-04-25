@@ -76,7 +76,6 @@
             findIDForm.style.display = 'block';
             findPWForm.style.display = 'none';
         }
-
     }
     // 페이지 로드시 url이 findPW면 비밀번호 찾기로, findID면 아이디 찾기로 뿌려주기
 
