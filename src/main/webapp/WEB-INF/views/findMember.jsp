@@ -66,9 +66,7 @@
     </center>
 </body>
 <script>
-
-    // 페이지 로드시 url이 findPW면 비밀번호 찾기로, findID면 아이디 찾기로 뿌려주기
-    window.onload = function(){
+        window.onload = function(){
         var url = window.location.href;
         var urlLast = url.split('/').reverse()[0];
         if(urlLast == 'findPW'){
@@ -77,8 +75,10 @@
         }else if(urlLast == 'findID'){
             findIDForm.style.display = 'block';
             findPWForm.style.display = 'none';
-        }else if{}
+        }
     }
+    // 페이지 로드시 url이 findPW면 비밀번호 찾기로, findID면 아이디 찾기로 뿌려주기
+
 
     // 비번확인시 입력 메일로 코드발송하기
     function sendMail(){
