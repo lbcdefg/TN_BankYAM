@@ -118,4 +118,18 @@
     <insert id="insertStatus" parameterType="Chatstatus">
         INSERT INTO CHATSTATUS VALUES (#{cs_cc_seq}, #{cs_mb_seq}, SYSDATE)
     </insert>
+    <delete id="deleteStatus" parameterType="map">
+        DELETE CHATSTATUS
+        WHERE CS_MB_SEQ = #{mb_seq}
+        AND CS_CC_SEQ IN
+        (SELECT CS_CC_SEQ
+        FROM CHATSTATUS JOIN CHATCONTENT ON CS_CC_SEQ = CC_SEQ
+        JOIN CHATROOM ON CC_CR_SEQ = CR_SEQ WHERE CS_MB_SEQ = #{mb_seq} AND CR_SEQ = #{cr_seq})
+    </delete>
+    <select id="selectStatusCount" parameterType="long" resultType="Chatcontent">
+        SELECT *
+        FROM (SELECT CC_SEQ, CC_CR_SEQ,
+            (SELECT COUNT(*) FROM CHATSTATUS WHERE CS_CC_SEQ = CC_SEQ) CC_STATUS_COUNT FROM CHATCONTENT)
+        WHERE CC_CR_SEQ = #{cr_seq} AND CC_STATUS_COUNT > 0
+    </select>
 </mapper>
