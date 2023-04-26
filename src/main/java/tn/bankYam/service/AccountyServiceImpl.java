@@ -32,13 +32,21 @@ public class AccountyServiceImpl implements AccountyService{
     public void transferPlusS(Transactions transactions) {
         if (transactions.getTr_after_balance() >= 0) {
             mapper.transferMinus(transactions);
+            mapper.transferPlus(transactions);
+
             transactions.setTr_type("송금");
             transactionsMapper.insertTrLog(transactions);
 
-            mapper.transferPlus(transactions);
+            transactions.setTr_type("입금");
+            transactions.setTr_after_balance(mapper.selectAccInfo(transactions.getTr_other_accnum()).getAc_balance());
+            long tempMyAcc = transactions.getTr_ac_seq();
+            long tempOtherAcc = transactions.getTr_other_accnum();
+            transactions.setTr_ac_seq(tempOtherAcc);
+            transactions.setTr_other_accnum(tempMyAcc);
+            transactionsMapper.insertTrLog(transactions);
         } else {
-            System.out.println("존재하지 않는 계좌입니다.");
-            selectAccNumS(transactions.getTr_ac_seq());
+            System.out.println("잔액이 부족합니다.");
+
         }
     }
 

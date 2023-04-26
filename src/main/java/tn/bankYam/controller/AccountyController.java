@@ -112,7 +112,7 @@ public class AccountyController {
         model.addAttribute("tr_amount", hashMap.get("tr_amount"));
         model.addAttribute("tr_other_accnum", hashMap.get("tr_other_accnum"));
         model.addAttribute("tr_msg", hashMap.get("tr_msg"));
-        model.addAttribute("tr_after_balance",hashMap.get("tr_after_balance"));
+//        model.addAttribute("tr_after_balance",hashMap.get("tr_after_balance"));
         model.addAttribute("tr_date", hashMap.get("tr_date"));
         model.addAttribute("tr_after_balance", trAcBal);
         model.addAttribute("transactions",transactions);
