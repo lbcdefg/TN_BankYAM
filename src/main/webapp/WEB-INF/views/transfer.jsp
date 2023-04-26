@@ -17,7 +17,7 @@
             <tr>
                 <th scope="row">출금 계좌번호</th>
                 <td>
-                    <select id="ac_seq"name="ac_seq" onchange="checkBalance()">
+                    <select id="ac_seq"name="tr_ac_seq" onchange="checkBalance()">
                     <option value="">계좌 선택</option>
                         <c:forEach var="acc" items="${accList}">
                             <option value="${acc.ac_seq}">${acc.ac_seq}(${acc.ac_main})</option>
@@ -28,7 +28,7 @@
             <tr>
                 <th scope="row">계좌 비밀번호</th>
                 <td>
-                    <input class="transfer-input pw"  maxlength="4" placeholder="숫자만 입력해주세요" oninput="maxLengthCheck(this)" type="number" name="ac_pwd" id="password_1" style="-webkit-text-security: disc;">
+                    <input class="transfer-input pw" minlength="4" maxlength="4" placeholder="숫자만 입력해주세요" oninput="maxLengthCheck(this)" type="number" name="ac_pwd" id="password_1" style="-webkit-text-security: disc;">
                 </td>
             </tr>
             <tr>
@@ -42,7 +42,7 @@
             <tr>
                 <th scope="row">은행</th>
                 <td>
-                    <select name="tn_other_bank" id="tn_other_bank">
+                    <select name="tr_other_bank" id="tr_other_bank">
                         <option value="">은행선택</option>
                         <option value="뱅크얌">뱅크얌</option>
                         <option value="국민은행">국민은행</option>
@@ -84,6 +84,6 @@
                 </td>
             </tr>
         </table>
-        <button style="margin-left:315px" type="button" onclick="nextPage()" id="next-btn" class="transfer-btn">다음</button>
+        <button style="margin-left:315px" type="submit" onclick="nextPage()" id="next-btn" class="transfer-btn">다음</button>
     </form>
 </body>

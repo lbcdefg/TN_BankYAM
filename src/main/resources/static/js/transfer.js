@@ -7,6 +7,7 @@ function count(type)  {
     if(number==null || number==""){
         number=0;
     }
+
     console.log(number);
     console.log(resultElement);
     // 더하기
@@ -121,11 +122,11 @@ function compare(){
 }
 
 function nextPage(){
-alert(compare());
+    var amount = Number(document.getElementById("result").value);
+    console.log(amount);
     if(compare()){
         f.submit();
     }else{
         alert("금액을 다시 한 번 확인해주세요");
     }
-
 }
