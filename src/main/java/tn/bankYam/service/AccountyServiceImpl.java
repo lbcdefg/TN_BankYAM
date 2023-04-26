@@ -28,12 +28,12 @@ public class AccountyServiceImpl implements AccountyService{
 
     @Override
     public void transferS(Accounty accounty) {
-        if(selectAccNumS(accounty.getAc_seq())!=null){
-            if(accounty.getAc_balance()>0 && accounty.getAc_balance()>=transactions.getTr_amount()){
-                System.out.println("될까?"+transactions.getTr_amount());
-                mapper.transfer(accounty);
-            }
-        }else {
+
+        if (accounty.getAc_balance() > 0 && accounty.getAc_balance() >= transactions.getTr_amount()) {
+            System.out.println("될까?" + transactions.getTr_amount());
+            mapper.transfer(accounty);
+
+        } else {
             System.out.println("존재하지 않는 계좌입니다.");
             selectAccNumS(accounty.getAc_seq());
         }
