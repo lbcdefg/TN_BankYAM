@@ -32,10 +32,10 @@ public class AccountManageServiceImpl implements AccountManageService{
     }
 
     @Override
-    public HashMap<String, Object> forMapIdId(long acId, long myId){
+    public HashMap<String, Object> forMapIdId(long ac_seq, long mb_seq){
         HashMap<String, Object> forAcMap = new HashMap<>();
-        forAcMap.put("acId", acId);
-        forAcMap.put("myId", myId);
+        forAcMap.put("ac_seq", ac_seq);
+        forAcMap.put("mb_seq", mb_seq);
         return forAcMap;
     }
 
@@ -65,8 +65,22 @@ public class AccountManageServiceImpl implements AccountManageService{
     }
 
     @Override
-    public Accounty checkPs(long ac_seq){
-        return accountManageMapper.checkPs(ac_seq);
+    public Accounty checkAcOnly(long ac_seq){
+        return accountManageMapper.checkAcOnly(ac_seq);
+    }
+
+    // Mybatis 넣어줄 맵 만들기(계좌Seq, 계좌상태) no mapper
+    @Override
+    public HashMap<String, Object> forMapIdSt(long ac_seq, String cat){
+        HashMap<String, Object> forAcMap = new HashMap<>();
+        forAcMap.put("ac_seq", ac_seq);
+        forAcMap.put("cat", cat);
+        return forAcMap;
+    }
+
+    @Override
+    public void updateAcStatus(HashMap<String, Object> hashMap){
+        accountManageMapper.updateAcStatus(hashMap);
     }
 
     @Override
@@ -84,6 +98,7 @@ public class AccountManageServiceImpl implements AccountManageService{
         accountManageMapper.updateAcPs(accounty);
     }
 
+    // 이자일 용 리스트 만들기 no mapper
     @Override
     public List<Object> getDMY(){
         // 오늘 기준 일, 월, 년 불러오기
@@ -116,7 +131,7 @@ public class AccountManageServiceImpl implements AccountManageService{
             }
         }
 
-        // 컨트롤러로 보내줄 오늘, 날짜리스트, 월/년 맵
+        // 컨트롤러로 보내줄 (오늘일자, 날짜 순서 재배치 리스트, 월/년 맵)
         List<Object> sendList = Arrays.asList(nowDay, getDay, getMY);
 
         return sendList;
@@ -127,7 +142,7 @@ public class AccountManageServiceImpl implements AccountManageService{
         return accountManageMapper.myAllAcBySeq(mb_seq);
     }
 
-    // 가장 최근 금리 적용된 상품 이름들 가져올 리스트
+    // 가장 최근 금리 적용된 상품 이름들 가져올 리스트 no mapper
     @Override
     public List<Product> forRecentPdList(){
         List<Product> forPdList = new ArrayList<>();
@@ -139,7 +154,7 @@ public class AccountManageServiceImpl implements AccountManageService{
         return forPdList;
     }
 
-    // 선택 내용 받아서 ajax로 별칭 이름 뿌려줄 리스트
+    // Select된 상품 이름 받아서 (새 별칭명 + 기존 별칭명들) 담은 리스트
     @Override
     public List<String> forAcNames(List<Accounty> allAc, String pdName){
         List<String> forAcNames = new ArrayList<>();
@@ -151,6 +166,7 @@ public class AccountManageServiceImpl implements AccountManageService{
         String forName = pdName + num;
         int i = 0;
 
+        // 유효성 검사 및 네임 넘버링
         if(size > 1) {  // 2개 이상일 때 이름 체크해서 뒤에 숫자 넣어주기 -> 겹치는 이름 없을 때 까지 숫자 증가시킴!
             while (i > size) {
                 if (forName.equals(allAc.get(i).getAc_name())) {
@@ -177,11 +193,13 @@ public class AccountManageServiceImpl implements AccountManageService{
         return forAcNames;
     }
 
-    // 날짜를 쓰기 좋게 변환하는 용도
+    // 날짜 재편집(<String>yyyy-(m)m-(d)d -> <sql.Date>yyyy-mm-dd) no mapper
     @Override
     public Date modifyData(String dateStr){
         String[] splitDate = dateStr.split("-");
         String getDate = "";
+
+        //받아온 데이터 가공
         for(String str : splitDate){
             int check = Integer.parseInt(str);
             if(check < 10){
@@ -200,5 +218,23 @@ public class AccountManageServiceImpl implements AccountManageService{
     @Override
     public void insertAc(Accounty accounty){
         accountManageMapper.insertAc(accounty);
+    }
+
+    @Override
+    public HashMap<String, Object> forMapIdL(long ac_seq, Long amount){
+        HashMap<String, Object> forAcMap = new HashMap<>();
+        forAcMap.put("ac_seq", ac_seq);
+        forAcMap.put("amount", amount);
+        return forAcMap;
+    }
+
+    @Override
+    public void updateAcBalance(HashMap<String, Object> hashMap){
+        accountManageMapper.updateAcBalance(hashMap);
+    }
+
+    @Override
+    public void deleteAc(long ac_seq){
+        accountManageMapper.deleteAc(ac_seq);
     }
 }

@@ -14,7 +14,8 @@ public interface AccountManageService {
 
     List<Accounty> selectAcXList(Membery membery);
 
-    HashMap<String, Object> forMapIdId(long acId, long myId);
+    // Mybatis 넣어줄 맵 만들기(계좌Seq, 내Seq) no mapper
+    HashMap<String, Object> forMapIdId(long ac_seq, long mb_seq);
 
     List<Accounty> checkAcBeforeMain(long mb_seq);
 
@@ -26,7 +27,12 @@ public interface AccountManageService {
 
     void updateAcName(Accounty accounty);
 
-    Accounty checkPs(long ac_seq);
+    Accounty checkAcOnly(long ac_seq);
+
+    // Mybatis 넣어줄 맵 만들기(계좌Seq, 계좌상태) no mapper
+    HashMap<String, Object> forMapIdSt(long ac_seq, String status);
+
+    void updateAcStatus(HashMap<String, Object> hashMap);
 
     void updateAcPwdCheck(long ac_seq);
 
@@ -34,19 +40,26 @@ public interface AccountManageService {
 
     void updateAcPs(Accounty accounty);
 
-    // 이자일 용 리스트 만들기
+    // 이자일 용 리스트 만들기 no mapper
     List<Object> getDMY();
 
     List<Accounty> myAllAcBySeq(long mb_seq);
 
-    // 상품 이름들 리스트 만들기
+    // 가장 최근 금리 적용된 상품 이름들 가져올 리스트 no mapper
     List<Product> forRecentPdList();
 
-    // 계좌별칭 용 리스트 만들기
+    // Select된 상품 이름 받아서 (새 별칭명 + 기존 별칭명들) 담은 리스트 no mapper
     List<String> forAcNames(List<Accounty> allAc, String pdName);
 
-    // 날짜 재편집
+    // 날짜 재편집(<String>yyyy-(m)m-(d)d -> <sql.Date>yyyy-mm-dd) no mapper
     Date modifyData(String dateStr);
 
     void insertAc(Accounty accounty);
+
+    // Mybatis 넣어줄 맵 만들기(계좌Seq, 금액) no mapper
+    HashMap<String, Object> forMapIdL(long ac_seq, Long amount);
+
+    void updateAcBalance(HashMap<String, Object> hashMap);
+
+    void deleteAc(long ac_seq);
 }
