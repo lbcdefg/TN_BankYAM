@@ -47,6 +47,8 @@
             m.mb_seq = #{mb_seq}
         AND
             a.ac_status != '해지'
+        AND
+            a.ac_status != '복구중'
         ORDER BY
             a.ac_status
         ,
@@ -69,7 +71,7 @@
         (
             a.ac_status = '해지'
         OR
-            a.ac_status = '복구신청'
+            a.ac_status = '복구중'
         )
         ORDER BY
             a.ac_rdate
@@ -102,9 +104,9 @@
         ON
             m.mb_seq = a.ac_mb_seq
         WHERE
-            m.mb_seq = #{myId}
+            m.mb_seq = #{mb_seq}
         AND
-            a.ac_seq = #{acId}
+            a.ac_seq = #{ac_seq}
     </select>
 
     <update id="updateAcNewMain" parameterType="Accounty">
@@ -120,7 +122,7 @@
     </update>
 
 
-    <select id="checkPs" resultType="Accounty" resultMap="accountyMap" parameterType="long">
+    <select id="checkAcOnly" resultType="Accounty" resultMap="accountyMap" parameterType="long">
         SELECT
             *
         FROM
@@ -128,6 +130,18 @@
         WHERE
             ac_seq = #{ac_seq}
     </select>
+
+    <update id="updateAcStatus" parameterType="Accounty">
+        update Accounty set
+        <if test="cat == '복구신청'">
+            AC_STATUS = '복구중'
+        </if>
+        <if test="cat == '복구취소'">
+            AC_STATUS = '해지'
+        </if>
+        WHERE
+            AC_SEQ = #{ac_seq}
+    </update>
 
     <update id="updateAcPwdCheck" parameterType="long">
         update Accounty set AC_PWD_CHECK=0 WHERE AC_SEQ=#{ac_seq}
@@ -158,6 +172,14 @@
         <selectKey keyProperty="ac_seq" order="BEFORE" resultType="long">
             select ACCOUNTY_SEQ.nextval from dual
         </selectKey>
-        insert into ACCOUNTY values(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 1, #{ac_name}, '부', '사용중', 1, 0, #{ac_purpose}, SYSDATE, #{ac_udate}, null)
+        insert into ACCOUNTY values(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 1000, #{ac_name}, '부', '사용중', 1, 0, #{ac_purpose}, SYSDATE, #{ac_udate}, null)
     </insert>
+
+    <update id="updateAcBalance" parameterType="Accounty">
+        update Accounty set AC_BALANCE=AC_BALANCE+${amount} WHERE AC_SEQ=#{ac_seq}
+    </update>
+
+    <delete id="deleteAc" parameterType="long">
+        delete from ACCOUNTY where AC_SEQ=#{ac_seq}
+    </delete>
 </mapper>

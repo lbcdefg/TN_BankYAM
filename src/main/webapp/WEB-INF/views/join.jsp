@@ -51,7 +51,7 @@
                         <div class="row">
                             <div class="row-1quater"></div>
                             <div class="row-1quater">
-                                <button id="next-btn-1" type="button" onclick="next(this)" class="join-btn normal-btn next-btn margin-bottom-20">다음</button>
+                                <button id="next-btn-1" type="button" onclick="next(this)" class="join-btn normal-btn next-btn">다음</button>
                             </div>
                             <div class="row-1quater"></div>
                         </div>
@@ -61,7 +61,7 @@
                         <div class="row">
                             <div class="row-3quater">
                                 <label>이메일</label>
-                                <input type="text" id="mb_email" name="mb_email" class="form-control margin-bottom-20" value="" autocomplete="off">
+                                <input type="text" id="mb_email" name="mb_email" class="form-control" value="" autocomplete="off">
 
                             </div>
                             <div class="row-1quater">
@@ -74,47 +74,47 @@
                         <div class="row">
                             <div class="row-in">
                                 <label for="emailCode" id="emailCodeTxt">인증코드</label>
-                                <input type="text" placeholder="인증코드를 입력해주세요" id="emailCode" name="emailCode" class="form-control margin-bottom-20" value="" autocomplete="off">
+                                <input type="text" placeholder="인증코드를 입력해주세요" id="emailCode" name="emailCode" class="form-control" value="" autocomplete="off">
                             </div>
                         </div>
                         <div class="row">
                             <div class="row-half">
                                 <label>비밀번호</label>
-                                <input type="password" id="mb_pwd" name="mb_pwd" class="form-control margin-bottom-20" autocomplete="off">
+                                <input type="password" id="mb_pwd" name="mb_pwd" class="form-control" autocomplete="off">
                             </div>
                             <div class="row-half">
                                 <label>비밀번호 (확인)</label>
-                                <input type="password"id="mb_pwd2" name="mb_pwd2" class="form-control margin-bottom-20" autocomplete="off">
+                                <input type="password"id="mb_pwd2" name="mb_pwd2" class="form-control" autocomplete="off">
                             </div>
                         </div>
                         <div class="row">
                             <div class="row-in">
                                 <label>이름</label>
-                                <input type="text"id="mb_name" name="mb_name" class="form-control margin-bottom-20" value="" autocomplete="off">
+                                <input type="text"id="mb_name" name="mb_name" class="form-control" value="" autocomplete="off">
                             </div>
                         </div>
                         <div class="row">
                             <div class="row-in">
                                 <label>전화번호</label>
-                                <input type="number"id="mb_phone" name="mb_phone" class="form-control margin-bottom-20" placeholder="'-',공백 없이 숫자만 입력해주세요" autocomplete="off">
+                                <input type="number"id="mb_phone" name="mb_phone" class="form-control" placeholder="'-',공백 없이 숫자만 입력해주세요" autocomplete="off">
                             </div>
                         </div>
                         <div class="row">
                             <div class="row-in">
                                 <label>주소</label>
-                                <input type="text"id="mb_addr" name="mb_addr" class="form-control margin-bottom-20" readonly>
+                                <input type="text"id="mb_addr" name="mb_addr" class="form-control" readonly>
                             </div>
                         </div>
                         <div class="row">
                             <div class="row-in">
                                 <label>상세주소</label>
-                                <input type="text"id="mb_daddr" name="mb_daddr" class="form-control margin-bottom-20">
+                                <input type="text"id="mb_daddr" name="mb_daddr" class="form-control">
                             </div>
                         </div>
                         <div class="row">
                             <div class="row-half">
                                 <label>직업</label>
-                                <select id="mb_job" name="mb_job" class="form-control margin-bottom-20">
+                                <select id="mb_job" name="mb_job" class="form-control">
                                     <option value="무직" name="">무직</option>
                                     <option value="학생" name="">학생</option>
                                     <option value="자영업" name="">자영업</option>
@@ -125,8 +125,8 @@
                             <div class="row-half">
                                 <label>연봉</label>
                                 <div style="display:flex">
-                                    <input type="number" id="mb_salary" name="mb_salary" class="form-control margin-bottom-20 join-placeholderR" autocomplete="off">
-                                    <label class="margin-bottom-20" style=" padding-left: 5;">만원</label>
+                                    <input type="number" id="mb_salary" name="mb_salary" class="form-control" autocomplete="off">
+                                    <label style=" padding-left: 5;">만원</label>
                                 </div>
                             </div>
                         </div>
@@ -135,7 +135,7 @@
                             <div class="row-1quater"></div>
 
                             <div class="row-1quater half-in-btn">
-                                <button id="next-btn-2" type="button" onclick="next(this)" class="join-btn normal-btn next-btn margin-bottom-20">다음</button>
+                                <button id="next-btn-2" type="button" onclick="next(this)" class="join-btn normal-btn next-btn">다음</button>
                             </div>
                             <div class="row-1quater"></div>
                         </div>
@@ -145,17 +145,17 @@
                         <div class="row">
                             <div class="row-half">
                                 <label>계좌비밀번호</label>
-                                <input type="password" pattern="[0-9]*" id="ac_pwd" name="ac_pwd" maxlength="4" spellcheck="false"  class="form-control acpwd margin-bottom-20" autocomplete="off">
+                                <input type="password" pattern="[0-9]*" id="ac_pwd" name="ac_pwd" maxlength="4" spellcheck="false"  class="form-control acpwd " autocomplete="off">
                             </div>
                             <div class="row-half">
                                 <label>계좌비밀번호(확인)</label>
-                                <input type="password" pattern="[0-9]*" id="ac_pwd2" name="ac_pwd2" maxlength="4" spellcheck="false"  class="form-control acpwd margin-bottom-20" autocomplete="off">
+                                <input type="password" pattern="[0-9]*" id="ac_pwd2" name="ac_pwd2" maxlength="4" spellcheck="false"  class="form-control acpwd " autocomplete="off">
                             </div>
                         </div>
                         <div class="row">
                             <div class="row-in">
                                 <label>희망이자지급일</label>
-                                <select id="ac_udated" name="ac_udated" class="form-control margin-bottom-20">
+                                <select id="ac_udated" name="ac_udated" class="form-control">
                                     <option value="1">매월 1일</option>
                                     <option value="5">매월 5일</option>
                                     <option value="10">매월 10일</option>
@@ -168,7 +168,7 @@
                         <div class="row">
                             <div class="row-in">
                                 <label>계좌개설목적</label>
-                                <select id="ac_purpose" name="ac_purpose" class="form-control margin-bottom-20">
+                                <select id="ac_purpose" name="ac_purpose" class="form-control">
                                     <option value="예금">예금</option>
                                     <option value="급여">급여</option>
                                     <option value="생활비">생활비</option>
@@ -179,7 +179,7 @@
                         <div class="row">
                             <div class="row-1quater"></div>
                             <div class="row-1quater half-in-btn">
-                                <button id="next-btn-3" type="button" onclick="next(this)" class="join-btn normal-btn margin-bottom-20">회원가입</button>
+                                <button id="next-btn-3" type="button" onclick="next(this)" class="join-btn normal-btn">회원가입</button>
                             </div>
                             <div class="row-1quater"></div>
                         </div>
@@ -421,21 +421,15 @@
                 });
             }
 	    }else if(target==nextbtn3){
-	        // 희망이자지급일이 오늘 날짜보다 이전 날짜로 설정되어있을 경우
+	        // 희망이자지급일에따른 alert내용
             var date = new Date();
             var day = date.getDate();
             var month = date.getMonth() + 1;
+            var actualRMonth = $("#ac_udated").val()< day ? month+2 : month+1
 
-            if($("#ac_udated").val()< day){
-                let udateConfirm = confirm("이자는 개설 1달 경과 이후부터 지급 가능합니다.\n 확인 하시면 회원가입 및 계좌개설이 완료되며\n 첫 예금이자는 "+(month+2)+"월 "+$("#ac_udated").val()+"일에 지급됩니다");
-                if(udateConfirm == true){
-                    form.submit();
-                }
-            }else{
-                let udateConfirm = confirm("이자는 개설 1달 경과 이후부터 지급 가능합니다.\n 확인 하시면 회원가입 및 계좌개설이 완료되며\n 첫 예금이자는 "+(month+1)+"월 "+$("#ac_udated").val()+"일에 지급됩니다");
-                if(udateConfirm == true){
-                    form.submit();
-                }
+            let udateConfirm = confirm("이자는 개설 1달 경과 이후부터 지급 가능합니다.\n확인 하시면 회원가입 및 계좌개설이 완료되며\n첫 예금이자는 "+actualRMonth+"월 "+$("#ac_udated").val()+"일에 지급됩니다");
+            if(udateConfirm == true){
+                form.submit();
             }
 	    }
 	}

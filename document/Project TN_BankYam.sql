@@ -259,7 +259,7 @@ SELECT * FROM MEMBERY M JOIN ACCOUNTY A ON M.MB_SEQ = A.AC_MB_SEQ
 WHERE M.MB_EMAIL = 'ww' OR A.AC_SEQ = '11';
 SELECT * FROM membery m JOIN accounty a ON m.mb_seq = a.ac_mb_seq WHERE m.mb_seq = 2 AND a.ac_status != '해지'
 ORDER BY a.ac_main DESC, a.ac_status;
-SELECT * FROM membery m JOIN accounty a ON m.mb_seq = a.ac_mb_seq WHERE m.mb_seq = 2 AND (a.ac_status = '해지' OR a.ac_status = '복구신청')
+SELECT * FROM membery m JOIN accounty a ON m.mb_seq = a.ac_mb_seq WHERE m.mb_seq = 2 AND (a.ac_status = '해지' OR a.ac_status = '복구중')
 ORDER BY a.ac_main DESC, a.ac_status;
 
 

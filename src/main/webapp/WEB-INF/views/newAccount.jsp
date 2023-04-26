@@ -24,7 +24,7 @@
                         <label>상품 선택</label>
                         <select id="pd_named" name="ac_pd_seq_dummy" class="form-control margin-bottom-20">
                             <c:forEach items="${pdNames}" var="pd">
-                                <option class="pd-option" id="${pd.pd_seq}" value="${pd.pd_name}">${pd.pd_name}</option>
+                                <option class="pd-option" id="${pd.pd_seq}" value="${pd.pd_name}">${pd.pd_name} (금리: ${pd.pd_rate} / 적용일: ${pd.pd_rdate})</option>
                             </c:forEach>
                         </select>
                     </div>
@@ -101,7 +101,7 @@
                 <div class="nac-btn-row">
                     <div class="nac-btn-group">
                         <button type="button" class="nac-submit" onclick="nacSubmit()">계좌개설</button>
-                        <button type="button" class="nac-cancel" onclick="history.back()">취소</button>
+                        <button type="button" class="nac-cancel" onclick="nacCancel()">취소</button>
                     </div>
                     <div class="nac-psC-pTag3"></div>
                 </div>
