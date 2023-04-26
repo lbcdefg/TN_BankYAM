@@ -141,4 +141,23 @@
         update Accounty set AC_PWD=#{ac_pwd} WHERE AC_SEQ=#{ac_seq}
     </update>
 
+    <select id="myAllAcBySeq" resultType="list" resultMap="accountyMap" parameterType="long">
+    SELECT
+        *
+    FROM
+        accounty a
+    JOIN
+        membery m
+    ON
+        a.ac_mb_seq = m.mb_seq
+    WHERE
+        m.mb_seq = #{mb_seq}
+    </select>
+
+    <insert id="insertAc" parameterType="Accounty">
+        <selectKey keyProperty="ac_seq" order="BEFORE" resultType="long">
+            select ACCOUNTY_SEQ.nextval from dual
+        </selectKey>
+        insert into ACCOUNTY values(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 1, #{ac_name}, '부', '사용중', 1, 0, #{ac_purpose}, SYSDATE, #{ac_udate}, null)
+    </insert>
 </mapper>

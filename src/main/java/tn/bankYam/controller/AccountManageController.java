@@ -12,10 +12,15 @@ import tn.bankYam.service.AccountManageService;
 import tn.bankYam.utils.SHA256;
 import tn.bankYam.utils.ScriptUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 
@@ -155,7 +160,60 @@ public class AccountManageController {
     }
 
     @GetMapping("newAccount")
-    public String newAccount(){
+    public String newAccount(Model model, HttpSession session){
+        Membery membery = (Membery)session.getAttribute("membery");
+
+        if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
+            // 상품 이름들 받아서 뿌려줄 용도
+            List<Product> pdNames = accountManageService.forRecentPdList();
+
+            model.addAttribute("pdNames", pdNames);
+
+            // 이자 지급일 만들어줄 데이터들 담긴 리스트
+            List<Object> getDMY = accountManageService.getDMY();
+
+            model.addAttribute("nowDay", getDMY.get(0));
+            model.addAttribute("day", getDMY.get(1));
+            model.addAttribute("monthYear", getDMY.get(2));
+        }
         return "newAccount";
+    }
+
+    @PostMapping("account_pdAjax")
+    public @ResponseBody List<String> acNamesList(HttpSession session, String pd_name) {
+        Membery membery = (Membery)session.getAttribute("membery");
+        System.out.println("들어오냐?");
+        if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
+            // 내 계좌들 전부 가져올 리스트
+            List<Accounty> getAc = accountManageService.myAllAcBySeq(membery.getMb_seq());
+
+            // 계좌 선택 및 계좌 별칭용 리스트
+            List<String> getAcNames = accountManageService.forAcNames(getAc, pd_name);
+
+            return getAcNames;
+        }
+        return null;
+    }
+
+    @PostMapping("accounts_newAc")
+    public String accounts_newAc(Accounty accounty, HttpServletResponse response, HttpSession session, HttpServletRequest request) throws NoSuchAlgorithmException {
+        Membery membery = (Membery)session.getAttribute("membery");
+
+        if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
+            accounty.setAc_mb_seq(membery.getMb_seq());
+            accounty.setAc_pwd(SHA256.encrypt(accounty.getAc_pwd()+""));
+            accounty.setAc_pd_seq(Long.parseLong(request.getParameter("ac_pd_seq_dummy")));
+            accounty.setAc_udate(accountManageService.modifyData(request.getParameter("ac_udate_dummy")));
+
+            System.out.println(accounty);
+            try {
+                accountManageService.insertAc(accounty);
+
+                ScriptUtil.alertAndMovePage(response, "새 계좌가 개설되었습니다", "/accountM/accounts");
+            }catch(IOException ie){
+                return "accounts";
+            }
+        }
+        return "accounts";
     }
 }
