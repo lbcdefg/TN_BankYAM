@@ -1,3 +1,24 @@
+
+$("#wrap").scrollTop($("#wrap")[0].scrollHeight);
+const modal = document.querySelector('.modal');
+const btnOpenPopup = document.querySelector('.btn-open-popup');
+const btnClosePopup = document.querySelector('.modal-close');
+
+btnOpenPopup.addEventListener('click', () => {
+    modal.classList.toggle('show');
+});
+btnClosePopup.addEventListener('click', () => {
+    modal.classList.toggle('show');
+});
+
+$(document).ready(function(){
+    $("input[name=mb_email]").click(function(){
+        var checkedId = $("input[name=mb_email]:checked").attr("id");
+        alert(checkedId)
+        $("#fr-" + checkedId).attr("style", "background-color:yellow");
+    });
+});
+
 /**
  * web socket
  */
@@ -157,4 +178,99 @@ function addMember(){
             }
         });
     }
+}
+/**
+ * web socket
+ */
+
+
+
+
+
+/**
+ * file upload
+ */
+//폼에 데이터를 추가하기 위해 (파일을 전송하기 전 정보 유지)
+var fd = new FormData();
+//파일 중복 업로드 방지용 맵을 선언한다.
+var map = new Map();
+//submit 버튼을 눌렀을 때
+function submitFile(){
+    //추가적으로 보낼 파라미터가 있으면 formData에 넣어준다.
+    //예를들어 , 게시판의 경우 게시글 제목 , 게시글 내용 등등
+    fd.append('cr_seq',cr_seq);
+    fd.append('mb_seq',mb_seq);
+    console.log(fd);
+    //ajax로 이루어진 파일 전송 함수를 수행시킨다.
+    sendFileToServer();
+}
+//파일 전송 함수이다.
+var sendFileToServer = function() {
+    $.ajax({
+        type : "POST",
+        url : "upload", //Upload URL
+        data : fd,
+        contentType : false,
+        processData : false,
+        cache : false,
+        success : function(cc_seq) {
+            if(cc_seq != 0) {
+                data.cc_seq = cc_seq
+                data.type = "inFile";
+                var temp = JSON.stringify(data);
+                ws.send(temp);
+            }else {
+                alert('실패');
+            }
+        }
+    });
+}
+function handleFileUpload(files) {
+    //파일의 길이만큼 반복하며 formData에 셋팅해준다.
+    var megaByte = 1024*1024;
+    for (var i = 0; i < files.length; i++) {
+
+        console.log(files[i].name);
+
+            fd.append("file", files[i], files[i].name);
+            //파일 중복 업로드를 방지하기 위한 설정
+            map.put(files[i].name, files[i].name);
+
+    }
+}
+$(document).ready(function() {
+    var objDragDrop = $(".chat-text");
+    // div 영역으로 드래그 이벤트호출
+    $(".chat-text").on("dragover",
+        function(e) {
+            e.stopPropagation();
+            e.preventDefault();
+            $(this).css('border', '2px solid red');
+    });
+    // 해당 파일 드랍시 호출 이벤트
+    $(".chat-text").on("drop", function(e) {
+        $(this).css('border', '2px solid green');
+        //브라우저로 이동되는 이벤트를 방지하고 드랍 이벤트를 우선시 한다.
+        e.preventDefault();
+        //DROP 되는 위치에 들어온 파일 정보를 배열 형태로 받아온다.
+        var files = e.originalEvent.dataTransfer.files;
+        //DIV에 DROP 이벤트가 발생 했을 때 다음을 호출한다.
+        handleFileUpload(files);
+
+        //sendFileToServer(); //테스팅 20200108
+        submitFile(); //테스팅 20200108
+    });
+    // div 영역빼고 나머지 영역에 드래그 원래색변경
+    $(document).on('dragover', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        objDragDrop.css('border', '2px solid green');
+    });
+});
+function fileUpload(files){
+    //DIV에 DROP 이벤트가 발생 했을 때 다음을 호출한다.
+    handleFileUpload(files);
+
+    //sendFileToServer(); //테스팅 20200108
+    submitFile();
 }

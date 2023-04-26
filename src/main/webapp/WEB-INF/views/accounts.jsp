@@ -36,8 +36,8 @@
                     <th class="acs-list-10">계좌생성일</th>
                 </tr>
                 <c:if test="${empty acList}">
-                    <tr class="acs-list-row" style="border:none; height:400px">
-                        <td class="fontS-35" align='center' colspan="6">계좌가 없습니다.. 불가능할텐데.. 왜죠!?</td>
+                    <tr class="acs-list-row" style="border:none; height:200px">
+                        <td class="fontS-25" align='center' colspan="6">계좌가 없습니다.. 불가능할텐데.. 왜죠!?</td>
                     </tr>
                 </c:if>
                 <c:forEach items="${acList}" var="ac">
@@ -54,7 +54,7 @@
                         <c:set var="mainAcSeq" value="${fn:substring(acSeqS,5,11)}"/>
                         <c:set var="lastAcSeq" value="${fn:substring(acSeqS,11,12)}"/>
                         <td class="acs-list-27">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}
-                        <br><span class="fontS-12 color-B39273">잔액: <fmt:formatNumber value="${ac.ac_balance}" pattern="#,###" /> 원</span></td>
+                        <br><span class="fontS-12 color-B39273">잔액: <fmt:formatNumber var="bal" value="${ac.ac_balance}" pattern="#,###" /> ${bal}원</span></td>
                         <td class="acs-list-17"><span class="acn">${ac.ac_name}</span><div class="acs-nameM-btnDiv"><button type="button" class="acs-nameM-btn" onclick="modifyName('${ac.ac_name}',${ac.ac_seq})">수정</button></div></td>
                         <td class="acs-list-11">
                             <c:if test="${ac.ac_status == '사용중'}">
@@ -63,16 +63,26 @@
                         </td>
                         <td class="acs-list-10">${ac.ac_status}</td>
                         <td class="acs-list-10">
-                            <c:if test="${ac.ac_status == '사용중'}">
-                                <a class="acs-click" onclick="">휴면신청</a>
+                            <c:if test="${ac.ac_main == '주'}">
+                                <span style="float:right; font-size:12px"> 주 계좌는 휴면<span>&nbsp;
                             </c:if>
-                            <c:if test="${ac.ac_status == '휴면'}">
-                                <a class="acs-click" onclick="">휴면취소</a>
+                            <c:if test="${ac.ac_main != '주'}">
+                                <c:if test="${ac.ac_status == '사용중'}">
+                                    <a class="acs-click" onclick="">휴면신청</a>
+                                </c:if>
+                                <c:if test="${ac.ac_status == '휴면'}">
+                                    <a class="acs-click" onclick="">휴면취소</a>
+                                </c:if>
                             </c:if>
                         </td>
                         <td class="acs-list-10">
-                        <c:if test="${ac.ac_status == '사용중' or ac.ac_status == '휴면'}">
-                            <a class="acs-click" onclick="">해지신청</a>
+                        <c:if test="${ac.ac_main == '주'}">
+                            <span style="float:left; font-size:12px">또는 해지 불가<span>
+                        </c:if>
+                        <c:if test="${ac.ac_main != '주'}">
+                            <c:if test="${ac.ac_status == '사용중' or ac.ac_status == '휴면'}">
+                                <a class="acs-click" onclick="">해지신청</a>
+                            </c:if>
                         </c:if>
                         </td>
                         <td class="acs-list-10">
@@ -95,12 +105,13 @@
                     <th class="acs-list-17">계좌별칭</th>
                     <th class="acs-list-11">복구문의</th>
                     <th class="acs-list-10">계좌상태</th>
-                    <th class="acs-list-30">해지일자</th>
+                    <th class="acs-list-10">계좌삭제</th>
+                    <th class="acs-list-20">해지일자</th>
                     <th class="acs-list-10">계좌생성일</th>
                 </tr>
                 <c:if test="${empty acXList}">
-                    <tr class="acs-list-row" style="border:none; height:400px">
-                        <td class="fontS-35" align='center' colspan="7">해지하신 계좌내역이 없습니다.</td>
+                    <tr class="acs-list-row" style="border:none; height:200px">
+                        <td class="fontS-25" align='center' colspan="7">해지하신 계좌내역이 없습니다.</td>
                     </tr>
                 </c:if>
                 <c:forEach items="${acXList}" var="ac">
@@ -116,18 +127,20 @@
                         <c:set var="secondAcSeq" value="${fn:substring(acSeqS,3,5)}"/>
                         <c:set var="mainAcSeq" value="${fn:substring(acSeqS,5,11)}"/>
                         <c:set var="lastAcSeq" value="${fn:substring(acSeqS,11,12)}"/>
-                        <td class="acs-list-17">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}</td>
+                        <td class="acs-list-17">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}
+                        <br><span class="fontS-12 color-B39273">잔액: <fmt:formatNumber var="bal" value="${ac.ac_balance}" pattern="#,###" /> ${bal}원</span></td>
                         <td class="acs-list-17"><span class="acn">${ac.ac_name}</span><div class="acs-nameM-btnDiv"><button type="button" class="acs-nameM-btn" onclick="modifyName('${ac.ac_name}',${ac.ac_seq})">수정</button></div></td>
                         <td class="acs-list-11">
                             <c:if test="${ac.ac_status == '해지'}">
-                                <a class="acs-click" onclick="">복구신청</a>
+                                <a class="acs-click" onclick="reUseCheck('복구신청',${ac.ac_seq})">복구신청</a>
                             </c:if>
-                            <c:if test="${ac.ac_status == '복구신청'}">
-                                <a class="acs-click" onclick="">복구취소</a>
+                            <c:if test="${ac.ac_status == '복구중'}">
+                                <a class="acs-click" onclick="reUseCheck('복구취소',${ac.ac_seq})">복구취소</a>
                             </c:if>
                         </td>
                         <td class="acs-list-10">${ac.ac_status}</td>
-                        <td class="acs-list-30">${ac.ac_xdate}</td>
+                        <td class="acs-list-10"><a class="acs-click" onclick="deleteAc('${ac.ac_status}','${bal}',${ac.ac_seq}, ${ac.ac_balance})">계좌삭제</a></td>
+                        <td class="acs-list-20">${ac.ac_xdate}</td>
                         <td class="acs-list-10">${ac.ac_rdate}</td>
                     </tr>
                 </c:forEach>
@@ -181,6 +194,24 @@
                             <input type="button" class="acs-psMC-btn acs-click" onclick="psCancel()" value="취소">
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- 계좌 비밀번호 체크 mini 새 창 -->
+        <div class="acs-psC">
+            <div class="acs-psC-body">
+                <h2 style="font-size: 30px; color:#F7F3EF; margin-bottom:10%">계좌 비밀번호 확인</h2>
+                <div class="acs-psC-inputGroup">
+                    <input type="hidden" class="ac-receptor"/>
+                    <input type="hidden" class="ac-receptor2" name="ac_seq"/>
+                    <div style="width:100%; height:60px">
+                        <span class="fontS-15 color-F7F3EF">기존 비밀번호 </span>&nbsp;
+                        <input type="password" pattern="[0-9]*" class="ac-ps-check" maxlength="4" spellcheck="false" autocomplete='off'/>&nbsp;
+                        <input type="button" class="acs-psC-btn acs-click" onclick="psCheckCheck()" value="확인"/>
+                    </div>
+                    <div class="acs-psC-ps1"></div>
                 </div>
             </div>
         </div>

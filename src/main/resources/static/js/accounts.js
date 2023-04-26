@@ -43,10 +43,10 @@ $(document).ready(function(){
         }
         if(trim(acNameVs).length == 0){
             $("p.acC").remove();
-            setPtagAcs("아무것도 입력하지 않으셨습니다", "acC", ".acs-nameM-ps");
+            setPtagAcsRed("아무것도 입력하지 않으셨습니다", "acC", ".acs-nameM-ps");
         }else if(isCheck){
             $("p.acC").remove();
-            setPtagAcs("동일한 이름의 계좌가 있습니다", "acC", ".acs-nameM-ps");
+            setPtagAcsRed("동일한 이름의 계좌가 있습니다", "acC", ".acs-nameM-ps");
         }else{
             $("p.acC").remove();
             setPtagAcs("계좌별칭 변경가능", "acC", ".acs-nameM-ps");
@@ -57,10 +57,10 @@ $(document).ready(function(){
     $(".ac-ps").on("keyup", function(){
         if(isNaN($(".ac-ps").val())){
             $("p.acC1").remove();
-            setPtagAcs("입력은 숫자만 가능합니다", "acC1", ".acs-psM-ps1");
+            setPtagAcsRed("입력은 숫자만 가능합니다", "acC1", ".acs-psM-ps1");
         }else if($(".ac-ps").val().replace(/\s/g,"").length < 4){
             $("p.acC1").remove();
-            setPtagAcs("공백은 포함할 수 없습니다", "acC1", ".acs-psM-ps1");
+            setPtagAcsRed("공백은 포함할 수 없습니다", "acC1", ".acs-psM-ps1");
         }else{
             $("p.acC1").remove();
             setPtagAcs("확인가능", "acC1", ".acs-psM-ps1");
@@ -71,14 +71,14 @@ $(document).ready(function(){
     $(".ac-newPs").on("keyup", function(){
         if(isNaN($(".ac-newPs").val())){
             $("p.acC2").remove();
-            setPtagAcs("입력은 숫자만 가능합니다", "acC2", ".acs-psM-ps2");
+            setPtagAcsRed("입력은 숫자만 가능합니다", "acC2", ".acs-psM-ps2");
          }else if($(".ac-newPs").val().replace(/\s/g,"").length < 4){
             $("p.acC2").remove();
-            setPtagAcs("공백은 포함할 수 없습니다", "acC2", ".acs-psM-ps2");
+            setPtagAcsRed("공백은 포함할 수 없습니다", "acC2", ".acs-psM-ps2");
         }else if($(".ac-newPs").val().length == 4){
             $("p.acC2").remove();
             if($(".ac-ps").val() == $(".ac-newPs").val()){
-                setPtagAcs("기존 비밀번호와 동일합니다", "acC2", ".acs-psM-ps2");
+                setPtagAcsRed("기존 비밀번호와 동일합니다", "acC2", ".acs-psM-ps2");
             }else{
                 setPtagAcs("비밀번호 변경가능", "acC2", ".acs-psM-ps2");
             }
@@ -91,7 +91,7 @@ $(document).ready(function(){
             if($(".ac-newPs-check").val() == $(".ac-newPs").val()){
                 setPtagAcs("비밀번호 변경가능", "acC3", ".acs-psM-ps3");
             }else{
-                setPtagAcs("입력하신 비밀번호와 다릅니다", "acC3", ".acs-psM-ps3");
+                setPtagAcsRed("입력하신 비밀번호와 다릅니다", "acC3", ".acs-psM-ps3");
             }
         }
     });
@@ -100,18 +100,18 @@ $(document).ready(function(){
     $(".ac-newPs-check").on("keyup", function(){
         if(isNaN($(".ac-newPs-check").val())){
             $("p.acC3").remove();
-            setPtagAcs("입력은 숫자만 가능합니다", "acC3", ".acs-psM-ps3");
+            setPtagAcsRed("입력은 숫자만 가능합니다", "acC3", ".acs-psM-ps3");
         }else if($(".ac-newPs-check").val().replace(/\s/g,"").length < 4){
             $("p.acC3").remove();
-            setPtagAcs("공백은 포함할 수 없습니다", "acC3", ".acs-psM-ps3");
+            setPtagAcsRed("공백은 포함할 수 없습니다", "acC3", ".acs-psM-ps3");
         }else if($(".ac-newPs-check").val().length == 4){
             $("p.acC3").remove();
             if($(".ac-newPs-check").val() == $(".ac-newPs").val() && $("p.acC2").text()=="비밀번호 변경가능"){
                 setPtagAcs("비밀번호 변경가능", "acC3", ".acs-psM-ps3");
             }else if($(".ac-newPs-check").val() == $(".ac-newPs").val() && $("p.acC2").text()!="비밀번호 변경가능"){
-                setPtagAcs("재설정 비밀번호를 다시 확인해 주세요", "acC3", ".acs-psM-ps3");
+                setPtagAcsRed("재설정 비밀번호를 다시 확인해 주세요", "acC3", ".acs-psM-ps3");
             }else{
-                setPtagAcs("입력하신 비밀번호와 다릅니다", "acC3", ".acs-psM-ps3");
+                setPtagAcsRed("입력하신 비밀번호와 다릅니다", "acC3", ".acs-psM-ps3");
             }
         }else{
              $("p.acC3").remove();
@@ -121,6 +121,11 @@ $(document).ready(function(){
 
 function setPtagAcs(getText, getClass, getQuery){
     pTagFr = $("<p>").text(getText).attr("style", "color:#a7d3dd").addClass(getClass);
+    $(getQuery).append(pTagFr);
+}
+
+function setPtagAcsRed(getText, getClass, getQuery){
+    pTagFr = $("<p>").text(getText).attr("style", "color:red").addClass(getClass);
     $(getQuery).append(pTagFr);
 }
 
@@ -162,7 +167,6 @@ function modifyCancel(){
     }
 }
 
-
 // 비밀번호 변경 버튼 클릭시
 function modifyPs(seq){
     $(".ac-receptor").attr("id", seq);
@@ -188,7 +192,7 @@ function psCheck(){
     }else if(ac_ps.length != 4){
         alert("4자리의 비밀번호를 입력해 주세요");
         return false;
-    }else if(!isNaN(ac_ps) && ac_ps.length == 4 && !blankExp.test($(".ac-ps").val())){
+    }else if(!isNaN(ac_ps) && ac_ps.length == 4){
         psCheckAjax(ac_ps);
     }else{
         alert("뭔진 모르지만 그거 안돼요..");
@@ -215,13 +219,13 @@ function psCheckAjax(ac_ps){
                 $(".ac-newPs-check").attr("disabled",false);
             }else if(check == "0"){
                 $("p.acC1").remove();
-                setPtagAcs("비밀번호 확인 5회 실패... 뱅크얌으로 문의주세요 (02-1234-1234)", "acC1", ".acs-psM-ps1");
+                setPtagAcsRed("비밀번호 확인 5회 실패... 뱅크얌으로 문의주세요 (02-1234-1234)", "acC1", ".acs-psM-ps1");
             }else if(check == "cancel"){
                 $("p.acC1").remove();
-                setPtagAcs("잘못된 경로, 혹은 문제가 발생.. 뱅크얌으로 문의주세요 (02-1234-1234)", "acC1", ".acs-psM-ps1");
+                setPtagAcsRed("잘못된 경로, 혹은 문제가 발생.. 뱅크얌으로 문의주세요 (02-1234-1234)", "acC1", ".acs-psM-ps1");
             }else{
                 $("p.acC1").remove();
-                setPtagAcs("비밀번호 확인 실패.. " + check + "회 남음.", "acC1", ".acs-psM-ps1");
+                setPtagAcsRed("비밀번호 확인 실패.. " + check + "회 남음.", "acC1", ".acs-psM-ps1");
             }
         },
         error: function(error){
@@ -233,7 +237,12 @@ function psCheckAjax(ac_ps){
 // 비밀번호 변경창에서 변경 버튼 클릭 시
 function psSubmit(){
     if($("p.acC1").text() == "비밀번호 확인완료" && $("p.acC2").text() == "비밀번호 변경가능" && $("p.acC3").text() == "비밀번호 변경가능"){
-        document.acpf.submit();
+        var psConfirm = confirm("입력하신 비밀번호로 변경하시겠습니까?");
+        if(psConfirm){
+            document.acpf.submit();
+        }else{
+            return false;
+        }
     }else{
         alert("비밀번호 변경 내용을 다시 확인해주세요");
         return false;
@@ -255,4 +264,69 @@ function psCancel(){
     }else{
         return false;
     }
+}
+
+// 복구신청/취소 클릭시
+function reUseCheck(reUseCheck, ac_seq){
+    if(reUseCheck == "복구신청"){
+        var reUseConfirm = confirm("계좌 복구를 신청하시겠습니까? 신청 시 48시간 내 복구가 처리 됩니다");
+        if(reUseConfirm){
+            location.href="accounts_update?ac_seq=" + ac_seq + "&upCat=" + reUseCheck;
+        }else{
+            return false;
+        }
+    }else if(reUseCheck == "복구취소"){
+        var reUseConfirm = confirm("계좌 복구를 취소하시겠습니까?");
+        if(reUseConfirm){
+            location.href="accounts_update?ac_seq=" + ac_seq + "&upCat=" + reUseCheck;
+        }else{
+            return false;
+        }
+    }else{
+        alert("뭔진 모르지만 그거 안돼요..");
+        return false;
+    }
+}
+
+// 계좌삭제 클릭시
+function deleteAc(status, balSt, ac_seq, ac_balance){
+    if(status == "해지"){
+        if(ac_balance > 0){
+            var delAcConfirm = confirm("계좌 잔액이 " + balSt + "원 남았습니다. 해당 금액을 주 계좌로 옮기고 계좌를 삭제하시겠습니까?");
+            if(delAcConfirm){
+                checkPs(ac_seq);
+            }else{
+                return false;
+            }
+        }else if(ac_balance == 0){
+            var delAcConfirm = confirm("해당 계좌엔 잔액이 없습니다. 계좌를 삭제하시겠습니까?");
+            if(delAcConfirm){
+                location.href="accounts_update?ac_seq=" + ac_seq + "&upCat=삭제";
+            }else{
+                return false;
+            }
+        }else{
+            alert("해당 계좌의 잔액 또는 상태가 삭제할 수 없는 상태이므로 고객센터로 문의 바랍니다.");
+            return false;
+        }
+    }else if(status == "복구중"){
+        var delAcConfirm = confirm("현재 계좌가 복구중 상태입니다. 계좌 복구를 취소하시겠습니까?");
+        if(delAcConfirm){
+            reUseCheck("복구취소", ac_seq);
+        }else{
+            return false;
+        }
+    }
+}
+
+// 비밀번호 확인 절차
+function checkPs(seq){
+    $(".ac-receptor").attr("id", seq);
+    $(".ac-receptor2").val(seq);
+    togglePsM($(".acs-psC"));
+}
+
+// 비밀번호 변경 mini창 여는 클래스 설정
+function togglePsC(psC) {
+    psM.toggleClass("show-acs-psC");
 }

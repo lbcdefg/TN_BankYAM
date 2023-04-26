@@ -175,11 +175,11 @@ public class FriendController {
         String query = (String)session.getAttribute("query");
 
         if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
-            long myId = membery.getMb_seq();
-            System.out.println("myId: " + myId);    // 체크
+            long mb_seq = membery.getMb_seq();
+            System.out.println("mb_seq: " + mb_seq);    // 체크
             System.out.println("frId: " + frId);    // 체크
 
-            HashMap<String, Object> forAddMap = friendsService.forMapIdId(frId, myId);
+            HashMap<String, Object> forAddMap = friendsService.forMapIdId(frId, mb_seq);
             System.out.println(forAddMap);    // 체크
             try {
                 if(catAdd.equals("reqAdd")) {
@@ -247,10 +247,10 @@ public class FriendController {
         Membery membery = (Membery)session.getAttribute("membery");
 
         if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
-            long myId = membery.getMb_seq();
-            System.out.println("myId: " + myId);    //체크
+            long mb_seq = membery.getMb_seq();
+            System.out.println("mb_seq: " + mb_seq);    //체크
             System.out.println("frId: " + frId);    //체크
-            HashMap<String, Object> forDelMap = friendsService.forMapIdId(frId, myId);  // 삭제용 Map
+            HashMap<String, Object> forDelMap = friendsService.forMapIdId(frId, mb_seq);  // 삭제용 Map
             forDelMap.put("catDel", catDel);    // 요청, 받은 목록 구분해서 삭제하기용
             try {
                 if(catDel.equals("frDel")) {

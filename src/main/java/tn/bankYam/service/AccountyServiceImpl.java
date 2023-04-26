@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tn.bankYam.dto.Accounty;
 import tn.bankYam.dto.Product;
+import tn.bankYam.dto.Transactions;
 import tn.bankYam.mapper.AccountyMapper;
 
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import java.util.List;
 public class AccountyServiceImpl implements AccountyService{
     @Autowired
     AccountyMapper mapper;
-
+    Transactions transactions;
     @Override
     public List<Accounty> selectAccNumS(long ac_seq) {
         return mapper.selectAccNum(ac_seq);
@@ -28,7 +29,10 @@ public class AccountyServiceImpl implements AccountyService{
     @Override
     public void transferS(Accounty accounty) {
         if(selectAccNumS(accounty.getAc_seq())!=null){
-            mapper.transfer(accounty);
+            if(accounty.getAc_balance()>0 && accounty.getAc_balance()>=transactions.getTr_amount()){
+                System.out.println("될까?"+transactions.getTr_amount());
+                mapper.transfer(accounty);
+            }
         }else {
             System.out.println("존재하지 않는 계좌입니다.");
             selectAccNumS(accounty.getAc_seq());
@@ -77,5 +81,23 @@ public class AccountyServiceImpl implements AccountyService{
     
     @Override
     public void updatePdXdate(Product product){ mapper.updatePdXdate(product);}
+
+    @Override
+    public List<Product> test(HashMap<String,Object> map){ return mapper.test(map);}
+
+    @Override
+    public List<Product> findPdByPdname() {
+        return mapper.findPdByPdname();
+    }
+
+    @Override
+    public List<String> findPdtype() {
+        return mapper.findPdtype();
+    }
+
+    @Override
+    public List<Product> findPdByPdtype(String pd_type) {
+        return mapper.findPdByPdtype(pd_type);
+    }
 
 }

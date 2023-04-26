@@ -38,10 +38,10 @@ public class FriendsServiceImpl implements FriendsService{
     }
 
     @Override
-    public HashMap<String, Object> forMapIdId(long frId, long myId){
+    public HashMap<String, Object> forMapIdId(long frId, long mb_seq){
         HashMap<String, Object> forFrMap = new HashMap<>();
         forFrMap.put("frId", frId);
-        forFrMap.put("myId", myId);
+        forFrMap.put("mb_seq", mb_seq);
         return forFrMap;
     }
 

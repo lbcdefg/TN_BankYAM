@@ -1,14 +1,15 @@
 
-
-function newPage(){
-    f.submit();
-}
 function count(type)  {
     // 결과를 표시할 element
-    const resultElement = document.getElementById('result');
+    var resultElement = document.getElementById('result');
     // 현재 화면에 표시된 값
-    let number = $('#result').val();
+    var number = $('#result').val();
+    if(number==null || number==""){
+        number=0;
+    }
 
+    console.log(number);
+    console.log(resultElement);
     // 더하기
     if(type === 'plus1') {
       number = parseInt(number) + 10000;
@@ -29,19 +30,18 @@ function count(type)  {
 function checkPwd(){
     var pwd1 = document.getElementById('ac_pwd1').value;
     var pwd2 = document.getElementById('ac_pwd2').value;
-
     if(pwd1 != pwd2){
         alert("비밀번호가 일치하지않습니다");
         return false;
     } else {
         alert("비밀번호가 일치합니다");
         return true;
-
     }
 }
+
+
 $(function(){
     var isPwdChecked;
-
     $("#alert-success").hide();
     $("#alert-danger").hide();
     $("input").keyup(function(){
@@ -53,19 +53,36 @@ $(function(){
                 $("#alert-danger").hide();
                 $("#submit").removeAttr("disabled");
                 isPwdChecked = true;
-                console.log(isPwdChecked);
             }else{
                 $("#alert-success").hide();
                 $("#alert-danger").show();
                 $("#submit").attr("disabled", "disabled");
                 isPwdChecked = false;
-                console.log(isPwdChecked);
             }
         }
     });
 });
 
+$(function(){
+    var isNullChecked;
+    $("#alert-notnull").hide();
+    $("#alert-null").hide();
+    $("input").keyup(function(){
+        var checkingNull=$("#nuChk").val();
+        if(checkingNull != ""){
+            $("#alert-notnull").show();
+            $("#alert-null").hide();
+            $("#submit").removeAttr("disabled");
+            isNullChecked = true;
 
+        }else if(checkingNull == ""){
+            $("#alert-notnull").hide();
+            $("#alert-null").show();
+            $("#submit").attr("disabled", "disabled");
+            isNullChecked = false;
+        }
+    });
+});
 
 function checkBalance(ac_seq){
     var data = {};
@@ -75,7 +92,6 @@ function checkBalance(ac_seq){
         type: "GET",
         data: {ac_seq: ac_seq},
         success: function(data){
-            alert(JSON.stringify(data));
             var dataChange = JSON.stringify(data);
             $("#ac-balance-check").text(data.ac_balance);
         },
@@ -85,3 +101,32 @@ function checkBalance(ac_seq){
     });
 }
 
+
+function maxLengthCheck(object){
+    if (object.value.length > object.maxLength){
+      object.value = object.value.slice(0, object.maxLength);
+    }
+}
+
+function compare(){
+    var balanceMoney = Number(document.getElementById("ac-balance-check").innerText);
+    var amount = Number(document.getElementById("result").value);
+    console.log(balanceMoney);
+    console.log(amount);
+    if(balanceMoney>=amount){
+        return true;
+
+    }else if(balanceMoney<amount){
+        return false;
+    }
+}
+
+function nextPage(){
+    var amount = Number(document.getElementById("result").value);
+    console.log(amount);
+    if(compare()){
+        f.submit();
+    }else{
+        alert("금액을 다시 한 번 확인해주세요");
+    }
+}

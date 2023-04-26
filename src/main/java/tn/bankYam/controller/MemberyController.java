@@ -86,16 +86,21 @@ public class MemberyController {
 	}
 
 	@GetMapping("profile")
-	public String profile(HttpSession session, Model model){
+	public String profile(HttpSession session, Model model,String pd_type){
 		Membery member = (Membery) session.getAttribute("membery");
 		Long mb_seq = member.getMb_seq();
 		List<Accounty> accountyList = accountyService.findAccByMemberId(mb_seq);
+		List<Product> productList = accountyService.findPdByPdname();
+		List<String> pdSelectList = accountyService.findPdtype();
 		System.out.println("프로필에서 멤버:" + member);
 		System.out.println("프로필에서 계좌:" + accountyList);
 		model.addAttribute("membery", member);
 		model.addAttribute("accountyList", accountyList);
+		model.addAttribute("productList", productList);
+		model.addAttribute("pdSelectList", pdSelectList);
 		return "profile";
 	}
+
 
 	@GetMapping("findID")
 	public String findID(){

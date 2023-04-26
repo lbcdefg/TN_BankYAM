@@ -25,11 +25,21 @@ public interface AccountManageMapper {
 
     void updateAcName(Accounty accounty);
 
-    Accounty checkPs(long ac_seq);
+    Accounty checkAcOnly(long ac_seq);
+
+    void updateAcStatus(HashMap<String, Object> hashMap);
 
     void updateAcPwdCheck(long ac_seq);
 
     void updateAcPwdWrong(long ac_seq);
 
     void updateAcPs(Accounty accounty);
+
+    List<Accounty> myAllAcBySeq(long mb_seq);
+
+    void insertAc(Accounty accounty);
+
+    void updateAcBalance(HashMap<String, Object> hashMap);
+
+    void deleteAc(long ac_seq);
 }

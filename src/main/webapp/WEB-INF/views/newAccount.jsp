@@ -19,29 +19,72 @@
         </div>
         <div class="nac-main">
             <form name="nacf" class="nac-form" method="post" action="accounts_newAc" novalidate>
+                <div class="nac-row margin-bottom-30">
+                    <div class="row-in-select">
+                        <label>상품 선택</label>
+                        <select id="pd_named" name="ac_pd_seq_dummy" class="form-control margin-bottom-20">
+                            <c:forEach items="${pdNames}" var="pd">
+                                <option class="pd-option" id="${pd.pd_seq}" value="${pd.pd_name}">${pd.pd_name} (금리: ${pd.pd_rate} / 적용일: ${pd.pd_rdate})</option>
+                            </c:forEach>
+                        </select>
+                    </div>
+                </div>
+                <div class="nac-row-block">
+                    <label>계좌별칭</label><br>
+                    <input type="text" class="form-control margin-bottom-20" id="ac_name" name="ac_name" maxlength="15" spellcheck="false" autocomplete='off' />
+                    <div class="nac-psC-pTag0"></div>
+                </div>
                 <div class="nac-row">
-                    <div class="row-half">
+                    <div class="nac-row-half">
                         <label>계좌비밀번호</label>
-                        <input type="password" pattern="[0-9]*" class="form-control margin-bottom-20" id="ac_pwd" name="ac_pwd" maxlength="4" spellcheck="false" autocomplete="off">
+                        <input type="password" pattern="[0-9]*" class="form-control margin-bottom-20" id="ac_pwd" name="ac_pwd" maxlength="4" spellcheck="false" autocomplete="off" />
                         <div class="nac-psC-pTag1"></div>
                     </div>
-                    <div class="row-half">
+                    <div class="nac-row-half">
                         <label>계좌비밀번호(확인)</label>
-                        <input type="password" pattern="[0-9]*" class="form-control margin-bottom-20" id="ac_pwd2" name="ac_pwd2" maxlength="4" spellcheck="false" autocomplete="off">
+                        <input type="password" pattern="[0-9]*" class="form-control margin-bottom-20" id="ac_pwd2" name="ac_pwd2" maxlength="4" spellcheck="false" autocomplete="off" />
                         <div class="nac-psC-pTag2"></div>
                     </div>
                 </div>
 
-                <div class="nac-row">
+                <div class="nac-row margin-bottom-30">
                     <div class="row-in-select">
                         <label>희망이자지급일</label>
-                        <select id="ac_udated" name="ac_udated" class="form-control margin-bottom-20">
-                            <option value="1">매월 1일</option>
-                            <option value="5">매월 5일</option>
-                            <option value="10">매월 10일</option>
-                            <option value="15">매월 15일</option>
-                            <option value="20">매월 20일</option>
-                            <option value="25">매월 25일</option>
+                        <select id="ac_udated" name="ac_udate_dummy" class="form-control margin-bottom-20">
+                            <c:forEach items="${day}" var="d">
+                                <c:choose>
+                                    <c:when test="${monthYear.nM == 1}">
+                                        <c:choose>
+                                            <c:when test="${d <= nowDay}">
+                                                <option value="${monthYear.nY}-${monthYear.nNM}-${d}">매달 ${d}일 (${monthYear.nY}. ${monthYear.nNM}. ${d} 부터)</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="${monthYear.nY}-${monthYear.nM}-${d}">매달 ${d}일 (${monthYear.nY}. ${monthYear.nM}. ${d} 부터)</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:when>
+                                    <c:when test="${monthYear.nNM == 1}">
+                                        <c:choose>
+                                            <c:when test="${d <= nowDay}">
+                                                <option value="${monthYear.nY}-${monthYear.nNM}-${d}">매달 ${d}일 (${monthYear.nY}. ${monthYear.nNM}. ${d} 부터)</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="${monthYear.rY}-${monthYear.nM}-${d}">매달 ${d}일 (${monthYear.nM}. ${d} 부터)</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:choose>
+                                            <c:when test="${d <= nowDay}">
+                                                <option value="${monthYear.rY}-${monthYear.nNM}-${d}">매달 ${d}일 (${monthYear.nNM}. ${d} 부터)</option>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <option value="${monthYear.rY}-${monthYear.nM}-${d}">매달 ${d}일 (${monthYear.nM}. ${d} 부터)</option>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
                         </select>
                     </div>
                 </div>
@@ -55,11 +98,12 @@
                         </select>
                     </div>
                 </div>
-                <div class="nac-row">
-                    <div class="row-in"></div>
-                    <div class="row-in half-in-btn">
-                        <button id="next-btn-3" type="button" onclick="next(this)" class="join-btn">회원가입</button>
+                <div class="nac-btn-row">
+                    <div class="nac-btn-group">
+                        <button type="button" class="nac-submit" onclick="nacSubmit()">계좌개설</button>
+                        <button type="button" class="nac-cancel" onclick="nacCancel()">취소</button>
                     </div>
+                    <div class="nac-psC-pTag3"></div>
                 </div>
             </form>
         </div>

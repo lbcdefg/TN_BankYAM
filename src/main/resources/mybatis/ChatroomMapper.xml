@@ -104,7 +104,24 @@
         <selectKey keyProperty="cc_seq" resultType="long" order="BEFORE">
             SELECT CHATCONTENT_SEQ.nextval FROM DUAL
         </selectKey>
-        INSERT INTO CHATCONTENT VALUES(#{cc_seq}, #{cc_cr_seq}, #{cc_mb_seq}, null, #{cc_content}, SYSDATE)
+        INSERT INTO CHATCONTENT VALUES(
+            #{cc_seq},
+            #{cc_cr_seq},
+            <if test="cc_mb_seq == 0">
+                null,
+            </if>
+            <if test="cc_mb_seq != 0">
+                #{cc_mb_seq},
+            </if>
+            <if test="cc_cf_seq == 0">
+                null,
+            </if>
+            <if test="cc_cf_seq != 0">
+                #{cc_cf_seq},
+            </if>
+            #{cc_content},
+            SYSDATE
+        )
     </insert>
     <select id="selectContentBySeq" parameterType="long" resultMap="chatcontent">
         SELECT CC_SEQ, CC_CR_SEQ, CC_CONTENT, CC_RDATE,
@@ -132,13 +149,13 @@
             (SELECT COUNT(*) FROM CHATSTATUS WHERE CS_CC_SEQ = CC_SEQ) CC_STATUS_COUNT FROM CHATCONTENT)
         WHERE CC_CR_SEQ = #{cr_seq} AND CC_STATUS_COUNT > 0
     </select>
-    <insert id="insertInOutChat" parameterType="Chatcontent">
-        <selectKey keyProperty="cc_seq" resultType="long" order="BEFORE">
-            SELECT CHATCONTENT_SEQ.nextval FROM DUAL
-        </selectKey>
-        INSERT INTO CHATCONTENT VALUES(#{cc_seq}, #{cc_cr_seq}, null, null, #{cc_content}, SYSDATE)
-    </insert>
     <delete id="deleteOutChat" parameterType="Chatmember">
         DELETE FROM CHATMEMBER WHERE CM_CR_SEQ = #{cm_cr_seq} AND CM_MB_SEQ = #{cm_mb_seq}
     </delete>
+    <insert id="insertFile" parameterType="Chatfile">
+        <selectKey resultType="long" keyProperty="cf_seq" order="BEFORE">
+            SELECT CHATFILE_SEQ.nextval FROM DUAL
+        </selectKey>
+        INSERT INTO CHATFILE VALUES(#{cf_seq}, #{cf_orgnm}, #{cf_savednm}, #{cf_savedpath}, #{cf_size})
+    </insert>
 </mapper>

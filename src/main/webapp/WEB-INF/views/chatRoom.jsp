@@ -5,6 +5,9 @@
 <link rel="stylesheet" type="text/css" href="/css/nav.css" />
 <link rel="stylesheet" type="text/css" href="/css/chatRoom.css" />
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="/js/map.js"></script>
+<script type="text/javascript" src="/js/stringBuffer.js"></script>
 <script>
     function toneDown(){
         if(!document.getElementById('menuicon').checked){
@@ -38,52 +41,11 @@
                 <c:forEach var="file" items="${files}">
                     <a class="chat-file">
                         <div class="file-type">
-                            ${fn:substring(file.cf_orgnm,fn:indexOf(file.cf_orgnm,'.'),fn:length(file.cf_orgnm)) }
+                            ${fn:substring(file.cf_orgnm,fn:indexOf(file.cf_orgnm,'.')+1,fn:length(file.cf_orgnm)) }
                         </div>
                         <span class="file-name">${file.cf_orgnm}</span>
                     </a>
                 </c:forEach>
-                <a class="chat-file">
-                    <div class="file-type">
-                        ${fn:substring('A.txt',fn:indexOf('A.txt','.')+1,fn:length('A.txt')) }
-                    </div>
-                    <span class="file-name">파일1</span>
-                </a>
-                <a class="chat-file">
-                    <div class="file-type">
-                    </div>
-                    <span class="file-name">파일1</span>
-                </a>
-                <a class="chat-file">
-                    <div class="file-type">
-                    </div>
-                    <span class="file-name">파일1</span>
-                </a>
-                <a class="chat-file">
-                    <div class="file-type">
-                    </div>
-                    <span class="file-name">파일1</span>
-                </a>
-                <a class="chat-file">
-                    <div class="file-type">
-                    </div>
-                    <span class="file-name">파일1</span>
-                </a>
-                <a class="chat-file">
-                    <div class="file-type">
-                    </div>
-                    <span class="file-name">파일1</span>
-                </a>
-                <a class="chat-file">
-                    <div class="file-type">
-                    </div>
-                    <span class="file-name">파일1</span>
-                </a>
-                <a class="chat-file">
-                    <div class="file-type">
-                    </div>
-                    <span class="file-name">파일1</span>
-                </a>
             </div>
             <%-- 대화상대(누르면 대화상대랑 거래내역, 이체) --%>
             <div class="chat-member">
@@ -130,15 +92,35 @@
                     <div class="in-out-chat">${content.cc_content}</div>
                 </c:when>
                 <c:when test="${sessionScope.membery.mb_seq eq content.membery.mb_seq}">
-                    <div class="chat ch2">
-                        <div class="icon"><img src="${sessionScope.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
-                        <div class="chat-content">
-                            <div class="chat-info">
-                                <span>${content.cc_rdate_time}<br/><span class="status-count" id="sc-${content.cc_seq}">${content.cc_status_count}</span></span>
+                    <c:if test="${content.chatfile.cf_seq == null}">
+                        <div class="chat ch2">
+                            <div class="icon"><img src="${sessionScope.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                            <div class="chat-content">
+                                <div class="chat-info">
+                                    <span>${content.cc_rdate_time}<br/><span class="status-count" id="sc-${content.cc_seq}">${content.cc_status_count}</span></span>
+                                </div>
+                                <div class="textbox">${content.cc_content}</div>
                             </div>
-                            <div class="textbox">${content.cc_content}</div>
                         </div>
-                    </div>
+                    </c:if>
+                    <c:if test="${content.chatfile.cf_seq != null}">
+                        <div class="chat ch2">
+                            <div class="icon"><img src="${sessionScope.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                            <div class="chat-content">
+                                <div class="chat-info">
+                                    <span>${content.cc_rdate_time}<br/><span class="status-count" id="sc-${content.cc_seq}">${content.cc_status_count}</span></span>
+                                </div>
+                                <div class="textbox">
+                                    <a class="chat-file">
+                                        <div class="file-type">
+                                            ${fn:substring(content.chatfile.cf_orgnm,fn:indexOf(content.chatfile.cf_orgnm,'.')+1,fn:length(content.chatfile.cf_orgnm)) }
+                                        </div>
+                                        <span class="file-name">${content.chatfile.cf_orgnm}</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
                 </c:when>
                 <c:when test="${sessionScope.membery.mb_seq ne content.membery.mb_seq}">
                     <div class="chat ch1">
@@ -162,12 +144,19 @@
     <div class="send-area">
         <textarea class="chat-text" required="required" id='msg'
         <c:if test="${fn:length(roomInfo.memberyList) == 1}"> readonly </c:if>></textarea>
-        <input type='button' class="btn-send" value='전송' id='btnSend'>
+        <div class="buttons">
+            <label class="btn" for="files">
+                <img src="/img/clip.png">
+            </label>
+            <input type="file" id="files" style="display: none;" onchange="fileUpload(this.files)" multiple/>
+            <a class="btn" id="btnSend">
+                <img src="/img/send.png">
+            </a>
+        </div>
     </div>
     <div class="modal">
         <form action="addChatMember" name="f">
             <input type="hidden" name="cr_seq" value="${roomInfo.cr_seq}" />
-
             <div class="modal_body">
                 Modal
                 <a class="modal-close">닫기</a>
@@ -186,25 +175,6 @@
     </div>
 </body>
 <script>
-    $("#wrap").scrollTop($("#wrap")[0].scrollHeight);
-    const modal = document.querySelector('.modal');
-    const btnOpenPopup = document.querySelector('.btn-open-popup');
-    const btnClosePopup = document.querySelector('.modal-close');
-
-    btnOpenPopup.addEventListener('click', () => {
-        modal.classList.toggle('show');
-    });
-    btnClosePopup.addEventListener('click', () => {
-        modal.classList.toggle('show');
-    });
-
-    $(document).ready(function(){
-        $("input[name=mb_email]").click(function(){
-            var checkedId = $("input[name=mb_email]:checked").attr("id");
-            alert(checkedId)
-            $("#fr-" + checkedId).attr("style", "background-color:yellow");
-        });
-    });
 
 </script>
 <script src='/js/chatt.js'></script>

@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import tn.bankYam.dto.Transactions;
 import tn.bankYam.service.AccountyService;
 import java.io.IOException;
@@ -18,8 +20,10 @@ import tn.bankYam.service.AccountyService;
 import tn.bankYam.service.TransactionService;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -48,7 +52,6 @@ public class AdminController {
     @GetMapping("int_update_ok")
     public String int_update_ok(Transactions transactions){
         List<Accounty> accountyList = accountyService.findAccounty();
-        Product recentPd = accountyService.recentPd();
         for(Accounty account: accountyList) {
             String day = account.getAc_udate().toString().substring(account.getAc_udate().toString().lastIndexOf("-") + 1);
             System.out.println(day);
@@ -57,19 +60,19 @@ public class AdminController {
             int nowMM = now.getMonthValue();
             int udateDD = Integer.parseInt(day);
             if(nowDD  == udateDD){
-                account.setAc_balance((long) (account.getAc_balance() * (1 + (account.getProduct().getPd_rate() / 100)/12)));
+                account.setAc_balance((long) (account.getAc_balance() * (1 + (account.getProduct().getPd_rate()+account.getProduct().getPd_addrate() / 100)/12)));
                 List<String> productList = accountyService.findDepositPd();
                 for (String product : productList) {
                     if (product.equals(account.getProduct().getPd_name())) {
-                        Product pd = accountyService.findDepositPdVal(account.getProduct().getPd_name());
+                        Product pd = accountyService.findDepositPdVal(account.getProduct().getPd_name()+account.getProduct().getPd_addrate());
                         account.setAc_pd_seq(pd.getPd_seq());
                         accountyService.interest(account);
                         transactions.setTr_ac_seq(account.getAc_seq());
                         transactions.setTr_other_accnum(1234567891);
                         transactions.setTr_other_bank("뱅크얌");
                         transactions.setTr_type("입금");
-                        transactions.setTr_amount((long) (account.getAc_balance() * (account.getProduct().getPd_rate() / 100)/12));
-                        transactions.setTr_after_balance((long) (account.getAc_balance() * (1 + (account.getProduct().getPd_rate() / 100)/12)));
+                        transactions.setTr_amount((long) (account.getAc_balance() * (account.getProduct().getPd_rate()+account.getProduct().getPd_addrate() / 100)/12));
+                        transactions.setTr_after_balance((long) (account.getAc_balance() * (1 + (account.getProduct().getPd_rate()+account.getProduct().getPd_addrate() / 100)/12)));
                         transactions.setTr_msg("뱅크얌" +nowMM+"월 이자");
                         transactionService.insertTrLog(transactions);
                     }
@@ -78,20 +81,20 @@ public class AdminController {
         }
         return "redirect:/member/profile";
     }
-    
+
 
     @GetMapping("rate_update_ok")
     public String rate_update_ok(Model model){
         Float rate = crawling();
         System.out.println("최종금리: " + rate);
-        //float rate = 3.8f;
         List<String> list = accountyService.findDepositPd();
-        float oldRate = accountyService.findDepositPdVal(list.get(0)).getPd_rate();
-        System.out.println("rate: " + rate + ", oldRate : " + oldRate);
-        if(rate != oldRate){ //
-            for(String pd_name:list){
-                //System.out.println("pd_name : " + pd_name);
-                Product product = accountyService.findDepositPdVal(pd_name);
+
+        for(String pd_name:list){
+            Product product = accountyService.findDepositPdVal(pd_name);
+            //System.out.println("pd_name : " + pd_name);
+            float oldRate = product.getPd_rate();
+            System.out.println("rate: " + rate + ", oldRate : " + oldRate);
+            if(rate != oldRate){
                 accountyService.updatePdXdate(product);
                 Product newProduct = product;
                 newProduct.setPd_rate(rate);
@@ -101,5 +104,41 @@ public class AdminController {
         }
         model.addAttribute("rate",rate);
         return "profile";
+    }
+
+    @GetMapping("test2")
+    @ResponseBody
+    public String test2(HttpServletRequest request){
+        String pd_type = request.getParameter("type").trim();
+        return accountyService.test(typeMap(pd_type)).toString();
+    }
+
+    public HashMap<String, Object> typeMap(String pd_type){
+        System.out.println("타입맵에서 pd_type : " + pd_type);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        if(pd_type.length() != 0) {
+            hashMap.put("pd_type", pd_type);
+        }else{
+            hashMap.put("pd_type", null);
+        }
+        return hashMap;
+    }
+
+    @GetMapping("product_option")
+    public String product_option(@RequestParam("pd_type") String pd_type, Model model) {
+        String selectResult = pd_type;
+        if (selectResult.equals("전체")) {
+            List<Product> productList = accountyService.findPdByPdname();
+            List<String> pdSelectList = accountyService.findPdtype();
+            model.addAttribute("productList", productList);
+            model.addAttribute("pdSelectList", pdSelectList);
+            return "profile";
+        } else {
+            List<Product> selectList = accountyService.findPdByPdtype(selectResult);
+            List<String> pdSelectList = accountyService.findPdtype();
+            model.addAttribute("pdSelectList", pdSelectList);
+            model.addAttribute("productList", selectList);
+            return "profile";
+        }
     }
 }

@@ -3,24 +3,19 @@ package tn.bankYam.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.resource.HttpResource;
 import tn.bankYam.dto.*;
 import tn.bankYam.service.ChatroomService;
 import tn.bankYam.service.FriendsService;
-import tn.bankYam.utils.ScriptUtil;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("chat")
@@ -119,5 +114,28 @@ public class ChatController {
 			chatroomService.insertMemberS(chatmember);
 			return cr_seq;
 		}
+	}
+
+	@PostMapping("/upload")
+	@ResponseBody
+	public long uploadFile(@RequestParam("file") MultipartFile file, @RequestParam Map<String, Object> map)throws IOException{
+		for(String key : map.keySet()){
+			System.out.println(key);
+			System.out.println(map.get(key));
+		}
+		if (file.isEmpty()) {
+			return 0;
+		}
+		long cf_seq = chatroomService.insertFileS(file);
+
+		Chatcontent chatcontent = new Chatcontent();
+		chatcontent.setCc_cr_seq(Long.parseLong((String)map.get("cr_seq")));
+		chatcontent.setCc_mb_seq(Long.parseLong((String)map.get("mb_seq")));
+		chatcontent.setCc_cf_seq(cf_seq);
+		chatcontent.setCc_content("파일 업로드 : " + cf_seq);
+
+		chatroomService.insertContentS(chatcontent);
+
+		return chatcontent.getCc_seq();
 	}
 }
