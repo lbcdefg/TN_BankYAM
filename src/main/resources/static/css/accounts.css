@@ -150,7 +150,7 @@
 
 
 /* 별칭 설정 추가창 */
-.acs-nameM, .acs-psM{
+.acs-nameM, .acs-psM, .acs-psC{
   position: fixed;
   left: 0;
   top: 0;
@@ -163,7 +163,7 @@
   transition: visibility 0s linear 0.25s, opacity 0.25s, 0s, transform 0.25s;
 }
 
-.show-acs-nameM, .show-acs-psM{
+.show-acs-nameM, .show-acs-psM, .show-acs-psC{
      opacity: 1;
      visibility: visible;
      transform: scale(1.0);
@@ -184,13 +184,13 @@
   transform: translateX(-50%) translateY(-50%);
 }
 
-.acs-nameMA-btn, .acs-nameMC-btn, .acs-psMA-btn, .acs-psMC-btn{
+.acs-nameMA-btn, .acs-nameMC-btn, .acs-psMA-btn, .acs-psMC-btn, .acs-psC-btn{
     background-color:#F7F3EF;
     color: #B39273;
     border: none;
 }
 
-.acs-nameMA-btn:hover, .acs-nameMC-btn:hover, .acs-psMA-btn:hover, .acs-psMC-btn:hover{
+.acs-nameMA-btn:hover, .acs-nameMC-btn:hover, .acs-psMA-btn:hover, .acs-psMC-btn:hover, .acs-psC-btn:hover{
     color: #5F4934;
 }
 
@@ -216,7 +216,7 @@
     transform: translateX(-50%) translateY(-50%);
 }
 
-.acs-psM-inputGroup{
+.acs-psM-inputGroup, .acs-psC-inputGroup{
     text-align: left;
 }
 
@@ -228,8 +228,8 @@
     text-align: center;
 }
 
-.acs-psM-ps1, .acs-psM-ps2, .acs-psM-ps3{
-    width: 70%;
+.acs-psM-ps1, .acs-psM-ps2, .acs-psM-ps3, .acs-psC-ps1{
+    width: 100%;
     height: 30px;
     margin: auto;
     margin-top:5px;
@@ -237,11 +237,26 @@
     text-align: center;
 }
 
-.acC, .acC1, .acC2, .acC3{
+.acC, .acC1, .acC2, .acC3, .acCC1{
     margin: auto;
     font-size: 15px;
 }
 
 input[type=password]:invalid {
     border: 3px solid red;
+}
+
+/* 비밀번호 확인 추가창 */
+.acs-psC-body {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 250px;
+    height: 200px;
+    padding: 30px;
+    text-align: center;
+    background-color:#B39273;
+    border-radius: 10px;
+    box-shadow: 0 2px 3px 0 rgba(34, 36, 38, 0.15);
+    transform: translateX(-50%) translateY(-50%);
 }

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import tn.bankYam.dto.*;
 import tn.bankYam.service.AccountManageService;
+import tn.bankYam.service.TransactionService;
 import tn.bankYam.utils.SHA256;
 import tn.bankYam.utils.ScriptUtil;
 
@@ -17,10 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Date;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 
@@ -31,6 +28,9 @@ public class AccountManageController {
     @Autowired
     private AccountManageService accountManageService;
 
+    @Autowired
+    private TransactionService transactionService;
+
     @GetMapping("accounts")
     public String accounts(Model model, HttpServletResponse response, HttpSession session, Long ac_seq, String cat){
         //세션 불러오기
@@ -40,9 +40,9 @@ public class AccountManageController {
             try {
                 if (ac_seq == null && cat == null) {
                     List<Accounty> acList = accountManageService.selectAcList(membery); // 계좌(사용중, 휴면)
-                    List<Accounty> acXList = accountManageService.selectAcXList(membery);   // 계좌(해지, 복구신청)
+                    List<Accounty> acXList = accountManageService.selectAcXList(membery);   // 계좌(해지, 복구중)
                     System.out.println("계좌관리 리스트(사용중,휴면)): " + acList); // 체크
-                    System.out.println("계좌관리 리스트(해지)): " + acXList); // 체크
+                    System.out.println("계좌관리 리스트(해지,복구중)): " + acXList); // 체크
 
                     model.addAttribute("acList", acList);
                     model.addAttribute("acXList", acXList);
@@ -113,7 +113,7 @@ public class AccountManageController {
 
         if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
             // 비밀번호 체크횟수 먼저 확인하기
-            Accounty checkAc = accountManageService.checkPs(ac_seq);
+            Accounty checkAc = accountManageService.checkAcOnly(ac_seq);
 
             if(checkAc.getAc_pwd_check() == 5){
                 return "0";
@@ -159,6 +159,66 @@ public class AccountManageController {
         return "accounts";
     }
 
+    @GetMapping("accounts_update")
+    public String newAccount(Transactions transactions, HttpSession session, HttpServletResponse response, Long ac_seq, String upCat){
+        Membery membery = (Membery)session.getAttribute("membery");
+
+        if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
+            try{
+                if(ac_seq != null) {
+                    Accounty checkAc = accountManageService.checkAcOnly(ac_seq);
+                    HashMap<String, Object> forAcSt = accountManageService.forMapIdSt(ac_seq, upCat);
+                    if(upCat.equals("복구신청") && checkAc.getAc_status().equals("해지")){
+                        accountManageService.updateAcStatus(forAcSt);
+                        ScriptUtil.alertAndMovePage(response, "계좌 복구 신청이 완료되었습니다", "/accountM/accounts");
+                    }else if(upCat.equals("복구취소") && checkAc.getAc_status().equals("복구중")) {
+                        accountManageService.updateAcStatus(forAcSt);
+                        ScriptUtil.alertAndMovePage(response, "계좌 복구가 취소되었습니다", "/accountM/accounts");
+                    }else if(upCat.equals("삭제") && checkAc.getAc_status().equals("해지")){
+                        // 주 계좌 불러오기 앞에서 2개 이상인지(장애상황) 체크하므로 index 0번 바로 사용 가능
+                        List<Accounty> acBeforeMain = accountManageService.checkAcBeforeMain(membery.getMb_seq());
+
+                        // 삭제할 계좌의 잔액 확인하기(JS와 더블체크)
+                        if(checkAc.getAc_balance() >= 0 ){
+                            HashMap<String, Object> forMain = accountManageService.forMapIdL(acBeforeMain.get(0).getAc_seq(), checkAc.getAc_balance());
+                            accountManageService.updateAcBalance(forMain);  // 주 계좌에 삭제할 계좌 잔액 추가
+
+                            HashMap<String, Object> forDel = accountManageService.forMapIdL(ac_seq, -(checkAc.getAc_balance()));
+                            accountManageService.updateAcBalance(forDel);   // 삭제할 계좌에서 잔액 빼기
+
+                            // 거래 Table에 추가할 내용 세팅 및 업데이트 (삭제할 계좌)
+                            Transactions tranDel = transactionService.setTransactions(ac_seq, acBeforeMain.get(0).getAc_seq(),"뱅크얌", "송금",
+                                    checkAc.getAc_balance(), (checkAc.getAc_balance()-checkAc.getAc_balance()), membery.getMb_name()+" 보냄");
+                            transactionService.insertTrLog(tranDel);
+
+                            // 거래 Table에 추가할 내용 세팅 및 업데이트 (주 계좌)
+                            Transactions tranMain = transactionService.setTransactions(acBeforeMain.get(0).getAc_seq(), ac_seq, "뱅크얌", "입금",
+                                    checkAc.getAc_balance(), (acBeforeMain.get(0).getAc_balance() + checkAc.getAc_balance()), membery.getMb_name()+" 보냄");
+                            transactionService.insertTrLog(tranMain);
+
+                            // 잔액 검증
+                            Accounty afterCheckAc = accountManageService.checkAcOnly(ac_seq);
+                            if(afterCheckAc.getAc_balance() == 0){
+                                accountManageService.deleteAc(ac_seq);
+
+                                ScriptUtil.alertAndMovePage(response, "계좌 삭제가 완료되었습니다", "/accountM/accounts");
+                            }else{
+                                ScriptUtil.alertAndBackPage(response, "잔액 이동 시 문제 발생!!!");
+                            }
+                        }else{
+                            ScriptUtil.alertAndBackPage(response, "잔액에 문제가 있는데 어떻게 들어오셨죠.. 절차대로 실행해 주세요!");
+                        }
+                    }else{
+                        ScriptUtil.alertAndBackPage(response, "이상한 경로로 오셨어요.. 절차대로 실행해 주세요!");
+                    }
+                }
+            }catch(IOException ie){
+                return "accounts";
+            }
+        }
+        return "accounts";
+    }
+
     @GetMapping("newAccount")
     public String newAccount(Model model, HttpSession session){
         Membery membery = (Membery)session.getAttribute("membery");
@@ -179,7 +239,7 @@ public class AccountManageController {
         return "newAccount";
     }
 
-    @PostMapping("account_pdAjax")
+    @PostMapping("accounts_pdAjax")
     public @ResponseBody List<String> acNamesList(HttpSession session, String pd_name) {
         Membery membery = (Membery)session.getAttribute("membery");
         System.out.println("들어오냐?");
