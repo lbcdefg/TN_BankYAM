@@ -29,6 +29,20 @@
 <body style="margin: 0;">
     <center>
     <nav class="nav-main">
+    <c:if test="${sessionScope.membery eq null}">
+    <ul class="canvas-items1">
+        <li><a href="/member/login">로그인</a></li>
+        <li><a href="/member/join">회원가입</a></li>
+    </ul>
+    </c:if>
+    <c:if test="${sessionScope.membery ne null}">
+    <ul class="canvas-items2">
+        <li><a href="/member/profile">프로필</a></li>
+        <li><a href="/account/transactionList">계좌이체</a></li>
+        <li><a href="/chat/list">얌톡</a></li>
+        <li><a href="/member/logout_ok">로그아웃</a></li>
+    </ul>
+    </c:if>
         <header class="nav-header">
             <div class="nav-header-1">
                 <a href="/" title="메인 화면"><img src="/img/YamLogo.png" class="nav-image"></a>
@@ -77,13 +91,44 @@
                 </li>
             </ul>
             <c:if test="${sessionScope.membery eq null}">
-            <div class="response-login"><button class="response-login-button" onclick="location.href='/member/login'"><img src="/img/login.png" id="login-image" style="width:100%;height:100%;object-fit:cover;"/></button></div>
+            <div class="response-login"><button class="response-login-button" onclick="#"><img src="/img/login.png" id="login-image" style="width:100%;height:100%;object-fit:cover;"/></button></div>
             </c:if>
             <c:if test="${sessionScope.membery ne null}">
-                <div class="response-login"><button class="response-login-button" onclick="location.href='/member/profile'"><img src="/img/login.png" id="login-image" style="width:100%;height:100%;object-fit:cover;"/></button></div>
+                <div class="response-login"><button class="response-login-button" onclick="#"><img src="/img/login.png" id="login-image" style="width:100%;height:100%;object-fit:cover;"/></button></div>
             </c:if>
             </div>
+
         </header>
     </nav>
     </center>
 </body>
+<script>
+    var windowWidth = $(window).width();
+                $(window).resize(function(){
+                    if(this.resizeTO){
+                        clearTimeout(this.resizeTO);
+                    }
+                    this.resizeTO = setTimeout(function(){
+                        $(this).trigger('resizeEnd');
+                    });
+                });
+    $(window).on('resizeEnd', function(){
+        windowWidth = $(window).width();
+        if(windowWidth>700){
+            $(".nav-main").removeClass("nav-canvas");
+            $(".canvas-items1").hide();
+            $(".canvas-items2").hide();
+        }
+    });
+    $(".response-login-button").on("click",function(){
+        if($(".nav-main").hasClass("nav-canvas")){
+            $(".nav-main").removeClass("nav-canvas");
+            $(".canvas-items1").hide();
+            $(".canvas-items2").hide();
+        }else{
+            $(".nav-main").addClass("nav-canvas");
+                $(".canvas-items1").show();
+                $(".canvas-items2").show();
+        }
+    })
+</script>

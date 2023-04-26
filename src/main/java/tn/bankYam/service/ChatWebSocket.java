@@ -30,46 +30,67 @@ public class ChatWebSocket {
 	@OnMessage
 	public void onMessage(String data, Session session) throws Exception{
 		ObjectMapper mapper = new ObjectMapper();
-		System.out.println(data);
 
 		//메시지 입력 받으면
 		//이안에서 디비에 채팅창내용 저장하기
 
 		HashMap<String, Object> dataMap = mapper.readValue(data, HashMap.class);
-		System.out.println("dataMap : " + dataMap);
 		Chatcontent chatcontent = new Chatcontent();
-		chatcontent.setCc_content((String)dataMap.get("cc_content"));
-		chatcontent.setCc_cr_seq(Long.parseLong((String)dataMap.get("cc_cr_seq")));
-		chatcontent.setCc_mb_seq(Long.parseLong((String)dataMap.get("cc_mb_seq")));
 
-		chatcontent = chatroomService.insertContentS(chatcontent);
+		List<Membery> chatMemberList = chatroomService.selectChatMemberS(Long.parseLong((String) dataMap.get("cc_cr_seq")));
+		String jsonInString = "";
+
+		if(!dataMap.get("type").equals("inChat")){
+			if (dataMap.get("type").equals("sendMsg")) {
+				chatcontent.setCc_content((String) dataMap.get("cc_content"));
+				chatcontent.setCc_cr_seq(Long.parseLong((String) dataMap.get("cc_cr_seq")));
+				chatcontent.setCc_mb_seq(Long.parseLong((String) dataMap.get("cc_mb_seq")));
+
+				chatcontent = chatroomService.insertContentS(chatcontent);
+			} else if (dataMap.get("type").equals("deleteChat")) {//채팅내용이 없으면 채팅 나가기
+				long cc_seq = chatroomService.outChat(memberyService.findBySeq(Long.parseLong((String) dataMap.get("cc_mb_seq"))),
+						Long.parseLong((String) dataMap.get("cc_cr_seq")));
+				chatcontent.setCc_seq(cc_seq);
+			}
+			chatcontent = chatroomService.selectContentBySeqS(chatcontent.getCc_seq());
+			chatcontent.setCc_status_count(chatMemberList.size() - 1);
+			jsonInString = mapper.writeValueAsString(chatcontent);
+
+		}else {
+			chatcontent.setCc_cr_seq(Long.parseLong((String) dataMap.get("cc_cr_seq")));
+			chatcontent.setCc_mb_seq(Long.parseLong((String) dataMap.get("cc_mb_seq")));
+
+			HashMap<String, Object> temp = new HashMap<>();
+			temp.put("inChat", "inChat");
+			temp.put("cc_cr_seq", chatcontent.getCc_cr_seq());
+			jsonInString = mapper.writeValueAsString(temp);
+		}
 		//세션인원중에 보내기
-
-		chatcontent = chatroomService.selectContentBySeqS(chatcontent.getCc_seq());
-		List<Membery> chatMemberList = chatroomService.selectChatMemberS(chatcontent.getCc_cr_seq());
-		chatcontent.setCc_status_count(chatMemberList.size()-1);
-
-		String jsonInString = mapper.writeValueAsString(chatcontent);
-		System.out.println(jsonInString);
 		for(Session s : clients) {
 			System.out.println("send data : " + chatcontent.getCc_content());
 			EndpointConfig config = configs.get(s);
 			// HttpSessionConfigurator에서 설정한 session값을 가져온다.
 			HttpSession httpSession = (HttpSession) config.getUserProperties().get(ServerEndpointConfigurator.Session);
 			System.out.println((Membery)httpSession.getAttribute("membery"));
-			for(Membery membery : chatMemberList){
-				if(((Membery) httpSession.getAttribute("membery")).getMb_seq() == membery.getMb_seq()){
+			Iterator<Membery> iterator = chatMemberList.iterator();
+			while(iterator.hasNext()){
+				if(((Membery) httpSession.getAttribute("membery")).getMb_seq() == iterator.next().getMb_seq()){
 					s.getBasicRemote().sendText(jsonInString);
-					chatMemberList.remove(membery);
+					iterator.remove();
 				}
 			}
 		}
-		for(Membery membery : chatMemberList){
-			System.out.println(membery);
-			Chatstatus chatstatus = new Chatstatus();
-			chatstatus.setCs_cc_seq(chatcontent.getCc_seq());
-			chatstatus.setCs_mb_seq(membery.getMb_seq());
-			chatroomService.insertStatusS(chatstatus);
+
+		chatMemberList = chatroomService.selectChatMemberS(chatcontent.getCc_cr_seq());
+
+		if(!dataMap.get("type").equals("inChat")) {
+			for (Membery membery : chatMemberList) {
+				System.out.println(membery);
+				Chatstatus chatstatus = new Chatstatus();
+				chatstatus.setCs_cc_seq(chatcontent.getCc_seq());
+				chatstatus.setCs_mb_seq(membery.getMb_seq());
+				chatroomService.insertStatusS(chatstatus);
+			}
 		}
 	}
 

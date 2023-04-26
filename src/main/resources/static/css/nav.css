@@ -145,7 +145,45 @@ input[type="number"]::-webkit-inner-spin-button {
 .login-button{
     margin-left: 5px;
 }
-
+.nav-canvas{
+    width:100%;
+    height:100%;
+    background-color: var(--themecolor);
+}
+.canvas-items1{
+    position:absolute;
+    font-size:30px;
+    font-weight:bolder;
+    top:35%;
+    left:12%;
+    color:white;
+    line-height:80px;
+    list-style:none;
+    width:300px;
+    display:none;
+    z-index:999;
+}
+.canvas-items2{
+    position:absolute;
+    font-size:30px;
+    font-weight:bolder;
+    top:30%;
+    left:12%;
+    color:white;
+    line-height:80px;
+    list-style:none;
+    width:300px;
+    display:none;
+    z-index:999;
+}
+.canvas-items1 a{
+    text-decoration:none;
+    color:white;
+}
+.canvas-items2 a{
+    text-decoration:none;
+    color:white;
+}
 .nav-menu button:hover{
     color: var(--vsthemecolor);
     background-color: var(--themecolor);

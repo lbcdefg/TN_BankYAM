@@ -36,8 +36,8 @@
                     <th class="acs-list-10">계좌생성일</th>
                 </tr>
                 <c:if test="${empty acList}">
-                    <tr class="acs-list-row" style="border:none; height:400px">
-                        <td class="fontS-35" align='center' colspan="6">계좌가 없습니다.. 불가능할텐데.. 왜죠!?</td>
+                    <tr class="acs-list-row" style="border:none; height:200px">
+                        <td class="fontS-25" align='center' colspan="6">계좌가 없습니다.. 불가능할텐데.. 왜죠!?</td>
                     </tr>
                 </c:if>
                 <c:forEach items="${acList}" var="ac">
@@ -99,8 +99,8 @@
                     <th class="acs-list-10">계좌생성일</th>
                 </tr>
                 <c:if test="${empty acXList}">
-                    <tr class="acs-list-row" style="border:none; height:400px">
-                        <td class="fontS-35" align='center' colspan="7">해지하신 계좌내역이 없습니다.</td>
+                    <tr class="acs-list-row" style="border:none; height:200px">
+                        <td class="fontS-25" align='center' colspan="7">해지하신 계좌내역이 없습니다.</td>
                     </tr>
                 </c:if>
                 <c:forEach items="${acXList}" var="ac">

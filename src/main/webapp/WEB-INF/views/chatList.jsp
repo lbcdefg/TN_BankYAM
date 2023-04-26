@@ -38,7 +38,7 @@
             <c:forEach var="chatroom" items="${chatroomList}">
                 <li class="album-table-content">
                     <span class="alarmCount">${chatroom.status_count}</span>
-                    <a onClick="windowOpen(${chatroom.cr_seq}); return false;" class="album-table-img">
+                    <a onClick="chatOpen(${chatroom.cr_seq}); return false;" class="album-table-img">
                     <c:if test="${fn:length(chatroom.memberyList) == 2}">
                         <c:forEach var="membery" items="${chatroom.memberyList}">
                             <c:if test="${membery.mb_seq != sessionScope.membery.mb_seq}">
@@ -51,7 +51,7 @@
                     </c:if>
                     <dl>
                         <dt>
-                            <a onClick="windowOpen(${chatroom.cr_seq}); return false;" class="album-table-sub" title="채팅방이름">
+                            <a onClick="chatOpen(${chatroom.cr_seq}); return false;" class="album-table-sub" title="채팅방이름">
                                 <c:if test="${chatroom.cr_name != null}">
                                     ${chatroom.cr_name}
                                 </c:if>
@@ -75,7 +75,7 @@
                 <img style="vertical-align:top; border:none" src="css/imgs/NoImage.png"></a>
                 <dl>
                     <dt>
-                        <a onClick="windowOpen()" class="album-table-sub" title="채팅방이름">
+                        <a onClick="chatOpen()" class="album-table-sub" title="채팅방이름">
                         채팅방 이름</a>
                     </dt>
                     <dd>마지막 대화</dd>
@@ -136,7 +136,7 @@
 </body>
 <%@ include file="/WEB-INF/views/footer.jsp" %>
 <script>
-    function windowOpen(roomNumber){
+    function chatOpen(roomNumber){
         window.open('room?cr_seq='+roomNumber, '', 'width=365, height=550');
     }
     const chatModal = document.querySelector('.make-chat');
@@ -182,7 +182,7 @@
             type: "GET",
             data: {f_mb_seq: value},
             success: function(roomNumber){
-                windowOpen(roomNumber);
+                chatOpen(roomNumber);
                 location.reload();
             },
             error: function(error){
