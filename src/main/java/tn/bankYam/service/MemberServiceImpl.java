@@ -15,7 +15,7 @@ import java.util.UUID;
 
 @Service
 public class MemberServiceImpl implements MemberyService{
-	@Value("${file.dir}")
+	@Value("${file.dir.img}")
 	private String fileDir;
 	@Autowired
 	private MemberyMapper memberyMapper;
@@ -55,7 +55,7 @@ public class MemberServiceImpl implements MemberyService{
 		Files.write(uploadPath, file.getBytes());
 
 		//file.transferTo(new File(savedPath));
-		//savedPath=savedPath.substring(savedPath.lastIndexOf("/img"));
+		savedPath=savedPath.substring(savedPath.lastIndexOf("/file"));
 		membery.setMb_imagepath(savedPath);
 
 
