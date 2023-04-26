@@ -77,21 +77,22 @@ public class AccountyController {
         hashMap.put("tr_amount", transactions.getTr_amount());
         hashMap.put("tr_other_accnum", transactions.getTr_other_accnum());
         hashMap.put("tr_msg", transactions.getTr_msg());
-        model.addAttribute("tr_ac_seq", hashMap.put("tr_ac_seq", transactions.getTr_ac_seq()));
-        model.addAttribute("tr_other_bank", hashMap.put("tr_other_bank", transactions.getTr_other_bank()));
-        model.addAttribute("tr_amount", hashMap.put("tr_amount", transactions.getTr_amount()));
-        model.addAttribute("tr_other_accnum", hashMap.put("tr_other_accnum", transactions.getTr_other_accnum()));
-        model.addAttribute("tr_msg", hashMap.put("tr_msg", transactions.getTr_msg()));
+
+        model.addAttribute("tr_ac_seq", hashMap.get("tr_ac_seq"));
+        model.addAttribute("tr_other_bank", hashMap.get("tr_other_bank"));
+        model.addAttribute("tr_amount", hashMap.get("tr_amount"));
+        model.addAttribute("tr_other_accnum", hashMap.get("tr_other_accnum"));
+        model.addAttribute("tr_msg", hashMap.get("tr_msg"));
         model.addAttribute("transactions",transactions);
         return "confirmation";
     }
 
     //계좌이체
     @PostMapping ("transfer_ok")
-    public String transferOk(Model model, HttpSession session, Accounty accounty, String ac_pwd,Transactions transactions){
+    public String transferOk(Model model, HttpSession session, String ac_pwd,Transactions transactions){
         Membery membery = (Membery)session.getAttribute("membery");
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("tr_seq", transactions.getTr_seq());
+        //hashMap.put("tr_seq", transactions.getTr_seq());
         hashMap.put("tr_ac_seq", transactions.getTr_ac_seq());
         hashMap.put("ac_pwd", ac_pwd);
         hashMap.put("tr_other_bank", transactions.getTr_other_bank());
@@ -100,19 +101,24 @@ public class AccountyController {
         hashMap.put("tr_after_balance", transactions.getTr_after_balance());
         hashMap.put("tr_date", transactions.getTr_date());
         hashMap.put("tr_msg", transactions.getTr_msg());
-        System.out.println("       tr_seq      "+hashMap.put("tr_seq", transactions.getTr_seq()));
-        System.out.println("       tr_after_balance        "+hashMap.put("tr_after_balance", transactions.getTr_after_balance()));
 
+        Accounty accInfo = accountyService.selectAccInfoS(transactions.getTr_ac_seq());
+        long trAcBal = accInfo.getAc_balance() - transactions.getTr_amount();
+        hashMap.put("tr_after_balance", trAcBal);
+        transactions.setTr_after_balance(trAcBal);
 
-        model.addAttribute("tr_ac_seq", hashMap.put("tr_ac_seq", transactions.getTr_ac_seq()));
-        model.addAttribute("tr_other_bank", hashMap.put("tr_other_bank", transactions.getTr_other_bank()));
-        model.addAttribute("tr_amount", hashMap.put("tr_amount", transactions.getTr_amount()));
-        model.addAttribute("tr_other_accnum", hashMap.put("tr_other_accnum", transactions.getTr_other_accnum()));
-        model.addAttribute("tr_msg", hashMap.put("tr_msg", transactions.getTr_msg()));
-        model.addAttribute("tr_after_balance",hashMap.put("tr_after_balance", transactions.getTr_after_balance()));
-        model.addAttribute("tr_date", hashMap.put("tr_date", transactions.getTr_date()));
+        model.addAttribute("tr_ac_seq", hashMap.get("tr_ac_seq"));
+        model.addAttribute("tr_other_bank", hashMap.get("tr_other_bank"));
+        model.addAttribute("tr_amount", hashMap.get("tr_amount"));
+        model.addAttribute("tr_other_accnum", hashMap.get("tr_other_accnum"));
+        model.addAttribute("tr_msg", hashMap.get("tr_msg"));
+//        model.addAttribute("tr_after_balance",hashMap.get("tr_after_balance"));
+        model.addAttribute("tr_date", hashMap.get("tr_date"));
+        model.addAttribute("tr_after_balance", trAcBal);
         model.addAttribute("transactions",transactions);
-        accountyService.transferS(accounty);
+
+        accountyService.transferPlusS(transactions);
+
         return "receipt";
     }
 

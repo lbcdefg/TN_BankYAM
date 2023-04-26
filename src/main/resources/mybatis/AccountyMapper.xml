@@ -57,9 +57,14 @@
         WHERE A.AC_SEQ=#{ac_seq}
     </select>
 
-    <update id="transfer" parameterType="Accounty">
-        UPDATE ACCOUNTY SET AC_BALANCE=AC_BALANCE + #{ac_balance}
-        WHERE AC_SEQ=#{ac_seq}
+    <update id="transferPlus" parameterType="Transactions">
+        UPDATE ACCOUNTY SET AC_BALANCE=AC_BALANCE + #{tr_amount}
+        WHERE AC_SEQ=#{tr_other_accnum}
+    </update>
+
+    <update id="transferMinus" parameterType="Transactions">
+        UPDATE ACCOUNTY SET AC_BALANCE=AC_BALANCE - #{tr_amount}
+        WHERE AC_SEQ=#{tr_ac_seq}
     </update>
 
     <select id="findAccByMemberId" parameterType="long" resultMap="accounty">
