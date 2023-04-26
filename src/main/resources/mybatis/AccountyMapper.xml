@@ -95,9 +95,9 @@
         <selectKey resultType="long" keyProperty="pd_seq" order="BEFORE">
             SELECT PRODUCT_SEQ.NEXTVAL FROM DUAL
         </selectKey>
-        INSERT INTO PRODUCT VALUES(#{pd_seq}, #{pd_type}, #{pd_name}, #{pd_rate}, SYSDATE, NULL)
+        INSERT INTO PRODUCT VALUES(#{pd_seq}, #{pd_type}, #{pd_name}, #{pd_rate}, #{pd_addrate}, #{pd_info}, #{pd_del}, SYSDATE, NULL)
     </insert>
-    <update id="updatePdXdate" parameterType="Product">
+    <update id="updatePdXdate" parameterType="hashmap">
         UPDATE PRODUCT SET PD_XDATE = SYSDATE
         WHERE PD_SEQ=#{pd_seq}
     </update>

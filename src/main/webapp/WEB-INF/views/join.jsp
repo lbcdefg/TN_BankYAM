@@ -421,21 +421,15 @@
                 });
             }
 	    }else if(target==nextbtn3){
-	        // 희망이자지급일이 오늘 날짜보다 이전 날짜로 설정되어있을 경우
+	        // 희망이자지급일에따른 alert내용
             var date = new Date();
             var day = date.getDate();
             var month = date.getMonth() + 1;
+            var actualRMonth = $("#ac_udated").val()< day ? month+2 : month+1
 
-            if($("#ac_udated").val()< day){
-                let udateConfirm = confirm("이자는 개설 1달 경과 이후부터 지급 가능합니다.\n 확인 하시면 회원가입 및 계좌개설이 완료되며\n 첫 예금이자는 "+(month+2)+"월 "+$("#ac_udated").val()+"일에 지급됩니다");
-                if(udateConfirm == true){
-                    form.submit();
-                }
-            }else{
-                let udateConfirm = confirm("이자는 개설 1달 경과 이후부터 지급 가능합니다.\n 확인 하시면 회원가입 및 계좌개설이 완료되며\n 첫 예금이자는 "+(month+1)+"월 "+$("#ac_udated").val()+"일에 지급됩니다");
-                if(udateConfirm == true){
-                    form.submit();
-                }
+            let udateConfirm = confirm("이자는 개설 1달 경과 이후부터 지급 가능합니다.\n확인 하시면 회원가입 및 계좌개설이 완료되며\n첫 예금이자는 "+actualRMonth+"월 "+$("#ac_udated").val()+"일에 지급됩니다");
+            if(udateConfirm == true){
+                form.submit();
             }
 	    }
 	}
