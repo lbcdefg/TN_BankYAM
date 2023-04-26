@@ -39,10 +39,10 @@
         <div class="downcontainer-left">
             <ul class="profile-list">
                 <c:if test="${membery.mb_email eq 'admin@gmail.com'}">
-                <li class="list-element1">
+                <li class="list-element2 focus">
                         상품 정보
                 </li>
-                <div class="list-element1-contents">
+                <div class="list-element2-contents">
                     <a href="#">
                         -상품 관리
                     </a>
@@ -62,7 +62,7 @@
                 </div>
                 </c:if>
                 <c:if test="${membery.mb_email ne 'admin@gmail.com'}">
-                <li class="list-element2">
+                <li class="list-element2 focus">
                         계좌 정보
                 </li>
                 <div class="list-element2-contents">
@@ -75,6 +75,29 @@
                 </div>
                 </c:if>
             </ul>
+            <c:if test="${membery.mb_email eq 'admin@gmail.com'}">
+            <div class="jobs_search_box">
+                <strong>상품추가</strong>
+                <div class="jobs_search_field">
+                    <form name="f" action="/list/" method="post">
+                        <div class="field1" style="margin-top:10px;">
+                            <input type="text" placeholder="유형" />
+                        </div>
+                        <div class="field2" style="margin-top:10px;">
+                            <input type="text" placeholder="이름" />
+                        </div>
+                        <div class="field3" style="margin-top:10px;">
+                            <input type="text" placeholder="추가이율" />
+                        </div>
+                        <div class="field3" style="margin-top:10px;">
+                            <input type="text" placeholder="설명" />
+                        </div>
+                        <button class="search-btn" type="submit" id="search" title="검색하기">추가</button>
+                    </form>
+                </div>
+                <button class="reset-btn" onclick="onreset_fun()" title="검색조건 초기화">초기화</button>
+            </div>
+            </c:if>
         </div>
         <div class="downcontainer-right">
             <div class="table-div">
@@ -120,33 +143,31 @@
                 <div class="profile-acs-table-size350">
                     <table class="profile-acs-list-table">
                         <tr class="profile-acs-list-head">
-                            <th class="profile-acs-list-5">상품종류</th>
+                            <th class="profile-acs-list-5">종류</th>
                             <th class="profile-acs-list-18">상품이름</th>
                             <th class="profile-acs-list-8">상품금리</th>
                             <th class="profile-acs-list-10">상품설명</th>
                             <th class="profile-acs-list-9"></th>
                         </tr>
-                        <c:forEach items="${accountyList}" var="ac">
+                        <c:forEach items="${productList}" var="pd">
                             <tr class="profile-acs-list-row">
-                                <td class="profile-acs-list-5 acm" id="${ac.ac_seq}" name="${ac.ac_main}">${ac.ac_main}</td>
-                                <c:set var="ac_Seq" value="${ac.ac_seq}"/>
-                                <%
-                                    Long acSeq=(Long)pageContext.getAttribute("ac_Seq");
-                                    String acSeqS = Long.toString(acSeq);
-                                    pageContext.setAttribute("acSeqS", acSeqS);
-                                %>
-                                <c:set var="firstAcSeq" value="${fn:substring(acSeqS,0,3)}"/>
-                                <c:set var="secondAcSeq" value="${fn:substring(acSeqS,3,5)}"/>
-                                <c:set var="mainAcSeq" value="${fn:substring(acSeqS,5,11)}"/>
-                                <c:set var="lastAcSeq" value="${fn:substring(acSeqS,11,12)}"/>
-                                <td class="profile-acs-list-20">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}
-                                <br><span class="fontS-12 color-B39273">잔액: <fmt:formatNumber value="${ac.ac_balance}" pattern="#,###" /> 원</span></td>
-                                <td class="profile-acs-list-8"><span class="acn">${ac.ac_name}</span></td>
-                                <td class="profile-acs-list-10">${ac.ac_status}</td>
-                                <td class="profile-acs-list-9">${ac.ac_rdate}</td>
+                                <td class="profile-acs-list-5 acm">${pd.pd_type}</td>
+                                <td class="profile-acs-list-20">${pd.pd_name}</td>
+                                <td class="profile-acs-list-8"><span class="acn" ><fmt:formatNumber value="${pd.pd_rate+pd.pd_addrate}" pattern=".0"/></span></td>
+                                <td class="profile-acs-list-10">${pd.pd_info}</td>
+                                <td class="profile-acs-list-9">${pd.pd_del}</td>
                             </tr>
                         </c:forEach>
                     </table>
+                    <form name="selectF" action="/admin/product_option" method="get">
+                    <select id="pd_type" name="pd_type" class="pd_type" style="margin-top:20px;">
+                        <option value="" name=""selected>==선택==</option>
+                        <option value="전체" name="">전체</option>
+                        <c:forEach items="${pdSelectList}" var="pdS">
+                        <option value="${pdS}" name="" >${pdS}</option>
+                        </c:forEach>
+                    </select>
+                    </form>
                 </div>
                 </c:if>
                 <c:if test="${membery.mb_email ne 'admin@gmail.com'}">
@@ -177,11 +198,6 @@
                     </tr>
                 </table>
                 </c:if>
-                <table class="none-table">
-                    <tr>
-                        <th>목록을 선택해주세요</th>
-                    </tr>
-                </table>
             </div>
         </div>
     </div>
@@ -190,6 +206,7 @@
             $(function(){
             var url = window.location.href;
             var urlLast = url.split('/').reverse()[0];
+            stickyjobsSearch();
              if(urlLast == 'rate_update_ok'){
                 $("#int_btn").show();
             }
@@ -204,6 +221,7 @@
                 });
 
                 $(window).on('resizeEnd', function(){
+                    stickyjobsSearch();
                     windowWidth = $(window).width();
                     if(windowWidth<640){
                         $(".list-element1-contents").hide();
@@ -219,6 +237,7 @@
                         $(".none-table").hide();
                         $(".profile-acs-list-table").hide();
                         $(".profile-table").show();
+                        $("#pd_type").hide();
                         $(".list-element2-contents").hide();
                         if(windowWidth > 641){
                             $(".list-element1-contents").show();
@@ -257,6 +276,7 @@
                         $(".list-element2").addClass("focus");
                         $(".none-table").hide();
                         $(".profile-table").hide();
+                        $("#pd_type").show();
                         $(".profile-acs-list-table").show();
                         $(".list-element1-contents").hide();
                         if(windowWidth > 641){
@@ -267,10 +287,33 @@
                     }
                 });
               });
+              function stickyjobsSearch() {
+                  var windowW = $(window).width();
+                  if ($('.jobs_search_box').length > 0) {
+                      if (windowW > 900) {
+                          $(window).scroll(function () {
+                              var windowST = $(window).scrollTop();
+                              var windowSclHt = windowST + $(window).height();
+                              var ftTop = $('.footer-main').offset().top;
+                              var pdlistTop = $('.downcontainer-right').offset().top;
+
+                              if (windowSclHt > pdlistTop) {
+                                  $('.jobs_search_box').addClass('sticky');
+                              }
+                              if (windowST < pdlistTop ) {
+                                  $('.jobs_search_box').removeClass('sticky');
+                              }
+                          });
+                      }
+                  }
+              }
         </script>
         <script>
             $("#upload_btn").on("change", function(event){
                f.submit();
+            });
+            $("#pd_type").on("change", function(event){
+               selectF.submit();
             });
         </script>
 <%@ include file="/WEB-INF/views/footer.jsp" %>

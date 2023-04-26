@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import tn.bankYam.dto.Transactions;
 import tn.bankYam.service.AccountyService;
 import java.io.IOException;
@@ -48,7 +49,6 @@ public class AdminController {
     @GetMapping("int_update_ok")
     public String int_update_ok(Transactions transactions){
         List<Accounty> accountyList = accountyService.findAccounty();
-        Product recentPd = accountyService.recentPd();
         for(Accounty account: accountyList) {
             String day = account.getAc_udate().toString().substring(account.getAc_udate().toString().lastIndexOf("-") + 1);
             System.out.println(day);
@@ -101,5 +101,22 @@ public class AdminController {
         }
         model.addAttribute("rate",rate);
         return "profile";
+    }
+    @GetMapping("product_option")
+    public String product_option(@RequestParam("pd_type") String pd_type, Model model) {
+        String selectResult = pd_type;
+        if (selectResult.equals("전체")) {
+            List<Product> productList = accountyService.findPdByPdname();
+            List<String> pdSelectList = accountyService.findPdtype();
+            model.addAttribute("productList", productList);
+            model.addAttribute("pdSelectList", pdSelectList);
+            return "profile";
+        } else {
+            List<Product> selectList = accountyService.findPdByPdtype(selectResult);
+            List<String> pdSelectList = accountyService.findPdtype();
+            model.addAttribute("pdSelectList", pdSelectList);
+            model.addAttribute("productList", selectList);
+            return "profile";
+        }
     }
 }
