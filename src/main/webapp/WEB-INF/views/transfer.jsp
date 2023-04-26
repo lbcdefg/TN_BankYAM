@@ -85,6 +85,6 @@
                 </td>
             </tr>
         </table>
-        <button style="margin-left:300px" type="button" onclick="newPage()" id="next-btn" class="transfer-btn">다음</button>
+        <button style="margin-left:315px" type="button" onclick="newPage()" id="next-btn" class="transfer-btn">다음</button>
     </form>
 </body>

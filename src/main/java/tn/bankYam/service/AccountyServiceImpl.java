@@ -15,7 +15,6 @@ import java.util.List;
 public class AccountyServiceImpl implements AccountyService{
     @Autowired
     AccountyMapper mapper;
-    @Autowired
     Transactions transactions;
     @Override
     public List<Accounty> selectAccNumS(long ac_seq) {
