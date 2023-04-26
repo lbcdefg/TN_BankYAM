@@ -37,14 +37,14 @@
                     </c:if>
                     <c:forEach items="${trList}" var="tr">
                         <tr class="tr-list-row">
-                            <td class="tr-list-10" name="${tr.tr_ac_seq}">${tr.tr_ac_seq}</td>
-                            <td class="tr-list-10" name="${tr.tr_other_accnum}">${tr.tr_other_accnum}</td>
-                            <td class="tr-list-10" name="${tr.tr_other_bank}">${tr.tr_other_bank}</td>
-                            <td class="tr-list-10" name="${tr.tr_type}">${tr.tr_type}</td>
-                            <td class="tr-list-10" name="${tr.tr_amount}">${tr.tr_amount}</td>
-                            <td class="tr-list-10" name="${tr.tr_after_balance}">${tr.tr_after_balance}</td>
-                            <td class="tr-list-10" name="${tr.tr_msg}">${tr.tr_msg}</td>
-                            <td class="tr-list-10" name="${tr.tr_date}">${tr.tr_date}</td>
+                            <td class="tr-list-10" name="tr.tr_ac_seq">${tr.tr_ac_seq}</td>
+                            <td class="tr-list-10" name="tr.tr_other_accnum">${tr.tr_other_accnum}</td>
+                            <td class="tr-list-10" name="tr.tr_other_bank">${tr.tr_other_bank}</td>
+                            <td class="tr-list-10" name="tr.tr_type">${tr.tr_type}</td>
+                            <td class="tr-list-10" name="tr.tr_amount">${tr.tr_amount}</td>
+                            <td class="tr-list-10" name="tr.tr_after_balance">${tr.tr_after_balance}</td>
+                            <td class="tr-list-10" name="tr.tr_msg">${tr.tr_msg}</td>
+                            <td class="tr-list-10" name="tr.tr_date">${tr.tr_date}</td>
                         </tr>
                      </c:forEach>
                 </table>
