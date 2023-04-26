@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import tn.bankYam.dto.Accounty;
 import tn.bankYam.dto.Product;
+import tn.bankYam.dto.Transactions;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,8 @@ import java.util.List;
 public interface AccountyMapper {
     List<Accounty> selectAccNum(long ac_seq);
     Accounty selectAccInfo(long ac_seq);
-    void transfer(Accounty accounty);
+    void transferPlus(Transactions transactions);
+    void transferMinus(Transactions transactions);
     List<Accounty> findAccByMemberId(long ac_mb_seq);
     Product findPdBySeq(long seq);
     void insertAcc(HashMap<String, Object> map);

@@ -128,5 +128,6 @@ function nextPage(){
         f.submit();
     }else{
         alert("금액을 다시 한 번 확인해주세요");
+        return;
     }
 }

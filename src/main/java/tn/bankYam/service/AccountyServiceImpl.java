@@ -2,11 +2,11 @@ package tn.bankYam.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import tn.bankYam.dto.Accounty;
 import tn.bankYam.dto.Product;
 import tn.bankYam.dto.Transactions;
 import tn.bankYam.mapper.AccountyMapper;
+import tn.bankYam.mapper.TransactionsMapper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +15,9 @@ import java.util.List;
 public class AccountyServiceImpl implements AccountyService{
     @Autowired
     AccountyMapper mapper;
-    Transactions transactions;
+    @Autowired
+    TransactionsMapper transactionsMapper;
+
     @Override
     public List<Accounty> selectAccNumS(long ac_seq) {
         return mapper.selectAccNum(ac_seq);
@@ -27,16 +29,22 @@ public class AccountyServiceImpl implements AccountyService{
     }
 
     @Override
-    public void transferS(Accounty accounty) {
+    public void transferPlusS(Transactions transactions) {
+        if (transactions.getTr_after_balance() >= 0) {
+            mapper.transferMinus(transactions);
+            transactions.setTr_type("송금");
+            transactionsMapper.insertTrLog(transactions);
 
-        if (accounty.getAc_balance() > 0 && accounty.getAc_balance() >= transactions.getTr_amount()) {
-            System.out.println("될까?" + transactions.getTr_amount());
-            mapper.transfer(accounty);
-
+            mapper.transferPlus(transactions);
         } else {
             System.out.println("존재하지 않는 계좌입니다.");
-            selectAccNumS(accounty.getAc_seq());
+            selectAccNumS(transactions.getTr_ac_seq());
         }
+    }
+
+    @Override
+    public void transferMinusS(Transactions transactions) {
+
     }
 
     @Override
