@@ -1,15 +1,23 @@
 package tn.bankYam.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 import tn.bankYam.dto.*;
 import tn.bankYam.mapper.ChatroomMapper;
 import tn.bankYam.mapper.MemberyMapper;
 
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ChatroomServiceImpl implements ChatroomService{
@@ -18,6 +26,9 @@ public class ChatroomServiceImpl implements ChatroomService{
 
 	@Autowired
 	private MemberyMapper memberyMapper;
+
+	@Value("${file.dir.upload}")
+	private String fileDir;
 
 
 
@@ -61,7 +72,7 @@ public class ChatroomServiceImpl implements ChatroomService{
 		Chatcontent chatcontentMy = new Chatcontent();
 		chatcontentMy.setCc_cr_seq(chatroom.getCr_seq());
 		chatcontentMy.setCc_content(membery.getMb_name() + "님이 입장하였습니다.");
-		chatroomMapper.insertInOutChat(chatcontentMy);
+		chatroomMapper.insertContent(chatcontentMy);
 		
 		//만든 채팅방에 친구 추가하기
 		for(Long f_mb_seq : f_mb_seq_list){
@@ -74,7 +85,7 @@ public class ChatroomServiceImpl implements ChatroomService{
 			Chatcontent chatcontent = new Chatcontent();
 			chatcontent.setCc_cr_seq(chatroom.getCr_seq());
 			chatcontent.setCc_content(chatMember.getMb_name() + "님이 입장하였습니다.");
-			chatroomMapper.insertInOutChat(chatcontent);
+			chatroomMapper.insertContent(chatcontent);
 		}
 		return chatroom.getCr_seq();
 	}
@@ -87,7 +98,7 @@ public class ChatroomServiceImpl implements ChatroomService{
 		Chatcontent chatcontent = new Chatcontent();
 		chatcontent.setCc_cr_seq(chatmember.getCm_cr_seq());
 		chatcontent.setCc_content(chatMember.getMb_name() + "님이 입장하였습니다.");
-		chatroomMapper.insertInOutChat(chatcontent);
+		chatroomMapper.insertContent(chatcontent);
 	}
 
 	@Override
@@ -140,12 +151,38 @@ public class ChatroomServiceImpl implements ChatroomService{
 		Chatcontent chatcontent = new Chatcontent();
 		chatcontent.setCc_cr_seq(cr_seq);
 		chatcontent.setCc_content(membery.getMb_name() + "님이 퇴장하였습니다.");
-		chatroomMapper.insertInOutChat(chatcontent);
+		chatroomMapper.insertContent(chatcontent);
 		Chatmember chatmember = new Chatmember();
 		chatmember.setCm_cr_seq(cr_seq);
 		chatmember.setCm_mb_seq(membery.getMb_seq());
 		chatroomMapper.deleteOutChat(chatmember);
 		return chatcontent.getCc_seq();
+	}
+
+	@Override
+	public long insertFileS(MultipartFile file) throws IOException {
+		String origName = file.getOriginalFilename(); // 원래 파일 이름 추출
+		String uuid = UUID.randomUUID().toString(); // 파일 이름으로 쓸 uuid 생성
+		String extension = origName.substring(origName.lastIndexOf(".")); // 확장자 추출(ex : .png)
+		String savedName = uuid + extension; // uuid와 확장자 결합
+		String savedPath = fileDir + savedName; // 파일을 불러올 때 사용할 파일 경로
+
+		// 파일 경로 생성
+		Path uploadPath = Paths.get(fileDir, savedName);
+		// 파일 저장
+		Files.write(uploadPath, file.getBytes());
+
+		//file.transferTo(new File(savedPath));
+		savedPath=savedPath.substring(savedPath.lastIndexOf("/file"));
+		//file.transferTo(new File(savedPath)); // 실제로 로컬에 uuid를 파일명으로 저장
+
+		Chatfile chatfile = new Chatfile();
+		chatfile.setCf_orgnm(origName);
+		chatfile.setCf_savednm(savedName);
+		chatfile.setCf_savedpath(savedPath);
+
+		chatroomMapper.insertFile(chatfile);
+		return chatfile.getCf_seq();
 	}
 
 

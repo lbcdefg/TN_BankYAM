@@ -1,3 +1,24 @@
+
+$("#wrap").scrollTop($("#wrap")[0].scrollHeight);
+const modal = document.querySelector('.modal');
+const btnOpenPopup = document.querySelector('.btn-open-popup');
+const btnClosePopup = document.querySelector('.modal-close');
+
+btnOpenPopup.addEventListener('click', () => {
+    modal.classList.toggle('show');
+});
+btnClosePopup.addEventListener('click', () => {
+    modal.classList.toggle('show');
+});
+
+$(document).ready(function(){
+    $("input[name=mb_email]").click(function(){
+        var checkedId = $("input[name=mb_email]:checked").attr("id");
+        alert(checkedId)
+        $("#fr-" + checkedId).attr("style", "background-color:yellow");
+    });
+});
+
 /**
  * web socket
  */
@@ -158,17 +179,17 @@ function addMember(){
         });
     }
 }
+/**
+ * web socket
+ */
 
 
 
 
 
-
-
-
-
-
-
+/**
+ * file upload
+ */
 //폼에 데이터를 추가하기 위해 (파일을 전송하기 전 정보 유지)
 var fd = new FormData();
 //파일 중복 업로드 방지용 맵을 선언한다.
@@ -177,7 +198,8 @@ var map = new Map();
 function submitFile(){
     //추가적으로 보낼 파라미터가 있으면 formData에 넣어준다.
     //예를들어 , 게시판의 경우 게시글 제목 , 게시글 내용 등등
-    fd.append('temp',$('#temp').val());
+    fd.append('cr_seq',cr_seq);
+    fd.append('mb_seq',mb_seq);
     console.log(fd);
     //ajax로 이루어진 파일 전송 함수를 수행시킨다.
     sendFileToServer();
@@ -191,10 +213,12 @@ var sendFileToServer = function() {
         contentType : false,
         processData : false,
         cache : false,
-        success : function(data) {
-            if(data) {
-                alert('성공');
-                location.href='list.do';
+        success : function(cc_seq) {
+            if(cc_seq != 0) {
+                data.cc_seq = cc_seq
+                data.type = "inFile";
+                var temp = JSON.stringify(data);
+                ws.send(temp);
             }else {
                 alert('실패');
             }
@@ -205,68 +229,14 @@ function handleFileUpload(files) {
     //파일의 길이만큼 반복하며 formData에 셋팅해준다.
     var megaByte = 1024*1024;
     for (var i = 0; i < files.length; i++) {
-        if(map.containsValue(files[i].name) == false && (files[i].size/megaByte) <= 20 ){
-            alert(files[i].name);
+
+        console.log(files[i].name);
+
             fd.append("file", files[i], files[i].name);
             //파일 중복 업로드를 방지하기 위한 설정
             map.put(files[i].name, files[i].name);
-            // 파일 이름과 정보를 추가해준다.
-            var tag = createFile(files[i].name, files[i].size);
-            $('#fileTable').append(tag);
-        }else{
-            //중복되는 정보 확인 위해 콘솔에 찍음
-            if((files[i].size/megaByte) > 20){
-                alert(files[i].name+"은(는) \n 20메가 보다 커서 업로드가 할 수 없습니다.");
-            }else{
-                alert('파일 중복 : ' + files[i].name);
-            }
-        }
-    }
-}
-// 태그 생성
-function createFile(fileName, fileSize) {
-    var file = {
-        name : fileName,
-        size : fileSize,
-        format : function() {
-            var sizeKB = this.size / 1024;
-            if (parseInt(sizeKB) > 1024) {
-                var sizeMB = sizeKB / 1024;
-                this.size = sizeMB.toFixed(2) + " MB";
-            } else {
-                this.size = sizeKB.toFixed(2) + " KB";
-            }
-            //파일이름이 너무 길면 화면에 표시해주는 이름을 변경해준다.
-            if(name.length > 70){
-                this.name = this.name.substr(0,68)+"...";
-            }
-            return this;
-        },
-        tag : function() {
-            var tag = new StringBuffer();
-            tag.append('<tr>');
-            tag.append('<td>'+this.name+'</td>');
-            tag.append('<td>'+this.size+'</td>');
-            tag.append("<td><button id='"+this.name+"' onclick='delFile(this)'>취소</button></td>");
-            tag.append('</tr>');
-            return tag.toString();
-        }
-    }
-    return file.format().tag();
-}
-//업로드 할 파일을 제거할 때 수행되는 함수
-function delFile(e) {
-    //선택한 창의 아이디가 파일의 form name이므로 아이디를 받아온다.
-    var formName = e.id;
 
-    //form에서 데이터를 삭제한다.
-    fd.delete(formName);
-
-    //맵에서도 올린 파일의 정보를 삭제한다.
-    map.remove(formName);
-    // tr을 삭제하기 위해
-    $(e).parents('tr').remove();
-    alert('삭제 완료!');
+    }
 }
 $(document).ready(function() {
     var objDragDrop = $(".chat-text");
@@ -297,3 +267,10 @@ $(document).ready(function() {
         objDragDrop.css('border', '2px solid green');
     });
 });
+function fileUpload(files){
+    //DIV에 DROP 이벤트가 발생 했을 때 다음을 호출한다.
+    handleFileUpload(files);
+
+    //sendFileToServer(); //테스팅 20200108
+    submitFile();
+}
