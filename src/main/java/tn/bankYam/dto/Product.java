@@ -14,6 +14,9 @@ public class Product {
 	private String pd_type;
 	private String pd_name;
 	private float pd_rate;
+	private float pd_addrate;
+	private String pd_info;
+	private String pd_del;
 	private Date pd_rdate;
 	private Date pd_xdate;
 }

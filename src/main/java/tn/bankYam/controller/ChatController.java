@@ -1,12 +1,11 @@
 package tn.bankYam.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.resource.HttpResource;
 import tn.bankYam.dto.*;
@@ -18,9 +17,15 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @RequestMapping("chat")
@@ -29,6 +34,8 @@ public class ChatController {
 	private ChatroomService chatroomService;
 	@Autowired
 	private FriendsService friendsService;
+	@Value("${file.dir.upload}")
+	private String fileDir;
 
 	@GetMapping("list")
 	public String chatList(Model model, HttpSession session, HttpServletResponse response) throws IOException {
@@ -119,5 +126,35 @@ public class ChatController {
 			chatroomService.insertMemberS(chatmember);
 			return cr_seq;
 		}
+	}
+
+	@PostMapping("/upload")
+	@ResponseBody
+	public String uploadFile(@RequestParam("file") MultipartFile file, @RequestParam Map<String, Object> map)throws IOException{
+		for(String key : map.keySet()){
+			System.out.println(key);
+			System.out.println(map.get(key));
+		}
+		if (file.isEmpty()) {
+			return null;
+		}
+		String origName = file.getOriginalFilename(); // 원래 파일 이름 추출
+		String uuid = UUID.randomUUID().toString(); // 파일 이름으로 쓸 uuid 생성
+		String extension = origName.substring(origName.lastIndexOf(".")); // 확장자 추출(ex : .png)
+		String savedName = uuid + extension; // uuid와 확장자 결합
+		String savedPath = fileDir + savedName; // 파일을 불러올 때 사용할 파일 경로
+
+		// 파일 경로 생성
+		Path uploadPath = Paths.get(fileDir, savedName);
+		// 파일 저장
+		Files.write(uploadPath, file.getBytes());
+
+		//file.transferTo(new File(savedPath));
+		savedPath=savedPath.substring(savedPath.lastIndexOf("/file"));
+
+
+		file.transferTo(new File(savedPath)); // 실제로 로컬에 uuid를 파일명으로 저장
+
+		return "11";
 	}
 }
