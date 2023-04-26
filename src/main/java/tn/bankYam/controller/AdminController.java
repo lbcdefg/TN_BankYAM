@@ -57,19 +57,19 @@ public class AdminController {
             int nowMM = now.getMonthValue();
             int udateDD = Integer.parseInt(day);
             if(nowDD  == udateDD){
-                account.setAc_balance((long) (account.getAc_balance() * (1 + (account.getProduct().getPd_rate() / 100)/12)));
+                account.setAc_balance((long) (account.getAc_balance() * (1 + (account.getProduct().getPd_rate()+account.getProduct().getPd_addrate() / 100)/12)));
                 List<String> productList = accountyService.findDepositPd();
                 for (String product : productList) {
                     if (product.equals(account.getProduct().getPd_name())) {
-                        Product pd = accountyService.findDepositPdVal(account.getProduct().getPd_name());
+                        Product pd = accountyService.findDepositPdVal(account.getProduct().getPd_name()+account.getProduct().getPd_addrate());
                         account.setAc_pd_seq(pd.getPd_seq());
                         accountyService.interest(account);
                         transactions.setTr_ac_seq(account.getAc_seq());
                         transactions.setTr_other_accnum(1234567891);
                         transactions.setTr_other_bank("뱅크얌");
                         transactions.setTr_type("입금");
-                        transactions.setTr_amount((long) (account.getAc_balance() * (account.getProduct().getPd_rate() / 100)/12));
-                        transactions.setTr_after_balance((long) (account.getAc_balance() * (1 + (account.getProduct().getPd_rate() / 100)/12)));
+                        transactions.setTr_amount((long) (account.getAc_balance() * (account.getProduct().getPd_rate()+account.getProduct().getPd_addrate() / 100)/12));
+                        transactions.setTr_after_balance((long) (account.getAc_balance() * (1 + (account.getProduct().getPd_rate()+account.getProduct().getPd_addrate() / 100)/12)));
                         transactions.setTr_msg("뱅크얌" +nowMM+"월 이자");
                         transactionService.insertTrLog(transactions);
                     }
@@ -78,7 +78,7 @@ public class AdminController {
         }
         return "redirect:/member/profile";
     }
-    
+
 
     @GetMapping("rate_update_ok")
     public String rate_update_ok(Model model){

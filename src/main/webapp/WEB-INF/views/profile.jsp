@@ -38,6 +38,17 @@
     <div class="profile-downcontainer">
         <div class="downcontainer-left">
             <ul class="profile-list">
+                <c:if test="${membery.mb_email eq 'admin@gmail.com'}">
+                <li class="list-element1">
+                        상품 정보
+                </li>
+                <div class="list-element1-contents">
+                    <a href="#">
+                        -상품 관리
+                    </a>
+                </div>
+                </c:if>
+                <c:if test="${membery.mb_email ne 'admin@gmail.com'}">
                 <li class="list-element1">
                         내 정보
                 </li>
@@ -49,6 +60,7 @@
                         -친구관리
                     </a>
                 </div>
+                </c:if>
                 <c:if test="${membery.mb_email ne 'admin@gmail.com'}">
                 <li class="list-element2">
                         계좌 정보
@@ -104,6 +116,40 @@
                     </table>
                 </div>
                 </c:if>
+                <c:if test="${membery.mb_email eq 'admin@gmail.com'}">
+                <div class="profile-acs-table-size350">
+                    <table class="profile-acs-list-table">
+                        <tr class="profile-acs-list-head">
+                            <th class="profile-acs-list-5">상품종류</th>
+                            <th class="profile-acs-list-18">상품이름</th>
+                            <th class="profile-acs-list-8">상품금리</th>
+                            <th class="profile-acs-list-10">상품설명</th>
+                            <th class="profile-acs-list-9"></th>
+                        </tr>
+                        <c:forEach items="${accountyList}" var="ac">
+                            <tr class="profile-acs-list-row">
+                                <td class="profile-acs-list-5 acm" id="${ac.ac_seq}" name="${ac.ac_main}">${ac.ac_main}</td>
+                                <c:set var="ac_Seq" value="${ac.ac_seq}"/>
+                                <%
+                                    Long acSeq=(Long)pageContext.getAttribute("ac_Seq");
+                                    String acSeqS = Long.toString(acSeq);
+                                    pageContext.setAttribute("acSeqS", acSeqS);
+                                %>
+                                <c:set var="firstAcSeq" value="${fn:substring(acSeqS,0,3)}"/>
+                                <c:set var="secondAcSeq" value="${fn:substring(acSeqS,3,5)}"/>
+                                <c:set var="mainAcSeq" value="${fn:substring(acSeqS,5,11)}"/>
+                                <c:set var="lastAcSeq" value="${fn:substring(acSeqS,11,12)}"/>
+                                <td class="profile-acs-list-20">${firstAcSeq}-${secondAcSeq}-${mainAcSeq}-${lastAcSeq}
+                                <br><span class="fontS-12 color-B39273">잔액: <fmt:formatNumber value="${ac.ac_balance}" pattern="#,###" /> 원</span></td>
+                                <td class="profile-acs-list-8"><span class="acn">${ac.ac_name}</span></td>
+                                <td class="profile-acs-list-10">${ac.ac_status}</td>
+                                <td class="profile-acs-list-9">${ac.ac_rdate}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </div>
+                </c:if>
+                <c:if test="${membery.mb_email ne 'admin@gmail.com'}">
                 <table class="profile-table" cellpadding='7' cellspacing='2'>
                     <tr>
                         <th>이름</th>
@@ -130,6 +176,7 @@
                         <td>${membery.mb_salary} 만원</td>
                     </tr>
                 </table>
+                </c:if>
                 <table class="none-table">
                     <tr>
                         <th>목록을 선택해주세요</th>
