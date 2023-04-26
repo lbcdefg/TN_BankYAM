@@ -22,6 +22,9 @@
         <id property="pd_type" column="pd_type"/>
         <id property="pd_name" column="pd_name"/>
         <id property="pd_rate" column="pd_rate"/>
+        <id property="pd_addrate" column="pd_addrate"/>
+        <id property="pd_info" column="pd_info"/>
+        <id property="pd_del" column="pd_del"/>
         <id property="pd_rdate" column="pd_rdate"/>
         <id property="pd_xdate" column="pd_xdate"/>
     </resultMap>
