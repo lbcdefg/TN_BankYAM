@@ -52,7 +52,6 @@ public class AdminController {
     @GetMapping("int_update_ok")
     public String int_update_ok(Transactions transactions){
         List<Accounty> accountyList = accountyService.findAccounty();
-        Product recentPd = accountyService.recentPd();
         for(Accounty account: accountyList) {
             String day = account.getAc_udate().toString().substring(account.getAc_udate().toString().lastIndexOf("-") + 1);
             System.out.println(day);
@@ -123,5 +122,23 @@ public class AdminController {
             hashMap.put("pd_type", null);
         }
         return hashMap;
+    }
+
+    @GetMapping("product_option")
+    public String product_option(@RequestParam("pd_type") String pd_type, Model model) {
+        String selectResult = pd_type;
+        if (selectResult.equals("전체")) {
+            List<Product> productList = accountyService.findPdByPdname();
+            List<String> pdSelectList = accountyService.findPdtype();
+            model.addAttribute("productList", productList);
+            model.addAttribute("pdSelectList", pdSelectList);
+            return "profile";
+        } else {
+            List<Product> selectList = accountyService.findPdByPdtype(selectResult);
+            List<String> pdSelectList = accountyService.findPdtype();
+            model.addAttribute("pdSelectList", pdSelectList);
+            model.addAttribute("productList", selectList);
+            return "profile";
+        }
     }
 }

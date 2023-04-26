@@ -106,7 +106,7 @@
     margin-top: 50px;
     margin-left: 5%;
     width: 80%;
-    height: 800px;
+    height: auto;
     display: flex;
     transition:all 0.5s;
 }
@@ -155,7 +155,6 @@
 .list-element2-contents{
     width: 200px;
     height:50px;
-    display: none;
     padding-top: 10px;
 }
 .list-element2-contents a{
@@ -191,17 +190,9 @@
     height: 30px;
     text-align: left;
 }
-.none-table{
-    width: 120%;
-    height: 200px;
-    background-color: #F7F3EF;
-    font-size: 18px;
-    margin-top: 20px;
-}
 .profile-acs-list-table{
     width:100%;
     border-collapse: collapse;
-    display:none;
 }
 
 .profile-acs-list-head{
@@ -209,6 +200,11 @@
     text-align: center;
     margin-bottom:10px;
 }
+.profile-acs-table-size350{
+     width: 95%;
+     height: auto;
+     margin: auto;
+ }
 
 .profile-acs-list-row{
     border-bottom: 0.5px solid #B39273;
@@ -276,6 +272,107 @@
 
 .profile-acs-list-5{
     width:5%;
+}
+.jobs_search_box {
+    position: relative;
+    display: inline-block;
+    top: 100px;
+    width: 18rem;
+    padding: 1rem 0.5rem;
+    text-align: center;
+    box-sizing: border-box;
+    border: 0;
+    border-radius: 20px;
+    margin: 0;
+    line-height: 1;
+    letter-spacing: -1px;
+    word-break: break-word;
+    -webkit-text-size-adjust: 100%;
+    background-color:#F7F3EF;
+    color:var(--themecolor);
+    font-family: noto-regular;
+    cursor: default;
+}
+
+.jobs_search_box.sticky {
+    position: fixed;
+    top:40%;
+}
+
+.jobs_search_box strong {
+    margin-top: 20px;
+    font-size: 20px;
+    line-height: 1.5;
+    text-align: center;
+    font-family: noto-bold;
+}
+
+.jobs_search_field button {
+    writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: center;
+}
+
+.jobs_search_field button, input{
+    margin: 0;
+    font-family: inherit;
+    font-size: 100%;
+    line-height: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    -webkit-border-radius: 0;
+    border-radius: 0;
+    border: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.jobs_search_field button {
+    text-transform: none;
+    cursor: pointer;
+}
+
+.jobs_search_field button{
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+
+.jobs_search_box.vtc strong {
+    padding-bottom: 0.5rem;
+}
+
+
+
+
+.jobs_search_field .search-btn {
+    margin-top: 2rem;
+    width: 10rem;
+    height: 3rem;
+    font-size: 1rem;
+    text-align: center;
+    vertical-align: middle;
+    color: white;
+    background: var(--lightyamcolor);
+    border-radius: 10px;
+    padding-bottom: 5px;
+    font-family: noto-bold;
+}
+
+.reset-btn {
+    margin-top: 0.5rem;
+    color: var(--lightyamcolor);
+    background: white;
+    font-family: noto-bold;
+    font-size: 0.9rem;
+    cursor: pointer;
+    border: 0.5px solid var(--lightyamcolor);
+    padding: 5px 10px;
+    border-radius: 25px;
 }
 
 @media screen and (max-width: 1470px){

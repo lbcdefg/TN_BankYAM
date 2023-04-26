@@ -25,4 +25,7 @@ public interface AccountyMapper {
     void insertPd(Product product);
     void updatePdXdate(Product product);
     List<Product> test(HashMap<String,Object> map);
+    List<Product> findPdByPdname();
+    List<String> findPdtype();
+    List<Product> findPdByPdtype(String pd_type);
 }
