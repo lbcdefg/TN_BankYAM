@@ -76,21 +76,17 @@
         <selectKey resultType="long" keyProperty="ac_seq" order="BEFORE">
             SELECT ACCOUNTY_SEQ.NEXTVAL FROM DUAL
         </selectKey>
-        INSERT INTO ACCOUNTY VALUES(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 0, #{ac_name}, '주', '사용중', #{ac_pd_seq}, 0, #{ac_purpose}, SYSDATE, ADD_MONTHS(TO_DATE(CONCAT((SELECT TO_CHAR(SYSDATE, 'YYMM') FROM DUAL),TO_NUMBER(#{ac_udated})),'YYMMDD'),#{addMonths}), NULL)
+        INSERT INTO ACCOUNTY VALUES(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 1000, #{ac_name}, '주', '사용중', #{ac_pd_seq}, 0, #{ac_purpose}, SYSDATE, ADD_MONTHS(TO_DATE(CONCAT((SELECT TO_CHAR(SYSDATE, 'YYMM') FROM DUAL),TO_NUMBER(#{ac_udated})),'YYMMDD'),#{addMonths}), NULL)
     </insert>
     <select id="findDepositPd" resultType="String">
-        SELECT PD_NAME FROM(SELECT * FROM PRODUCT WHERE PD_TYPE='예금') GROUP BY PD_NAME
+        SELECT PD_NAME FROM(SELECT * FROM PRODUCT WHERE PD_TYPE='예금' AND PD_DEL='X') GROUP BY PD_NAME
     </select>
     <select id="findDepositPdVal" parameterType="String" resultMap="product">
-        SELECT * FROM (SELECT * FROM PRODUCT WHERE PD_NAME =#{pd_name} ORDER BY PD_RDATE DESC) WHERE ROWNUM=1
+        SELECT * FROM (SELECT * FROM PRODUCT WHERE PD_NAME =#{pd_name} ORDER BY PD_RDATE DESC) WHERE ROWNUM=1 AND PD_DEL='X'
     </select>
     <select id="findAccounty" resultMap="accounty">
         SELECT * FROM ACCOUNTY A JOIN PRODUCT P ON A.AC_PD_SEQ = P.PD_SEQ WHERE A.AC_STATUS='사용중'
     </select>
-    <select id="findRecentPd" resultType="Product">
-        SELECT * FROM (SELECT * FROM PRODUCT WHERE PD_TYPE='예금' ORDER BY PD_SEQ DESC) WHERE ROWNUM = 1
-    </select>
-
     <update id="interest" parameterType="Accounty">
         UPDATE ACCOUNTY SET AC_BALANCE = #{ac_balance},AC_PD_SEQ= #{ac_pd_seq}, AC_UDATE= ADD_MONTHS(SYSDATE,1) where AC_SEQ= #{ac_seq}
     </update>
@@ -100,8 +96,15 @@
         </selectKey>
         INSERT INTO PRODUCT VALUES(#{pd_seq}, #{pd_type}, #{pd_name}, #{pd_rate}, #{pd_addrate}, #{pd_info}, #{pd_del}, SYSDATE, NULL)
     </insert>
-    <update id="updatePdXdate" parameterType="hashmap">
-        UPDATE PRODUCT SET PD_XDATE = SYSDATE
+    <update id="updatePdXdate" parameterType="Product">
+        UPDATE PRODUCT SET PD_XDATE = SYSDATE, PD_DEL = 'O'
         WHERE PD_SEQ=#{pd_seq}
     </update>
+    <select id="test" parameterType="hashmap" resultType="Product">
+       SELECT * FROM PRODUCT WHERE PD_NAME IN (SELECT PD_NAME FROM(SELECT * FROM PRODUCT WHERE PD_DEL='X'
+        <if test="#{pd_type} != null">
+            AND PD_TYPE= #{pd_type}
+        </if>
+        ) GROUP BY PD_NAME) AND PD_DEL='X'
+    </select>
 </mapper>

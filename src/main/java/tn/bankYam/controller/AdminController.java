@@ -9,6 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import tn.bankYam.dto.Transactions;
 import tn.bankYam.service.AccountyService;
 import java.io.IOException;
@@ -18,8 +20,10 @@ import tn.bankYam.service.AccountyService;
 import tn.bankYam.service.TransactionService;
 
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -84,14 +88,14 @@ public class AdminController {
     public String rate_update_ok(Model model){
         Float rate = crawling();
         System.out.println("최종금리: " + rate);
-        //float rate = 3.8f;
         List<String> list = accountyService.findDepositPd();
-        float oldRate = accountyService.findDepositPdVal(list.get(0)).getPd_rate();
-        System.out.println("rate: " + rate + ", oldRate : " + oldRate);
-        if(rate != oldRate){ //
-            for(String pd_name:list){
-                //System.out.println("pd_name : " + pd_name);
-                Product product = accountyService.findDepositPdVal(pd_name);
+
+        for(String pd_name:list){
+            Product product = accountyService.findDepositPdVal(pd_name);
+            //System.out.println("pd_name : " + pd_name);
+            float oldRate = product.getPd_rate();
+            System.out.println("rate: " + rate + ", oldRate : " + oldRate);
+            if(rate != oldRate){
                 accountyService.updatePdXdate(product);
                 Product newProduct = product;
                 newProduct.setPd_rate(rate);
@@ -101,5 +105,23 @@ public class AdminController {
         }
         model.addAttribute("rate",rate);
         return "profile";
+    }
+
+    @GetMapping("test2")
+    @ResponseBody
+    public String test2(HttpServletRequest request){
+        String pd_type = request.getParameter("type").trim();
+        return accountyService.test(typeMap(pd_type)).toString();
+    }
+
+    public HashMap<String, Object> typeMap(String pd_type){
+        System.out.println("타입맵에서 pd_type : " + pd_type);
+        HashMap<String, Object> hashMap = new HashMap<>();
+        if(pd_type.length() != 0) {
+            hashMap.put("pd_type", pd_type);
+        }else{
+            hashMap.put("pd_type", null);
+        }
+        return hashMap;
     }
 }

@@ -82,4 +82,6 @@ public class AccountyServiceImpl implements AccountyService{
     @Override
     public void updatePdXdate(Product product){ mapper.updatePdXdate(product);}
 
+    @Override
+    public List<Product> test(HashMap<String,Object> map){ return mapper.test(map);}
 }
