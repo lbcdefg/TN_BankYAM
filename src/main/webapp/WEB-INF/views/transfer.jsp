@@ -10,7 +10,6 @@
     <script src="/js/transfer.js"></script>
     <title>BankYam transfer</title>
 </head>
-
 <body>
     <p class="fontS-35">${membery.mb_name}님의 계좌이체</p>
     <form method="post" name="f" action="transfer_chk" class="" novalidate="novalidate">
@@ -43,18 +42,18 @@
             <tr>
                 <th scope="row">은행</th>
                 <td>
-                <select name="tn_other_bank" id="tn_other_bank">
-                    <option value="">은행선택</option>
-                    <option value="뱅크얌">뱅크얌</option>
-                    <option value="국민은행">국민은행</option>
-                    <option value="우리은행">우리은행</option>
-                    <option value="신한은행">신한은행</option>
-                    <option value="하나은행">하나은행</option>
-                    <option value="기업은행">IBK기업은행</option>
-                    <option value="카카오뱅크">카카오뱅크</option>
-                    <option value="NH농협">NH농협</option>
-                    <option value="KDB산업은행">KDB산업은행</option>
-                </select>
+                    <select name="tn_other_bank" id="tn_other_bank">
+                        <option value="">은행선택</option>
+                        <option value="뱅크얌">뱅크얌</option>
+                        <option value="국민은행">국민은행</option>
+                        <option value="우리은행">우리은행</option>
+                        <option value="신한은행">신한은행</option>
+                        <option value="하나은행">하나은행</option>
+                        <option value="기업은행">IBK기업은행</option>
+                        <option value="카카오뱅크">카카오뱅크</option>
+                        <option value="NH농협">NH농협</option>
+                        <option value="KDB산업은행">KDB산업은행</option>
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -68,7 +67,7 @@
             <tr>
                 <th scope="row">이체 금액</th>
                 <td>
-                    <input class="transfer-input" type="number" placeholder="숫자만 입력해주세요" name="tr_amount" id='result' value="0">
+                    <input class="transfer-input" type="number" placeholder="숫자만 입력해주세요" name="tr_amount" id='result' value="0" onchange="compare()">
                     잔액:<span id="ac-balance-check"></span>
                     <br/><br/>
                         <input type="button" name="" class="amount-btn" value="만원" onclick='count("plus1")'/>
@@ -85,6 +84,6 @@
                 </td>
             </tr>
         </table>
-        <button style="margin-left:315px" type="button" onclick="newPage()" id="next-btn" class="transfer-btn">다음</button>
+        <button style="margin-left:315px" type="button" onclick="nextPage()" id="next-btn" class="transfer-btn">다음</button>
     </form>
 </body>
