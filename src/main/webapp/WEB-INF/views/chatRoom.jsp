@@ -5,6 +5,9 @@
 <link rel="stylesheet" type="text/css" href="/css/nav.css" />
 <link rel="stylesheet" type="text/css" href="/css/chatRoom.css" />
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-latest.js"></script>
+<script type="text/javascript" src="/js/map.js"></script>
+<script type="text/javascript" src="/js/stringBuffer.js"></script>
 <script>
     function toneDown(){
         if(!document.getElementById('menuicon').checked){
@@ -184,6 +187,24 @@
             </div>
         </form>
     </div>
+<center>
+   <h1>Drag&Drop</h1>
+   <a href="../">인덱스</a>&nbsp;&nbsp;
+   <a href="list.do">리스트</a>
+   <br/><br/>
+
+   <div id="fileUpload" class="dragDropDiv">
+        <table id='fileTable'>
+            <tr>
+                <td id='tabFileName'>파일명</td>
+                <td id='tabFileSize'>사이즈</td>
+                <td id='tabFileDel'>삭제 </td>
+            </tr>
+        </table>
+    </div>
+    <input type="button" onclick="submitFile()" value="전송">
+    <input type="hidden" value="추가데이터테스트!" name='temp' id='temp'>
+</center>
 </body>
 <script>
     $("#wrap").scrollTop($("#wrap")[0].scrollHeight);
