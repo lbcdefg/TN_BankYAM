@@ -49,6 +49,9 @@ create table PRODUCT(
   PD_TYPE varchar2(20),
   PD_NAME varchar2(50),
   PD_RATE number(5,2),
+  PD_ADDRATE number(5,2),
+  PD_INFO varchar2(100),
+  PD_DEL varchar2(1),
   PD_RDATE date,
   PD_XDATE date
 );
@@ -209,7 +212,7 @@ SELECT * FROM MEMBERY M JOIN ACCOUNTY A ON M.MB_SEQ = A.AC_MB_SEQ WHERE M.MB_EMA
 
 
 ----- PRODUCT TEST
-insert into PRODUCT values(PRODUCT_SEQ.nextval, '예금', '뱅크얌_예금통장', 3.50, TO_DATE('2023-01-13 09:00:38', 'YYYY-MM-DD HH24:MI:SS'), null);
+insert into PRODUCT values(PRODUCT_SEQ.nextval, '예금', '뱅크얌_예금통장', 3.50, 0.00, '안녕하세요', 'X', TO_DATE('2023-01-13 09:00:38', 'YYYY-MM-DD HH24:MI:SS'), null);
 
 commit;
 
@@ -227,7 +230,7 @@ insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 1234, 5, 500000, '뱅크얌_�
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 1234, 6, 1000000, '뱅크얌_예금통장', '주', '사용중', 1, 0, '급여', TO_DATE('2023-03-31 10:10:10', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2023-05-01 10:10:10', 'YYYY-MM-DD HH24:MI:SS'), null);
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 1234, 6, 51, '뱅크얌_예금통장2', '부', '해지', 1, 0, '예금', TO_DATE('2023-04-01 10:10:10', 'YYYY-MM-DD HH24:MI:SS'), null, SYSDATE);
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 1234, 7, 1000000, '뱅크얌_예금통장', '주', '사용중', 1, 0, '예금', TO_DATE('2023-04-03 10:10:10', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2023-05-05 10:10:10', 'YYYY-MM-DD HH24:MI:SS'), null);
-insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 1234, 2, 3, '뱅크얌_예금통장', '부', '해지', 1, 0, '예금', TO_DATE('2023-04-03 10:10:10', 'YYYY-MM-DD HH24:MI:SS'), null, SYSDATE); --10
+insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 1234, 2, 3, '뱅크얌_예금통장0', '부', '해지', 1, 0, '예금', TO_DATE('2023-04-03 10:10:10', 'YYYY-MM-DD HH24:MI:SS'), null, SYSDATE); --10
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 9, 1000000, '뱅크얌_예금통장', '주', '사용중', 1, 0, '예금', TO_DATE('2023-04-03 10:10:10', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2023-05-05 10:10:10', 'YYYY-MM-DD HH24:MI:SS'), null);
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 10, 1000000, '뱅크얌_예금통장', '주', '사용중', 1, 0, '급여', TO_DATE('2023-04-03 10:10:10', 'YYYY-MM-DD HH24:MI:SS'), TO_DATE('2023-05-05 10:10:10', 'YYYY-MM-DD HH24:MI:SS'), null);
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 2, 7, '뱅크얌_예금통장2', '부', '휴면', 1, 0, '예금', TO_DATE('2023-04-04 10:10:10', 'YYYY-MM-DD HH24:MI:SS'), null, SYSDATE);
@@ -246,18 +249,22 @@ insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 2, 100000000000, '뱅크
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 2, 100000000000, '뱅크얌_예금통장7', '부', '사용중', 1, 0, '급여', SYSDATE, (ADD_MONTHS(SYSDATE, 1))+4, null);
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 2, 100000000000, '뱅크얌_예금통장8', '부', '사용중', 1, 0, '예금', SYSDATE, (ADD_MONTHS(SYSDATE, 1))+4, null);
 
+insert into MEMBERY values(MEMBERY_SEQ.nextval,'admin@gmail.com',1234,'뱅크얌','한국소프트웨어인재개발원', 'KOSMO', '11111111111', '관리자',0,0,'/img/YamLogoHover.png', TO_DATE('2023-03-30 09:10:10', 'YYYY-MM-DD HH24:MI:SS'), null);
 
 commit;
 
 select * from ACCOUNTY;
 
-update ACCOUNTY set ac_pwd=1234;
+update ACCOUNTY set ac_status='복구중' where ac_seq=888010000100;
+update ACCOUNTY set ac_balance=300000 where ac_seq=888010000100;
+update ACCOUNTY set ac_balance=300000000 where ac_seq=888010000220;
+delete from ACCOUNTY where ac_seq=888010000250;
 select * from ACCOUNTY where AC_MB_SEQ=2;
 SELECT * FROM membery m JOIN accounty a ON m.mb_seq = a.ac_mb_seq WHERE m.mb_seq = 2 AND a.ac_seq = 888010000160;
 select * from ACCOUNTY where AC_SEQ = '888010000110';
 SELECT * FROM MEMBERY M JOIN ACCOUNTY A ON M.MB_SEQ = A.AC_MB_SEQ
 WHERE M.MB_EMAIL = 'ww' OR A.AC_SEQ = '11';
-SELECT * FROM membery m JOIN accounty a ON m.mb_seq = a.ac_mb_seq WHERE m.mb_seq = 2 AND a.ac_status != '해지'
+SELECT * FROM membery m JOIN accounty a ON m.mb_seq = a.ac_mb_seq WHERE m.mb_seq = 2 AND a.ac_status != '해지' AND a.ac_status != '복구중'
 ORDER BY a.ac_main DESC, a.ac_status;
 SELECT * FROM membery m JOIN accounty a ON m.mb_seq = a.ac_mb_seq WHERE m.mb_seq = 2 AND (a.ac_status = '해지' OR a.ac_status = '복구중')
 ORDER BY a.ac_main DESC, a.ac_status;
@@ -289,7 +296,6 @@ commit;
 
 select * from TRANSACTIONS;
 select * from ACCOUNTY;
-
 rollback;
 
 
@@ -373,7 +379,6 @@ commit;
 
 select * from CHATROOM;
 
-
 ----- CHATMEMBER TEST
 insert into CHATMEMBER values(1, 2); -- 2 / 6
 insert into CHATMEMBER values(1, 6); -- 2 / 6
@@ -412,4 +417,5 @@ insert into CHATCONTENT values(CHATCONTENT_SEQ.nextval, 3, 15, null, '감사합�
 commit;
 
 select * from CHATCONTENT;
+select * from CHATFILE;
 
