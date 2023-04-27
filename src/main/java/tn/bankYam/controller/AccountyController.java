@@ -41,7 +41,7 @@ public class AccountyController {
 
     //계좌이체 창
     @GetMapping("transfer")
-    public String transfer(Model model, HttpSession session, Accounty accounty, Transactions transactions){
+    public String transfer(Model model, HttpSession session){
         Membery membery = (Membery)session.getAttribute("membery");
         List<Accounty> accList = accountyService.selectAccNumS(membery.getMb_seq());
         for(int i = 0; i < accList.size(); i++){

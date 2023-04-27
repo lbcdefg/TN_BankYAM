@@ -33,13 +33,13 @@
             <div class="menu-list">
                 <c:if test="${fn:length(roomInfo.memberyList) != 1}">
                     <a class="btn-open-popup"><img class="reversal" src="/img/friend.png"></a>
-                    <a><img src="/img/rename.png"></a>
+                    <a onclick="action_popup.prompt('채팅방 이름을 변경합니다.', updateChatName);"><img src="/img/rename.png"></a>
                 </c:if>
-                <a onclick="outChat();"><img src="/img/exit.png"></a>
+                <a onclick="action_popup.confirm('현재 채팅창에서 퇴장하시겠습니까?\n대화내용은 모두 사라집니다.', outChat);"><img src="/img/exit.png"></a>
             </div>
             <div class="file-list">
                 <c:forEach var="file" items="${files}">
-                    <a class="chat-file">
+                    <a class="chat-file" href="download?cf_seq=${file.cf_seq}">
                         <div class="file-type">
                             ${fn:substring(file.cf_orgnm,fn:indexOf(file.cf_orgnm,'.')+1,fn:length(file.cf_orgnm)) }
                         </div>
@@ -143,18 +143,19 @@
     </div>
     <div class="send-area">
         <textarea class="chat-text" required="required" id='msg'
-        <c:if test="${fn:length(roomInfo.memberyList) == 1}"> readonly </c:if>></textarea>
+            <c:if test="${fn:length(roomInfo.memberyList) == 1}"> readonly </c:if>>
+        </textarea>
         <div class="buttons">
             <label class="btn" for="files">
                 <img src="/img/clip.png">
             </label>
-            <input type="file" id="files" style="display: none;" onchange="fileUpload(this.files)" multiple/>
+            <input type="file" id="files" style="display: none;" onchange="handleFileUpload(this.files)" multiple/>
             <a class="btn" id="btnSend">
                 <img src="/img/send.png">
             </a>
         </div>
     </div>
-    <div class="modal">
+    <div class="modal-member-add">
         <form action="addChatMember" name="f">
             <input type="hidden" name="cr_seq" value="${roomInfo.cr_seq}" />
             <div class="modal_body">
@@ -173,6 +174,7 @@
             </div>
         </form>
     </div>
+    <%@ include file="/WEB-INF/views/modalPopup.jsp" %>
 </body>
 <script>
 

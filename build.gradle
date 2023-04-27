@@ -43,6 +43,8 @@ dependencies {
 	developmentOnly("org.springframework.boot:spring-boot-devtools") //저장시 서버 자동재시작
 
 	implementation 'org.jsoup:jsoup:1.13.1' //현재금리 크롤링 jsoup
+
+	implementation 'commons-io:commons-io:2.11.0'
 }
 
 tasks.named('test') {
