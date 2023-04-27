@@ -46,13 +46,11 @@ public class AccountyServiceImpl implements AccountyService{
             transactionsMapper.insertTrLog(transactions);
         } else {
             System.out.println("잔액이 부족합니다.");
-
         }
     }
 
     @Override
     public void transferMinusS(Transactions transactions) {
-
     }
 
     @Override

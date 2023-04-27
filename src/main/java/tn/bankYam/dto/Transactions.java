@@ -20,4 +20,5 @@ public class Transactions {
     private String tr_msg;
     private Date tr_date;
     private Accounty accounty;
+    private Accounty otherAccount;
 }

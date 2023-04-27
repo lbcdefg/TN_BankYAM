@@ -20,7 +20,7 @@
                     <select id="ac_seq"name="tr_ac_seq" onchange="checkBalance()">
                     <option value="">계좌 선택</option>
                         <c:forEach var="acc" items="${accList}">
-                            <option value="${acc.ac_seq}">${acc.ac_seq}(${acc.ac_main})</option>
+                            <option value="${acc.ac_seq}">${acc.ac_seq}</option>
                         </c:forEach>
                     </select>
                 </td>

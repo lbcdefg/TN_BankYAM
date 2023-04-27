@@ -66,23 +66,18 @@ public class AccountyController {
         return accounty;
     }
 
-    //계좌이체 확인
+    //계좌이체 확인체크
     @PostMapping("transfer_chk")
-    public String transferChk(Model model, HttpSession session, HttpServletRequest request, Transactions transactions, String ac_pwd){
+    public String transferChk(Model model, HttpSession session, Accounty accounty, Transactions transactions, String ac_pwd){
         Membery membery = (Membery)session.getAttribute("membery");
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("tr_ac_seq", transactions.getTr_ac_seq());
-        hashMap.put("ac_pwd", ac_pwd);
-        hashMap.put("tr_other_bank", transactions.getTr_other_bank());
-        hashMap.put("tr_amount", transactions.getTr_amount());
-        hashMap.put("tr_other_accnum", transactions.getTr_other_accnum());
-        hashMap.put("tr_msg", transactions.getTr_msg());
-
-        model.addAttribute("tr_ac_seq", hashMap.get("tr_ac_seq"));
-        model.addAttribute("tr_other_bank", hashMap.get("tr_other_bank"));
-        model.addAttribute("tr_amount", hashMap.get("tr_amount"));
-        model.addAttribute("tr_other_accnum", hashMap.get("tr_other_accnum"));
-        model.addAttribute("tr_msg", hashMap.get("tr_msg"));
+        Accounty otherBankyamInfo = accountyService.selectAccInfoS(transactions.getTr_other_accnum());
+        if(transactions.getTr_other_bank()=="뱅크얌") {
+            if(otherBankyamInfo !=null) {
+                transactions.setOtherAccount(otherBankyamInfo);
+            }else{
+                System.out.println("뱅크얌 계좌가 아닙니다.");
+            }
+        }
         model.addAttribute("transactions",transactions);
         return "confirmation";
     }
