@@ -192,34 +192,9 @@
 </body>
 <%@ include file="/WEB-INF/views/footer.jsp" %>
 <script language="javascript">
-$("document").ready(function(){
-    // 이메일 인증번호 체크 함수
-    $("#emailCode").on("keyup", function(){
-        if ($("#emailCodeVs").val() != $("#emailCode").val()){
-            $("#join_message").html("<span id='emconfirmchk'>인증번호가 잘못되었습니다</span>");
-            $("#emconfirmchk").css({
-                "color" : "#FA3E3E",
-                "font-weight" : "bold",
-                "font-size" : "13px"
-            });
-        }else{
-            $("#join_message").html("<span id='emconfirmchk'>인증번호 확인 완료</span>");
-            console.log("정답");
-            $("#emconfirmchk").css({
-                "color" : "#0D6EFD",
-                "font-weight" : "bold",
-                "font-size" : "13px"
-            });
-            document.getElementById('emailCode').readOnly=true;
-            emailCodeBtn.style.display = 'none';
-            document.getElementById('emailCode').setAttribute('style','background-color:#c8c8c8;');
-            document.getElementById('mb_email').setAttribute('style','background-color:#c8c8c8;');
-        }
-    });
-});
-	const regExp = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g; //전체에서 특수문자 찾기
-	const blankExp = /\s/g; //전체에서 공백찾기
-	const form1 = document.getElementById("join-form1");
+    const regExp = /[!?@#$%^&*():;+-=~{}<>\_\[\]\|\\\"\'\,\.\/\`\₩]/g; //전체에서 특수문자 찾기
+    const blankExp = /\s/g; //전체에서 공백찾기
+    const form1 = document.getElementById("join-form1");
     const form2 = document.getElementById("join-form2");
     const form3 = document.getElementById("join-form3");
     const nextbtn1 = document.getElementById('next-btn-1');
@@ -229,6 +204,55 @@ $("document").ready(function(){
     const emailReset = document.getElementById('emailReset');
     const term = document.getElementById("join_terms");
     const form = document.getElementById("join-form");
+
+    $("document").ready(function(){
+        // 이메일 인증번호 체크 함수
+        $("#emailCode").on("keyup", function(){
+            if ($("#emailCodeVs").val() != $("#emailCode").val() || $("#emailCodeVs").val().length == 0){
+                $("#join_message").html("<span id='emconfirmchk'>인증번호가 잘못되었습니다</span>");
+                $("#emconfirmchk").css({
+                    "color" : "#FA3E3E",
+                    "font-weight" : "bold",
+                    "font-size" : "13px"
+                });
+            }else{
+                $("#join_message").html("<span id='emconfirmchk'>인증번호 확인 완료</span>");
+                console.log("정답");
+                $("#emconfirmchk").css({
+                    "color" : "#0D6EFD",
+                    "font-weight" : "bold",
+                    "font-size" : "13px"
+                });
+                document.getElementById('emailCode').readOnly=true;
+                emailCodeBtn.style.display = 'none';
+                document.getElementById('emailCode').setAttribute('style','background-color:#c8c8c8;');
+                document.getElementById('mb_email').setAttribute('style','background-color:#c8c8c8;');
+            }
+        });
+        $("#join-form2").on('keydown',function(event) {
+            if(event.keyCode == 13){
+                console.log(event.target);
+                if(event.target == form.mb_email){
+                    form.emailCode.focus();
+                }else if(event.target == form.emailCode){
+                    form.mb_pwd.focus();
+                }else if(event.target == form.mb_pwd){
+                    form.mb_pwd2.focus();
+                }else if(event.target == form.mb_pwd2){
+                    form.mb_name.focus();
+                }else if(event.target == form.mb_name){
+                    form.mb_phone.focus();
+                }else if(event.target == form.mb_phone){
+                    form.mb_addr.focus();
+                }else if(event.target == form.mb_addr){
+                    form.mb_daddr.focus();
+                }else if(event.target == form.mb_daddr){
+                    form.mb_salary.focus();
+                }
+            }
+        });
+    });
+
 
     // form2 유효성검사
 	function check(target){
@@ -417,11 +441,33 @@ $("document").ready(function(){
 	    }else if(target==nextbtn2){
 	        console.log("다음2버튼 클릭");
             if($('#mb_email').is('[readonly]') && $('#emailCode').is('[readonly]')){
+                if(check(form.mb_pwd) && check(form.mb_pwd2) && check(form.mb_name) && check(form.mb_phone) && check(form.mb_daddr) && check(form.mb_salary)){
+                    form2.style.display = 'none';
+                    form3.style.display = 'block';
+                }else{
+                    emconfirmchk = false;
+                    $("#join_message").html("<span id='emconfirmchk'>모든 정보를 입력해주세요</span>");
+                    $("#emconfirmchk").css({
+                        "color" : "#FA3E3E",
+                        "font-weight" : "bold",
+                        "font-size" : "13px"
+                    });
+                }
+            }else{
+                emconfirmchk = false;
+                $("#join_message").html("<span id='emconfirmchk'>이메일 인증이 되지 않았습니다</span>");
+                $("#emconfirmchk").css({
+                    "color" : "#FA3E3E",
+                    "font-weight" : "bold",
+                    "font-size" : "13px"
+                });
+            }
+            if(check(form.mb_pwd) && check(form.mb_pwd2) && check(form.mb_name) && check(form.mb_phone) && check(form.mb_daddr) && check(form.mb_salary)){
                 form2.style.display = 'none';
                 form3.style.display = 'block';
             }else{
                 emconfirmchk = false;
-                $("#join_message").html("<span id='emconfirmchk'>이메일 인증이 되지 않았습니다</span>");
+                $("#join_message").html("<span id='emconfirmchk'>모든 정보를 입력해주세요</span>");
                 $("#emconfirmchk").css({
                     "color" : "#FA3E3E",
                     "font-weight" : "bold",
@@ -465,6 +511,7 @@ $("document").ready(function(){
         document.getElementById('mb_email').value = "";
         $('#emailCode').val("");
         $("#join_message").html("");
+        $("#emailCodeVs").val("");
     });
 
 
