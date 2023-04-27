@@ -27,9 +27,6 @@
                     </form>
                     <c:if test="${membery.mb_email eq 'admin@gmail.com'}">
                         <input type="button" id="rate_btn" class="rate_btn" onclick="location.href='/admin/rate_update_ok'" value="금리업뎃"></button>
-                        <input type="button" id="int_btn" class="rate_btn" onclick="location.href='/admin/int_update_ok'" value="금리적용" style="display:none;"></button>
-                        <label class="rate">기준금리</label>
-                        <label id="rate" class="rate-val">${requestScope.rate}%</label>
                     </c:if>
                 </div>
             </div>
@@ -207,9 +204,7 @@
             var url = window.location.href;
             var urlLast = url.split('/').reverse()[0];
             stickyjobsSearch();
-             if(urlLast == 'rate_update_ok'){
-                $("#int_btn").show();
-            }
+
                 var windowWidth = $(window).width();
                 $(window).resize(function(){
                     if(this.resizeTO){
