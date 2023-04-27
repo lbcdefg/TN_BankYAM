@@ -15,7 +15,7 @@
     <form method="post" name="f" action="transfer_chk" class="" novalidate="novalidate">
         <table class="transfer-table">
             <tr>
-                <th scope="row">출금 계좌번호</th>
+                <th scope="row">출금 계좌</th>
                 <td>
                     <select id="ac_seq"name="tr_ac_seq" onchange="checkBalance()">
                     <option value="">계좌 선택</option>
@@ -40,7 +40,7 @@
                 </td>
             </tr>
             <tr>
-                <th scope="row">은행</th>
+                <th scope="row">입금하실 은행</th>
                 <td>
                     <select name="tr_other_bank" id="tr_other_bank">
                         <option value="">은행선택</option>
