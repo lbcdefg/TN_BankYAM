@@ -70,10 +70,15 @@
         SELECT * FROM CHATMEMBER CM JOIN MEMBERY MB ON CM.CM_MB_SEQ = MB.MB_SEQ WHERE CM.CM_CR_SEQ=#{cr_seq}
     </select>
     <select id="checkRoom" resultType="Chatmember" parameterType="map">
-        SELECT *
-        FROM CHATMEMBER
-        WHERE CM_CR_SEQ IN(SELECT CM_CR_SEQ FROM CHATMEMBER WHERE CM_MB_SEQ=#{mb_seq})
-            AND CM_MB_SEQ!=#{mb_seq} AND CM_MB_SEQ=#{f_mb_seq}
+        SELECT CM_CR_SEQ FROM CHATMEMBER
+        WHERE CM_CR_SEQ IN
+            (SELECT CM_CR_SEQ
+            FROM CHATMEMBER
+            WHERE CM_CR_SEQ IN
+                (SELECT CM_CR_SEQ FROM CHATMEMBER
+                WHERE CM_MB_SEQ=#{mb_seq})
+            AND CM_MB_SEQ!=#{mb_seq} AND CM_MB_SEQ=#{f_mb_seq})
+        GROUP BY CM_CR_SEQ HAVING COUNT(*)=2
     </select>
     <insert id="insertRoom" parameterType="Chatroom">
         <selectKey keyProperty="cr_seq" order="BEFORE" resultType="long">
@@ -158,4 +163,7 @@
         </selectKey>
         INSERT INTO CHATFILE VALUES(#{cf_seq}, #{cf_orgnm}, #{cf_savednm}, #{cf_savedpath}, #{cf_size})
     </insert>
+    <select id="selectFileBySeq" resultType="Chatfile" parameterType="long">
+        SELECT * FROM CHATFILE WHERE CF_SEQ=#{cf_seq}
+    </select>
 </mapper>

@@ -185,5 +185,10 @@ public class ChatroomServiceImpl implements ChatroomService{
 		return chatfile.getCf_seq();
 	}
 
+	@Override
+	public Chatfile selectFileBySeqS(long cf_seq) {
+		return chatroomMapper.selectFileBySeq(cf_seq);
+	}
+
 
 }

@@ -24,4 +24,5 @@ public interface ChatroomService {
 	List<Chatcontent> selectStatusCount(long cr_seq);
 	long outChat(Membery membery, long cr_seq);
 	long insertFileS(MultipartFile file) throws IOException;
+	Chatfile selectFileBySeqS(long cf_seq);
 }
