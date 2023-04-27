@@ -71,14 +71,19 @@ public class AccountyController {
     public String transferChk(Model model, HttpSession session, Accounty accounty, Transactions transactions, String ac_pwd){
         Membery membery = (Membery)session.getAttribute("membery");
         Accounty otherBankyamInfo = accountyService.selectAccInfoS(transactions.getTr_other_accnum());
-        if(transactions.getTr_other_bank()=="뱅크얌") {
-            if(otherBankyamInfo !=null) {
-                transactions.setOtherAccount(otherBankyamInfo);
-            }else{
-                System.out.println("뱅크얌 계좌가 아닙니다.");
-            }
+
+        if(otherBankyamInfo !=null) {
+            Membery membery1 = memberyService.findBySeq(otherBankyamInfo.getAc_mb_seq());
+            otherBankyamInfo.setMembery(membery1);
+            transactions.setOtherAccount(otherBankyamInfo);
+            System.out.println("               ");
+        }else{
+            membery.setMb_name("타행");
         }
+        System.out.println(otherBankyamInfo);
         model.addAttribute("transactions",transactions);
+        model.addAttribute("otherAccount", otherBankyamInfo);
+        model.addAttribute("membery",membery);
         return "confirmation";
     }
 

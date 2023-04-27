@@ -31,6 +31,12 @@
                 </td>
             </tr>
             <tr>
+                <th scope="row">받는 사람</th>
+                <td>
+                    <input class="transfer-input" name="mb_name" readonly value=${transactions.otherAccount.membery.mb_name}>
+                </td>
+            </tr>
+            <tr>
                 <th scope="row">이체 금액</th>
                 <td>
                     <input class="transfer-input" type="number" name="tr_amount" id='result' readonly value=${transactions.tr_amount}>

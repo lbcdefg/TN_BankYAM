@@ -53,7 +53,7 @@
     </select>
 
     <select id="selectAccInfo" resultType="Accounty" parameterType="long">
-        SELECT * FROM ACCOUNTY A JOIN MEMBERY M
+        SELECT A.AC_SEQ,M.MB_NAME,A.AC_BALANCE,A.AC_MB_SEQ FROM ACCOUNTY A JOIN MEMBERY M
         ON A.AC_MB_SEQ=M.MB_SEQ
         WHERE A.AC_SEQ=#{ac_seq}
         AND AC_STATUS='사용중'
