@@ -78,7 +78,7 @@ public class AccountyController {
             transactions.setOtherAccount(otherBankyamInfo);
             System.out.println("               ");
         }else{
-            membery.setMb_name("타행");
+            System.out.println("타행입니다");
         }
         System.out.println(otherBankyamInfo);
         model.addAttribute("transactions",transactions);
