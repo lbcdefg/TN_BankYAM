@@ -36,7 +36,6 @@ function checkFrSearch(){
     var searchDiv = $('.frs-findFr');
     var searchText = $("#searchFr").val();
     searchText = trim(searchText);
-    alert(searchText)
     if(checkEmail(searchText)){
         checkFrSearchAjax(searchDiv, searchText);
     }else if(!isNaN(searchText) && searchText.length == 12){
@@ -57,25 +56,18 @@ function checkFrSearchAjax(searchDiv, searchText){
             if(accountyFr.membery == null){
                 noSearchFr(searchDiv, "other");
             }else if(accountyFr.membery.mb_seq == -6){
-                alert("이미 친구지만 차단한 친구")
                 searchFr(searchDiv, accountyFr.membery.mb_name, accountyFr.membery.mb_imagepath, accountyFr.membery.mb_seq, "alreadyFrBlock");
             }else if(accountyFr.membery.mb_seq == -1){
-                alert("자기자신")
                 noSearchFr(searchDiv, "self");
             }else if(accountyFr.membery.mb_seq == -2){
-                alert("이미 친구")
                 searchFr(searchDiv, accountyFr.membery.mb_name, accountyFr.membery.mb_imagepath, accountyFr.membery.mb_seq, "alreadyFr");
             }else if(accountyFr.membery.mb_seq == -3){
-                alert("이미 요청한 친구")
                 searchFr(searchDiv, accountyFr.membery.mb_name, accountyFr.membery.mb_imagepath, accountyFr.membery.mb_seq, "alreadyFrReq");
             }else if(accountyFr.membery.mb_seq == -4){
-                alert("이미 요청받은 친구")
                 searchFr(searchDiv, accountyFr.membery.mb_name, accountyFr.membery.mb_imagepath, accountyFr.membery.mb_seq, "alreadyFrRec");
             }else if(accountyFr.membery.mb_seq == -5){
-                alert("차단한 친구")
                 searchFr(searchDiv, accountyFr.membery.mb_name, accountyFr.membery.mb_imagepath, accountyFr.membery.mb_seq, "alreadyBlock");
             }else{
-                alert("새 친구")
                 searchFr(searchDiv, accountyFr.membery.mb_name, accountyFr.membery.mb_imagepath, accountyFr.membery.mb_seq, "newFr");
             }
         },

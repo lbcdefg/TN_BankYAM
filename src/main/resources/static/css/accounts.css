@@ -184,13 +184,13 @@
   transform: translateX(-50%) translateY(-50%);
 }
 
-.acs-nameMA-btn, .acs-nameMC-btn, .acs-psMA-btn, .acs-psMC-btn, .acs-psC-btn{
+.acs-nameMA-btn, .acs-nameMC-btn, .acs-psMA-btn, .acs-psMC-btn, .acs-psC-btn, .acs-psCC-btn{
     background-color:#F7F3EF;
     color: #B39273;
     border: none;
 }
 
-.acs-nameMA-btn:hover, .acs-nameMC-btn:hover, .acs-psMA-btn:hover, .acs-psMC-btn:hover, .acs-psC-btn:hover{
+.acs-nameMA-btn:hover, .acs-nameMC-btn:hover, .acs-psMA-btn:hover, .acs-psMC-btn:hover, .acs-psC-btn:hover, .acs-psCC-btn:hover{
     color: #5F4934;
 }
 
@@ -220,6 +220,10 @@
     text-align: left;
 }
 
+.acs-psC-btnGroup{
+    text-align: center;
+}
+
 .acs-psM-inputGroup form{
     margin:0;
 }
@@ -242,6 +246,10 @@
     font-size: 15px;
 }
 
+.acD{
+    font-size: 14px;
+}
+
 input[type=password]:invalid {
     border: 3px solid red;
 }
@@ -251,7 +259,7 @@ input[type=password]:invalid {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 250px;
+    width: 350px;
     height: 200px;
     padding: 30px;
     text-align: center;
