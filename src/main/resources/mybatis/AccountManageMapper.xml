@@ -139,6 +139,16 @@
         <if test="cat == '복구취소'">
             AC_STATUS = '해지'
         </if>
+        <if test="cat == '휴면신청'">
+            AC_STATUS = '휴면'
+        </if>
+        <if test="cat == '휴면취소'">
+            AC_STATUS = '사용중'
+        </if>
+        <if test="cat == '해지신청'">
+            AC_STATUS = '해지',
+            AC_XDATE = SYSDATE
+        </if>
         WHERE
             AC_SEQ = #{ac_seq}
     </update>

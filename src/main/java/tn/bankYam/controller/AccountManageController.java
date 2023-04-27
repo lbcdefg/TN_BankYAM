@@ -174,6 +174,15 @@ public class AccountManageController {
                     }else if(upCat.equals("복구취소") && checkAc.getAc_status().equals("복구중")) {
                         accountManageService.updateAcStatus(forAcSt);
                         ScriptUtil.alertAndMovePage(response, "계좌 복구가 취소되었습니다", "/accountM/accounts");
+                    }else if(upCat.equals("휴면신청") && checkAc.getAc_status().equals("사용중")) {
+                        accountManageService.updateAcStatus(forAcSt);
+                        ScriptUtil.alertAndMovePage(response, "계좌가 휴면상태가 되었습니다", "/accountM/accounts");
+                    }else if(upCat.equals("휴면취소") && checkAc.getAc_status().equals("휴면")) {
+                        accountManageService.updateAcStatus(forAcSt);
+                        ScriptUtil.alertAndMovePage(response, "휴면상태가 취소되었습니다", "/accountM/accounts");
+                    }else if(upCat.equals("해지신청") && (checkAc.getAc_status().equals("사용중") || checkAc.getAc_status().equals("휴면"))) {
+                        accountManageService.updateAcStatus(forAcSt);
+                        ScriptUtil.alertAndMovePage(response, "계좌가 해지되었습니다", "/accountM/accounts");
                     }else if(upCat.equals("삭제") && checkAc.getAc_status().equals("해지")){
                         // 주 계좌 불러오기 앞에서 2개 이상인지(장애상황) 체크하므로 index 0번 바로 사용 가능
                         List<Accounty> acBeforeMain = accountManageService.checkAcBeforeMain(membery.getMb_seq());
@@ -248,9 +257,7 @@ public class AccountManageController {
             List<Accounty> getAc = accountManageService.myAllAcBySeq(membery.getMb_seq());
 
             // 계좌 선택 및 계좌 별칭용 리스트
-            List<String> getAcNames = accountManageService.forAcNames(getAc, pd_name);
-
-            return getAcNames;
+            return accountManageService.forAcNames(getAc, pd_name);
         }
         return null;
     }
