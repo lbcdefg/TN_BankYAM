@@ -114,12 +114,9 @@ public class AdminController {
     }
 
     public HashMap<String, Object> typeMap(String pd_type){
-        System.out.println("타입맵에서 pd_type : " + pd_type);
         HashMap<String, Object> hashMap = new HashMap<>();
         if(pd_type.length() != 0) {
             hashMap.put("pd_type", pd_type);
-        }else{
-            hashMap.put("pd_type", null);
         }
         return hashMap;
     }

@@ -318,7 +318,7 @@
     text-align: center;
 }
 
-.jobs_search_field button, input{
+.jobs_search_field button, .jobs_search_field input{
     margin: 0;
     font-family: inherit;
     font-size: 100%;
