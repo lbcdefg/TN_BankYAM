@@ -30,12 +30,17 @@ public class AccountyServiceImpl implements AccountyService{
 
     @Override
     public void transferPlusS(Transactions transactions) {
+
         if (transactions.getTr_after_balance() >= 0) {
             mapper.transferMinus(transactions);
             mapper.transferPlus(transactions);
 
             transactions.setTr_type("송금");
             transactionsMapper.insertTrLog(transactions);
+
+
+
+
 
             transactions.setTr_type("입금");
             transactions.setTr_after_balance(mapper.selectAccInfo(transactions.getTr_other_accnum()).getAc_balance());
@@ -55,6 +60,7 @@ public class AccountyServiceImpl implements AccountyService{
 
     @Override
     public List<Accounty> findAccByMemberId(long ac_mb_seq) {
+
         return mapper.findAccByMemberId(ac_mb_seq);
     }
 

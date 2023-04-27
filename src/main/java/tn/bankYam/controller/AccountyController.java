@@ -1,6 +1,6 @@
 package tn.bankYam.controller;
 
-import net.sf.json.JSONArray;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,11 +15,7 @@ import tn.bankYam.service.AccountyService;
 import tn.bankYam.service.MemberyService;
 import tn.bankYam.service.TransactionService;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -70,14 +66,16 @@ public class AccountyController {
     @PostMapping("transfer_chk")
     public String transferChk(Model model, HttpSession session, Accounty accounty, Transactions transactions, String ac_pwd){
         Membery membery = (Membery)session.getAttribute("membery");
+
         Accounty otherBankyamInfo = accountyService.selectAccInfoS(transactions.getTr_other_accnum());
 
-        if(otherBankyamInfo !=null) {
+        if(otherBankyamInfo != null) {
             Membery membery1 = memberyService.findBySeq(otherBankyamInfo.getAc_mb_seq());
             otherBankyamInfo.setMembery(membery1);
             transactions.setOtherAccount(otherBankyamInfo);
             System.out.println("               ");
-        }else{
+        }else if(!transactions.getTr_other_bank().equals("뱅크얌")){
+
             System.out.println("타행입니다");
         }
         System.out.println(otherBankyamInfo);
@@ -89,7 +87,7 @@ public class AccountyController {
 
     //계좌이체
     @PostMapping ("transfer_ok")
-    public String transferOk(Model model, HttpSession session, String ac_pwd,Transactions transactions){
+    public String transferOk(Model model, HttpSession session, String ac_pwd, Transactions transactions){
         Membery membery = (Membery)session.getAttribute("membery");
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
         //hashMap.put("tr_seq", transactions.getTr_seq());
@@ -118,6 +116,10 @@ public class AccountyController {
         model.addAttribute("transactions",transactions);
 
         accountyService.transferPlusS(transactions);
+
+
+
+
 
         return "receipt";
     }
