@@ -46,7 +46,7 @@
     </resultMap>
 
     <select id="selectAccNum" resultType="Accounty" parameterType="long">
-        SELECT AC_SEQ,AC_MAIN,AC_BALANCE FROM ACCOUNTY A
+        SELECT * FROM ACCOUNTY A
         JOIN MEMBERY M
         ON A.AC_MB_SEQ = M.MB_SEQ
         WHERE M.MB_SEQ = #{mb_seq} AND A.AC_STATUS='사용중' AND A.AC_PD_SEQ=1

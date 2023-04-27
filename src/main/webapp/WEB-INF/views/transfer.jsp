@@ -43,7 +43,6 @@
                 <th scope="row">입금하실 은행</th>
                 <td>
                     <select name="tr_other_bank" id="tr_other_bank">
-                        <option value="">은행선택</option>
                         <option value="뱅크얌">뱅크얌</option>
                         <option value="국민은행">국민은행</option>
                         <option value="우리은행">우리은행</option>
@@ -59,7 +58,7 @@
             <tr>
                 <th scope="row">입금 계좌번호</th>
                 <td>
-                    <input class="transfer-input" type="number" placeholder="숫자만 입력해주세요" name="tr_other_accnum" id="nuChk">
+                    <input class="transfer-input" type="number" placeholder="숫자만 입력해주세요" value=${tr_other_accnum} name="tr_other_accnum" id="nuChk">
                     <span id="alert-notnull" style="display: none;"></span>
                     <span id="alert-null" style="display: none; color: #d92742; font-weight: bold; ">필수 입력 값입니다</span>
                 </td>

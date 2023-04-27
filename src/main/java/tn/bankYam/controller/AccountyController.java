@@ -4,11 +4,9 @@ package tn.bankYam.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import tn.bankYam.dto.Accounty;
+import tn.bankYam.dto.Friend;
 import tn.bankYam.dto.Membery;
 import tn.bankYam.dto.Transactions;
 import tn.bankYam.service.AccountyService;
@@ -41,7 +39,25 @@ public class AccountyController {
 
     //계좌이체 창
     @GetMapping("transfer")
-    public String transfer(Model model, HttpSession session){
+    public String transfer(Model model, HttpSession session,  long f_mb_seq){
+
+        f_mb_seq = 6;
+
+        if(f_mb_seq > 0){
+            List<Accounty> tempAccounty = accountyService.selectAccNumS(f_mb_seq);
+            Accounty accounty = new Accounty();
+
+            for(Accounty acc: tempAccounty){
+                if(acc.getAc_main().equals("주")){
+                    accounty = acc;
+                }
+            }
+            model.addAttribute("tr_other_accnum", accounty.getAc_seq());
+
+        }else{
+            model.addAttribute("tr_other_accnum", "");
+        }
+
         Membery membery = (Membery)session.getAttribute("membery");
         List<Accounty> accList = accountyService.selectAccNumS(membery.getMb_seq());
         for(int i = 0; i < accList.size(); i++){
@@ -51,6 +67,7 @@ public class AccountyController {
         }
 
         //로그인한 계정에 대한 계좌 리스트
+
         model.addAttribute("accList", accList);
         return "transfer";
     }
@@ -114,8 +131,9 @@ public class AccountyController {
         model.addAttribute("tr_date", hashMap.get("tr_date"));
         model.addAttribute("tr_after_balance", trAcBal);
         model.addAttribute("transactions",transactions);
-
+        accountyService.transferMinusS(transactions);
         accountyService.transferPlusS(transactions);
+
 
 
 
