@@ -1,6 +1,6 @@
 
 $("#wrap").scrollTop($("#wrap")[0].scrollHeight);
-const modal = document.querySelector('.modal');
+const modal = document.querySelector('.modal-member-add');
 const btnOpenPopup = document.querySelector('.btn-open-popup');
 const btnClosePopup = document.querySelector('.modal-close');
 
@@ -18,6 +18,10 @@ $(document).ready(function(){
         $("#fr-" + checkedId).attr("style", "background-color:yellow");
     });
 });
+
+function updateChatName(name){
+    alert(name);
+}
 
 /**
  * web socket
@@ -134,8 +138,8 @@ function send(){
 	msg.value ='';
 }
 
-function outChat(){
-    if(confirm("현재 채팅창에서 퇴장하시겠습니까? 대화내용은 모두 사라집니다.")){
+function outChat(res){
+    if(res){
         data.cc_cr_seq = cr_seq;
 		data.cc_mb_seq = mb_seq;
 		data.type = "deleteChat";
@@ -154,7 +158,7 @@ function inChat(){
 }
 setTimeout(function() {
     inChat();
-}, 1000);
+}, 100);
 function chatOpen(roomNumber){
     window.open('room?cr_seq='+roomNumber, '', 'width=365, height=550');
 }
@@ -229,12 +233,14 @@ function handleFileUpload(files) {
     //파일의 길이만큼 반복하며 formData에 셋팅해준다.
     var megaByte = 1024*1024;
     for (var i = 0; i < files.length; i++) {
-
+        fd = new FormData();
         console.log(files[i].name);
 
             fd.append("file", files[i], files[i].name);
             //파일 중복 업로드를 방지하기 위한 설정
             map.put(files[i].name, files[i].name);
+
+            submitFile();
 
     }
 }
@@ -258,7 +264,7 @@ $(document).ready(function() {
         handleFileUpload(files);
 
         //sendFileToServer(); //테스팅 20200108
-        submitFile(); //테스팅 20200108
+        //submitFile(); //테스팅 20200108
     });
     // div 영역빼고 나머지 영역에 드래그 원래색변경
     $(document).on('dragover', function(e) {
@@ -268,9 +274,5 @@ $(document).ready(function() {
     });
 });
 function fileUpload(files){
-    //DIV에 DROP 이벤트가 발생 했을 때 다음을 호출한다.
     handleFileUpload(files);
-
-    //sendFileToServer(); //테스팅 20200108
-    submitFile();
 }
