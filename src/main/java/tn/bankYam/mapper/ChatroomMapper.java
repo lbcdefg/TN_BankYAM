@@ -26,4 +26,5 @@ public interface ChatroomMapper {
 	void deleteOutChat(Chatmember chatmember);
 	void insertFile(Chatfile chatfile);
 	Chatfile selectFileBySeq(long cf_seq);
+	void updateRoomName(Chatroom chatroom);
 }

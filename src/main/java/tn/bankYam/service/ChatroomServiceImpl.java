@@ -173,7 +173,7 @@ public class ChatroomServiceImpl implements ChatroomService{
 		Files.write(uploadPath, file.getBytes());
 
 		//file.transferTo(new File(savedPath));
-		savedPath=savedPath.substring(savedPath.lastIndexOf("/file"));
+		//savedPath=savedPath.substring(savedPath.lastIndexOf("/file"));
 		//file.transferTo(new File(savedPath)); // 실제로 로컬에 uuid를 파일명으로 저장
 
 		Chatfile chatfile = new Chatfile();
@@ -188,6 +188,11 @@ public class ChatroomServiceImpl implements ChatroomService{
 	@Override
 	public Chatfile selectFileBySeqS(long cf_seq) {
 		return chatroomMapper.selectFileBySeq(cf_seq);
+	}
+
+	@Override
+	public void updateRoomNameS(Chatroom chatroom) {
+		chatroomMapper.updateRoomName(chatroom);
 	}
 
 

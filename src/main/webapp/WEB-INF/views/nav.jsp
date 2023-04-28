@@ -50,6 +50,13 @@
             </div>
             <div class="nav-header-1">
             <ul class="nav-menu">
+                 <li class="nav-menu-item menu-show" id="nav-post">
+                    <a href="#">상품</a>
+                    <div class="nav-post-box">
+
+                        <a class="hidden-a" href="/accountM/accounts">계좌관리</a>
+                    </div>
+                </li>
                 <li class="nav-menu-item menu-show" id="nav-post">
                     <a href="#">뱅킹</a>
                     <div class="nav-post-box">

@@ -130,4 +130,5 @@
         </if>
         ) GROUP BY PD_NAME) AND PD_DEL='X'
     </select>
+
 </mapper>

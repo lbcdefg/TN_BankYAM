@@ -52,7 +52,7 @@
     <select id="selectChatRoom" resultMap="chatroom" parameterType="map">
         SELECT CR_SEQ, CR_NAME, CR_RDATE, CR_UDATE, CC_CR_SEQ, CC_CONTENT, CC_RDATE,
         TO_CHAR(CC_RDATE, 'YYYY-MM-DD') CC_RDATE_DAY, TO_CHAR(CC_RDATE, 'HH24:MI:SS') CC_RDATE_TIME,
-        (SELECT COUNT(*) FROM CHATSTATUS JOIN CHATCONTENT ON CS_CC_SEQ=CC_SEQ WHERE CC_CR_SEQ=CR_SEQ GROUP BY CC_CR_SEQ) STATUS_COUNT
+        (SELECT COUNT(*) FROM CHATSTATUS JOIN CHATCONTENT ON CS_CC_SEQ=CC_SEQ WHERE CC_CR_SEQ=CR_SEQ AND CS_MB_SEQ=#{mb_seq} GROUP BY CC_CR_SEQ) STATUS_COUNT
         FROM CHATROOM CR
         LEFT JOIN
         (SELECT CT.CC_CR_SEQ, CT.CC_CONTENT, CT.CC_RDATE
@@ -166,4 +166,7 @@
     <select id="selectFileBySeq" resultType="Chatfile" parameterType="long">
         SELECT * FROM CHATFILE WHERE CF_SEQ=#{cf_seq}
     </select>
+    <update id="updateRoomName" parameterType="Chatroom">
+        UPDATE CHATROOM SET CR_NAME=#{cr_name} WHERE CR_SEQ=#{cr_seq}
+    </update>
 </mapper>
