@@ -76,23 +76,22 @@
             <div class="jobs_search_box">
                 <strong>상품추가</strong>
                 <div class="jobs_search_field">
-                    <form name="f" action="/list/" method="post">
+                    <form name="f" action="/admin/addProduct_ok" method="post">
                         <div class="field1" style="margin-top:10px;">
-                            <input type="text" placeholder="유형" />
+                            <input name="pd_type" type="text" placeholder="유형" />
                         </div>
                         <div class="field2" style="margin-top:10px;">
-                            <input type="text" placeholder="이름" />
+                            <input name="pd_name" type="text" placeholder="이름" />
                         </div>
                         <div class="field3" style="margin-top:10px;">
-                            <input type="text" placeholder="추가이율" />
+                            <input name="pd_addrate" placeholder="추가이율" />
                         </div>
                         <div class="field3" style="margin-top:10px;">
-                            <input type="text" placeholder="설명" />
+                            <input name="pd_info" placeholder="설명" />
                         </div>
                         <button class="search-btn" type="submit" id="search" title="검색하기">추가</button>
                     </form>
                 </div>
-                <button class="reset-btn" onclick="onreset_fun()" title="검색조건 초기화">초기화</button>
             </div>
             </c:if>
         </div>

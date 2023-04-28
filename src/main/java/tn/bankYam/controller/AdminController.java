@@ -7,10 +7,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import tn.bankYam.dto.Transactions;
 import tn.bankYam.service.AccountyService;
 import java.io.IOException;
@@ -138,6 +135,15 @@ public class AdminController {
             return "profile";
         }
     }
+
+    @PostMapping("addProduct_ok")
+    public String addProduct_ok(Product product){
+        product.setPd_rate(crawling());
+        product.setPd_del("X");
+        accountyService.insertPd(product);
+        return "redirect:/member/profile";
+    }
+
     @GetMapping("delete_pd_ok")
     public String delete_pd_ok(@RequestParam("pd_seq") long pd_seq, Product product){
         product.setPd_seq(pd_seq);
