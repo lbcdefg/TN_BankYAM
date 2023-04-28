@@ -152,7 +152,7 @@
                                 <td class="profile-acs-list-20">${pd.pd_name}</td>
                                 <td class="profile-acs-list-8"><span class="acn" ><fmt:formatNumber value="${pd.pd_rate+pd.pd_addrate}" pattern=".0"/></span></td>
                                 <td class="profile-acs-list-10">${pd.pd_info}</td>
-                                <td class="profile-acs-list-9">${pd.pd_del}</td>
+                                <td class="profile-acs-list-9"><a href="/admin/delete_pd_ok?pd_seq=${pd.pd_seq}" style="text-decoration:none;color:lightgray;">삭제</a></td>
                             </tr>
                         </c:forEach>
                     </table>

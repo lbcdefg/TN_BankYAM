@@ -138,4 +138,10 @@ public class AdminController {
             return "profile";
         }
     }
+    @GetMapping("delete_pd_ok")
+    public String delete_pd_ok(@RequestParam("pd_seq") long pd_seq, Product product){
+        product.setPd_seq(pd_seq);
+        accountyService.updatePdXdate(product);
+        return "redirect:/member/profile";
+    }
 }
