@@ -14,8 +14,9 @@ import java.util.List;
 public interface AccountyMapper {
     List<Accounty> selectAccNum(long ac_seq);
     Accounty selectAccInfo(long ac_seq);
-    void transferPlus(Transactions transactions);
-    void transferMinus(Transactions transactions);
+    void getPaid(Transactions transactions);
+    void transfer(Transactions transactions);
+    List<Accounty>selectOtherAccNum(long ac_seq);
     List<Accounty> findAccByMemberId(long ac_mb_seq);
     Product findPdBySeq(long seq);
     void insertAcc(HashMap<String, Object> map);

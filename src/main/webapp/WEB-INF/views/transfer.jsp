@@ -17,7 +17,7 @@
             <tr>
                 <th scope="row">출금 계좌</th>
                 <td>
-                    <select id="ac_seq"name="tr_ac_seq" onchange="checkBalance()">
+                    <select id="ac_seq"name="ac_seq" onchange="checkBalance()">
                     <option value="">계좌 선택</option>
                         <c:forEach var="acc" items="${accList}">
                             <option value="${acc.ac_seq}">${acc.ac_seq}</option>

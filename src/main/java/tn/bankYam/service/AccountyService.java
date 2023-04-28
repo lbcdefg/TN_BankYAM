@@ -10,8 +10,9 @@ import java.util.List;
 public interface AccountyService {
     List<Accounty> selectAccNumS(long ac_seq);
     Accounty selectAccInfoS(long ac_seq);
-    void transferPlusS(Transactions transactions);
-    void transferMinusS(Transactions transactions);
+    void getPaidS(Transactions transactions);
+    void transferS(Transactions transactions);
+    List<Accounty>selectOtherAccNumS(long ac_seq);
     List<Accounty> findAccByMemberId(long ac_mb_seq);
     Product findPdBySeq(long seq);
     void insertAcc(HashMap<String, Object> map);

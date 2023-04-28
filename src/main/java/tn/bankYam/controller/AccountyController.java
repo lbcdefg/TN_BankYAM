@@ -12,8 +12,11 @@ import tn.bankYam.dto.Transactions;
 import tn.bankYam.service.AccountyService;
 import tn.bankYam.service.MemberyService;
 import tn.bankYam.service.TransactionService;
+import tn.bankYam.utils.ScriptUtil;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,25 +42,23 @@ public class AccountyController {
 
     //계좌이체 창
     @GetMapping("transfer")
-    public String transfer(Model model, HttpSession session,  long f_mb_seq){
-
-        f_mb_seq = 6;
-
-        if(f_mb_seq > 0){
-            List<Accounty> tempAccounty = accountyService.selectAccNumS(f_mb_seq);
-            Accounty accounty = new Accounty();
-
-            for(Accounty acc: tempAccounty){
-                if(acc.getAc_main().equals("주")){
-                    accounty = acc;
-                }
-            }
-            model.addAttribute("tr_other_accnum", accounty.getAc_seq());
-
-        }else{
-            model.addAttribute("tr_other_accnum", "");
-        }
-
+    public String transfer(Model model, HttpSession session, Accounty accounty,HttpServletResponse response, long f_mb_seq) throws IOException {
+        //친구에게 계좌이체시에
+//        f_mb_seq = 6;
+//        if(f_mb_seq > 0){
+//            List<Accounty> tempAccounty = accountyService.selectAccNumS(f_mb_seq);
+//            Accounty accounty = new Accounty();
+//
+//            for(Accounty acc: tempAccounty){
+//                if(acc.getAc_main().equals("주")){
+//                    accounty = acc;
+//                }
+//            }
+//            model.addAttribute("tr_other_accnum", accounty.getAc_seq());
+//
+//        }else{
+//            model.addAttribute("tr_other_accnum", "");
+//        }
         Membery membery = (Membery)session.getAttribute("membery");
         List<Accounty> accList = accountyService.selectAccNumS(membery.getMb_seq());
         for(int i = 0; i < accList.size(); i++){
@@ -66,8 +67,7 @@ public class AccountyController {
             accList.get(i).setAc_pwd(accInfo.getAc_pwd());
         }
 
-        //로그인한 계정에 대한 계좌 리스트
-
+        model.addAttribute("tr_other_accnum", accounty.getAc_seq());
         model.addAttribute("accList", accList);
         return "transfer";
     }
@@ -81,20 +81,33 @@ public class AccountyController {
 
     //계좌이체 확인체크
     @PostMapping("transfer_chk")
-    public String transferChk(Model model, HttpSession session, Accounty accounty, Transactions transactions, String ac_pwd){
+    public String transferChk(Model model, HttpSession session,HttpServletResponse response, Accounty accounty, Transactions transactions, String ac_pwd) throws IOException{
         Membery membery = (Membery)session.getAttribute("membery");
+        Accounty myAccounty = accountyService.selectAccInfoS(accounty.getAc_seq());
 
-        Accounty otherBankyamInfo = accountyService.selectAccInfoS(transactions.getTr_other_accnum());
-
-        if(otherBankyamInfo != null) {
-            Membery membery1 = memberyService.findBySeq(otherBankyamInfo.getAc_mb_seq());
-            otherBankyamInfo.setMembery(membery1);
-            transactions.setOtherAccount(otherBankyamInfo);
-            System.out.println("               ");
-        }else if(!transactions.getTr_other_bank().equals("뱅크얌")){
-
-            System.out.println("타행입니다");
+        long otherAccNum = transactions.getTr_other_accnum();
+        System.out.println("myAccounty"+myAccounty);
+        Accounty otherBankyamInfo = accountyService.selectAccInfoS(otherAccNum);
+        if(ac_pwd.equals(myAccounty.getAc_pwd())){
+            System.out.println("db pwd = "+myAccounty.getAc_pwd());
+            if(otherBankyamInfo != null) {
+                Membery membery1 = memberyService.findBySeq(otherBankyamInfo.getAc_mb_seq());
+                otherBankyamInfo.setMembery(membery1);
+                transactions.setOtherAccount(otherBankyamInfo);
+                System.out.println("      otherBankyamInfo         "+otherBankyamInfo);
+            }else if(!transactions.getTr_other_bank().equals("뱅크얌")){
+                System.out.println("타행입니다");
+            } else if (otherBankyamInfo == null && transactions.getTr_other_bank().equals("뱅크얌")) {
+                ScriptUtil.alertAndBackPage(response, "존재하지않는 계좌입니다");
+            }
+        }else {
+            //if (5번이 아니라면)
+            ScriptUtil.alertAndBackPage(response, "올바른 비밀번호가 아닙니다");
+            //ac_pwd_check+1
+            //최대 5가되면 못들어오게 이체페이지
+            //5번이 되어버리면 자바스크립트로
         }
+
         System.out.println(otherBankyamInfo);
         model.addAttribute("transactions",transactions);
         model.addAttribute("otherAccount", otherBankyamInfo);
@@ -131,8 +144,8 @@ public class AccountyController {
         model.addAttribute("tr_date", hashMap.get("tr_date"));
         model.addAttribute("tr_after_balance", trAcBal);
         model.addAttribute("transactions",transactions);
-        accountyService.transferMinusS(transactions);
-        accountyService.transferPlusS(transactions);
+        accountyService.transferS(transactions);
+        accountyService.getPaidS(transactions);
 
 
 
