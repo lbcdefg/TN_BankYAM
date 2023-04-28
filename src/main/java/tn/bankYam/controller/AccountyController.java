@@ -45,7 +45,7 @@ public class AccountyController {
 
     //계좌이체 창
     @GetMapping("transfer")
-    public String transfer(Model model, HttpSession session, Accounty accounty, Transactions transactions){
+    public String transfer(Model model, HttpSession session){
         Membery membery = (Membery)session.getAttribute("membery");
         List<Accounty> accList = accountyService.selectAccNumS(membery.getMb_seq());
         for(int i = 0; i < accList.size(); i++){
@@ -66,24 +66,24 @@ public class AccountyController {
         return accounty;
     }
 
-    //계좌이체 확인
+    //계좌이체 확인체크
     @PostMapping("transfer_chk")
-    public String transferChk(Model model, HttpSession session, HttpServletRequest request, Transactions transactions, String ac_pwd){
+    public String transferChk(Model model, HttpSession session, Accounty accounty, Transactions transactions, String ac_pwd){
         Membery membery = (Membery)session.getAttribute("membery");
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("tr_ac_seq", transactions.getTr_ac_seq());
-        hashMap.put("ac_pwd", ac_pwd);
-        hashMap.put("tr_other_bank", transactions.getTr_other_bank());
-        hashMap.put("tr_amount", transactions.getTr_amount());
-        hashMap.put("tr_other_accnum", transactions.getTr_other_accnum());
-        hashMap.put("tr_msg", transactions.getTr_msg());
+        Accounty otherBankyamInfo = accountyService.selectAccInfoS(transactions.getTr_other_accnum());
 
-        model.addAttribute("tr_ac_seq", hashMap.get("tr_ac_seq"));
-        model.addAttribute("tr_other_bank", hashMap.get("tr_other_bank"));
-        model.addAttribute("tr_amount", hashMap.get("tr_amount"));
-        model.addAttribute("tr_other_accnum", hashMap.get("tr_other_accnum"));
-        model.addAttribute("tr_msg", hashMap.get("tr_msg"));
+        if(otherBankyamInfo !=null) {
+            Membery membery1 = memberyService.findBySeq(otherBankyamInfo.getAc_mb_seq());
+            otherBankyamInfo.setMembery(membery1);
+            transactions.setOtherAccount(otherBankyamInfo);
+            System.out.println("               ");
+        }else{
+            System.out.println("타행입니다");
+        }
+        System.out.println(otherBankyamInfo);
         model.addAttribute("transactions",transactions);
+        model.addAttribute("otherAccount", otherBankyamInfo);
+        model.addAttribute("membery",membery);
         return "confirmation";
     }
 

@@ -107,6 +107,7 @@
     margin-left: 5%;
     width: 80%;
     height: auto;
+    min-height:700px;
     display: flex;
     transition:all 0.5s;
 }

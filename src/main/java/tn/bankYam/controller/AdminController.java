@@ -7,10 +7,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import tn.bankYam.dto.Transactions;
 import tn.bankYam.service.AccountyService;
 import java.io.IOException;
@@ -49,8 +46,8 @@ public class AdminController {
         }
         return null;
     }
-    @GetMapping("int_update_ok")
-    public String int_update_ok(Transactions transactions){
+
+    public void int_update_ok(Transactions transactions){
         List<Accounty> accountyList = accountyService.findAccounty();
         for(Accounty account: accountyList) {
             String day = account.getAc_udate().toString().substring(account.getAc_udate().toString().lastIndexOf("-") + 1);
@@ -60,31 +57,30 @@ public class AdminController {
             int nowMM = now.getMonthValue();
             int udateDD = Integer.parseInt(day);
             if(nowDD  == udateDD){
-                account.setAc_balance((long) (account.getAc_balance() * (1 + (account.getProduct().getPd_rate()+account.getProduct().getPd_addrate() / 100)/12)));
+                account.setAc_balance((long) (account.getAc_balance() * (1 + ((account.getProduct().getPd_rate()+account.getProduct().getPd_addrate()) / 100)/12)));
                 List<String> productList = accountyService.findDepositPd();
                 for (String product : productList) {
                     if (product.equals(account.getProduct().getPd_name())) {
-                        Product pd = accountyService.findDepositPdVal(account.getProduct().getPd_name()+account.getProduct().getPd_addrate());
+                        Product pd = accountyService.findDepositPdVal(account.getProduct().getPd_name());
                         account.setAc_pd_seq(pd.getPd_seq());
                         accountyService.interest(account);
                         transactions.setTr_ac_seq(account.getAc_seq());
                         transactions.setTr_other_accnum(1234567891);
                         transactions.setTr_other_bank("뱅크얌");
                         transactions.setTr_type("입금");
-                        transactions.setTr_amount((long) (account.getAc_balance() * (account.getProduct().getPd_rate()+account.getProduct().getPd_addrate() / 100)/12));
-                        transactions.setTr_after_balance((long) (account.getAc_balance() * (1 + (account.getProduct().getPd_rate()+account.getProduct().getPd_addrate() / 100)/12)));
+                        transactions.setTr_amount((long) (account.getAc_balance() * ((account.getProduct().getPd_rate()+account.getProduct().getPd_addrate()) / 100)/12));
+                        transactions.setTr_after_balance((account.getAc_balance()));
                         transactions.setTr_msg("뱅크얌" +nowMM+"월 이자");
                         transactionService.insertTrLog(transactions);
                     }
                 }
             }
         }
-        return "redirect:/member/profile";
     }
 
 
     @GetMapping("rate_update_ok")
-    public String rate_update_ok(Model model){
+    public String rate_update_ok(Model model,Transactions transactions){
         Float rate = crawling();
         System.out.println("최종금리: " + rate);
         List<String> list = accountyService.findDepositPd();
@@ -102,8 +98,9 @@ public class AdminController {
                 accountyService.insertPd(newProduct);
             }
         }
+        int_update_ok(transactions);
         model.addAttribute("rate",rate);
-        return "profile";
+        return "redirect:/member/profile";
     }
 
     @GetMapping("test2")
@@ -114,12 +111,9 @@ public class AdminController {
     }
 
     public HashMap<String, Object> typeMap(String pd_type){
-        System.out.println("타입맵에서 pd_type : " + pd_type);
         HashMap<String, Object> hashMap = new HashMap<>();
         if(pd_type.length() != 0) {
             hashMap.put("pd_type", pd_type);
-        }else{
-            hashMap.put("pd_type", null);
         }
         return hashMap;
     }
@@ -140,5 +134,20 @@ public class AdminController {
             model.addAttribute("productList", selectList);
             return "profile";
         }
+    }
+
+    @PostMapping("addProduct_ok")
+    public String addProduct_ok(Product product){
+        product.setPd_rate(crawling());
+        product.setPd_del("X");
+        accountyService.insertPd(product);
+        return "redirect:/member/profile";
+    }
+
+    @GetMapping("delete_pd_ok")
+    public String delete_pd_ok(@RequestParam("pd_seq") long pd_seq, Product product){
+        product.setPd_seq(pd_seq);
+        accountyService.updatePdXdate(product);
+        return "redirect:/member/profile";
     }
 }

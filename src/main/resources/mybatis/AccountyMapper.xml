@@ -53,8 +53,10 @@
     </select>
 
     <select id="selectAccInfo" resultType="Accounty" parameterType="long">
-        SELECT * FROM ACCOUNTY A JOIN MEMBERY M ON A.AC_MB_SEQ=M.MB_SEQ
+        SELECT A.AC_SEQ,M.MB_NAME,A.AC_BALANCE,A.AC_MB_SEQ FROM ACCOUNTY A JOIN MEMBERY M
+        ON A.AC_MB_SEQ=M.MB_SEQ
         WHERE A.AC_SEQ=#{ac_seq}
+        AND AC_STATUS='사용중'
     </select>
 
     <update id="transferPlus" parameterType="Transactions">
@@ -119,9 +121,10 @@
     </update>
     <select id="test" parameterType="hashmap" resultType="Product">
        SELECT * FROM PRODUCT WHERE PD_NAME IN (SELECT PD_NAME FROM(SELECT * FROM PRODUCT WHERE PD_DEL='X'
-        <if test="#{pd_type} != null">
+        <if test="pd_type != null">
             AND PD_TYPE= #{pd_type}
         </if>
         ) GROUP BY PD_NAME) AND PD_DEL='X'
     </select>
+
 </mapper>

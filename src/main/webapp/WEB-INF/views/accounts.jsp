@@ -68,10 +68,10 @@
                             </c:if>
                             <c:if test="${ac.ac_main != '주'}">
                                 <c:if test="${ac.ac_status == '사용중'}">
-                                    <a class="acs-click" onclick="">휴면신청</a>
+                                    <a class="acs-click" onclick="acCheck('휴면신청',${ac.ac_seq})">휴면신청</a>
                                 </c:if>
                                 <c:if test="${ac.ac_status == '휴면'}">
-                                    <a class="acs-click" onclick="">휴면취소</a>
+                                    <a class="acs-click" onclick="acCheck('휴면취소',${ac.ac_seq})">휴면취소</a>
                                 </c:if>
                             </c:if>
                         </td>
@@ -81,7 +81,7 @@
                         </c:if>
                         <c:if test="${ac.ac_main != '주'}">
                             <c:if test="${ac.ac_status == '사용중' or ac.ac_status == '휴면'}">
-                                <a class="acs-click" onclick="">해지신청</a>
+                                <a class="acs-click" onclick="acCheck2('해지신청','${bal}',${ac.ac_seq}, ${ac.ac_balance})">해지신청</a>
                             </c:if>
                         </c:if>
                         </td>
@@ -132,14 +132,14 @@
                         <td class="acs-list-17"><span class="acn">${ac.ac_name}</span><div class="acs-nameM-btnDiv"><button type="button" class="acs-nameM-btn" onclick="modifyName('${ac.ac_name}',${ac.ac_seq})">수정</button></div></td>
                         <td class="acs-list-11">
                             <c:if test="${ac.ac_status == '해지'}">
-                                <a class="acs-click" onclick="reUseCheck('복구신청',${ac.ac_seq})">복구신청</a>
+                                <a class="acs-click" onclick="acCheck('복구신청',${ac.ac_seq})">복구신청</a>
                             </c:if>
                             <c:if test="${ac.ac_status == '복구중'}">
-                                <a class="acs-click" onclick="reUseCheck('복구취소',${ac.ac_seq})">복구취소</a>
+                                <a class="acs-click" onclick="acCheck('복구취소',${ac.ac_seq})">복구취소</a>
                             </c:if>
                         </td>
                         <td class="acs-list-10">${ac.ac_status}</td>
-                        <td class="acs-list-10"><a class="acs-click" onclick="deleteAc('${ac.ac_status}','${bal}',${ac.ac_seq}, ${ac.ac_balance})">계좌삭제</a></td>
+                        <td class="acs-list-10"><a class="acs-click" onclick="acCheck2('${ac.ac_status}','${bal}',${ac.ac_seq}, ${ac.ac_balance})">계좌삭제</a></td>
                         <td class="acs-list-20">${ac.ac_xdate}</td>
                         <td class="acs-list-10">${ac.ac_rdate}</td>
                     </tr>
@@ -153,7 +153,7 @@
                 <h2 style="font-size: 30px; color:#F7F3EF; margin-bottom:10%">계좌별칭 설정</h2>
                 <form name="acnf" method="post" action="accounts_nameC">
                     <input type="text" class="ac-name" name="ac_name" maxlength="15" spellcheck="false" autocomplete='off'/>
-                    <input type="hidden" class="ac-receptor"/>
+                    <input type="hidden" class="ac-receptor1"/>
                     <input type="hidden" class="ac-receptor2" name="ac_seq"/>
                     &nbsp;
                     <input type="button" class="acs-nameMA-btn acs-click" onclick="modifySubmit()" value="변경"/>&nbsp;
@@ -169,14 +169,12 @@
             <div class="acs-psM-body">
                 <h2 style="font-size: 30px; color:#F7F3EF; margin-bottom:10%">계좌 비밀번호 변경</h2>
                 <div class="acs-psM-inputGroup">
-                    <input type="hidden" class="ac-receptor"/>
                     <div style="width:100%; height:30px">
                         <span class="fontS-15 color-F7F3EF">기존 비밀번호 </span>&nbsp;
                         <input type="password" pattern="[0-9]*" class="ac-ps" maxlength="4" spellcheck="false" autocomplete='off'/>&nbsp;
                         <input type="button" class="acs-psMA-btn acs-click" onclick="psCheck()" value="확인"/>
                     </div>
                     <div class="acs-psM-ps1"></div>
-                    <input type="hidden" class="ac-receptor2" name="ac_seq"/>
                     <form name="acpf" method="post" action="accounts_psChange">
                         <div style="width:100%; height:30px">
                             <span class="fontS-15 color-F7F3EF">신규 비밀번호 </span>&nbsp;
@@ -188,7 +186,7 @@
                             <input type="password" pattern="[0-9]*" class="ac-newPs-check" maxlength="4" spellcheck="false" autocomplete='off' disabled/>
                         </div>
                         <div class="acs-psM-ps3"></div>
-                        <input type="hidden" class="ac-receptor3" name="ac_seq"/>
+                        <input type="hidden" class="ac-receptor" name="ac_seq"/>
                         <div class="acs-psM-btnGroup">
                             <input type="button" class="acs-psMA-btn acs-click" onclick="psSubmit()" value="변경"/>&nbsp;
                             <input type="button" class="acs-psMC-btn acs-click" onclick="psCancel()" value="취소">
@@ -204,14 +202,17 @@
             <div class="acs-psC-body">
                 <h2 style="font-size: 30px; color:#F7F3EF; margin-bottom:10%">계좌 비밀번호 확인</h2>
                 <div class="acs-psC-inputGroup">
-                    <input type="hidden" class="ac-receptor"/>
-                    <input type="hidden" class="ac-receptor2" name="ac_seq"/>
-                    <div style="width:100%; height:60px">
+                    <input type="hidden" class="ac-receptor1"/>
+                    <input type="hidden" class="ac-receptor2"/>
+                    <div style="width:100%; height:30px">
                         <span class="fontS-15 color-F7F3EF">기존 비밀번호 </span>&nbsp;
                         <input type="password" pattern="[0-9]*" class="ac-ps-check" maxlength="4" spellcheck="false" autocomplete='off'/>&nbsp;
-                        <input type="button" class="acs-psC-btn acs-click" onclick="psCheckCheck()" value="확인"/>
+                        <input type="button" class="acs-psC-btn acs-click" onclick="psCCheck()" value="확인"/>
                     </div>
                     <div class="acs-psC-ps1"></div>
+                    <div class="acs-psC-btnGroup">
+                        <input type="button" class="acs-psCC-btn acs-click" onclick="psCCancel()" value="취소">
+                    </div>
                 </div>
             </div>
         </div>
