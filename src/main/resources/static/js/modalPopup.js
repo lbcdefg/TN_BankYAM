@@ -35,7 +35,6 @@ var action_popup = {
         }else{
             $(".type-prompt .btn_ok").on("click", function(){
                 $(this).unbind("click");
-                alert($("#prompt_input").val());
                 callback($("#prompt_input").val());
                 action_popup.close(this);
             });

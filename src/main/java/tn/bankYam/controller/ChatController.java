@@ -158,92 +158,17 @@ public class ChatController {
 	public ResponseEntity<Resource> downloadFile(long cf_seq, HttpServletRequest request) throws Exception {
 		Chatfile fileInfo = chatroomService.selectFileBySeqS(cf_seq);
 
-		//UrlResource resource = new UrlResource(request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+fileInfo.getCf_savedpath());
+		UrlResource resource = new UrlResource("file:" + fileInfo.getCf_savedpath());
 
 		String encodedFileName = UriUtils.encode(fileInfo.getCf_orgnm(), StandardCharsets.UTF_8);
+		String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
 
-		// 파일 다운로드 대화상자가 뜨도록 하는 헤더를 설정해주는 것
-		// Content-Disposition 헤더에 attachment; filename="업로드 파일명" 값을 준다.
-		//String contentDisposition = "attachment; filename=\"" + file.getCf_orgnm() + "\"";
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,contentDisposition).body(resource);
+	}
 
-		//File file = resource.getFile();
-
-		String fileName = fileInfo.getCf_savednm();
-
-		//Path filePath = Paths.get(File.separatorChar + "static/file/upload", File.separatorChar + fileName);
-		//Resource resource = new InputStreamResource(getClass().getResourceAsStream(filePath.toString()));
-
-
-//		return ResponseEntity.ok()
-//				.header(HttpHeaders.CONTENT_DISPOSITION,fileInfo.getCf_orgnm())	//다운 받아지는 파일 명 설정
-//				.header(HttpHeaders.CONTENT_LENGTH, String.valueOf(file.length()))	//파일 사이즈 설정
-//				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_OCTET_STREAM.toString())	//바이너리 데이터로 받아오기 설정
-//				.body(resource);
-
-//		return ResponseEntity.ok()
-//				.contentType(MediaType.APPLICATION_OCTET_STREAM)
-//				.cacheControl(CacheControl.noCache())
-//				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName + "")
-//				.body(resource);
-
-//		String filePath = fileInfo.getCf_savednm();
-//
-//		// 파일을 읽어와 Resource 객체를 생성합니다.
-//		FileSystemResource resource = new FileSystemResource(filePath);
-//
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.add("Content-Disposition", "attachment; filename=" + fileInfo.getCf_orgnm());
-//
-//		return ResponseEntity.ok()
-//				.headers(headers)
-//				.contentLength(resource.contentLength())
-//				.contentType(MediaType.APPLICATION_OCTET_STREAM)
-//				.body(resource);
-
-//		String filePath = "classpath:static/css/join.css";
-//
-//		// 파일을 읽어와 Resource 객체를 생성합니다.
-//		ClassPathResource resource = new ClassPathResource(filePath);
-//
-//		HttpHeaders headers = new HttpHeaders();
-//		headers.add("Content-Disposition", "attachment; filename=join.css");
-//
-//		return ResponseEntity.ok()
-//				.headers(headers)
-//				.contentLength(resource.contentLength())
-//				.contentType(MediaType.APPLICATION_OCTET_STREAM)
-//				.body(resource);
-
-		String fileUrl = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+fileInfo.getCf_savedpath();
-		System.out.println("111111111111111111111111111111" + fileUrl);
-
-
-		// URL을 통해 파일을 다운로드하고, Resource 객체를 생성합니다.
-		byte[] fileBytes = IOUtils.toByteArray(new URL(fileUrl).getFile());
-		ByteArrayResource resource = new ByteArrayResource(fileBytes);
-
-		System.out.println("fileBytes: " + fileBytes);
-
-		System.out.println("resource: " + resource);
-
-
-		String contentType = null;
-		try{
-			contentType=request.getServletContext().getMimeType(resource.getFile().getAbsolutePath());
-		}catch (IOException ie){
-			System.out.println(ie);
-		}
-
-		if(contentType == null){
-			contentType = "accplication/octet-stream";
-		}
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Content-Disposition", "attachment; filename="+fileInfo.getCf_orgnm());
-
-		return ResponseEntity.ok()
-				.contentType(MediaType.parseMediaType(contentType))
-				.headers(headers)
-				.contentLength(resource.contentLength())
-				.body(resource);
+	@GetMapping("updateName")
+	private String updateRoomName(Chatroom chatroom){
+		chatroomService.updateRoomNameS(chatroom);
+		return "redirect:room?cr_seq="+chatroom.getCr_seq();
 	}
 }

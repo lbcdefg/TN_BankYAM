@@ -25,4 +25,5 @@ public interface ChatroomService {
 	long outChat(Membery membery, long cr_seq);
 	long insertFileS(MultipartFile file) throws IOException;
 	Chatfile selectFileBySeqS(long cf_seq);
+	void updateRoomNameS(Chatroom chatroom);
 }

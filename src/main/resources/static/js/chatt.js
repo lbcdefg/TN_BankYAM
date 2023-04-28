@@ -19,8 +19,24 @@ $(document).ready(function(){
     });
 });
 
-function updateChatName(name){
-    alert(name);
+function updateChatName(cr_name){
+    var form = document.createElement("form");
+    form.setAttribute("action", "updateName");
+
+    var cr_seq_input = document.createElement("input");
+    cr_seq_input.setAttribute("type", "hidden");
+    cr_seq_input.setAttribute("name", "cr_seq");
+    cr_seq_input.setAttribute("value", cr_seq);
+    form.appendChild(cr_seq_input);
+
+    var cr_name_input = document.createElement("input");
+    cr_name_input.setAttribute("type", "hidden");
+    cr_name_input.setAttribute("name", "cr_name");
+    cr_name_input.setAttribute("value", cr_name);
+    form.appendChild(cr_name_input);
+
+    document.body.appendChild(form);
+    form.submit();
 }
 
 /**
@@ -106,10 +122,11 @@ ws.onmessage = function(msg){
             talk.innerHTML += item;
             talk.scrollTop=talk.scrollHeight;//스크롤바 하단으로 이동
             readContent(cr_seq);
-        }else{
-            readContent(cr_seq);
         }
     }
+    setTimeout(function() {
+        readContent(cr_seq);
+    }, 100);
 }
 
 
