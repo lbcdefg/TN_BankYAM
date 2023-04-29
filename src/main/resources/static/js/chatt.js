@@ -2,7 +2,7 @@
 $("#wrap").scrollTop($("#wrap")[0].scrollHeight);
 const modal = document.querySelector('.modal-member-add');
 const btnOpenPopup = document.querySelector('.btn-open-popup');
-const btnClosePopup = document.querySelector('.modal-close');
+const btnClosePopup = document.querySelector('.add-close');
 
 btnOpenPopup.addEventListener('click', () => {
     modal.classList.toggle('show');
