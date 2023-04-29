@@ -12,6 +12,8 @@ public interface AccountyService {
     Accounty selectAccInfoS(long ac_seq);
     void getPaidS(Transactions transactions);
     void transferS(Transactions transactions);
+    void  updateAcPwdCheckS(long ac_seq);
+    void updateAcPwdWrongS(long ac_seq);
     List<Accounty>selectOtherAccNumS(long ac_seq);
     List<Accounty> findAccByMemberId(long ac_mb_seq);
     Product findPdBySeq(long seq);

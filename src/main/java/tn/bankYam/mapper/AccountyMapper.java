@@ -16,6 +16,8 @@ public interface AccountyMapper {
     Accounty selectAccInfo(long ac_seq);
     void getPaid(Transactions transactions);
     void transfer(Transactions transactions);
+    void  updateAcPwdCheck(long ac_seq);
+    void updateAcPwdWrong(long ac_seq);
     List<Accounty>selectOtherAccNum(long ac_seq);
     List<Accounty> findAccByMemberId(long ac_mb_seq);
     Product findPdBySeq(long seq);

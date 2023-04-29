@@ -42,7 +42,7 @@ public class AccountyController {
 
     //계좌이체 창
     @GetMapping("transfer")
-    public String transfer(Model model, HttpSession session, Accounty accounty,HttpServletResponse response, long f_mb_seq) throws IOException {
+    public String transfer(Model model,HttpSession session, Accounty accounty,HttpServletResponse response, long f_mb_seq) throws IOException {
         //친구에게 계좌이체시에
 //        f_mb_seq = 6;
 //        if(f_mb_seq > 0){
@@ -66,6 +66,9 @@ public class AccountyController {
             accList.get(i).setAc_balance(accInfo.getAc_balance());
             accList.get(i).setAc_pwd(accInfo.getAc_pwd());
         }
+        if(accounty.getAc_pwd_check()==5){
+            ScriptUtil.alertAndBackPage(response,"비밀번호를 재설정해야합니다.");
+        }
 
         model.addAttribute("tr_other_accnum", accounty.getAc_seq());
         model.addAttribute("accList", accList);
@@ -83,22 +86,25 @@ public class AccountyController {
     @PostMapping("transfer_chk")
     public String transferChk(Model model, HttpSession session,HttpServletResponse response, Accounty accounty, Transactions transactions, String ac_pwd) throws IOException{
         Membery membery = (Membery)session.getAttribute("membery");
-        Accounty myAccounty = accountyService.selectAccInfoS(accounty.getAc_seq());
-
         long otherAccNum = transactions.getTr_other_accnum();
-        System.out.println("myAccounty"+myAccounty);
+        Accounty myAccounty = accountyService.selectAccInfoS(accounty.getAc_seq());
         Accounty otherBankyamInfo = accountyService.selectAccInfoS(otherAccNum);
+        ac_pwd = accounty.getAc_pwd();
+
+        //입력 비밀번호와 db 비밀번호가 같은지
         if(ac_pwd.equals(myAccounty.getAc_pwd())){
-            System.out.println("db pwd = "+myAccounty.getAc_pwd());
+            transactions.setTr_ac_seq(myAccounty.getAc_seq());
+            //상대방이 뱅크얌 계좌주일때
             if(otherBankyamInfo != null) {
                 Membery membery1 = memberyService.findBySeq(otherBankyamInfo.getAc_mb_seq());
                 otherBankyamInfo.setMembery(membery1);
                 transactions.setOtherAccount(otherBankyamInfo);
-                System.out.println("      otherBankyamInfo         "+otherBankyamInfo);
+            //상대방이 뱅크얌 계좌주가 아닐때
             }else if(!transactions.getTr_other_bank().equals("뱅크얌")){
                 System.out.println("타행입니다");
+                //입금은행 뱅크얌 선택 후 올바른 계좌번호를 입력하지 않았을 때
             } else if (otherBankyamInfo == null && transactions.getTr_other_bank().equals("뱅크얌")) {
-                ScriptUtil.alertAndBackPage(response, "존재하지않는 계좌입니다");
+                ScriptUtil.alertAndBackPage(response, "뱅크얌 계좌가 아닙니다");
             }
         }else {
             //if (5번이 아니라면)
@@ -108,7 +114,7 @@ public class AccountyController {
             //5번이 되어버리면 자바스크립트로
         }
 
-        System.out.println(otherBankyamInfo);
+
         model.addAttribute("transactions",transactions);
         model.addAttribute("otherAccount", otherBankyamInfo);
         model.addAttribute("membery",membery);

@@ -57,6 +57,16 @@ public class AccountyServiceImpl implements AccountyService{
     }
 
     @Override
+    public void updateAcPwdCheckS(long ac_seq) {
+        mapper.updateAcPwdCheck(ac_seq);
+    }
+
+    @Override
+    public void updateAcPwdWrongS(long ac_seq) {
+        mapper.updateAcPwdCheck(ac_seq);
+    }
+
+    @Override
     public List<Accounty> selectOtherAccNumS(long ac_seq) {
         System.out.println("selectOtherAccNumS:"+mapper.selectOtherAccNum(ac_seq));
         return mapper.selectOtherAccNum(ac_seq);
