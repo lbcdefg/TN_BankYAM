@@ -12,11 +12,13 @@ import tn.bankYam.dto.Transactions;
 import tn.bankYam.service.AccountyService;
 import tn.bankYam.service.MemberyService;
 import tn.bankYam.service.TransactionService;
+import tn.bankYam.utils.SHA256;
 import tn.bankYam.utils.ScriptUtil;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -43,6 +45,9 @@ public class AccountyController {
     //계좌이체 창
     @GetMapping("transfer")
     public String transfer(Model model,HttpSession session, Accounty accounty,HttpServletResponse response, long f_mb_seq) throws IOException {
+
+
+
         //친구에게 계좌이체시에
 //        f_mb_seq = 6;
 //        if(f_mb_seq > 0){
@@ -60,14 +65,14 @@ public class AccountyController {
 //            model.addAttribute("tr_other_accnum", "");
 //        }
         Membery membery = (Membery)session.getAttribute("membery");
+
+
+
         List<Accounty> accList = accountyService.selectAccNumS(membery.getMb_seq());
         for(int i = 0; i < accList.size(); i++){
             Accounty accInfo = accountyService.selectAccInfoS(accList.get(i).getAc_seq());
             accList.get(i).setAc_balance(accInfo.getAc_balance());
             accList.get(i).setAc_pwd(accInfo.getAc_pwd());
-        }
-        if(accounty.getAc_pwd_check()==5){
-            ScriptUtil.alertAndBackPage(response,"비밀번호를 재설정해야합니다.");
         }
 
         model.addAttribute("tr_other_accnum", accounty.getAc_seq());
@@ -84,34 +89,48 @@ public class AccountyController {
 
     //계좌이체 확인체크
     @PostMapping("transfer_chk")
-    public String transferChk(Model model, HttpSession session,HttpServletResponse response, Accounty accounty, Transactions transactions, String ac_pwd) throws IOException{
+    public String transferChk(Model model, HttpSession session,HttpServletResponse response, Accounty accounty, Transactions transactions, String ac_pwd) throws IOException, NoSuchAlgorithmException {
         Membery membery = (Membery)session.getAttribute("membery");
         long otherAccNum = transactions.getTr_other_accnum();
         Accounty myAccounty = accountyService.selectAccInfoS(accounty.getAc_seq());
         Accounty otherBankyamInfo = accountyService.selectAccInfoS(otherAccNum);
         ac_pwd = accounty.getAc_pwd();
 
-        //입력 비밀번호와 db 비밀번호가 같은지
-        if(ac_pwd.equals(myAccounty.getAc_pwd())){
-            transactions.setTr_ac_seq(myAccounty.getAc_seq());
-            //상대방이 뱅크얌 계좌주일때
-            if(otherBankyamInfo != null) {
-                Membery membery1 = memberyService.findBySeq(otherBankyamInfo.getAc_mb_seq());
-                otherBankyamInfo.setMembery(membery1);
-                transactions.setOtherAccount(otherBankyamInfo);
-            //상대방이 뱅크얌 계좌주가 아닐때
-            }else if(!transactions.getTr_other_bank().equals("뱅크얌")){
-                System.out.println("타행입니다");
-                //입금은행 뱅크얌 선택 후 올바른 계좌번호를 입력하지 않았을 때
-            } else if (otherBankyamInfo == null && transactions.getTr_other_bank().equals("뱅크얌")) {
-                ScriptUtil.alertAndBackPage(response, "뱅크얌 계좌가 아닙니다");
-            }
+        String pwdInput = SHA256.encrypt(ac_pwd+"");
+        String pwdDB = SHA256.encrypt(myAccounty.getAc_pwd()+"");
+
+        //비밀번호 틀린횟수를 먼저 조회
+        System.out.println("나오냐"+myAccounty);
+        if (myAccounty.getAc_pwd_check() == 5) {
+            ScriptUtil.alertAndClosePage(response, "비밀번호 재설정이 필요한 계좌입니다.");
         }else {
-            //if (5번이 아니라면)
-            ScriptUtil.alertAndBackPage(response, "올바른 비밀번호가 아닙니다");
-            //ac_pwd_check+1
-            //최대 5가되면 못들어오게 이체페이지
-            //5번이 되어버리면 자바스크립트로
+            //유저가 입력한 비밀번호와 db 비밀번호가 같은지
+            if (pwdInput.equals(pwdDB)) {
+
+                transactions.setTr_ac_seq(myAccounty.getAc_seq());
+
+                //상대방이 뱅크얌 계좌주일때
+                if (otherBankyamInfo != null) {
+                    Membery membery1 = memberyService.findBySeq(otherBankyamInfo.getAc_mb_seq());
+                    otherBankyamInfo.setMembery(membery1);
+                    transactions.setOtherAccount(otherBankyamInfo);
+
+                    //상대방이 뱅크얌 계좌주가 아닐때
+                } else if (!transactions.getTr_other_bank().equals("뱅크얌")) {
+
+                    System.out.println("타행입니다");
+
+                    //입금은행 뱅크얌 선택 후 올바른 계좌번호를 입력하지 않았을 때
+                } else if (otherBankyamInfo == null && transactions.getTr_other_bank().equals("뱅크얌")) {
+                    ScriptUtil.alertAndBackPage(response, "뱅크얌 계좌가 아닙니다");
+                }
+                //유저가 입력한 비밀번호와 db 비밀번호가 다르면 ac_pwd_check +1
+            } else {
+
+                accountyService.updateAcPwdWrongS(myAccounty.getAc_seq());
+
+                ScriptUtil.alertAndBackPage(response, "올바른 비밀번호가 아닙니다");
+            }
         }
 
 

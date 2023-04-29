@@ -3,6 +3,7 @@ package tn.bankYam.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.bankYam.dto.Accounty;
+import tn.bankYam.dto.Membery;
 import tn.bankYam.dto.Product;
 import tn.bankYam.dto.Transactions;
 import tn.bankYam.mapper.AccountyMapper;
@@ -17,6 +18,11 @@ public class AccountyServiceImpl implements AccountyService{
     AccountyMapper mapper;
     @Autowired
     TransactionsMapper transactionsMapper;
+
+    @Override
+    public Accounty selecAccDetailS(Membery membery) {
+        return mapper.selecAccDetail(membery);
+    }
 
     @Override
     public List<Accounty> selectAccNumS(long ac_seq) {
@@ -63,7 +69,7 @@ public class AccountyServiceImpl implements AccountyService{
 
     @Override
     public void updateAcPwdWrongS(long ac_seq) {
-        mapper.updateAcPwdCheck(ac_seq);
+        mapper.updateAcPwdWrong(ac_seq);
     }
 
     @Override

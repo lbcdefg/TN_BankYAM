@@ -1,6 +1,7 @@
 package tn.bankYam.service;
 
 import tn.bankYam.dto.Accounty;
+import tn.bankYam.dto.Membery;
 import tn.bankYam.dto.Product;
 import tn.bankYam.dto.Transactions;
 
@@ -8,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface AccountyService {
+    Accounty selecAccDetailS(Membery membery);
     List<Accounty> selectAccNumS(long ac_seq);
     Accounty selectAccInfoS(long ac_seq);
     void getPaidS(Transactions transactions);

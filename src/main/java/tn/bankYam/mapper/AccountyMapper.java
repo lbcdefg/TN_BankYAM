@@ -3,6 +3,7 @@ package tn.bankYam.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import tn.bankYam.dto.Accounty;
+import tn.bankYam.dto.Membery;
 import tn.bankYam.dto.Product;
 import tn.bankYam.dto.Transactions;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface AccountyMapper {
+    Accounty selecAccDetail(Membery membery);
     List<Accounty> selectAccNum(long ac_seq);
     Accounty selectAccInfo(long ac_seq);
     void getPaid(Transactions transactions);

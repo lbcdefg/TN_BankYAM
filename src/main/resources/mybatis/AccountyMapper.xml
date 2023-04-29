@@ -46,6 +46,12 @@
         <collection property="product" resultMap="product"/>
     </resultMap>
 
+    <select id="selecAccDetail" resultType="Accounty" parameterType="Membery">
+        SELECT * FROM ACCOUNTY A JOIN MEMBERY M
+        ON A.AC_MB_SEQ=M.MB_SEQ
+        WHERE M.MB_SEQ=#{mb_seq}
+    </select>
+
     <select id="selectAccNum" resultType="Accounty" parameterType="long">
         SELECT * FROM ACCOUNTY A
         JOIN MEMBERY M
