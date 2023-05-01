@@ -74,7 +74,7 @@
                                 </c:if>
                                 ${fl.membery.mb_name}</td>
                             <input type="hidden" class="frs-${fl.membery.mb_seq}" id="${fl.membery.mb_email}"/>
-                            <td class="frs-list-12"><a href="#">송금</a></td>
+                            <td class="frs-list-12"><a class="frs-click" onclick="openTrPop(${fl.membery.mb_seq})">송금</a></td>
                             <td class="frs-list-12"><a href="#">대화</a></td>
                             <td class="frs-list-12"><a class="frs-click" onclick="clickFrDel('${fl.membery.mb_name}', ${fl.membery.mb_seq}, 'frDel')">삭제</a></td>
                             <c:set var="loop_flag" value="false" />
