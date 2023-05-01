@@ -38,6 +38,7 @@
         <id property="ac_main" column="ac_main"/>
         <id property="ac_status" column="ac_status"/>
         <id property="ac_pd_seq" column="ac_pd_seq"/>
+        <id property="ac_pwd_check" column="ac_pwd_check" />
         <id property="ac_rdate" column="ac_rdate"/>
         <id property="ac_udate" column="ac_udate"/>
         <id property="ac_xdate" column="ac_xdate"/>
@@ -45,26 +46,44 @@
         <collection property="product" resultMap="product"/>
     </resultMap>
 
+    <select id="selecAccDetail" resultType="Accounty" parameterType="Membery">
+        SELECT * FROM ACCOUNTY A JOIN MEMBERY M
+        ON A.AC_MB_SEQ=M.MB_SEQ
+        WHERE M.MB_SEQ=#{mb_seq}
+    </select>
+
     <select id="selectAccNum" resultType="Accounty" parameterType="long">
-        SELECT AC_SEQ,AC_MAIN,AC_BALANCE FROM ACCOUNTY A
+        SELECT * FROM ACCOUNTY A
         JOIN MEMBERY M
         ON A.AC_MB_SEQ = M.MB_SEQ
         WHERE M.MB_SEQ = #{mb_seq} AND A.AC_STATUS='사용중' AND A.AC_PD_SEQ=1
     </select>
 
+    <select id="selectOtherAccNum" resultMap="accounty" parameterType="long">
+        SELECT AC_SEQ FROM ACCOUNTY WHERE AC_STATUS='사용중'
+    </select>
+
     <select id="selectAccInfo" resultType="Accounty" parameterType="long">
-        SELECT A.AC_SEQ,M.MB_NAME,A.AC_BALANCE,A.AC_MB_SEQ FROM ACCOUNTY A JOIN MEMBERY M
+        SELECT A.AC_PWD, A.AC_PWD_CHECK, A.AC_SEQ,M.MB_NAME,A.AC_BALANCE,A.AC_MB_SEQ FROM ACCOUNTY A JOIN MEMBERY M
         ON A.AC_MB_SEQ=M.MB_SEQ
         WHERE A.AC_SEQ=#{ac_seq}
         AND AC_STATUS='사용중'
     </select>
 
-    <update id="transferPlus" parameterType="Transactions">
+    <update id="updateAcPwdCheck" parameterType="long">
+        update Accounty set AC_PWD_CHECK=0 WHERE AC_SEQ=#{ac_seq}
+    </update>
+
+    <update id="updateAcPwdWrong" parameterType="long">
+        update Accounty set AC_PWD_CHECK=AC_PWD_CHECK+1 WHERE AC_SEQ=#{ac_seq}
+    </update>
+
+    <update id="getPaid" parameterType="Transactions">
         UPDATE ACCOUNTY SET AC_BALANCE=AC_BALANCE + #{tr_amount}
         WHERE AC_SEQ=#{tr_other_accnum}
     </update>
 
-    <update id="transferMinus" parameterType="Transactions">
+    <update id="transfer" parameterType="Transactions">
         UPDATE ACCOUNTY SET AC_BALANCE=AC_BALANCE - #{tr_amount}
         WHERE AC_SEQ=#{tr_ac_seq}
     </update>

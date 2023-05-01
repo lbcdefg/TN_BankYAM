@@ -18,10 +18,10 @@
     z-index: 9998;
 }
 .modal{
-    width: 600px;
-    height: 252px;
+    width: 330px;
+    height: 220px;
     border-radius: 10px;
-    padding: 80px 24px;
+    padding: 65px 24px 80px;
     box-sizing: border-box;
     text-align: center;
 }
@@ -41,11 +41,14 @@
     z-index: 9999;
 }
 .menu_msg{
-    font-size: 21px;
+    font-size: 16px;
     font-weight: 500;
 }
 .enroll_box p{
-    padding-bottom: 56px;
+    padding-bottom: 30px;
+}
+.enroll_box input{
+    margin-bottom: 10px;
 }
 .gray_btn {
     width: 90px;
@@ -58,7 +61,7 @@
 }
 .pink_btn {
     width: 90px;
-    background: #ed197a;
+    background: var(--themecolor);
     color: #fff;
     height: 36px;
     line-height: 36px;

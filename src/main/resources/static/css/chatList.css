@@ -44,6 +44,9 @@
 .album-table-list {
     list-style: none;
 }
+.album-table-list .no-room{
+    margin: 30px;
+}
 .album-table-content {
     border: none;
     vertical-align: top;

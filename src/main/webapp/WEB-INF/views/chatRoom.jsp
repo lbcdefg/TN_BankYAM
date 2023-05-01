@@ -38,6 +38,9 @@
                 <a onclick="action_popup.confirm('현재 채팅창에서 퇴장하시겠습니까?\n대화내용은 모두 사라집니다.', outChat);"><img src="/img/exit.png"></a>
             </div>
             <div class="file-list">
+                <c:if test="${fn:length(files) == 0}">
+                    <div class="no-file">첨부한 파일이 없습니다.</div>
+                </c:if>
                 <c:forEach var="file" items="${files}">
                     <a class="chat-file" href="download?cf_seq=${file.cf_seq}">
                         <div class="file-type">
@@ -158,10 +161,9 @@
     <div class="modal-member-add">
         <form action="addChatMember" name="f">
             <input type="hidden" name="cr_seq" value="${roomInfo.cr_seq}" />
-            <div class="modal_body">
-                Modal
-                <a class="modal-close">닫기</a>
-                <input type="button" onclick="addMember()" value="초대"/>
+            <div class="make-chat-title">채팅방 초대하기</div>
+            <div class="add_body">
+                <a class="add-close">닫기!</a>
                 <div class="friend-list">
                     <c:forEach var="friend" items="${friendList}">
                         <label class="member-info" for="ir-${friend.membery.mb_seq}">
@@ -171,6 +173,7 @@
                         </label>
                     </c:forEach>
                 </div>
+                <input type="button" onclick="addMember()" class="add-button" value="초대!"/>
             </div>
         </form>
     </div>

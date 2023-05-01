@@ -33,6 +33,7 @@
             <tr>
                 <th scope="row">받는 사람</th>
                 <td>
+
                     <input class="transfer-input" name="mb_name" readonly value=${transactions.otherAccount.membery.mb_name}>
                 </td>
             </tr>
