@@ -89,7 +89,7 @@
                         </label>
                     </c:forEach>
                 </div>
-                <input type="button" onclick="makeRoom('chat')" value="만들기" class="add-button"/>
+                <a onclick="makeRoom('chat')"class="add-button"/>만들기</a>
             </div>
         </form>
     </div>
@@ -108,7 +108,7 @@
                         </label>
                     </c:forEach>
                 </div>
-                <input type="button" onclick="makeRoom('group')" value="만들기" class="add-button"/>
+                <a onclick="makeRoom('group')" class="add-button">만들기</a>
             </div>
         </form>
     </div>

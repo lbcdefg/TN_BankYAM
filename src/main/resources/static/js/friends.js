@@ -27,7 +27,6 @@ $(document).ready(function(){
         var resultBlFr = confirm($(".frs-name-profile").text()+"님에게 송금하시겠습니까?");
         if(resultBlFr){
             var frId = $(".frs-send-btn").attr("id")
-            alert(frId)
             openTrPop(frId);
         }else{
             return false;
@@ -191,4 +190,22 @@ function clickFrDel(frName, frId, catDel){
         location.href="/friend/friends_delFr?frId=" + frId + "&catDel=" + catDel;
     }
     return false;
+}
+function chatOpen(roomNumber){
+    window.open('/chat/room?cr_seq='+roomNumber, '', 'width=365, height=550');
+}
+function openChat(f_f_mb_seq){
+    var value = new Array();
+    value.push(f_f_mb_seq);
+    $.ajax({
+        url: "/chat/insert",
+        type: "GET",
+        data: {f_f_mb_seq: value},
+        success: function(roomNumber){
+            chatOpen(roomNumber);
+        },
+        error: function(error){
+            console.log("error: " + error);
+        }
+    });
 }
