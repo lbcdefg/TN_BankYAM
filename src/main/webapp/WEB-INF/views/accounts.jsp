@@ -42,7 +42,14 @@
                 </c:if>
                 <c:forEach items="${acList}" var="ac">
                     <tr class="acs-list-row">
-                        <td class="acs-list-5 acm" id="${ac.ac_seq}" name="${ac.ac_main}">${ac.ac_main}</td>
+                        <c:choose>
+                            <c:when test="${ac.product.pd_type == '적금'}">
+                                <td class="acs-list-5 acm" id="${ac.ac_seq}" name="${ac.ac_main}">${ac.ac_main}_${ac.product.pd_type}</td>
+                            </c:when>
+                            <c:otherwise>
+                                <td class="acs-list-5 acm" id="${ac.ac_seq}" name="${ac.ac_main}">${ac.ac_main}_예금</td>
+                            </c:otherwise>
+                        </c:choose>
                         <c:set var="ac_Seq" value="${ac.ac_seq}"/>
                         <%
                             Long acSeq=(Long)pageContext.getAttribute("ac_Seq");

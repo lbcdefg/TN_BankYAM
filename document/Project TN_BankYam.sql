@@ -242,12 +242,13 @@ insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 4, 300000, '뱅크얌_�
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 14, 1000000, '뱅크얌_예금통장', '주', '사용중', 1, 0, '예금', SYSDATE, (ADD_MONTHS(SYSDATE, 1))+4, null);
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 15, 1000000, '뱅크얌_예금통장', '주', '사용중', 1, 0, '생활비', SYSDATE, (ADD_MONTHS(SYSDATE, 1))+4, null); --20
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 8, 2100000, '뱅크얌_예금통장2', '주', '사용중', 1, 0, '예금', SYSDATE, (ADD_MONTHS(SYSDATE, 1))+4, null);
-insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 11, 800000, '뱅크얌_예금통장2', '주', '사용중', 1, SYSDATE, (ADD_MONTHS(SYSDATE, 1))+4, null);
+insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 11, 800000, '뱅크얌_예금통장2', '주', '사용중', 1, 0, '예금', SYSDATE, (ADD_MONTHS(SYSDATE, 1))+4, null);
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 2, 100000000000, '뱅크얌_예금통장4', '부', '사용중', 1, 0, '급여', SYSDATE, (ADD_MONTHS(SYSDATE, 1))+4, null);
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 2, 100000000000, '뱅크얌_예금통장5', '부', '사용중', 1, 0, '예금', SYSDATE, (ADD_MONTHS(SYSDATE, 1))+4, null);
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 2, 100000000000, '뱅크얌_예금통장6', '부', '사용중', 1, 0, '생활비', SYSDATE, (ADD_MONTHS(SYSDATE, 1))+4, null);
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 2, 100000000000, '뱅크얌_예금통장7', '부', '사용중', 1, 0, '급여', SYSDATE, (ADD_MONTHS(SYSDATE, 1))+4, null);
 insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 2, 100000000000, '뱅크얌_예금통장8', '부', '사용중', 1, 0, '예금', SYSDATE, (ADD_MONTHS(SYSDATE, 1))+4, null);
+insert into ACCOUNTY values(ACCOUNTY_SEQ.nextval, 0000, 16, 100000000000, '뱅크얌_예금통장8', '주', '사용중', 1, 0, '예금', SYSDATE, (ADD_MONTHS(SYSDATE, 1))+4, null);
 
 insert into MEMBERY values(MEMBERY_SEQ.nextval,'admin@gmail.com',1234,'뱅크얌','한국소프트웨어인재개발원', 'KOSMO', '11111111111', '관리자',0,0,'/img/YamLogoHover.png', TO_DATE('2023-03-30 09:10:10', 'YYYY-MM-DD HH24:MI:SS'), null);
 
@@ -258,6 +259,7 @@ select * from ACCOUNTY;
 update ACCOUNTY set ac_status='복구중' where ac_seq=888010000100;
 update ACCOUNTY set ac_balance=300000 where ac_seq=888010000100;
 update ACCOUNTY set ac_balance=300000000 where ac_seq=888010000220;
+update ACCOUNTY set ac_main='주' where ac_seq=888010000140;
 delete from ACCOUNTY where ac_seq=888010000250;
 select * from ACCOUNTY where AC_MB_SEQ=2;
 SELECT * FROM membery m JOIN accounty a ON m.mb_seq = a.ac_mb_seq WHERE m.mb_seq = 2 AND a.ac_seq = 888010000160;
