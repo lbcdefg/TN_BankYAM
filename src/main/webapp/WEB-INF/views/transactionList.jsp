@@ -7,6 +7,7 @@
 
 <head>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="/js/transactionSearch.js"></script>
     <link href="/css/transactionList.css" rel="stylesheet" type="text/css">
     <link href="/css/profile.css" rel="stylesheet" type="text/css">
     <title>뱅크얌 거래내역</title>
@@ -54,28 +55,29 @@
         <div style="float: left;">
             <div class="jobs_search_box">
                 <strong>검색</strong>
-                <div class="jobs_search_field">
+                <div class="jobs_search_field" id="tr-search">
                     <form name="f" action="/admin/addProduct_ok" method="post">
                         <div class="field1" style="margin-top:10px;">
-                            <input name="tr_type" type="text" placeholder="유형" />
+                            <input name="tr_type" id="tr_type" type="text" placeholder="유형" />
                         </div>
                         <div class="field2" style="margin-top:10px;">
-                            <input name="tr_ac_seq" type="text" placeholder="계좌번호" />
+                            <input name="tr_ac_seq" id="tr_ac_seq"type="text" placeholder="계좌번호" />
                         </div>
                         <div class="field2" style="margin-top:10px;">
-                            <input name="tr_other_accnum" type="text" placeholder="타인 계좌번호" />
+                            <input name="tr_other_accnum" id="tr_other_accnum" type="text" placeholder="타인 계좌번호" />
                         </div>
                         <div class="field3" style="margin-top:10px;">
-                            <input name="tr_other_bank" placeholder="은행" />
+                            <input name="tr_other_bank" id="tr_other_bank" placeholder="은행" />
                         </div>
                         <div class="field3" style="margin-top:10px;">
-                            <input name="tr_date" placeholder="날짜" />
+                            <input name="tr_date" id="tr_date"placeholder="날짜" />
                         </div>
-                        <button class="search-btn" type="button" id="search" title="검색하기">검색</button>
+                        <button class="search-btn" type="button" id="search" title="검색하기" onclick="checkTrSearchAjax()">검색</button>
                     </form>
                 </div>
             </div>
         </div>
+
     </body>
 
 
@@ -125,22 +127,5 @@
     }
 </script>
 
-<script>
-    function checkTrSearchAjax(searchDiv, searchText){
-        var data = {},
-        var
-        $.ajax({
-            url:"../trListSearch",
-            type: "GET",
-            data: {tr_ac_seq: tr_ac_seq, tr_type:tr_type, tr_date, tr_date, tr_amount:tr_amount},
 
-            success: function(forTrAjax){
-
-            },
-            error: function(error){
-                alert("error:"+error);
-            }
-        });
-    }
-</script>
 <%@ include file="/WEB-INF/views/footer.jsp" %>
