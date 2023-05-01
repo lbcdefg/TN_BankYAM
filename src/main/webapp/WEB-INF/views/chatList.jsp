@@ -35,6 +35,9 @@
     </div>
     <div class="album-table">
         <ul class="album-table-list">
+            <c:if test="${fn:length(chatroomList) == 0}">
+                <div class="no-room">참여한 채팅방이 없습니다.</div>
+            </c:if>
             <c:forEach var="chatroom" items="${chatroomList}">
                 <li class="album-table-content">
                     <span class="alarmCount">${chatroom.status_count}</span>
@@ -69,28 +72,14 @@
                     </dl>
                 </li>
             </c:forEach>
-            <li class="album-table-content">
-                <span class="alarmCount">3</span>
-                <a onClick="window.open('room', '', 'width=400, height=500'); return false;" class="album-table-img">
-                <img style="vertical-align:top; border:none" src="css/imgs/NoImage.png"></a>
-                <dl>
-                    <dt>
-                        <a onClick="chatOpen()" class="album-table-sub" title="채팅방이름">
-                        채팅방 이름</a>
-                    </dt>
-                    <dd>마지막 대화</dd>
-                    <dd>마지막 대화 시간</dd>
-                </dl>
-            </li>
         </ul>
     </div>
     <div onclick="listPlus()" class="listPlus"><div class="listPlus-text">더 보기 +</div></div>
     <div class="make-chat">
         <form action="insert">
             <div class="make-chat-body">
-                일대일 채팅방 만들기
+                <div class="make-chat-title">일대일 채팅방 만들기</div>
                 <a class="chat-close">닫기</a>
-                <input type="button" onclick="makeRoom('chat')" value="만들기"/>
                 <div class="friend-list">
                     <c:forEach var="friend" items="${frList}">
                         <label class="member-info" for="r-${friend.membery.mb_seq}" id="fr-1">
@@ -99,37 +88,28 @@
                             <input type="radio" name="f_mb_seq" value="${friend.membery.mb_seq}" id="r-${friend.membery.mb_seq}">
                         </label>
                     </c:forEach>
-                    <label class="member-info" for="r-1" id="fr-1">
-                        <img src="/img/character/sad.png"/>
-                        <span class="name">아무개</span>
-                        <input type="radio" name="mb_email" id="r-1">
-                    </label>
                 </div>
+                <input type="button" onclick="makeRoom('chat')" value="만들기" class="add-button"/>
             </div>
         </form>
     </div>
 
     <div class="make-group">
         <form action="insert">
-        <div class="make-group-body">
-        그룹 채팅방 만들기
-        <a class="group-close">닫기</a>
-        <input type="button" onclick="makeRoom('group')" value="만들기"/>
-            <div class="friend-list">
-                <c:forEach var="friend" items="${frList}">
-                    <label class="member-info" for="c-${friend.membery.mb_seq}" id="fr-1">
-                        <img src="${friend.membery.mb_imagepath}"/>
-                        <span class="name">${friend.membery.mb_name}</span>
-                        <input type="checkbox" name="f_mb_seq" value="${friend.membery.mb_seq}" id="c-${friend.membery.mb_seq}">
-                    </label>
-                </c:forEach>
-                <label class="member-info" for="c-1" id="fr-1">
-                    <img src="/img/character/sad.png"/>
-                    <span class="name">아무개</span>
-                    <input type="checkbox" name="mb_email" id="c-1">
-                </label>
+            <div class="make-group-body">
+                <div class="make-chat-title">그룹 채팅방 만들기</div>
+                <a class="group-close">닫기</a>
+                <div class="friend-list">
+                    <c:forEach var="friend" items="${frList}">
+                        <label class="member-info" for="c-${friend.membery.mb_seq}" id="fr-1">
+                            <img src="${friend.membery.mb_imagepath}"/>
+                            <span class="name">${friend.membery.mb_name}</span>
+                            <input type="checkbox" name="f_mb_seq" value="${friend.membery.mb_seq}" id="c-${friend.membery.mb_seq}">
+                        </label>
+                    </c:forEach>
+                </div>
+                <input type="button" onclick="makeRoom('group')" value="만들기" class="add-button"/>
             </div>
-        </div>
         </form>
     </div>
 </div>
