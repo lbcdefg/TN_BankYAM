@@ -86,6 +86,8 @@ public class AccountyController {
     //계좌이체 확인체크
     @PostMapping("transfer_chk")
     public String transferChk(Model model, HttpSession session,HttpServletResponse response, Accounty accounty, Transactions transactions, String ac_pwd) throws IOException, NoSuchAlgorithmException {
+
+
         Membery membery = (Membery)session.getAttribute("membery");
         long otherAccNum = transactions.getTr_other_accnum();
         Accounty myAccounty = accountyService.selectAccInfoS(accounty.getAc_seq());
@@ -95,8 +97,9 @@ public class AccountyController {
         String pwdInput = SHA256.encrypt(ac_pwd+"");
         String pwdDB = SHA256.encrypt(myAccounty.getAc_pwd()+"");
 
+
         //비밀번호 틀린횟수를 먼저 조회
-        System.out.println("나오냐"+myAccounty);
+
         if (myAccounty.getAc_pwd_check() == 5) {
             ScriptUtil.alertAndClosePage(response, "비밀번호 재설정이 필요한 계좌입니다.");
         }else {
@@ -125,7 +128,7 @@ public class AccountyController {
 
                 accountyService.updateAcPwdWrongS(myAccounty.getAc_seq());
 
-                ScriptUtil.alertAndBackPage(response, "올바른 비밀번호가 아닙니다");
+                ScriptUtil.alertAndBackPage(response, "다시 한 번 확인해주세요");
             }
         }
 

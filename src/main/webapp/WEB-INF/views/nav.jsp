@@ -38,7 +38,7 @@
     <c:if test="${sessionScope.membery ne null}">
     <ul class="canvas-items2">
         <li><a href="/member/profile">프로필</a></li>
-        <li><a href="/account/transactionList">계좌이체</a></li>
+        <li><a href="/account/transfer">계좌이체</a></li>
         <li><a href="/chat/list">얌톡</a></li>
         <li><a href="/member/logout_ok">로그아웃</a></li>
     </ul>
@@ -61,7 +61,7 @@
                     <a href="#">뱅킹</a>
                     <div class="nav-post-box">
                         <c:if test="${sessionScope.membery eq null}">
-                            <a href="/account/transactionList" target="_self" class="hidden-a">이체</a>
+                            <a href="/account/transfer" target="_self" class="hidden-a">이체</a>
                         </c:if>
                         <c:if test="${sessionScope.membery ne null}">
                             <a onclick="openTrPop(0)" target="_blank" class="hidden-a">이체</a>
