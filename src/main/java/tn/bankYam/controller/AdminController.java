@@ -138,7 +138,13 @@ public class AdminController {
 
     @PostMapping("addProduct_ok")
     public String addProduct_ok(Product product){
-        product.setPd_rate(crawling());
+        float rate;
+        if(product.getPd_type().equals("적금")){
+            rate = (float)(crawling()*1.5);
+        }else{
+            rate = crawling();
+        }
+        product.setPd_rate(rate);
         product.setPd_del("X");
         accountyService.insertPd(product);
         return "redirect:/member/profile";
