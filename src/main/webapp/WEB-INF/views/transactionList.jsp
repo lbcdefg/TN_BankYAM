@@ -13,7 +13,7 @@
 
     <body>
         <div class="tr-frame body-main">
-            <button onclick="window.open('transfer', '_blank', 'width=800 height=600')"> 계좌이체 </button>
+
             <c:if test="${not empty membery}">
                 <p class="tr-title fontS-35">${membery.mb_name}님의 거래내역</p>
             </c:if>

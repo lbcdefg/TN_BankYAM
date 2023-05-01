@@ -62,7 +62,8 @@
                     <c:if test="${membery.mb_seq != sessionScope.membery.mb_seq}">
                          <div class="member-info">
                              <img src="${membery.mb_imagepath}"/>
-                             <div class="send-button">송금</div>
+                             <div class="send-button"><a onclick="openTrPop(${membery.mb_seq})">송금</a></div>
+
                              <span class="name">${membery.mb_name}</span>
                          </div>
                     </c:if>

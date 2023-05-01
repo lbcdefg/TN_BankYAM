@@ -1,3 +1,11 @@
+function openTrPop(other_mb_seq){
+    var tr_width = '730';
+    var tr_height = '730';
+    var tr_left = Math.ceil(( window.screen.width - tr_width )/2);
+    var tr_top = Math.ceil(( window.screen.height - tr_height )/2);
+    var popup = window.open('/account/transfer?other_mb_seq='+other_mb_seq,'transfer', 'width='+ tr_width +', height='+ tr_height +', left=' + tr_left + ', top='+ tr_top);
+}
+
 
 $("#wrap").scrollTop($("#wrap")[0].scrollHeight);
 const modal = document.querySelector('.modal-member-add');
