@@ -140,4 +140,6 @@ public class AccountyServiceImpl implements AccountyService{
     public List<Accounty> findSavingAcc() {
         return mapper.findSavingAcc();
     }
+    @Override
+    public Accounty findMainAcc(long mb_seq){ return mapper.findMainAcc(mb_seq);}
 }
