@@ -8,6 +8,7 @@
 <head>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <link href="/css/transactionList.css" rel="stylesheet" type="text/css">
+    <link href="/css/profile.css" rel="stylesheet" type="text/css">
     <title>뱅크얌 거래내역</title>
 </head>
 
@@ -48,6 +49,8 @@
                         </tr>
                      </c:forEach>
                 </table>
+            </div>
+            <div>
             </div>
         </div>
     </body>
