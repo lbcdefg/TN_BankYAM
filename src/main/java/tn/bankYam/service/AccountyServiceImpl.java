@@ -3,6 +3,7 @@ package tn.bankYam.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tn.bankYam.dto.Accounty;
+import tn.bankYam.dto.Membery;
 import tn.bankYam.dto.Product;
 import tn.bankYam.dto.Transactions;
 import tn.bankYam.mapper.AccountyMapper;
@@ -19,6 +20,11 @@ public class AccountyServiceImpl implements AccountyService{
     TransactionsMapper transactionsMapper;
 
     @Override
+    public Accounty selecAccDetailS(Membery membery) {
+        return mapper.selecAccDetail(membery);
+    }
+
+    @Override
     public List<Accounty> selectAccNumS(long ac_seq) {
         return mapper.selectAccNum(ac_seq);
     }
@@ -27,22 +33,29 @@ public class AccountyServiceImpl implements AccountyService{
     public Accounty selectAccInfoS(long ac_seq) {
         return mapper.selectAccInfo(ac_seq);
     }
-
+    // 뱅크얌 -> 뱅크얌으로 입금받을 때
     @Override
-    public void transferPlusS(Transactions transactions) {
-        if (transactions.getTr_after_balance() >= 0) {
-            mapper.transferMinus(transactions);
-            mapper.transferPlus(transactions);
-
-            transactions.setTr_type("송금");
-            transactionsMapper.insertTrLog(transactions);
-
+    public void getPaidS(Transactions transactions) {
+        if(transactions.getTr_other_bank().equals("뱅크얌")) {
+            mapper.getPaid(transactions);
             transactions.setTr_type("입금");
             transactions.setTr_after_balance(mapper.selectAccInfo(transactions.getTr_other_accnum()).getAc_balance());
+            //내계좌
             long tempMyAcc = transactions.getTr_ac_seq();
+            //상대방계좌
             long tempOtherAcc = transactions.getTr_other_accnum();
             transactions.setTr_ac_seq(tempOtherAcc);
             transactions.setTr_other_accnum(tempMyAcc);
+            transactionsMapper.insertTrLog(transactions);
+        }
+    }
+
+    //뱅크얌 -> 뱅크얌 송금할 때
+    @Override
+    public void transferS(Transactions transactions) {
+        if (transactions.getTr_after_balance() >= 0) {
+            mapper.transfer(transactions);
+            transactions.setTr_type("송금");
             transactionsMapper.insertTrLog(transactions);
         } else {
             System.out.println("잔액이 부족합니다.");
@@ -50,11 +63,24 @@ public class AccountyServiceImpl implements AccountyService{
     }
 
     @Override
-    public void transferMinusS(Transactions transactions) {
+    public void updateAcPwdCheckS(long ac_seq) {
+        mapper.updateAcPwdCheck(ac_seq);
+    }
+
+    @Override
+    public void updateAcPwdWrongS(long ac_seq) {
+        mapper.updateAcPwdWrong(ac_seq);
+    }
+
+    @Override
+    public List<Accounty> selectOtherAccNumS(long ac_seq) {
+        System.out.println("selectOtherAccNumS:"+mapper.selectOtherAccNum(ac_seq));
+        return mapper.selectOtherAccNum(ac_seq);
     }
 
     @Override
     public List<Accounty> findAccByMemberId(long ac_mb_seq) {
+        System.out.println( "findAccByMemberId:"+mapper.findAccByMemberId(ac_mb_seq));
         return mapper.findAccByMemberId(ac_mb_seq);
     }
 
