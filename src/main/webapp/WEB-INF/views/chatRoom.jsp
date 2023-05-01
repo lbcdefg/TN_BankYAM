@@ -174,8 +174,7 @@
     </div>
     <div class="send-area">
         <textarea class="chat-text" required="required" id='msg'
-            <c:if test="${fn:length(roomInfo.memberyList) == 1}"> readonly </c:if>>
-        </textarea>
+            <c:if test="${fn:length(roomInfo.memberyList) == 1}"> readonly </c:if>></textarea>
         <div class="buttons">
             <label class="btn" for="files">
                 <img src="/img/clip.png">
