@@ -134,6 +134,10 @@ public class AccountyServiceImpl implements AccountyService{
 
     @Override
     public List<String> findSavingPd(){
-        return mapper.findDepositPd();
+        return mapper.findSavingPd();
+    }
+    @Override
+    public List<Accounty> findSavingAcc() {
+        return mapper.findSavingAcc();
     }
 }

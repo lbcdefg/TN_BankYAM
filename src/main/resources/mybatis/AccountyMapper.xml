@@ -138,4 +138,7 @@
     <select id="findSavingPd" resultType="String">
         SELECT PD_NAME FROM(SELECT * FROM PRODUCT WHERE PD_TYPE='적금' AND PD_DEL='X') GROUP BY PD_NAME
     </select>
+    <select id="findSavingAcc" resultMap="accounty">
+        SELECT * FROM ACCOUNTY A JOIN PRODUCT P ON A.AC_PD_SEQ = P.PD_SEQ WHERE A.AC_STATUS='사용중' AND PD_TYPE= '적금'
+    </select>
 </mapper>
