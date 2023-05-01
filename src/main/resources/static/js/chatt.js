@@ -83,13 +83,12 @@ var msgText;
 var mb_seq = getId('session_seq').value;
 var cr_seq = getId('cr_seq').value;
 
-ws = new WebSocket("ws://" + location.host + "/chat/soket");
+ws = new WebSocket("ws://" + location.host + "/chat/soket/room");
 readContent(cr_seq);
 
 
 ws.onmessage = function(msg){
     var data = JSON.parse(msg.data);
-    console.log("1111111111");
     console.log(data);
 
     var item;

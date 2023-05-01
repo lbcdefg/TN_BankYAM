@@ -189,8 +189,8 @@
     <div class="modal-member-add">
         <form action="addChatMember" name="f">
             <input type="hidden" name="cr_seq" value="${roomInfo.cr_seq}" />
-            <div class="make-chat-title">채팅방 초대하기</div>
             <div class="add_body">
+                <div class="make-chat-title">채팅방 초대하기</div>
                 <a class="add-close">닫기!</a>
                 <div class="friend-list">
                     <c:forEach var="friend" items="${friendList}">
@@ -201,7 +201,7 @@
                         </label>
                     </c:forEach>
                 </div>
-                <input type="button" onclick="addMember()" class="add-button" value="초대!"/>
+                <a onclick="addMember()" class="add-button">초대!</a>
             </div>
         </form>
     </div>
