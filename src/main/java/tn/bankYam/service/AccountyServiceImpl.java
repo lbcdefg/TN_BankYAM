@@ -132,5 +132,8 @@ public class AccountyServiceImpl implements AccountyService{
         return mapper.findPdByPdtype(pd_type);
     }
 
-
+    @Override
+    public List<String> findSavingPd(){
+        return mapper.findDepositPd();
+    }
 }
