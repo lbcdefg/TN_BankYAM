@@ -114,7 +114,7 @@
     </update>
     <select id="test" parameterType="hashmap" resultType="Product">
        SELECT * FROM PRODUCT WHERE PD_NAME IN (SELECT PD_NAME FROM(SELECT * FROM PRODUCT WHERE PD_DEL='X'
-        <if test="#{pd_type} != null">
+        <if test="pd_type != null">
             AND PD_TYPE= #{pd_type}
         </if>
         ) GROUP BY PD_NAME) AND PD_DEL='X'
