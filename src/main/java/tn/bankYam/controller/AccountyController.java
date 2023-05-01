@@ -44,8 +44,12 @@ public class AccountyController {
     @ResponseBody
     public List<Transactions> trListSearch(HttpSession session, HttpServletResponse response){
         Membery membery = (Membery)session.getAttribute("membery");
+        HashMap<String, Object> searchTrMap = new HashMap<String, Object>();
+        List<Transactions> trList = transactionService.selectTrListS(membery);
+        searchTrMap.put("trList", trList);
         List<Transactions> trsearchList = transactionService.selectTrListS(membery);
         System.out.println("나오냐"+trsearchList.size());
+        System.out.println("searchTrMap"+searchTrMap);
         return trsearchList;
     }
 

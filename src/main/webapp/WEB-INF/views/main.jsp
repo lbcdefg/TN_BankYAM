@@ -13,7 +13,7 @@
             <div class="main-div-div1"></div>
             <div class="main-div-div2">
                 <div class="main-button-div1">
-                    <a href="/account/transfer" class="main-button1">
+                    <a onclick="openTrPop(0)" class="main-button1">
                         <div class="button-content">계좌이체</div>
                     </a>
                     <a href="/chat/list" class="main-button2">

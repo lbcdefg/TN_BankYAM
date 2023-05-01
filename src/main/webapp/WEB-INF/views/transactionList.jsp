@@ -124,4 +124,23 @@
         }
     }
 </script>
+
+<script>
+    function checkTrSearchAjax(searchDiv, searchText){
+        var data = {},
+        var
+        $.ajax({
+            url:"../trListSearch",
+            type: "GET",
+            data: {tr_ac_seq: tr_ac_seq, tr_type:tr_type, tr_date, tr_date, tr_amount:tr_amount},
+
+            success: function(forTrAjax){
+
+            },
+            error: function(error){
+                alert("error:"+error);
+            }
+        });
+    }
+</script>
 <%@ include file="/WEB-INF/views/footer.jsp" %>
