@@ -115,7 +115,7 @@
                                     <span>${content.cc_rdate_time}<br/><span class="status-count" id="sc-${content.cc_seq}">${content.cc_status_count}</span></span>
                                 </div>
                                 <div class="textbox">
-                                    <a class="chat-file">
+                                    <a class="chat-file" href="download?cf_seq=${content.chatfile.cf_seq}">
                                         <div class="file-type">
                                             ${fn:substring(content.chatfile.cf_orgnm,fn:indexOf(content.chatfile.cf_orgnm,'.')+1,fn:length(content.chatfile.cf_orgnm)) }
                                         </div>
@@ -127,20 +127,47 @@
                     </c:if>
                 </c:when>
                 <c:when test="${sessionScope.membery.mb_seq ne content.membery.mb_seq}">
-                    <div class="chat ch1">
-                        <div class="icon"><img src="${content.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
-                        <div class="chat-content">
-                            <div class="chat-name">
-                                <span>${content.membery.mb_name}</span>
-                            </div>
-                            <div class="chat-text-info">
-                                <div class="textbox">${content.cc_content}</div>
-                                <div class="chat-info">
-                                    <span>${content.cc_rdate_time}<br/><span class="status-count" id="sc-${content.cc_seq}">${content.cc_status_count}</span></span>
+                    <c:if test="${content.chatfile.cf_seq == null}">
+                        <div class="chat ch1">
+                            <div class="icon"><img src="${content.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                            <div class="chat-content">
+                                <div class="chat-name">
+                                    <span>${content.membery.mb_name}</span>
+                                </div>
+                                <div class="chat-text-info">
+                                    <div class="textbox">${content.cc_content}</div>
+                                    <div class="chat-info">
+                                        <span>${content.cc_rdate_time}<br/><span class="status-count" id="sc-${content.cc_seq}">${content.cc_status_count}</span></span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </c:if>
+                    <c:if test="${content.chatfile.cf_seq != null}">
+                        <div class="chat ch1">
+                            <div class="icon"><img src="${sessionScope.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                            <div class="chat-content">
+                                <div class="chat-info">
+                                    <div class="chat-name">
+                                        <span>${content.membery.mb_name}</span>
+                                    </div>
+                                </div>
+                                <div class="chat-text-info">
+                                    <div class="textbox">
+                                        <a class="chat-file" href="download?cf_seq=${content.chatfile.cf_seq}">
+                                            <div class="file-type">
+                                                ${fn:substring(content.chatfile.cf_orgnm,fn:indexOf(content.chatfile.cf_orgnm,'.')+1,fn:length(content.chatfile.cf_orgnm)) }
+                                            </div>
+                                            <span class="file-name">${content.chatfile.cf_orgnm}</span>
+                                        </a>
+                                    </div>
+                                    <div class="chat-info">
+                                        <span>${content.cc_rdate_time}<br/><span class="status-count" id="sc-${content.cc_seq}">${content.cc_status_count}</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </c:if>
                 </c:when>
             </c:choose>
         </c:forEach>

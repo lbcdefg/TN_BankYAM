@@ -264,17 +264,20 @@ div[class="sidebar"] .file-list{
     display:flex;
     height:44px;
 }
-.file-list a .file-type{
+.file-type{
     height: 30px;
-    width: 36px;
+    padding: 0px 6px;
     margin: 7px;
     border: 1px solid;
     border-radius: 5px;
     text-align: center;
+    color: black;
+    display: table;
 }
-.file-list a .file-name{
+.file-name{
     margin-left: 5px;
     margin-top: 8px;
+    color: black;
 }
 div[class="sidebar"] .chat-member{
     position:relative;
