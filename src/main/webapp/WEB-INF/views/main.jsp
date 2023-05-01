@@ -13,10 +13,10 @@
             <div class="main-div-div1"></div>
             <div class="main-div-div2">
                 <div class="main-button-div1">
-                    <a href="#" class="main-button1">
+                    <a href="/account/transfer" class="main-button1">
                         <div class="button-content">계좌이체</div>
                     </a>
-                    <a href="#" class="main-button2">
+                    <a href="/chat/list" class="main-button2">
                         <div class="button-content">얌톡</div>
                     </a>
                 </div>

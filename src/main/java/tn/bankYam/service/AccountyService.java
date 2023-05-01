@@ -23,12 +23,12 @@ public interface AccountyService {
     List<String> findDepositPd();
     Product findDepositPdVal(String pd_name);
     List<Accounty> findAccounty();
-    Product recentPd();
     void interest(Accounty accounty);
     void insertPd(Product product);
     void updatePdXdate(Product product);
-    List<Product> test(HashMap<String,Object> map);
     List<Product> findPdByPdname();
     List<String> findPdtype();
     List<Product> findPdByPdtype(String pd_type);
+    List<String> findSavingPd();
+    List<Accounty> findSavingAcc();
 }

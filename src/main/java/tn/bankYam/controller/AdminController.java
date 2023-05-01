@@ -20,6 +20,7 @@ import tn.bankYam.service.TransactionService;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -78,44 +79,29 @@ public class AdminController {
         }
     }
 
-
     @GetMapping("rate_update_ok")
     public String rate_update_ok(Model model,Transactions transactions){
         Float rate = crawling();
-        System.out.println("최종금리: " + rate);
         List<String> list = accountyService.findDepositPd();
 
         for(String pd_name:list){
             Product product = accountyService.findDepositPdVal(pd_name);
-            //System.out.println("pd_name : " + pd_name);
             float oldRate = product.getPd_rate();
             System.out.println("rate: " + rate + ", oldRate : " + oldRate);
             if(rate != oldRate){
                 accountyService.updatePdXdate(product);
                 Product newProduct = product;
+                // 적금이면 현재금리의 50% 추가적용
                 newProduct.setPd_rate(rate);
-                //System.out.println("newProduct : " + newProduct);
+                if(newProduct.getPd_type().equals("적금")){
+                    newProduct.setPd_addrate((float)(rate*0.5) + product.getPd_addrate());
+                }
                 accountyService.insertPd(newProduct);
             }
         }
         int_update_ok(transactions);
         model.addAttribute("rate",rate);
         return "redirect:/member/profile";
-    }
-
-    @GetMapping("test2")
-    @ResponseBody
-    public String test2(HttpServletRequest request){
-        String pd_type = request.getParameter("type").trim();
-        return accountyService.test(typeMap(pd_type)).toString();
-    }
-
-    public HashMap<String, Object> typeMap(String pd_type){
-        HashMap<String, Object> hashMap = new HashMap<>();
-        if(pd_type.length() != 0) {
-            hashMap.put("pd_type", pd_type);
-        }
-        return hashMap;
     }
 
     @GetMapping("product_option")
@@ -138,7 +124,15 @@ public class AdminController {
 
     @PostMapping("addProduct_ok")
     public String addProduct_ok(Product product){
-        product.setPd_rate(crawling());
+        float rate = crawling();
+        float addrate;
+        if(product.getPd_type().equals("적금")){
+            addrate = (float)(crawling()*0.5) + product.getPd_addrate();
+        }else{
+            addrate = product.getPd_addrate();
+        }
+        product.setPd_rate(rate);
+        product.setPd_addrate(addrate);
         product.setPd_del("X");
         accountyService.insertPd(product);
         return "redirect:/member/profile";
@@ -150,4 +144,46 @@ public class AdminController {
         accountyService.updatePdXdate(product);
         return "redirect:/member/profile";
     }
+
+    @GetMapping("/pd_nameCheck")
+    @ResponseBody
+    boolean pd_nameCheck(HttpServletRequest request){
+        String pd_name = request.getParameter("pd_name");
+        String pd_type = request.getParameter("pd_type");
+        List<String> pd_nameList;
+
+        if(pd_type.equals("예금")){
+            // 예금일때 현재 판매중인 상품 목록
+            pd_nameList = accountyService.findDepositPd();
+        }else{
+            // 적금일때 현재 판매중인 상품 목록
+            pd_nameList = accountyService.findSavingPd();
+        }
+
+        // form에서 입력된 pd_name과 현재 판매중인 상품 중 이름이 동일한 것이 있다면 return true
+        if(pd_nameList.size()!=0){
+            for(String name:pd_nameList){
+                if(name.equals(pd_name)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @GetMapping("test2")
+    @ResponseBody
+    public String test2(@RequestParam("id") long id){
+        List<Accounty> accList = accountyService.findAccByMemberId(id);
+        List<Object> newList = new ArrayList<>();
+        for(Accounty acc : accList){
+            if(acc.getAc_main().equals("주")){
+                newList.add(acc);
+            }
+        }
+        return newList.toString();
+    }
+//    public void savingEnd(){
+//        List<Accounty> savingList =
+//    }
 }

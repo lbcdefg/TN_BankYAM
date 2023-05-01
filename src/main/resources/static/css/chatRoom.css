@@ -264,17 +264,20 @@ div[class="sidebar"] .file-list{
     display:flex;
     height:44px;
 }
-.file-list a .file-type{
+.file-type{
     height: 30px;
-    width: 36px;
+    padding: 0px 6px;
     margin: 7px;
     border: 1px solid;
     border-radius: 5px;
     text-align: center;
+    color: black;
+    display: table;
 }
-.file-list a .file-name{
+.file-name{
     margin-left: 5px;
     margin-top: 8px;
+    color: black;
 }
 div[class="sidebar"] .chat-member{
     position:relative;
@@ -365,16 +368,25 @@ input[id="menuicon"]:checked + label + div{
 .add_body .add-close, .make-chat-body .chat-close, .make-group-body .group-close{
     display: block;
     margin-bottom: 15px;
-    margin-left: 180px;
+    margin-left: 160px;
+    background-color: var(--themecolor);
+    color: white;
+    padding: 5px 12px;
+    border: none;
 }
 .add_body .add-button, .make-chat-body .add-button, .make-group-body .add-button{
-    margin-top: 20px;
-    margin-left: 155px;
+    display: block;
+    margin-top: 12px;
+    margin-left: 150px;
+    background-color: var(--themecolor);
+    color: white;
+    padding: 5px 12px;
+    border: none;
 }
 .friend-list{
     background-color:white;
     position:relative;
-    max-height: 270px;
+    max-height: 265px;
     overflow:scroll;
     overflow-x: hidden;
 }

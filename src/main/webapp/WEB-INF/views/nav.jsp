@@ -4,7 +4,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-
+<script>
+    if(opener != null){
+        window.close();
+    }
+</script>
 <head>
     <title>뱅크얌</title>
     <link rel="stylesheet" type="text/css" href="/css/nav.css" />
@@ -39,7 +43,7 @@
     <c:if test="${sessionScope.membery ne null}">
     <ul class="canvas-items2">
         <li><a href="/member/profile">프로필</a></li>
-        <li><a href="/account/transactionList">계좌이체</a></li>
+        <li><a href="/account/transfer">계좌이체</a></li>
         <li><a href="/chat/list">얌톡</a></li>
         <li><a href="/member/logout_ok">로그아웃</a></li>
     </ul>
@@ -51,18 +55,12 @@
             </div>
             <div class="nav-header-1">
             <ul class="nav-menu">
-                 <li class="nav-menu-item menu-show" id="nav-post">
-                    <a href="#">상품</a>
-                    <div class="nav-post-box">
-
-                        <a class="hidden-a" href="/accountM/accounts">계좌관리</a>
-                    </div>
-                </li>
                 <li class="nav-menu-item menu-show" id="nav-post">
                     <a href="#">뱅킹</a>
                     <div class="nav-post-box">
+                        <a class="hidden-a" href="#">상품</a>
                         <c:if test="${sessionScope.membery eq null}">
-                            <a href="/account/transactionList" target="_self" class="hidden-a">이체</a>
+                            <a href="/account/transfer" target="_self" class="hidden-a">이체</a>
                         </c:if>
                         <c:if test="${sessionScope.membery ne null}">
                             <a onclick="openTrPop(0)" target="_blank" class="hidden-a">이체</a>

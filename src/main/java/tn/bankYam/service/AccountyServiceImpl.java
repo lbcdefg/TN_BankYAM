@@ -107,11 +107,6 @@ public class AccountyServiceImpl implements AccountyService{
     }
 
     @Override
-    public Product recentPd() {
-        return mapper.findRecentPd();
-    }
-
-    @Override
     public void interest(Accounty accounty) {
         mapper.interest(accounty);
     }
@@ -121,9 +116,6 @@ public class AccountyServiceImpl implements AccountyService{
     
     @Override
     public void updatePdXdate(Product product){ mapper.updatePdXdate(product);}
-
-    @Override
-    public List<Product> test(HashMap<String,Object> map){ return mapper.test(map);}
 
     @Override
     public List<Product> findPdByPdname() {
@@ -140,4 +132,12 @@ public class AccountyServiceImpl implements AccountyService{
         return mapper.findPdByPdtype(pd_type);
     }
 
+    @Override
+    public List<String> findSavingPd(){
+        return mapper.findSavingPd();
+    }
+    @Override
+    public List<Accounty> findSavingAcc() {
+        return mapper.findSavingAcc();
+    }
 }

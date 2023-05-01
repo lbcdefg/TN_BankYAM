@@ -35,4 +35,6 @@ public interface AccountyMapper {
     List<Product> findPdByPdname();
     List<String> findPdtype();
     List<Product> findPdByPdtype(String pd_type);
+    List<String> findSavingPd();
+    List<Accounty> findSavingAcc();
 }
