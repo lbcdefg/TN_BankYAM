@@ -74,16 +74,16 @@ public class ChatController {
 
 	@GetMapping("insert")
 	@ResponseBody
-	public long insertRoom(@RequestParam(value = "f_mb_seq[]") ArrayList<Long> f_mb_seq, HttpSession session, HttpServletResponse response) throws IOException{
+	public long insertRoom(@RequestParam(value = "f_f_mb_seq[]") ArrayList<Long> f_f_mb_seq, HttpSession session, HttpServletResponse response) throws IOException{
 		Membery membery = (Membery) session.getAttribute("membery");
-		if(f_mb_seq.size() == 1){
-			Chatmember chatmember= chatroomService.checkRoomS(membery.getMb_seq(), f_mb_seq.get(0));
+		if(f_f_mb_seq.size() == 1){
+			Chatmember chatmember= chatroomService.checkRoomS(membery.getMb_seq(), f_f_mb_seq.get(0));
 			if(chatmember != null){
 				return chatmember.getCm_cr_seq();
 			}
 		}
 		//채팅방 만들고 채팅인원 인서트 한번에 서비스 합시다.
-		long roomNumber = chatroomService.makeRoomS(membery, f_mb_seq);
+		long roomNumber = chatroomService.makeRoomS(membery, f_f_mb_seq);
 		return roomNumber;
 	}
 
