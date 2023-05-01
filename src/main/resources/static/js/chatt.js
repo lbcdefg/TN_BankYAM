@@ -83,12 +83,13 @@ var msgText;
 var mb_seq = getId('session_seq').value;
 var cr_seq = getId('cr_seq').value;
 
-ws = new WebSocket("ws://" + location.host + "/chat/soket");
+ws = new WebSocket("ws://" + location.host + "/chat/soket/room");
 readContent(cr_seq);
 
 
 ws.onmessage = function(msg){
     var data = JSON.parse(msg.data);
+    console.log(data);
 
     var item;
 
@@ -97,34 +98,90 @@ ws.onmessage = function(msg){
             if($(".chatDay").last().text() != data.cc_rdate_day){
                 talk.innerHTML += '<div class="in-out-chat chatDay">' + data.cc_rdate_day + '</div>';
             }
+            if(data.chatfile != null){
+                $(".no-file").remove();
+                item = `<a class="chat-file" href="download?cf_seq=${data.chatfile.cf_seq}">
+                            <div class="file-type">`
+                                //${fn:substring(data.chatfile.cf_orgnm,fn:indexOf(data.chatfile.cf_orgnm,'.')+1,fn:length(data.chatfile.cf_orgnm)) }
+                item += data.chatfile.cf_orgnm.substring(data.chatfile.cf_orgnm.indexOf('.')+1, data.chatfile.cf_orgnm.length);
+                item +=`    </div>
+                            <span class="file-name">${data.chatfile.cf_orgnm}</span>
+                        </a>`;
+                $(".file-list").prepend(item);
+            }
             if(data.membery == null){//누군가가 퇴장or입장
                 item = `<div class="in-out-chat">${data.cc_content}</div>`
                 location.reload()
             }else if(data.membery.mb_seq == mb_seq){
-                 item = `<div class="chat ch2">
-                             <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
-                             <div class="chat-content">
-                                 <div class="chat-info">
-                                     <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
-                                 </div>
-                                 <div class="textbox">${data.cc_content}</div>
-                             </div>
-                         </div>`;
-            }else{
-                item = `<div class="chat ch1">
-                            <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
-                            <div class="chat-content">
-                                <div class="chat-name">
-                                    <span>${data.membery.mb_name}</span>
-                                </div>
-                                <div class="chat-text-info">
-                                    <div class="textbox">${data.cc_content}</div>
+                if(data.chatfile != null){
+                    item = `<div class="chat ch2">
+                                <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                                <div class="chat-content">
                                     <div class="chat-info">
                                         <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
                                     </div>
+                                    <div class="textbox">
+                                        <a class="chat-file" href="download?cf_seq=${data.chatfile.cf_seq}">
+                                            <div class="file-type">`;
+                    item += data.chatfile.cf_orgnm.substring(data.chatfile.cf_orgnm.indexOf('.')+1, data.chatfile.cf_orgnm.length);
+                    item +=`                </div>
+                                            <span class="file-name">${data.chatfile.cf_orgnm}</span>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>`;
+                            </div>`;
+                }else{
+                     item = `<div class="chat ch2">
+                                 <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                                 <div class="chat-content">
+                                     <div class="chat-info">
+                                         <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
+                                     </div>
+                                     <div class="textbox">${data.cc_content}</div>
+                                 </div>
+                             </div>`;
+                }
+            }else{
+                if(data.chatfile != null){
+                    item = `<div class="chat ch1">
+                                <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                                <div class="chat-content">
+                                    <div class="chat-info">
+                                        <div class="chat-name">
+                                            <span>${data.membery.mb_name}</span>
+                                        </div>
+                                    </div>
+                                    <div class="chat-text-info">
+                                        <div class="textbox">
+                                            <a class="chat-file" href="download?cf_seq=${data.chatfile.cf_seq}">
+                                                <div class="file-type">`;
+                    item += data.chatfile.cf_orgnm.substring(data.chatfile.cf_orgnm.indexOf('.')+1, data.chatfile.cf_orgnm.length);
+                    item +=`                    </div>
+                                                <span class="file-name">${data.chatfile.cf_orgnm}</span>
+                                            </a>
+                                        </div>
+                                        <div class="chat-info">
+                                            <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                }else{
+                    item = `<div class="chat ch1">
+                                <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                                <div class="chat-content">
+                                    <div class="chat-name">
+                                        <span>${data.membery.mb_name}</span>
+                                    </div>
+                                    <div class="chat-text-info">
+                                        <div class="textbox">${data.cc_content}</div>
+                                        <div class="chat-info">
+                                            <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                }
             }
 
             talk.innerHTML += item;

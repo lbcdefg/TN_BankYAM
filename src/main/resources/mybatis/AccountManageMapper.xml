@@ -17,6 +17,18 @@
         <result property="mb_wdate" column="mb_wdate" />
     </resultMap>
 
+    <resultMap type="product" id="productMap" >
+        <id property="pd_seq" column="pd_seq"/>
+        <id property="pd_type" column="pd_type"/>
+        <id property="pd_name" column="pd_name"/>
+        <id property="pd_rate" column="pd_rate"/>
+        <id property="pd_addrate" column="pd_addrate"/>
+        <id property="pd_info" column="pd_info"/>
+        <id property="pd_del" column="pd_del"/>
+        <id property="pd_rdate" column="pd_rdate"/>
+        <id property="pd_xdate" column="pd_xdate"/>
+    </resultMap>
+
     <resultMap type="accounty" id="accountyMap">
         <id property="ac_seq" column="ac_seq" />
         <result property="ac_pwd" column="ac_pwd" />
@@ -32,6 +44,7 @@
         <result property="ac_udate" column="ac_udate" />
         <result property="ac_xdate" column="ac_xdate" />
         <association property="membery" column="mb_seq" resultMap="memberyMap" />
+        <association property="product" column="pd_seq" resultMap="productMap" />
     </resultMap>
 
     <select id="selectAcList" resultType="list" resultMap="accountyMap" parameterType="Membery">
@@ -43,6 +56,10 @@
             accounty a
         ON
             m.mb_seq = a.ac_mb_seq
+        JOIN
+            product p
+        ON
+            a.ac_pd_seq = p.pd_seq
         WHERE
             m.mb_seq = #{mb_seq}
         AND

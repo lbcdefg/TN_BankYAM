@@ -5,12 +5,14 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import tn.bankYam.dto.Membery;
+import tn.bankYam.dto.Product;
 import tn.bankYam.mapper.MemberyMapper;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -68,7 +70,7 @@ public class MemberServiceImpl implements MemberyService{
 	}
 
 	@Override
-	public void editPwd(HashMap<String, String> map){
+	public void editPwd(HashMap<String, String> map) {
 		memberyMapper.editPwd(map);
 		Membery membery2 = memberyMapper.findByEmail(map.get("mb_email"));
 		System.out.println("업데이트이후: " + membery2);

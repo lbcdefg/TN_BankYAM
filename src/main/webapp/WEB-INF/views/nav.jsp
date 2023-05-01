@@ -2,6 +2,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<meta name="viewport" content="width=device-width,initial-scale=1">
 
 
 <head>
@@ -50,16 +51,10 @@
             </div>
             <div class="nav-header-1">
             <ul class="nav-menu">
-                 <li class="nav-menu-item menu-show" id="nav-post">
-                    <a href="#">상품</a>
-                    <div class="nav-post-box">
-
-                        <a class="hidden-a" href="/accountM/accounts">계좌관리</a>
-                    </div>
-                </li>
                 <li class="nav-menu-item menu-show" id="nav-post">
                     <a href="#">뱅킹</a>
                     <div class="nav-post-box">
+                        <a class="hidden-a" href="#">상품</a>
                         <c:if test="${sessionScope.membery eq null}">
                             <a href="/account/transfer" target="_self" class="hidden-a">이체</a>
                         </c:if>

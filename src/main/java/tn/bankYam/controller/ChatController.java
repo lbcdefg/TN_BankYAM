@@ -87,14 +87,6 @@ public class ChatController {
 		return roomNumber;
 	}
 
-	@RequestMapping("mychatt")
-	@ResponseBody
-	public ModelAndView chatt() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("chatting");
-		return mv;
-	}
-
 	@GetMapping("readContent")
 	@ResponseBody
 	public List<Chatcontent> readContent(long cr_seq, HttpSession session){

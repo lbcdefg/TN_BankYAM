@@ -78,7 +78,6 @@ public class RegisterMail{
                     break;
             }
         }
-
         return key.toString();
     }
 
@@ -91,7 +90,6 @@ public class RegisterMail{
 
         ePw = createKey(); // 랜덤 인증번호 생성
 
-        // TODO Auto-generated method stub
         MimeMessage message = createMessage(to); // 메일 발송
         try {// 예외처리
             emailsender.send(message);
@@ -99,8 +97,35 @@ public class RegisterMail{
             es.printStackTrace();
             throw new IllegalArgumentException();
         }
-
-
         return ePw; // 메일로 보냈던 인증 코드를 서버로 반환
+    }
+
+    public MimeMessage savingAlarm(String to) throws MessagingException, UnsupportedEncodingException {
+
+        MimeMessage message = emailsender.createMimeMessage();
+
+        message.addRecipients(RecipientType.TO, to);// 보내는 대상
+        message.setSubject("BankYam 적금상품 만기 알림");// 제목
+
+        String msgg = "";
+        msgg += "<div style='margin:100px;'>";
+        msgg += "<h1> 안녕하세요</h1>";
+        msgg += "<h1> SNS형 뱅킹서비스 BankYam 입니다</h1>";
+        msgg += "<br>";
+        msgg += "<p>아래 코드를 회원가입 창으로 돌아가 입력해주세요<p>";
+        msgg += "<br>";
+        msgg += "<p>이미 모두의 은행, 지금은 뱅크얌. Thank You! <p>";
+        msgg += "<br>";
+        msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
+        msgg += "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
+        msgg += "<div style='font-size:130%'>";
+        msgg += "CODE : <strong>";
+        msgg += ePw + "</strong><div><br/> "; // 메일에 인증번호 넣기
+        msgg += "</div>";
+        message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
+        // 보내는 사람의 이메일 주소, 보내는 사람 이름
+        message.setFrom(new InternetAddress("bbaannkkyyaamm______@naver.com", "BankYam_Admin"));// 보내는 사람
+
+        return message;
     }
 }

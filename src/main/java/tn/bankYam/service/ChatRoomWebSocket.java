@@ -2,13 +2,10 @@ package tn.bankYam.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.WebSocketSession;
 import tn.bankYam.dto.Chatcontent;
 import tn.bankYam.dto.Chatstatus;
 import tn.bankYam.dto.Membery;
-import tn.bankYam.mapper.ChatroomMapper;
 import tn.bankYam.utils.ServerEndpointConfigurator;
 
 import javax.servlet.http.HttpSession;
@@ -18,8 +15,8 @@ import java.util.*;
 
 @RequiredArgsConstructor
 @Service
-@ServerEndpoint(value="/chat/soket", configurator = ServerEndpointConfigurator.class)
-public class ChatWebSocket {
+@ServerEndpoint(value="/chat/soket/room", configurator = ServerEndpointConfigurator.class)
+public class ChatRoomWebSocket {
 	private static Set<Session> clients =
 			Collections.synchronizedSet(new HashSet<>());
 	private Map<Session, EndpointConfig> configs = Collections.synchronizedMap(new HashMap<>());
