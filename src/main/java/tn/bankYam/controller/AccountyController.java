@@ -44,38 +44,34 @@ public class AccountyController {
 
     //계좌이체 창
     @GetMapping("transfer")
-    public String transfer(Model model,HttpSession session, Accounty accounty,HttpServletResponse response, long f_mb_seq) throws IOException {
+    public String transfer(Model model,HttpSession session, Accounty accounty,HttpServletResponse response, long other_mb_seq) throws IOException {
 
-
-
-        //친구에게 계좌이체시에
-//        f_mb_seq = 6;
-//        if(f_mb_seq > 0){
-//            List<Accounty> tempAccounty = accountyService.selectAccNumS(f_mb_seq);
-//            Accounty accounty = new Accounty();
 //
-//            for(Accounty acc: tempAccounty){
-//                if(acc.getAc_main().equals("주")){
-//                    accounty = acc;
-//                }
-//            }
-//            model.addAttribute("tr_other_accnum", accounty.getAc_seq());
-//
-//        }else{
-//            model.addAttribute("tr_other_accnum", "");
-//        }
         Membery membery = (Membery)session.getAttribute("membery");
-
-
-
         List<Accounty> accList = accountyService.selectAccNumS(membery.getMb_seq());
+
         for(int i = 0; i < accList.size(); i++){
             Accounty accInfo = accountyService.selectAccInfoS(accList.get(i).getAc_seq());
             accList.get(i).setAc_balance(accInfo.getAc_balance());
             accList.get(i).setAc_pwd(accInfo.getAc_pwd());
         }
 
-        model.addAttribute("tr_other_accnum", accounty.getAc_seq());
+        if(other_mb_seq > 0){
+            List<Accounty> tempAccounty = accountyService.selectAccNumS(other_mb_seq);
+            Accounty accounty_list = new Accounty();
+
+            for(Accounty acc: tempAccounty){
+                if(acc.getAc_main().equals("주")){
+                    accounty_list = acc;
+                }
+            }
+            model.addAttribute("tr_other_accnum", accounty_list.getAc_seq());
+
+        }else{
+            model.addAttribute("tr_other_accnum", "");
+        }
+
+
         model.addAttribute("accList", accList);
         return "transfer";
     }
