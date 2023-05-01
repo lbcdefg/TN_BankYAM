@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import tn.bankYam.dto.*;
+import tn.bankYam.service.ChatroomService;
 import tn.bankYam.service.FriendsService;
 import tn.bankYam.utils.ScriptUtil;
 
@@ -26,6 +27,9 @@ public class FriendController {
 
     @Autowired
     private FriendsService friendsService;
+
+    @Autowired
+    private ChatroomService chatroomService;
 
     @GetMapping("friends")
     public String friends(Model model, HttpServletRequest request, HttpSession session, String content){
@@ -259,6 +263,10 @@ public class FriendController {
                     for (Friend fr : frList) {
                         if (fr.getMembery().getMb_seq() == frId) {
                             friendsService.deleteFr(forDelMap);
+                            Chatmember chatmember = chatroomService.checkRoomS(membery.getMb_seq(), fr.getF_f_mb_seq());
+                            if(chatmember != null){
+                                chatroomService.outChat(membery, chatmember.getCm_cr_seq());
+                            }
                             ScriptUtil.alertAndMovePage(response, "친구삭제 완료", "/friend/friends?content=list");
                         }
                     }

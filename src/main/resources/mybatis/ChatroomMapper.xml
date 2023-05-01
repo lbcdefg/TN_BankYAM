@@ -77,7 +77,7 @@
             WHERE CM_CR_SEQ IN
                 (SELECT CM_CR_SEQ FROM CHATMEMBER
                 WHERE CM_MB_SEQ=#{mb_seq})
-            AND CM_MB_SEQ!=#{mb_seq} AND CM_MB_SEQ=#{f_mb_seq})
+            AND CM_MB_SEQ!=#{mb_seq} AND CM_MB_SEQ=#{f_f_mb_seq})
         GROUP BY CM_CR_SEQ HAVING COUNT(*)=2
     </select>
     <insert id="insertRoom" parameterType="Chatroom">
