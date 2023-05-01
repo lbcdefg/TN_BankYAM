@@ -81,7 +81,7 @@
                             <input name="pd_type" type="text" placeholder="유형" />
                         </div>
                         <div class="field2" style="margin-top:10px;">
-                            <input name="pd_name" type="text" placeholder="이름" />
+                            <input id="pd_name" name="pd_name" type="text" placeholder="이름" />
                         </div>
                         <div class="field3" style="margin-top:10px;">
                             <input name="pd_addrate" placeholder="추가이율" />
@@ -304,7 +304,24 @@
         </script>
         <script>
             $("#upload_btn").on("change", function(event){
-               f.submit();
+                $.ajax({
+                    type : "GET",
+                    url : "/admin/pd_nameCheck",
+                    data : {
+                        "pd_name" : $("#pd_name").val(),
+                        "pd_type" : $("#pd_type").val(),
+                    },
+                    success : function(result){
+                        if(result == false){
+                            console.log("추가하고자 하는 상품의 이름은 : " + $("#pd_name").val());
+                            f.submit();
+                            alert($("#pd_name").val() + " 계좌 추가가 완료되었습니다");
+                        }else{
+                            console.log("추가하고자 하는 상품의 이름은 : " + $("#pd_name").val());
+                            alert("추가하고자 하는 상품의 이름은 "$("#pd_name").val() + ", \n이미 있는 상품입니다");
+                        }
+                    }
+                })
             });
             $("#pd_type").on("change", function(event){
                selectF.submit();

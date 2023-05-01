@@ -82,19 +82,21 @@ public class AdminController {
     @GetMapping("rate_update_ok")
     public String rate_update_ok(Model model,Transactions transactions){
         Float rate = crawling();
-        System.out.println("최종금리: " + rate);
         List<String> list = accountyService.findDepositPd();
 
         for(String pd_name:list){
             Product product = accountyService.findDepositPdVal(pd_name);
-            //System.out.println("pd_name : " + pd_name);
             float oldRate = product.getPd_rate();
             System.out.println("rate: " + rate + ", oldRate : " + oldRate);
             if(rate != oldRate){
                 accountyService.updatePdXdate(product);
                 Product newProduct = product;
-                newProduct.setPd_rate(rate);
-                //System.out.println("newProduct : " + newProduct);
+                // 적금이면 현재금리의 50% 추가적용
+                if(newProduct.getPd_type().equals("적금")){
+                    newProduct.setPd_rate((float)(rate*1.5));
+                }else{
+                    newProduct.setPd_rate(rate);
+                }
                 accountyService.insertPd(newProduct);
             }
         }
@@ -156,5 +158,14 @@ public class AdminController {
         product.setPd_seq(pd_seq);
         accountyService.updatePdXdate(product);
         return "redirect:/member/profile";
+    }
+
+    @GetMapping("/pd_nameCheck")
+    @ResponseBody
+    boolean pd_nameCheck(HttpServletRequest request){
+        String pd_name = request.getParameter("pd_name");
+        String pd_type = request.getParameter("pd_type");
+        List<Product> pdList = accountyService.pdListbyType(typeMap(pd_type));
+
     }
 }

@@ -135,12 +135,7 @@
         UPDATE PRODUCT SET PD_XDATE = SYSDATE, PD_DEL = 'O'
         WHERE PD_SEQ=#{pd_seq}
     </update>
-    <select id="test" parameterType="hashmap" resultType="Product">
-       SELECT * FROM PRODUCT WHERE PD_NAME IN (SELECT PD_NAME FROM(SELECT * FROM PRODUCT WHERE PD_DEL='X'
-        <if test="pd_type != null">
-            AND PD_TYPE= #{pd_type}
-        </if>
-        ) GROUP BY PD_NAME) AND PD_DEL='X'
+    <select id="findSavingPd" resultType="String">
+        SELECT PD_NAME FROM(SELECT * FROM PRODUCT WHERE PD_TYPE='적금' AND PD_DEL='X') GROUP BY PD_NAME
     </select>
-
 </mapper>
