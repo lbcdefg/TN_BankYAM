@@ -92,10 +92,9 @@ public class AdminController {
                 accountyService.updatePdXdate(product);
                 Product newProduct = product;
                 // 적금이면 현재금리의 50% 추가적용
+                newProduct.setPd_rate(rate);
                 if(newProduct.getPd_type().equals("적금")){
-                    newProduct.setPd_rate((float)(rate*1.5));
-                }else{
-                    newProduct.setPd_rate(rate);
+                    newProduct.setPd_addrate((float)(rate*0.5) + product.getPd_addrate());
                 }
                 accountyService.insertPd(newProduct);
             }
@@ -125,13 +124,15 @@ public class AdminController {
 
     @PostMapping("addProduct_ok")
     public String addProduct_ok(Product product){
-        float rate;
+        float rate = crawling();
+        float addrate;
         if(product.getPd_type().equals("적금")){
-            rate = (float)(crawling()*1.5);
+            addrate = (float)(crawling()*0.5) + product.getPd_addrate();
         }else{
-            rate = crawling();
+            addrate = product.getPd_addrate();
         }
         product.setPd_rate(rate);
+        product.setPd_addrate(addrate);
         product.setPd_del("X");
         accountyService.insertPd(product);
         return "redirect:/member/profile";
@@ -182,7 +183,7 @@ public class AdminController {
         }
         return newList.toString();
     }
-    public void savingEnd(){
-
-    }
+//    public void savingEnd(){
+//        List<Accounty> savingList =
+//    }
 }
