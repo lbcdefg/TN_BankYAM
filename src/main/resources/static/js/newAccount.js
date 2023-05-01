@@ -1,4 +1,7 @@
 $(document).ready(function(){
+    // 처음 진입하면 예금상품으로 포커스
+    getValue($(".nac-deposit"));
+
     // 계좌별칭 갯수를 이용하여 현재 총 계좌 갯수 구하기
     var acCount = $(".ac-name-receptor2").length;
 
@@ -63,6 +66,44 @@ $(document).ready(function(){
         }
     });
 });
+
+function getValue(event){
+    if(event.value == "deposit"){
+        $('.nac-deposit').addClass("focus");
+        $('.nac-saving').removeClass("focus");
+        changePdName(event.value)
+    }else if(event.value == "saving"){
+        $('.nac-deposit').removeClass("focus");
+        $('.nac-saving').addClass("focus");
+        result = "else";
+    }
+}
+
+function changePdName(catPd){
+    $.ajax({
+        url: "../accountM/accounts_pdSelectAjax",
+        type: "POST",
+        data: {catPd: catPd},
+        success: function(acNames){
+            if(acNames == null){
+                alert("알 수 없는 문제가 발생하였습니다");
+                history.back();
+            }else{
+                $("#ac_name").val(acNames[0]);
+                if(acNames[1] != null){
+                    for(var i=1; i<acNames.length; i++){
+                        hiddenInput = $("<input>").attr({type: "hidden", value: acNames[i]}).addClass("ac-name-receptor2");
+                        $(".nac-row-block").append(hiddenInput);
+                    }
+                }
+                acNameCheck(acCount);
+            }
+        },
+        error: function(error){
+            alert("error: " + error);
+        }
+    });
+}
 
 function checkPdName(acCount){
     $.ajax({

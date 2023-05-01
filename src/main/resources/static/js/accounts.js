@@ -133,6 +133,45 @@ $(document).ready(function(){
             setPtagAcs("확인가능", "acCC1", ".acs-psC-ps1");
         }
     });
+
+    // 윈도우 width 체크해서 form 변경해줄 코드
+    var windowWidth = $(window).width();
+    if(windowWidth<900){
+        $(".ac-change-frame2").show();
+        $(".ac-change-frame1").hide();
+    }else{
+        $(".ac-change-frame2").hide();
+        $(".ac-change-frame1").show();
+    }
+
+    // 윈도우 size 변경 시 width 체크해서 form 변경해줄 코드
+    $(window).resize(function(){
+        if(this.resizeTO){
+            clearTimeout(this.resizeTO);
+        }
+        this.resizeTO = setTimeout(function(){
+            $(this).trigger('resizeEnd');
+        });
+    });
+
+    $(window).on('resizeEnd', function(){
+        windowWidth = $(window).width();
+        if(windowWidth<900){
+            $(".ac-change-frame2").show();
+            $(".ac-change-frame1").hide();
+        }else{
+            $(".ac-change-frame2").hide();
+            $(".ac-change-frame1").show();
+        }
+    });
+
+    // 1) 처음 페이지 진입 시 한번 가져오기
+    selectGetAc();
+
+    // 2) 셀렉트 변경 시마다 가져오기
+    $('.ac-manage-select-content').change(function() {
+        selectGetAc();
+    });
 });
 
 function setPtagAcs(getText, getClass, getQuery){
@@ -397,6 +436,23 @@ function psCCancel(){
         $("p.acC1").remove(); $("p.acC2").remove(); $("p.acC3").remove();
         $(".ac-ps-check").val("");
         togglePsM($(".acs-psC"));
+    }else{
+        return false;
+    }
+}
+
+// window size 900 이하일 때 계좌 내용 뿌려주기
+function selectGetAc(){
+    $(".ac-manage-row").hide();
+    var selectOptionAc = $(".ac-manage-select-content").val();
+    var getAcId = "ac-" + selectOptionAc;
+    $("tr#"+getAcId).show();
+}
+
+function changeMain(ac_seq){
+    var acrConfirm = confirm("주 계좌를 변경하시겠습니까?");
+    if(acrConfirm){
+        location.href="accounts?ac_seq="+ac_seq+"&cat=acM";
     }else{
         return false;
     }

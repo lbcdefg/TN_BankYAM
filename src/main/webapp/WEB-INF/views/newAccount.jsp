@@ -18,6 +18,12 @@
             <h1 class="nac-header-title">신규 계좌 개설</h1>
         </div>
         <div class="nac-main">
+            <div class="nac-btn-row">
+                <div class="nac-btn-group">
+                    <button type="button" class="nac-deposit" value="deposit" onclick="getValue(this)">예금상품</button>
+                    <button type="button" class="nac-saving" value="saving" onclick="getValue(this)">적금상품</button>
+                </div>
+            </div>
             <form name="nacf" class="nac-form" method="post" action="accounts_newAc" novalidate>
                 <div class="nac-row margin-bottom-30">
                     <div class="row-in-select">

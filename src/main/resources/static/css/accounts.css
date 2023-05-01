@@ -83,15 +83,15 @@
     color: #5F4934;
 }
 
-.acs-list-row a{
+.acs-list-row a, .ac-manage-row a{
     color: #B39273;
 }
 
-.acs-list-row a:visit{
+.acs-list-row a:visit, .ac-manage-row a:visit{
     color: #B39273;
 }
 
-.acs-list-row a:hover{
+.acs-list-row a:hover, .ac-manage-row a:hover{
     color: #5F4934;
 }
 
@@ -110,6 +110,10 @@
 
 .color-F7F3EF{
     color:#F7F3EF;
+}
+
+.color-red{
+    color:red;
 }
 
 .fontS-35{
@@ -270,5 +274,68 @@ input[type=password]:invalid {
 }
 
 @media(max-width: 1200px){
+    .acs-list-table{
+        font-size: 13px;
+    }
+}
 
+@media(max-width: 1000px){
+    .acs-list-table{
+        font-size: 12px;
+    }
+    .acs-nameM-btn{
+        font-size: 12px;
+    }
+}
+
+
+/* window width 900 이하일 때 */
+.ac-manage-select{
+    width: 80%;
+    height: 35px;
+    margin:auto;
+}
+
+.ac-manage-select-content{
+    width: 100%;
+    height: 100%;
+}
+
+.ac-manage-table{
+    width:95%;
+    border-collapse: collapse;
+    margin: auto;
+    margin-top:25px;
+}
+
+.ac-manage-row{
+    border-bottom: 0.5px solid #B39273;
+    height: 70px;
+    text-align: center;
+}
+
+.acs-list-35{
+    font-weight: bold;
+    width:35%;
+}
+
+.acs-list-65{
+    width:65%;
+}
+
+@media(max-width: 600px){
+    .new-ac-btn{
+        margin-right:35px;
+        font-size:14px;
+        padding: 10px 15px;
+    }
+
+    .acs-title{
+        padding-left:35px;
+        font-size:25px;
+    }
+
+    .acs-body-head{
+        margin-bottom:30px;
+    }
 }

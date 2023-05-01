@@ -104,6 +104,11 @@ input[type=password]:invalid {
     border: 3px solid red;
 }
 
+.focus{
+    opacity: 1;
+    border-bottom: 1px solid black;
+}
+
 .margin-bottom-30{
     margin-bottom: 30px;
 }
@@ -124,4 +129,14 @@ input[type=password]:invalid {
 
 .naC3{
     font-size:20px;
+}
+
+@media(max-width: 615px){
+    .nac-main{
+        width:360px;
+    }
+
+    #pd_named{
+        font-size:12px;
+    }
 }

@@ -234,7 +234,7 @@ public class AccountManageController {
 
         if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
             // 상품 이름들 받아서 뿌려줄 용도
-            List<Product> pdNames = accountManageService.forRecentPdList();
+            List<Product> pdNames = accountManageService.forRecentPdList(); // 예금 상품들
 
             model.addAttribute("pdNames", pdNames);
 
@@ -251,13 +251,29 @@ public class AccountManageController {
     @PostMapping("accounts_pdAjax")
     public @ResponseBody List<String> acNamesList(HttpSession session, String pd_name) {
         Membery membery = (Membery)session.getAttribute("membery");
-        System.out.println("들어오냐?");
+
         if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
             // 내 계좌들 전부 가져올 리스트
             List<Accounty> getAc = accountManageService.myAllAcBySeq(membery.getMb_seq());
 
             // 계좌 선택 및 계좌 별칭용 리스트
             return accountManageService.forAcNames(getAc, pd_name);
+        }
+        return null;
+    }
+
+    // 신규계좌생성시 상품 종류 선택으로 각기 다른 option 뿌려줄 ajax
+    @PostMapping("accounts_pdSelectAjax")
+    public @ResponseBody List<Product> pdNamesList(HttpSession session, String catPd) {
+        Membery membery = (Membery)session.getAttribute("membery");
+
+        if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
+            if(catPd.equals("deposit")){
+
+            }else if(catPd.equals("saving")){
+
+                return accountManageService.forAcNames(getAc, pd_name);
+            }
         }
         return null;
     }
