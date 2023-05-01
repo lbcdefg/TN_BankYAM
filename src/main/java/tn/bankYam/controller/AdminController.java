@@ -107,7 +107,8 @@ public class AdminController {
     @ResponseBody
     public String test2(HttpServletRequest request){
         String pd_type = request.getParameter("type").trim();
-        return accountyService.test(typeMap(pd_type)).toString();
+        //return accountyService.test(typeMap(pd_type)).toString();
+        return null;
     }
 
     public HashMap<String, Object> typeMap(String pd_type){
