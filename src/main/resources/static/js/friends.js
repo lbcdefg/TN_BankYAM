@@ -8,7 +8,7 @@ $(document).ready(function(){
     $(".frs-plus-btn").click(function(){
         var resultAddReq = confirm($(".frs-name-profile").text()+"님에게 친구추가를 요청하시겠습니까?");
         if(resultAddReq){
-            var frId = $(".frs-plus-btn").attr("id")
+            var frId = $(".frs-send-btn").attr("id")
             location.href="/friend/friends_AddFr?frId=" + frId + "&catAdd=reqAdd";
         }else{
             return false;
@@ -17,8 +17,18 @@ $(document).ready(function(){
     $(".frs-block-btn").click(function(){
         var resultBlFr = confirm($(".frs-name-profile").text()+"님을 차단하시겠습니까?");
         if(resultBlFr){
-            var frId = $(".frs-plus-btn").attr("id")
+            var frId = $(".frs-send-btn").attr("id")
             location.href="/friend/friends_AddFr?frId=" + frId + "&catAdd=blAdd";
+        }else{
+            return false;
+        }
+    });
+    $(".frs-send-btn").click(function(){
+        var resultBlFr = confirm($(".frs-name-profile").text()+"님에게 송금하시겠습니까?");
+        if(resultBlFr){
+            var frId = $(".frs-send-btn").attr("id")
+            alert(frId)
+            openTrPop(frId);
         }else{
             return false;
         }
@@ -52,20 +62,22 @@ function checkFrSearchAjax(searchDiv, searchText){
         url: "../friend/friends_searchFr",
         type: "POST",
         data: {text: searchText},
-        success: function(accountyFr){
+        success: function(forFrAjax){
+            accountyFr = forFrAjax[0];
+            num = forFrAjax[1];
             if(accountyFr.membery == null){
                 noSearchFr(searchDiv, "other");
-            }else if(accountyFr.membery.mb_seq == -6){
+            }else if(num == -6){
                 searchFr(searchDiv, accountyFr.membery.mb_name, accountyFr.membery.mb_imagepath, accountyFr.membery.mb_seq, "alreadyFrBlock");
-            }else if(accountyFr.membery.mb_seq == -1){
+            }else if(num == -1){
                 noSearchFr(searchDiv, "self");
-            }else if(accountyFr.membery.mb_seq == -2){
+            }else if(num == -2){
                 searchFr(searchDiv, accountyFr.membery.mb_name, accountyFr.membery.mb_imagepath, accountyFr.membery.mb_seq, "alreadyFr");
-            }else if(accountyFr.membery.mb_seq == -3){
+            }else if(num == -3){
                 searchFr(searchDiv, accountyFr.membery.mb_name, accountyFr.membery.mb_imagepath, accountyFr.membery.mb_seq, "alreadyFrReq");
-            }else if(accountyFr.membery.mb_seq == -4){
+            }else if(num == -4){
                 searchFr(searchDiv, accountyFr.membery.mb_name, accountyFr.membery.mb_imagepath, accountyFr.membery.mb_seq, "alreadyFrRec");
-            }else if(accountyFr.membery.mb_seq == -5){
+            }else if(num == -5){
                 searchFr(searchDiv, accountyFr.membery.mb_name, accountyFr.membery.mb_imagepath, accountyFr.membery.mb_seq, "alreadyBlock");
             }else{
                 searchFr(searchDiv, accountyFr.membery.mb_name, accountyFr.membery.mb_imagepath, accountyFr.membery.mb_seq, "newFr");
@@ -89,6 +101,7 @@ function checkEmail(str){
 
 function searchFr(searchDiv, name, imgPath, seq, checkFr){
     $("p.frs-name-profile").remove();
+    $("p.frs-name-profile-sub").remove();
     var pTagFrName = $('<p>').text(name);
     searchDiv.append(pTagFrName);
     $(".frs-img-profile").attr("src", imgPath);
@@ -107,6 +120,7 @@ function searchFr(searchDiv, name, imgPath, seq, checkFr){
         $(".frs-plus-btn").show(); $(".frs-block-btn").show();
         $(".frs-plus-btn").attr('id', seq); $(".frs-block-btn").attr("id", seq);
     }
+    $(".frs-send-btn").attr('id', seq);
     $(".frs-send-btn").show();
 }
 
@@ -114,12 +128,13 @@ function setPtag(searchDiv, msg){
     pTagFr = $("<p>").text(msg);
     pTagFr.attr("style", "color:#fd8b00");
     searchDiv.append(pTagFr);
-    pTagFr.addClass("frs-name-profile");
+    pTagFr.addClass("frs-name-profile-sub");
 }
 
 function noSearchFr(searchDiv, choice){
     $(".frs-plus-btn").hide(); $(".frs-block-btn").hide();
     $("p.frs-name-profile").remove();
+    $("p.frs-name-profile-sub").remove();
     var pTagFr2 = $("<p>").text("Email 또는 계좌번호(숫자 12자리)를 정확하게 입력해 주세요.");
     if(choice == "noText"){
         pTagFr1 = $("<p>").text("아무것도 입력하지 않으셨습니다.");
