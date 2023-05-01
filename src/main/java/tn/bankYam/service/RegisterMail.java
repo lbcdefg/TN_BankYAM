@@ -101,12 +101,12 @@ public class RegisterMail{
         return ePw; // 메일로 보냈던 인증 코드를 서버로 반환
     }
 
-    public void savingEnd(Accounty accounty, Accounty mainAcc) throws MessagingException, UnsupportedEncodingException {
-
+    //방식은 위와 동일, 내용은 적금 만기해지알림
+    public MimeMessage savingEndMessage(Accounty accounty, Accounty mainAcc) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = emailsender.createMimeMessage();
 
-        message.addRecipients(RecipientType.TO, accounty.getMembery().getMb_email());// 보내는 대상
-        message.setSubject("BankYam 적금상품 만기해지 알림");// 제목
+        message.addRecipients(RecipientType.TO, accounty.getMembery().getMb_email());
+        message.setSubject("BankYam 적금상품 만기해지 알림");
 
         String msgg = "";
         msgg += "<div style='margin:100px;'>";
@@ -126,7 +126,12 @@ public class RegisterMail{
         message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
         // 보내는 사람의 이메일 주소, 보내는 사람 이름
         message.setFrom(new InternetAddress("bbaannkkyyaamm______@naver.com", "BankYam_Admin"));// 보내는 사람
-        try {// 예외처리
+        return message;
+    }
+
+    public void savingEnd(Accounty accounty, Accounty mainAcc) throws Exception {
+        MimeMessage message = savingEndMessage(accounty, mainAcc);
+        try {
             emailsender.send(message);
         } catch (MailException es) {
             es.printStackTrace();
