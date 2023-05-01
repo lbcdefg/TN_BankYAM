@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+import tn.bankYam.dto.Accounty;
 
 @Service
 public class RegisterMail{
@@ -100,32 +101,36 @@ public class RegisterMail{
         return ePw; // 메일로 보냈던 인증 코드를 서버로 반환
     }
 
-    public MimeMessage savingAlarm(String to) throws MessagingException, UnsupportedEncodingException {
+    public void savingEnd(Accounty accounty, Accounty mainAcc) throws MessagingException, UnsupportedEncodingException {
 
         MimeMessage message = emailsender.createMimeMessage();
 
-        message.addRecipients(RecipientType.TO, to);// 보내는 대상
-        message.setSubject("BankYam 적금상품 만기 알림");// 제목
+        message.addRecipients(RecipientType.TO, accounty.getMembery().getMb_email());// 보내는 대상
+        message.setSubject("BankYam 적금상품 만기해지 알림");// 제목
 
         String msgg = "";
         msgg += "<div style='margin:100px;'>";
         msgg += "<h1> 안녕하세요</h1>";
         msgg += "<h1> SNS형 뱅킹서비스 BankYam 입니다</h1>";
         msgg += "<br>";
-        msgg += "<p>아래 코드를 회원가입 창으로 돌아가 입력해주세요<p>";
+        msgg += "<p>귀하의 적금상품 [ " + accounty.getAc_name() +" ]이 만기일이 도래하여 해지되었음을 알려드립니다<p>";
+        msgg += "<br>";
+        msgg += "<p> 총 "  + accounty.getAc_balance()*(accounty.getProduct().getPd_rate()+accounty.getProduct().getPd_addrate()) +" 원의 금액이 <p>";
+        msgg += "<br>";
+        msgg += "<p>귀하의 주계좌인 [ " + mainAcc.getAc_seq() +" ] 계좌로 입금되었습니다<p>";
+        msgg += "<br>";
+        msgg += "<p>이용해 주셔서 감사합니다<p>";
         msgg += "<br>";
         msgg += "<p>이미 모두의 은행, 지금은 뱅크얌. Thank You! <p>";
-        msgg += "<br>";
-        msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
-        msgg += "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
-        msgg += "<div style='font-size:130%'>";
-        msgg += "CODE : <strong>";
-        msgg += ePw + "</strong><div><br/> "; // 메일에 인증번호 넣기
         msgg += "</div>";
         message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
         // 보내는 사람의 이메일 주소, 보내는 사람 이름
         message.setFrom(new InternetAddress("bbaannkkyyaamm______@naver.com", "BankYam_Admin"));// 보내는 사람
-
-        return message;
+        try {// 예외처리
+            emailsender.send(message);
+        } catch (MailException es) {
+            es.printStackTrace();
+            throw new IllegalArgumentException();
+        }
     }
 }

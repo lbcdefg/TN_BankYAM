@@ -31,4 +31,5 @@ public interface AccountyService {
     List<Product> findPdByPdtype(String pd_type);
     List<String> findSavingPd();
     List<Accounty> findSavingAcc();
+    Accounty findMainAcc(long mb_seq);
 }
