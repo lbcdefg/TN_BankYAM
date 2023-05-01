@@ -34,7 +34,11 @@
                 <th scope="row">받는 사람</th>
                 <td>
 
-                    <input class="transfer-input" name="mb_name" readonly value=${transactions.otherAccount.membery.mb_name}>
+                    <input class="transfer-input" name="mb_name" readonly
+                    <c:if test="${transactions.otherAccount.membery.mb_name eq null}">value="타행" </c:if>
+                    <c:if test="${transactions.otherAccount.membery.mb_name ne null}">value=${transactions.otherAccount.membery.mb_name}</c:if>
+                    >
+
                 </td>
             </tr>
             <tr>
