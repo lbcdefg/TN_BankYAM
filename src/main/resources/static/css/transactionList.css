@@ -1,5 +1,7 @@
 .tr-frame{
-    width: 100%;
+    margin-left: 20%;
+    width: 75%;
+    height: 100%;
 }
 
 
@@ -13,9 +15,10 @@
 /* 계좌 리스트 테이블 메인 div, size */
 .tr-table-size350{
     width: 90%;
-    height: 375px;
+    height: 500px;
     margin: auto;
     overflow: auto;
+    float: left;
 }
 
 .tr-table-size300{

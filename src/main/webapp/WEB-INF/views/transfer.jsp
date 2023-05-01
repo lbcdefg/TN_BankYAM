@@ -17,10 +17,9 @@
             <tr>
                 <th scope="row">출금 계좌</th>
                 <td>
-                    <select id="ac_seq"name="ac_seq" onchange="checkBalance()">
-                    <option value="">계좌 선택</option>
+                    <select id="ac_seq"name="ac_seq" onchange="checkBalance()" >
                         <c:forEach var="acc" items="${accList}">
-                            <option value="${acc.ac_seq}">${acc.ac_seq}</option>
+                            <option value="${acc.ac_seq}">${acc.ac_seq} [${acc.ac_main}]</option>
                         </c:forEach>
                     </select>
                 </td>
@@ -34,7 +33,7 @@
             <tr>
                 <th scope="row">비밀번호 확인</th>
                 <td>
-                    <input class="transfer-input" maxlength="4" placeholder="숫자만 입력해주세요" oninput="maxLengthCheck(this)" type="number" name="ac_pwd2" id="password_2" style="-webkit-text-security: disc;">
+                    <input class="transfer-input" maxlength="4" placeholder="숫자만 입력해주세요" oninput="maxLengthCheck(this)" type="number" name="ac_pwd2" id="password_2" style="-webkit-text-security: disc;" required="required">
                     <span id="alert-success" style="display: none;">비밀번호가 일치합니다.</span>
                     <span id="alert-danger" style="display: none; color: #d92742; font-weight: bold; ">비밀번호가 일치하지 않습니다.</span>
                 </td>
@@ -83,6 +82,6 @@
                 </td>
             </tr>
         </table>
-        <button style="margin-left:315px" type="submit" onclick="nextPage()" id="next-btn" class="transfer-btn">다음</button>
+        <button style="margin-left:315px" type="button" onclick="nextPage()" id="next-btn" class="transfer-btn">다음</button>
     </form>
 </body>

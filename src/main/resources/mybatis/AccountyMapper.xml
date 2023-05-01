@@ -56,7 +56,7 @@
         SELECT * FROM ACCOUNTY A
         JOIN MEMBERY M
         ON A.AC_MB_SEQ = M.MB_SEQ
-        WHERE M.MB_SEQ = #{mb_seq} AND A.AC_STATUS='사용중'
+        WHERE M.MB_SEQ = #{mb_seq} AND A.AC_STATUS='사용중'  ORDER BY AC_MAIN desc
     </select>
 
     <select id="selectOtherAccNum" resultMap="accounty" parameterType="long">
