@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tn.bankYam.dto.Accounty;
-import tn.bankYam.dto.Friend;
 import tn.bankYam.dto.Membery;
 import tn.bankYam.dto.Transactions;
 import tn.bankYam.service.AccountyService;
@@ -41,12 +40,20 @@ public class AccountyController {
         model.addAttribute("trList",trList);
         return "transactionList";
     }
+    @GetMapping("trListSearch")
+    @ResponseBody
+    public List<Transactions> trListSearch(HttpSession session, HttpServletResponse response){
+        Membery membery = (Membery)session.getAttribute("membery");
+        List<Transactions> trsearchList = transactionService.selectTrListS(membery);
+        System.out.println("나오냐"+trsearchList.size());
+        return trsearchList;
+    }
 
     //계좌이체 창
     @GetMapping("transfer")
     public String transfer(Model model,HttpSession session, Accounty accounty,HttpServletResponse response, long other_mb_seq) throws IOException {
 
-//
+
         Membery membery = (Membery)session.getAttribute("membery");
         List<Accounty> accList = accountyService.selectAccNumS(membery.getMb_seq());
 
@@ -66,11 +73,9 @@ public class AccountyController {
                 }
             }
             model.addAttribute("tr_other_accnum", accounty_list.getAc_seq());
-
         }else{
             model.addAttribute("tr_other_accnum", "");
         }
-
 
         model.addAttribute("accList", accList);
         return "transfer";
@@ -132,7 +137,6 @@ public class AccountyController {
             }
         }
 
-
         model.addAttribute("transactions",transactions);
         model.addAttribute("otherAccount", otherBankyamInfo);
         model.addAttribute("membery",membery);
@@ -144,7 +148,6 @@ public class AccountyController {
     public String transferOk(Model model, HttpSession session, String ac_pwd, Transactions transactions){
         Membery membery = (Membery)session.getAttribute("membery");
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        //hashMap.put("tr_seq", transactions.getTr_seq());
         hashMap.put("tr_ac_seq", transactions.getTr_ac_seq());
         hashMap.put("ac_pwd", ac_pwd);
         hashMap.put("tr_other_bank", transactions.getTr_other_bank());
@@ -164,18 +167,11 @@ public class AccountyController {
         model.addAttribute("tr_amount", hashMap.get("tr_amount"));
         model.addAttribute("tr_other_accnum", hashMap.get("tr_other_accnum"));
         model.addAttribute("tr_msg", hashMap.get("tr_msg"));
-//        model.addAttribute("tr_after_balance",hashMap.get("tr_after_balance"));
         model.addAttribute("tr_date", hashMap.get("tr_date"));
         model.addAttribute("tr_after_balance", trAcBal);
         model.addAttribute("transactions",transactions);
         accountyService.transferS(transactions);
         accountyService.getPaidS(transactions);
-
-
-
-
-
-
         return "receipt";
     }
 

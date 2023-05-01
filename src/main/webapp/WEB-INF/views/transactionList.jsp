@@ -14,7 +14,6 @@
 
     <body>
         <div class="tr-frame body-main">
-
             <c:if test="${not empty membery}">
                 <p class="tr-title fontS-35">${membery.mb_name}님의 거래내역</p>
             </c:if>
@@ -50,8 +49,79 @@
                      </c:forEach>
                 </table>
             </div>
-            <div>
+        </div>
+
+        <div style="float: left;">
+            <div class="jobs_search_box">
+                <strong>검색</strong>
+                <div class="jobs_search_field">
+                    <form name="f" action="/admin/addProduct_ok" method="post">
+                        <div class="field1" style="margin-top:10px;">
+                            <input name="tr_type" type="text" placeholder="유형" />
+                        </div>
+                        <div class="field2" style="margin-top:10px;">
+                            <input name="tr_ac_seq" type="text" placeholder="계좌번호" />
+                        </div>
+                        <div class="field2" style="margin-top:10px;">
+                            <input name="tr_other_accnum" type="text" placeholder="타인 계좌번호" />
+                        </div>
+                        <div class="field3" style="margin-top:10px;">
+                            <input name="tr_other_bank" placeholder="은행" />
+                        </div>
+                        <div class="field3" style="margin-top:10px;">
+                            <input name="tr_date" placeholder="날짜" />
+                        </div>
+                        <button class="search-btn" type="button" id="search" title="검색하기">검색</button>
+                    </form>
+                </div>
             </div>
         </div>
     </body>
+
+
+
+
+<script>
+    $(document).ready(function () {
+        stickyjobsSearch(); //sticky job search box
+    });
+
+    $(window).resize(function () {
+        if (this.resizeTO) {
+            clearTimeout(this.resizeTO);
+        }
+        this.resizeTO = setTimeout(function () {
+            $(this).trigger('resizeEnd');
+        }, 0);
+    });
+
+    $(window).on('resizeEnd', function () {
+        stickyjobsSearch();
+    });
+
+    function stickyjobsSearch() {
+        var windowW = $(window).width();
+        if ($('.jobs_search_box').length > 0) {
+            if (windowW > 900) {
+                $(window).scroll(function () {
+                    var windowST = $(window).scrollTop();
+                    var windowSclHt = windowST + $(window).height();
+                    var ftTop = $('.footer-main').offset().top + 125;
+                    var jobslistTop = $('.accordion').offset().top - 300;
+
+                    if (windowSclHt > jobslistTop) {
+                        $('.jobs_search_box').addClass('sticky');
+                    }
+                    if (windowST < jobslistTop || windowSclHt > ftTop) {
+                        $('.jobs_search_box').removeClass('sticky');
+                    }
+                });
+            } else {
+                $(window).scroll(function () {
+                    $('.jobs_search_box').removeClass('sticky');
+                });
+            }
+        }
+    }
+</script>
 <%@ include file="/WEB-INF/views/footer.jsp" %>
