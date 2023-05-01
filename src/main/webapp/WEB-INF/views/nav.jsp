@@ -4,7 +4,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 
-
+<script>
+    if(opener != null){
+        window.close();
+    }
+</script>
 <head>
     <title>뱅크얌</title>
     <link rel="stylesheet" type="text/css" href="/css/nav.css" />

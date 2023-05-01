@@ -16,7 +16,7 @@
                     <a href="#" class="main-button1">
                         <div class="button-content">계좌이체</div>
                     </a>
-                    <a href="#" class="main-button2">
+                    <a href="/chat/list" class="main-button2">
                         <div class="button-content">얌톡</div>
                     </a>
                 </div>
