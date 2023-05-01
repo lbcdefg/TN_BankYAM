@@ -44,4 +44,11 @@ public class ScriptUtil {
         out.println(String.format("<script>alert('%s'); history.go(-1);</script>", alertText));
         out.flush();
     }
+
+    public static  void alertAndClosePage(HttpServletResponse response, String alertText) throws IOException{
+        init(response);
+        PrintWriter out = response.getWriter();
+        out.println(String.format("<script>alert('%s'); window.close();</script>", alertText));
+        out.flush();
+    }
 }

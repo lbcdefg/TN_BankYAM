@@ -1,25 +1,23 @@
 package tn.bankYam.controller;
 
-import net.sf.json.JSONArray;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import tn.bankYam.dto.Accounty;
 import tn.bankYam.dto.Membery;
 import tn.bankYam.dto.Transactions;
 import tn.bankYam.service.AccountyService;
 import tn.bankYam.service.MemberyService;
 import tn.bankYam.service.TransactionService;
+import tn.bankYam.utils.SHA256;
+import tn.bankYam.utils.ScriptUtil;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,19 +40,43 @@ public class AccountyController {
         model.addAttribute("trList",trList);
         return "transactionList";
     }
+    @GetMapping("trListSearch")
+    @ResponseBody
+    public List<Transactions> trListSearch(HttpSession session, HttpServletResponse response){
+        Membery membery = (Membery)session.getAttribute("membery");
+        List<Transactions> trsearchList = transactionService.selectTrListS(membery);
+        System.out.println("나오냐"+trsearchList.size());
+        return trsearchList;
+    }
 
     //계좌이체 창
     @GetMapping("transfer")
-    public String transfer(Model model, HttpSession session, Accounty accounty, Transactions transactions){
+    public String transfer(Model model,HttpSession session, Accounty accounty,HttpServletResponse response, long other_mb_seq) throws IOException {
+
+
         Membery membery = (Membery)session.getAttribute("membery");
         List<Accounty> accList = accountyService.selectAccNumS(membery.getMb_seq());
+
         for(int i = 0; i < accList.size(); i++){
             Accounty accInfo = accountyService.selectAccInfoS(accList.get(i).getAc_seq());
             accList.get(i).setAc_balance(accInfo.getAc_balance());
             accList.get(i).setAc_pwd(accInfo.getAc_pwd());
         }
 
-        //로그인한 계정에 대한 계좌 리스트
+        if(other_mb_seq > 0){
+            List<Accounty> tempAccounty = accountyService.selectAccNumS(other_mb_seq);
+            Accounty accounty_list = new Accounty();
+
+            for(Accounty acc: tempAccounty){
+                if(acc.getAc_main().equals("주")){
+                    accounty_list = acc;
+                }
+            }
+            model.addAttribute("tr_other_accnum", accounty_list.getAc_seq());
+        }else{
+            model.addAttribute("tr_other_accnum", "");
+        }
+
         model.addAttribute("accList", accList);
         return "transfer";
     }
@@ -66,32 +88,66 @@ public class AccountyController {
         return accounty;
     }
 
-    //계좌이체 확인
+    //계좌이체 확인체크
     @PostMapping("transfer_chk")
-    public String transferChk(Model model, HttpSession session, HttpServletRequest request, Transactions transactions, String ac_pwd){
+    public String transferChk(Model model, HttpSession session,HttpServletResponse response, Accounty accounty, Transactions transactions, String ac_pwd) throws IOException, NoSuchAlgorithmException {
+
+
         Membery membery = (Membery)session.getAttribute("membery");
-        HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("tr_ac_seq", transactions.getTr_ac_seq());
-        hashMap.put("ac_pwd", ac_pwd);
-        hashMap.put("tr_other_bank", transactions.getTr_other_bank());
-        hashMap.put("tr_amount", transactions.getTr_amount());
-        hashMap.put("tr_other_accnum", transactions.getTr_other_accnum());
-        hashMap.put("tr_msg", transactions.getTr_msg());
-        model.addAttribute("tr_ac_seq", hashMap.put("tr_ac_seq", transactions.getTr_ac_seq()));
-        model.addAttribute("tr_other_bank", hashMap.put("tr_other_bank", transactions.getTr_other_bank()));
-        model.addAttribute("tr_amount", hashMap.put("tr_amount", transactions.getTr_amount()));
-        model.addAttribute("tr_other_accnum", hashMap.put("tr_other_accnum", transactions.getTr_other_accnum()));
-        model.addAttribute("tr_msg", hashMap.put("tr_msg", transactions.getTr_msg()));
+        long otherAccNum = transactions.getTr_other_accnum();
+        Accounty myAccounty = accountyService.selectAccInfoS(accounty.getAc_seq());
+        Accounty otherBankyamInfo = accountyService.selectAccInfoS(otherAccNum);
+        ac_pwd = accounty.getAc_pwd();
+
+        String pwdInput = SHA256.encrypt(ac_pwd+"");
+        String pwdDB = SHA256.encrypt(myAccounty.getAc_pwd()+"");
+
+
+        //비밀번호 틀린횟수를 먼저 조회
+
+        if (myAccounty.getAc_pwd_check() == 5) {
+            ScriptUtil.alertAndClosePage(response, "비밀번호 재설정이 필요한 계좌입니다.");
+        }else {
+            //유저가 입력한 비밀번호와 db 비밀번호가 같은지
+            if (pwdInput.equals(pwdDB)) {
+
+                transactions.setTr_ac_seq(myAccounty.getAc_seq());
+
+                //상대방이 뱅크얌 계좌주일때
+                if (otherBankyamInfo != null) {
+                    Membery membery1 = memberyService.findBySeq(otherBankyamInfo.getAc_mb_seq());
+                    otherBankyamInfo.setMembery(membery1);
+                    transactions.setOtherAccount(otherBankyamInfo);
+
+                    //상대방이 뱅크얌 계좌주가 아닐때
+                } else if (!transactions.getTr_other_bank().equals("뱅크얌")) {
+
+                    System.out.println("타행입니다");
+
+                    //입금은행 뱅크얌 선택 후 올바른 계좌번호를 입력하지 않았을 때
+                } else if (otherBankyamInfo == null && transactions.getTr_other_bank().equals("뱅크얌")) {
+                    ScriptUtil.alertAndBackPage(response, "뱅크얌 계좌가 아닙니다");
+                }
+                //유저가 입력한 비밀번호와 db 비밀번호가 다르면 ac_pwd_check +1
+            } else {
+
+                accountyService.updateAcPwdWrongS(myAccounty.getAc_seq());
+
+                ScriptUtil.alertAndBackPage(response, "다시 한 번 확인해주세요");
+            }
+        }
+
         model.addAttribute("transactions",transactions);
+        model.addAttribute("otherAccount", otherBankyamInfo);
+        model.addAttribute("membery",membery);
         return "confirmation";
     }
 
     //계좌이체
     @PostMapping ("transfer_ok")
-    public String transferOk(Model model, HttpSession session, Accounty accounty, String ac_pwd,Transactions transactions){
+    public String transferOk(Model model, HttpSession session, String ac_pwd, Transactions transactions){
         Membery membery = (Membery)session.getAttribute("membery");
         HashMap<String, Object> hashMap = new HashMap<String, Object>();
-        hashMap.put("tr_seq", transactions.getTr_seq());
         hashMap.put("tr_ac_seq", transactions.getTr_ac_seq());
         hashMap.put("ac_pwd", ac_pwd);
         hashMap.put("tr_other_bank", transactions.getTr_other_bank());
@@ -100,19 +156,22 @@ public class AccountyController {
         hashMap.put("tr_after_balance", transactions.getTr_after_balance());
         hashMap.put("tr_date", transactions.getTr_date());
         hashMap.put("tr_msg", transactions.getTr_msg());
-        System.out.println("       tr_seq      "+hashMap.put("tr_seq", transactions.getTr_seq()));
-        System.out.println("       tr_after_balance        "+hashMap.put("tr_after_balance", transactions.getTr_after_balance()));
 
+        Accounty accInfo = accountyService.selectAccInfoS(transactions.getTr_ac_seq());
+        long trAcBal = accInfo.getAc_balance() - transactions.getTr_amount();
+        hashMap.put("tr_after_balance", trAcBal);
+        transactions.setTr_after_balance(trAcBal);
 
-        model.addAttribute("tr_ac_seq", hashMap.put("tr_ac_seq", transactions.getTr_ac_seq()));
-        model.addAttribute("tr_other_bank", hashMap.put("tr_other_bank", transactions.getTr_other_bank()));
-        model.addAttribute("tr_amount", hashMap.put("tr_amount", transactions.getTr_amount()));
-        model.addAttribute("tr_other_accnum", hashMap.put("tr_other_accnum", transactions.getTr_other_accnum()));
-        model.addAttribute("tr_msg", hashMap.put("tr_msg", transactions.getTr_msg()));
-        model.addAttribute("tr_after_balance",hashMap.put("tr_after_balance", transactions.getTr_after_balance()));
-        model.addAttribute("tr_date", hashMap.put("tr_date", transactions.getTr_date()));
+        model.addAttribute("tr_ac_seq", hashMap.get("tr_ac_seq"));
+        model.addAttribute("tr_other_bank", hashMap.get("tr_other_bank"));
+        model.addAttribute("tr_amount", hashMap.get("tr_amount"));
+        model.addAttribute("tr_other_accnum", hashMap.get("tr_other_accnum"));
+        model.addAttribute("tr_msg", hashMap.get("tr_msg"));
+        model.addAttribute("tr_date", hashMap.get("tr_date"));
+        model.addAttribute("tr_after_balance", trAcBal);
         model.addAttribute("transactions",transactions);
-        accountyService.transferS(accounty);
+        accountyService.transferS(transactions);
+        accountyService.getPaidS(transactions);
         return "receipt";
     }
 

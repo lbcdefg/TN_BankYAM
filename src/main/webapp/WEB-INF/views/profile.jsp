@@ -27,9 +27,6 @@
                     </form>
                     <c:if test="${membery.mb_email eq 'admin@gmail.com'}">
                         <input type="button" id="rate_btn" class="rate_btn" onclick="location.href='/admin/rate_update_ok'" value="금리업뎃"></button>
-                        <input type="button" id="int_btn" class="rate_btn" onclick="location.href='/admin/int_update_ok'" value="금리적용" style="display:none;"></button>
-                        <label class="rate">기준금리</label>
-                        <label id="rate" class="rate-val">${requestScope.rate}%</label>
                     </c:if>
                 </div>
             </div>
@@ -79,23 +76,26 @@
             <div class="jobs_search_box">
                 <strong>상품추가</strong>
                 <div class="jobs_search_field">
-                    <form name="f" action="/list/" method="post">
+                    <form name="pdForm" action="/admin/addProduct_ok" method="post">
                         <div class="field1" style="margin-top:10px;">
-                            <input type="text" placeholder="유형" />
+                            
+                            <select name="pd_type" id="pd_typeIn">
+                                <option value="예금">예금</option>
+                                <option value="적금">적금</option>
+                            </select>
                         </div>
                         <div class="field2" style="margin-top:10px;">
-                            <input type="text" placeholder="이름" />
+                            <input id="pd_name" name="pd_name" type="text" placeholder="이름" />
                         </div>
                         <div class="field3" style="margin-top:10px;">
-                            <input type="text" placeholder="추가이율" />
+                            <input id="pd_addrate" name="pd_addrate" placeholder="추가이율" />
                         </div>
                         <div class="field3" style="margin-top:10px;">
-                            <input type="text" placeholder="설명" />
+                            <input name="pd_info" placeholder="설명" />
                         </div>
-                        <button class="search-btn" type="submit" id="search" title="검색하기">추가</button>
+                        <button class="search-btn" type="button" id="search" >추가</button>
                     </form>
                 </div>
-                <button class="reset-btn" onclick="onreset_fun()" title="검색조건 초기화">초기화</button>
             </div>
             </c:if>
         </div>
@@ -155,7 +155,7 @@
                                 <td class="profile-acs-list-20">${pd.pd_name}</td>
                                 <td class="profile-acs-list-8"><span class="acn" ><fmt:formatNumber value="${pd.pd_rate+pd.pd_addrate}" pattern=".0"/></span></td>
                                 <td class="profile-acs-list-10">${pd.pd_info}</td>
-                                <td class="profile-acs-list-9">${pd.pd_del}</td>
+                                <td class="profile-acs-list-9"><a href="/admin/delete_pd_ok?pd_seq=${pd.pd_seq}" style="text-decoration:none;color:lightgray;">삭제</a></td>
                             </tr>
                         </c:forEach>
                     </table>
@@ -207,9 +207,7 @@
             var url = window.location.href;
             var urlLast = url.split('/').reverse()[0];
             stickyjobsSearch();
-             if(urlLast == 'rate_update_ok'){
-                $("#int_btn").show();
-            }
+
                 var windowWidth = $(window).width();
                 $(window).resize(function(){
                     if(this.resizeTO){
@@ -310,10 +308,38 @@
         </script>
         <script>
             $("#upload_btn").on("change", function(event){
-               f.submit();
+                f.submit();
             });
             $("#pd_type").on("change", function(event){
                selectF.submit();
+            });
+            $("#search").on("click", function(event){
+                $.ajax({
+                    type : "GET",
+                    url : "/admin/pd_nameCheck",
+                    data : {
+                        "pd_name" : $("#pd_name").val(),
+                        "pd_type" : $("#pd_typeIn").val(),
+                    },
+                    success : function(result){
+                        console.log(result);
+                        if(!result){
+                            console.log("추가하고자 하는 상품의 이름은 : " + $("#pd_name").val());
+                            pdForm.submit();
+                            alert($("#pd_name").val() + " 계좌 추가가 완료되었습니다");
+                        }else{
+                            console.log("추가하고자 하는 상품의 이름은 : " + $("#pd_name").val());
+                            alert("추가하고자 하는 상품의 이름은 " + $("#pd_name").val() + ", \n이미 있는 상품입니다");
+                        }
+                    }
+                })
+            });
+            $("#pd_typeIn").on("change", function(event){
+                if(event.target.value == '적금'){
+                    $("#pd_addrate").attr('placeholder','추가이율(주의 기본:금리x1.5)');
+                }else{
+                    $("#pd_addrate").attr('placeholder','추가이율');
+                }
             });
         </script>
 <%@ include file="/WEB-INF/views/footer.jsp" %>

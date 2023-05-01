@@ -7,22 +7,21 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import tn.bankYam.dto.Transactions;
 import tn.bankYam.service.AccountyService;
 import java.io.IOException;
 import tn.bankYam.dto.Accounty;
 import tn.bankYam.dto.Product;
 import tn.bankYam.service.AccountyService;
+import tn.bankYam.service.RegisterMail;
 import tn.bankYam.service.TransactionService;
 
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,6 +32,8 @@ public class AdminController {
     private AccountyService accountyService;
     @Autowired
     private TransactionService transactionService;
+    @Autowired
+    private RegisterMail registerMail;
 
     // 한국은행 기준금리 크롤링
     public Float crawling(){
@@ -49,8 +50,8 @@ public class AdminController {
         }
         return null;
     }
-    @GetMapping("int_update_ok")
-    public String int_update_ok(Transactions transactions){
+
+    public void int_update_ok(Transactions transactions){
         List<Accounty> accountyList = accountyService.findAccounty();
         for(Accounty account: accountyList) {
             String day = account.getAc_udate().toString().substring(account.getAc_udate().toString().lastIndexOf("-") + 1);
@@ -60,68 +61,50 @@ public class AdminController {
             int nowMM = now.getMonthValue();
             int udateDD = Integer.parseInt(day);
             if(nowDD  == udateDD){
-                account.setAc_balance((long) (account.getAc_balance() * (1 + (account.getProduct().getPd_rate()+account.getProduct().getPd_addrate() / 100)/12)));
+                account.setAc_balance((long) (account.getAc_balance() * (1 + ((account.getProduct().getPd_rate()+account.getProduct().getPd_addrate()) / 100)/12)));
                 List<String> productList = accountyService.findDepositPd();
                 for (String product : productList) {
                     if (product.equals(account.getProduct().getPd_name())) {
-                        Product pd = accountyService.findDepositPdVal(account.getProduct().getPd_name()+account.getProduct().getPd_addrate());
+                        Product pd = accountyService.findDepositPdVal(account.getProduct().getPd_name());
                         account.setAc_pd_seq(pd.getPd_seq());
                         accountyService.interest(account);
                         transactions.setTr_ac_seq(account.getAc_seq());
                         transactions.setTr_other_accnum(1234567891);
                         transactions.setTr_other_bank("뱅크얌");
                         transactions.setTr_type("입금");
-                        transactions.setTr_amount((long) (account.getAc_balance() * (account.getProduct().getPd_rate()+account.getProduct().getPd_addrate() / 100)/12));
-                        transactions.setTr_after_balance((long) (account.getAc_balance() * (1 + (account.getProduct().getPd_rate()+account.getProduct().getPd_addrate() / 100)/12)));
+                        transactions.setTr_amount((long) (account.getAc_balance() * ((account.getProduct().getPd_rate()+account.getProduct().getPd_addrate()) / 100)/12));
+                        transactions.setTr_after_balance((account.getAc_balance()));
                         transactions.setTr_msg("뱅크얌" +nowMM+"월 이자");
                         transactionService.insertTrLog(transactions);
                     }
                 }
             }
         }
-        return "redirect:/member/profile";
     }
 
-
     @GetMapping("rate_update_ok")
-    public String rate_update_ok(Model model){
+    public String rate_update_ok(Model model,Transactions transactions){
         Float rate = crawling();
-        System.out.println("최종금리: " + rate);
         List<String> list = accountyService.findDepositPd();
 
         for(String pd_name:list){
             Product product = accountyService.findDepositPdVal(pd_name);
-            //System.out.println("pd_name : " + pd_name);
             float oldRate = product.getPd_rate();
             System.out.println("rate: " + rate + ", oldRate : " + oldRate);
             if(rate != oldRate){
                 accountyService.updatePdXdate(product);
                 Product newProduct = product;
+                // 적금이면 현재금리의 50% 추가적용
                 newProduct.setPd_rate(rate);
-                //System.out.println("newProduct : " + newProduct);
+                if(newProduct.getPd_type().equals("적금")){
+                    newProduct.setPd_addrate((float)(rate*0.5) + product.getPd_addrate());
+                }
                 accountyService.insertPd(newProduct);
             }
         }
+        int_update_ok(transactions);
         model.addAttribute("rate",rate);
-        return "profile";
-    }
-
-    @GetMapping("test2")
-    @ResponseBody
-    public String test2(HttpServletRequest request){
-        String pd_type = request.getParameter("type").trim();
-        return accountyService.test(typeMap(pd_type)).toString();
-    }
-
-    public HashMap<String, Object> typeMap(String pd_type){
-        System.out.println("타입맵에서 pd_type : " + pd_type);
-        HashMap<String, Object> hashMap = new HashMap<>();
-        if(pd_type.length() != 0) {
-            hashMap.put("pd_type", pd_type);
-        }else{
-            hashMap.put("pd_type", null);
-        }
-        return hashMap;
+        return "redirect:/member/profile";
     }
 
     @GetMapping("product_option")
@@ -139,6 +122,68 @@ public class AdminController {
             model.addAttribute("pdSelectList", pdSelectList);
             model.addAttribute("productList", selectList);
             return "profile";
+        }
+    }
+
+    @PostMapping("addProduct_ok")
+    public String addProduct_ok(Product product){
+        float rate = crawling();
+        float addrate;
+        if(product.getPd_type().equals("적금")){
+            addrate = (float)(crawling()*0.5) + product.getPd_addrate();
+        }else{
+            addrate = product.getPd_addrate();
+        }
+        product.setPd_rate(rate);
+        product.setPd_addrate(addrate);
+        product.setPd_del("X");
+        accountyService.insertPd(product);
+        return "redirect:/member/profile";
+    }
+
+    @GetMapping("delete_pd_ok")
+    public String delete_pd_ok(@RequestParam("pd_seq") long pd_seq, Product product){
+        product.setPd_seq(pd_seq);
+        accountyService.updatePdXdate(product);
+        return "redirect:/member/profile";
+    }
+
+    @GetMapping("/pd_nameCheck")
+    @ResponseBody
+    boolean pd_nameCheck(HttpServletRequest request){
+        String pd_name = request.getParameter("pd_name");
+        String pd_type = request.getParameter("pd_type");
+        List<String> pd_nameList;
+
+        if(pd_type.equals("예금")){
+            // 예금일때 현재 판매중인 상품 목록
+            pd_nameList = accountyService.findDepositPd();
+        }else{
+            // 적금일때 현재 판매중인 상품 목록
+            pd_nameList = accountyService.findSavingPd();
+        }
+
+        // form에서 입력된 pd_name과 현재 판매중인 상품 중 이름이 동일한 것이 있다면 return true
+        if(pd_nameList.size()!=0){
+            for(String name:pd_nameList){
+                if(name.equals(pd_name)){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void savingEnd() throws Exception{
+        List<Accounty> savingList = accountyService.findSavingAcc();
+        if(savingList.size()>0){
+            for(Accounty accounty : savingList){
+                // 만기일도래 적금계좌 주인의 주계좌 찾기
+                Accounty mainAcc = accountyService.findMainAcc(accounty.getAc_mb_seq());
+                // 적금만기알림 메일 보내기( 적금계좌와 주계좌를 파라미터로 넣고 보냄 )
+                registerMail.savingEnd(accounty, mainAcc);
+
+            }
         }
     }
 }

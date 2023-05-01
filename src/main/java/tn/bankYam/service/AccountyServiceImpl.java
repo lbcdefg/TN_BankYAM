@@ -2,11 +2,12 @@ package tn.bankYam.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import tn.bankYam.dto.Accounty;
+import tn.bankYam.dto.Membery;
 import tn.bankYam.dto.Product;
 import tn.bankYam.dto.Transactions;
 import tn.bankYam.mapper.AccountyMapper;
+import tn.bankYam.mapper.TransactionsMapper;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +16,14 @@ import java.util.List;
 public class AccountyServiceImpl implements AccountyService{
     @Autowired
     AccountyMapper mapper;
-    Transactions transactions;
+    @Autowired
+    TransactionsMapper transactionsMapper;
+
+    @Override
+    public Accounty selecAccDetailS(Membery membery) {
+        return mapper.selecAccDetail(membery);
+    }
+
     @Override
     public List<Accounty> selectAccNumS(long ac_seq) {
         return mapper.selectAccNum(ac_seq);
@@ -25,22 +33,54 @@ public class AccountyServiceImpl implements AccountyService{
     public Accounty selectAccInfoS(long ac_seq) {
         return mapper.selectAccInfo(ac_seq);
     }
-
+    // 뱅크얌 -> 뱅크얌으로 입금받을 때
     @Override
-    public void transferS(Accounty accounty) {
-        if(selectAccNumS(accounty.getAc_seq())!=null){
-            if(accounty.getAc_balance()>0 && accounty.getAc_balance()>=transactions.getTr_amount()){
-                System.out.println("될까?"+transactions.getTr_amount());
-                mapper.transfer(accounty);
-            }
-        }else {
-            System.out.println("존재하지 않는 계좌입니다.");
-            selectAccNumS(accounty.getAc_seq());
+    public void getPaidS(Transactions transactions) {
+        if(transactions.getTr_other_bank().equals("뱅크얌")) {
+            mapper.getPaid(transactions);
+            transactions.setTr_type("입금");
+            transactions.setTr_after_balance(mapper.selectAccInfo(transactions.getTr_other_accnum()).getAc_balance());
+            //내계좌
+            long tempMyAcc = transactions.getTr_ac_seq();
+            //상대방계좌
+            long tempOtherAcc = transactions.getTr_other_accnum();
+            transactions.setTr_ac_seq(tempOtherAcc);
+            transactions.setTr_other_accnum(tempMyAcc);
+            transactionsMapper.insertTrLog(transactions);
+        }
+    }
+
+    //뱅크얌 -> 뱅크얌 송금할 때
+    @Override
+    public void transferS(Transactions transactions) {
+        if (transactions.getTr_after_balance() >= 0) {
+            mapper.transfer(transactions);
+            transactions.setTr_type("송금");
+            transactionsMapper.insertTrLog(transactions);
+        } else {
+            System.out.println("잔액이 부족합니다.");
         }
     }
 
     @Override
+    public void updateAcPwdCheckS(long ac_seq) {
+        mapper.updateAcPwdCheck(ac_seq);
+    }
+
+    @Override
+    public void updateAcPwdWrongS(long ac_seq) {
+        mapper.updateAcPwdWrong(ac_seq);
+    }
+
+    @Override
+    public List<Accounty> selectOtherAccNumS(long ac_seq) {
+        System.out.println("selectOtherAccNumS:"+mapper.selectOtherAccNum(ac_seq));
+        return mapper.selectOtherAccNum(ac_seq);
+    }
+
+    @Override
     public List<Accounty> findAccByMemberId(long ac_mb_seq) {
+        System.out.println( "findAccByMemberId:"+mapper.findAccByMemberId(ac_mb_seq));
         return mapper.findAccByMemberId(ac_mb_seq);
     }
 
@@ -67,11 +107,6 @@ public class AccountyServiceImpl implements AccountyService{
     }
 
     @Override
-    public Product recentPd() {
-        return mapper.findRecentPd();
-    }
-
-    @Override
     public void interest(Accounty accounty) {
         mapper.interest(accounty);
     }
@@ -81,9 +116,6 @@ public class AccountyServiceImpl implements AccountyService{
     
     @Override
     public void updatePdXdate(Product product){ mapper.updatePdXdate(product);}
-
-    @Override
-    public List<Product> test(HashMap<String,Object> map){ return mapper.test(map);}
 
     @Override
     public List<Product> findPdByPdname() {
@@ -100,4 +132,14 @@ public class AccountyServiceImpl implements AccountyService{
         return mapper.findPdByPdtype(pd_type);
     }
 
+    @Override
+    public List<String> findSavingPd(){
+        return mapper.findSavingPd();
+    }
+    @Override
+    public List<Accounty> findSavingAcc() {
+        return mapper.findSavingAcc();
+    }
+    @Override
+    public Accounty findMainAcc(long mb_seq){ return mapper.findMainAcc(mb_seq);}
 }

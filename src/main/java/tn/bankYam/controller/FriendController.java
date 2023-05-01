@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import tn.bankYam.dto.*;
+import tn.bankYam.service.ChatroomService;
 import tn.bankYam.service.FriendsService;
 import tn.bankYam.utils.ScriptUtil;
 
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -26,6 +28,9 @@ public class FriendController {
 
     @Autowired
     private FriendsService friendsService;
+
+    @Autowired
+    private ChatroomService chatroomService;
 
     @GetMapping("friends")
     public String friends(Model model, HttpServletRequest request, HttpSession session, String content){
@@ -68,12 +73,16 @@ public class FriendController {
 
     //친구 찾기 Ajax
     @PostMapping("friends_searchFr")
-    public @ResponseBody Accounty friendsSearch(Accounty accountyFr, HttpSession session, String text){
+    public @ResponseBody List<Object> friendsSearch(Accounty accountyFr, HttpSession session, String text){
+        //ajax로 보내줄 데이터 담을 리스트
+        List<Object> forFrAjax = new ArrayList<>();
+
         // 세션 내정보 불러오기
         Membery membery = (Membery)session.getAttribute("membery");
 
         // Email 또는 계좌번호로 찾으므로 두가지 경우의 수로 HashMap 구성하기
         HashMap<String, Object> searchFrMap = friendsService.forSearchFrMap(text);
+        System.out.println(text);
 
         // 찾은 친구 가져오기(계좌가 여러개 있을 수 있으므로 list로 받기)
         List<Accounty> memberyFrList = friendsService.searchFriend(searchFrMap);
@@ -84,10 +93,12 @@ public class FriendController {
         if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
             // 찾은 친구가 존재하는지 체크
             if(accountyFr.getMembery() != null) {
+
                 // 찾은 친구가 나 자신일 때 체크
                 if (membery.getMb_email().equals(accountyFr.getMembery().getMb_email())) {
-                    accountyFr.getMembery().setMb_seq(-1);
-                    return accountyFr;
+                    forFrAjax.add(accountyFr);
+                    forFrAjax.add(-1);
+                    return forFrAjax;
                 }
                 List<Friend> frList = friendsService.selectFrList(membery); // 친구 리스트
                 List<Blocklist> frBlocklist = friendsService.selectBlList(membery); // 차단 리스트
@@ -112,15 +123,17 @@ public class FriendController {
                                 System.out.println("내가 차단한 친구: " + blockFr.getMembery().getMb_seq());  //체크
 
                                 if((blockFr.getMembery().getMb_seq() == accountyFr.getMembery().getMb_seq()) && (fr.getF_f_mb_seq() == accountyFr.getMembery().getMb_seq())){
-                                    accountyFr.getMembery().setMb_seq(-6);
-                                    return accountyFr;
+                                    forFrAjax.add(accountyFr);
+                                    forFrAjax.add(-6);
+                                    return forFrAjax;
                                 }
                             }
                         }
 
                         if(fr.getF_f_mb_seq() == accountyFr.getMembery().getMb_seq()){
-                            accountyFr.getMembery().setMb_seq(-2);
-                            return accountyFr;
+                            forFrAjax.add(accountyFr);
+                            forFrAjax.add(-2);
+                            return forFrAjax;
                         }
                     }
                 }
@@ -132,8 +145,9 @@ public class FriendController {
                         System.out.println("내가 친구를 요청한 친구: " + frReq.getMembery().getMb_seq());  //체크
 
                         if(frReq.getMembery().getMb_seq() == accountyFr.getMembery().getMb_seq()){
-                            accountyFr.getMembery().setMb_seq(-3);
-                            return accountyFr;
+                            forFrAjax.add(accountyFr);
+                            forFrAjax.add(-3);
+                            return forFrAjax;
                         }
                     }
                 }
@@ -144,8 +158,9 @@ public class FriendController {
                         System.out.println("나에게 친구를 요청한 친구: " + frReq.getMembery().getMb_seq());  //체크
 
                         if(frReq.getMembery().getMb_seq() == accountyFr.getMembery().getMb_seq()){
-                            accountyFr.getMembery().setMb_seq(-4);
-                            return accountyFr;
+                            forFrAjax.add(accountyFr);
+                            forFrAjax.add(-4);
+                            return forFrAjax;
                         }
                     }
                 }
@@ -157,15 +172,18 @@ public class FriendController {
                         System.out.println("내가 차단한 친구: " + blockFr.getMembery().getMb_seq());  //체크
 
                         if(blockFr.getMembery().getMb_seq() == accountyFr.getMembery().getMb_seq()){
-                            accountyFr.getMembery().setMb_seq(-5);
-                            return accountyFr;
+                            forFrAjax.add(accountyFr);
+                            forFrAjax.add(-5);
+                            return forFrAjax;
                         }
                     }
                 }
             }
         }
 
-        return accountyFr;
+        forFrAjax.add(accountyFr);
+        forFrAjax.add(0);
+        return forFrAjax;
     }
 
     // 친구 추가 요청시
@@ -259,6 +277,10 @@ public class FriendController {
                     for (Friend fr : frList) {
                         if (fr.getMembery().getMb_seq() == frId) {
                             friendsService.deleteFr(forDelMap);
+                            Chatmember chatmember = chatroomService.checkRoomS(membery.getMb_seq(), fr.getF_f_mb_seq());
+                            if(chatmember != null){
+                                chatroomService.outChat(membery, chatmember.getCm_cr_seq());
+                            }
                             ScriptUtil.alertAndMovePage(response, "친구삭제 완료", "/friend/friends?content=list");
                         }
                     }

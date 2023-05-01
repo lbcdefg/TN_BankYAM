@@ -1,3 +1,9 @@
+$("document").ready(function(){
+    var ac_seq = $("#ac_seq").val();
+    if(ac_seq != "계좌선택"){
+        checkBalance(ac_seq);
+    }
+});
 
 function count(type)  {
     // 결과를 표시할 element
@@ -128,5 +134,6 @@ function nextPage(){
         f.submit();
     }else{
         alert("금액을 다시 한 번 확인해주세요");
+        return;
     }
 }

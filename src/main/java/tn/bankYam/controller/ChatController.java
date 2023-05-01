@@ -1,21 +1,36 @@
 package tn.bankYam.controller;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.*;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.UriUtils;
 import tn.bankYam.dto.*;
 import tn.bankYam.service.ChatroomService;
 import tn.bankYam.service.FriendsService;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.springframework.http.MediaType;
 
 @Controller
 @RequestMapping("chat")
@@ -59,25 +74,17 @@ public class ChatController {
 
 	@GetMapping("insert")
 	@ResponseBody
-	public long insertRoom(@RequestParam(value = "f_mb_seq[]") ArrayList<Long> f_mb_seq, HttpSession session, HttpServletResponse response) throws IOException{
+	public long insertRoom(@RequestParam(value = "f_f_mb_seq[]") ArrayList<Long> f_f_mb_seq, HttpSession session, HttpServletResponse response) throws IOException{
 		Membery membery = (Membery) session.getAttribute("membery");
-		if(f_mb_seq.size() == 1){
-			Chatmember chatmember= chatroomService.checkRoomS(membery.getMb_seq(), f_mb_seq.get(0));
+		if(f_f_mb_seq.size() == 1){
+			Chatmember chatmember= chatroomService.checkRoomS(membery.getMb_seq(), f_f_mb_seq.get(0));
 			if(chatmember != null){
 				return chatmember.getCm_cr_seq();
 			}
 		}
 		//채팅방 만들고 채팅인원 인서트 한번에 서비스 합시다.
-		long roomNumber = chatroomService.makeRoomS(membery, f_mb_seq);
+		long roomNumber = chatroomService.makeRoomS(membery, f_f_mb_seq);
 		return roomNumber;
-	}
-
-	@RequestMapping("/mychatt")
-	@ResponseBody
-	public ModelAndView chatt() {
-		ModelAndView mv = new ModelAndView();
-		mv.setViewName("chatting");
-		return mv;
 	}
 
 	@GetMapping("readContent")
@@ -116,9 +123,9 @@ public class ChatController {
 		}
 	}
 
-	@PostMapping("/upload")
+	@PostMapping("upload")
 	@ResponseBody
-	public long uploadFile(@RequestParam("file") MultipartFile file, @RequestParam Map<String, Object> map)throws IOException{
+	public long uploadFile(MultipartFile file, @RequestParam Map<String, Object> map)throws IOException{
 		for(String key : map.keySet()){
 			System.out.println(key);
 			System.out.println(map.get(key));
@@ -137,5 +144,23 @@ public class ChatController {
 		chatroomService.insertContentS(chatcontent);
 
 		return chatcontent.getCc_seq();
+	}
+
+	@GetMapping("download")
+	public ResponseEntity<Resource> downloadFile(long cf_seq, HttpServletRequest request) throws Exception {
+		Chatfile fileInfo = chatroomService.selectFileBySeqS(cf_seq);
+
+		UrlResource resource = new UrlResource("file:" + fileInfo.getCf_savedpath());
+
+		String encodedFileName = UriUtils.encode(fileInfo.getCf_orgnm(), StandardCharsets.UTF_8);
+		String contentDisposition = "attachment; filename=\"" + encodedFileName + "\"";
+
+		return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,contentDisposition).body(resource);
+	}
+
+	@GetMapping("updateName")
+	private String updateRoomName(Chatroom chatroom){
+		chatroomService.updateRoomNameS(chatroom);
+		return "redirect:room?cr_seq="+chatroom.getCr_seq();
 	}
 }

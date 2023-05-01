@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface ChatroomService {
 	List<Chatroom> selectChatRoomS(long mb_seq);
-	Chatmember checkRoomS(long mb_seq, long f_mb_seq);
+	Chatmember checkRoomS(long mb_seq, long f_f_mb_seq);
 	List<Membery> selectChatMemberS(long cr_seq);
 	long makeRoomS(Membery membery, List<Long> f_mb_seq);
 	void insertMemberS(Chatmember chatmember);
@@ -24,4 +24,6 @@ public interface ChatroomService {
 	List<Chatcontent> selectStatusCount(long cr_seq);
 	long outChat(Membery membery, long cr_seq);
 	long insertFileS(MultipartFile file) throws IOException;
+	Chatfile selectFileBySeqS(long cf_seq);
+	void updateRoomNameS(Chatroom chatroom);
 }

@@ -3,7 +3,9 @@ package tn.bankYam.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 import tn.bankYam.dto.Accounty;
+import tn.bankYam.dto.Membery;
 import tn.bankYam.dto.Product;
+import tn.bankYam.dto.Transactions;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,9 +13,14 @@ import java.util.List;
 @Mapper
 @Repository
 public interface AccountyMapper {
+    Accounty selecAccDetail(Membery membery);
     List<Accounty> selectAccNum(long ac_seq);
     Accounty selectAccInfo(long ac_seq);
-    void transfer(Accounty accounty);
+    void getPaid(Transactions transactions);
+    void transfer(Transactions transactions);
+    void  updateAcPwdCheck(long ac_seq);
+    void updateAcPwdWrong(long ac_seq);
+    List<Accounty>selectOtherAccNum(long ac_seq);
     List<Accounty> findAccByMemberId(long ac_mb_seq);
     Product findPdBySeq(long seq);
     void insertAcc(HashMap<String, Object> map);
@@ -28,4 +35,7 @@ public interface AccountyMapper {
     List<Product> findPdByPdname();
     List<String> findPdtype();
     List<Product> findPdByPdtype(String pd_type);
+    List<String> findSavingPd();
+    List<Accounty> findSavingAcc();
+    Accounty findMainAcc(long mb_seq);
 }

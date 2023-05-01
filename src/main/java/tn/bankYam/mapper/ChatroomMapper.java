@@ -25,4 +25,6 @@ public interface ChatroomMapper {
 	List<Chatcontent> selectStatusCount(long cr_seq);
 	void deleteOutChat(Chatmember chatmember);
 	void insertFile(Chatfile chatfile);
+	Chatfile selectFileBySeq(long cf_seq);
+	void updateRoomName(Chatroom chatroom);
 }

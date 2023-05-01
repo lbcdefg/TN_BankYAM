@@ -1,8 +1,16 @@
+function openTrPop(other_mb_seq){
+    var tr_width = '730';
+    var tr_height = '730';
+    var tr_left = Math.ceil(( window.screen.width - tr_width )/2);
+    var tr_top = Math.ceil(( window.screen.height - tr_height )/2);
+    var popup = window.open('/account/transfer?other_mb_seq='+other_mb_seq,'transfer', 'width='+ tr_width +', height='+ tr_height +', left=' + tr_left + ', top='+ tr_top);
+}
+
 
 $("#wrap").scrollTop($("#wrap")[0].scrollHeight);
-const modal = document.querySelector('.modal');
+const modal = document.querySelector('.modal-member-add');
 const btnOpenPopup = document.querySelector('.btn-open-popup');
-const btnClosePopup = document.querySelector('.modal-close');
+const btnClosePopup = document.querySelector('.add-close');
 
 btnOpenPopup.addEventListener('click', () => {
     modal.classList.toggle('show');
@@ -18,6 +26,26 @@ $(document).ready(function(){
         $("#fr-" + checkedId).attr("style", "background-color:yellow");
     });
 });
+
+function updateChatName(cr_name){
+    var form = document.createElement("form");
+    form.setAttribute("action", "updateName");
+
+    var cr_seq_input = document.createElement("input");
+    cr_seq_input.setAttribute("type", "hidden");
+    cr_seq_input.setAttribute("name", "cr_seq");
+    cr_seq_input.setAttribute("value", cr_seq);
+    form.appendChild(cr_seq_input);
+
+    var cr_name_input = document.createElement("input");
+    cr_name_input.setAttribute("type", "hidden");
+    cr_name_input.setAttribute("name", "cr_name");
+    cr_name_input.setAttribute("value", cr_name);
+    form.appendChild(cr_name_input);
+
+    document.body.appendChild(form);
+    form.submit();
+}
 
 /**
  * web socket
@@ -55,12 +83,13 @@ var msgText;
 var mb_seq = getId('session_seq').value;
 var cr_seq = getId('cr_seq').value;
 
-ws = new WebSocket("ws://" + location.host + "/chat/soket");
+ws = new WebSocket("ws://" + location.host + "/chat/soket/room");
 readContent(cr_seq);
 
 
 ws.onmessage = function(msg){
     var data = JSON.parse(msg.data);
+    console.log(data);
 
     var item;
 
@@ -69,43 +98,100 @@ ws.onmessage = function(msg){
             if($(".chatDay").last().text() != data.cc_rdate_day){
                 talk.innerHTML += '<div class="in-out-chat chatDay">' + data.cc_rdate_day + '</div>';
             }
+            if(data.chatfile != null){
+                $(".no-file").remove();
+                item = `<a class="chat-file" href="download?cf_seq=${data.chatfile.cf_seq}">
+                            <div class="file-type">`
+                                //${fn:substring(data.chatfile.cf_orgnm,fn:indexOf(data.chatfile.cf_orgnm,'.')+1,fn:length(data.chatfile.cf_orgnm)) }
+                item += data.chatfile.cf_orgnm.substring(data.chatfile.cf_orgnm.indexOf('.')+1, data.chatfile.cf_orgnm.length);
+                item +=`    </div>
+                            <span class="file-name">${data.chatfile.cf_orgnm}</span>
+                        </a>`;
+                $(".file-list").prepend(item);
+            }
             if(data.membery == null){//누군가가 퇴장or입장
                 item = `<div class="in-out-chat">${data.cc_content}</div>`
                 location.reload()
             }else if(data.membery.mb_seq == mb_seq){
-                 item = `<div class="chat ch2">
-                             <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
-                             <div class="chat-content">
-                                 <div class="chat-info">
-                                     <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
-                                 </div>
-                                 <div class="textbox">${data.cc_content}</div>
-                             </div>
-                         </div>`;
-            }else{
-                item = `<div class="chat ch1">
-                            <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
-                            <div class="chat-content">
-                                <div class="chat-name">
-                                    <span>${data.membery.mb_name}</span>
-                                </div>
-                                <div class="chat-text-info">
-                                    <div class="textbox">${data.cc_content}</div>
+                if(data.chatfile != null){
+                    item = `<div class="chat ch2">
+                                <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                                <div class="chat-content">
                                     <div class="chat-info">
                                         <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
                                     </div>
+                                    <div class="textbox">
+                                        <a class="chat-file" href="download?cf_seq=${data.chatfile.cf_seq}">
+                                            <div class="file-type">`;
+                    item += data.chatfile.cf_orgnm.substring(data.chatfile.cf_orgnm.indexOf('.')+1, data.chatfile.cf_orgnm.length);
+                    item +=`                </div>
+                                            <span class="file-name">${data.chatfile.cf_orgnm}</span>
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>`;
+                            </div>`;
+                }else{
+                     item = `<div class="chat ch2">
+                                 <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                                 <div class="chat-content">
+                                     <div class="chat-info">
+                                         <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
+                                     </div>
+                                     <div class="textbox">${data.cc_content}</div>
+                                 </div>
+                             </div>`;
+                }
+            }else{
+                if(data.chatfile != null){
+                    item = `<div class="chat ch1">
+                                <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                                <div class="chat-content">
+                                    <div class="chat-info">
+                                        <div class="chat-name">
+                                            <span>${data.membery.mb_name}</span>
+                                        </div>
+                                    </div>
+                                    <div class="chat-text-info">
+                                        <div class="textbox">
+                                            <a class="chat-file" href="download?cf_seq=${data.chatfile.cf_seq}">
+                                                <div class="file-type">`;
+                    item += data.chatfile.cf_orgnm.substring(data.chatfile.cf_orgnm.indexOf('.')+1, data.chatfile.cf_orgnm.length);
+                    item +=`                    </div>
+                                                <span class="file-name">${data.chatfile.cf_orgnm}</span>
+                                            </a>
+                                        </div>
+                                        <div class="chat-info">
+                                            <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                }else{
+                    item = `<div class="chat ch1">
+                                <div class="icon"><img src="${data.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                                <div class="chat-content">
+                                    <div class="chat-name">
+                                        <span>${data.membery.mb_name}</span>
+                                    </div>
+                                    <div class="chat-text-info">
+                                        <div class="textbox">${data.cc_content}</div>
+                                        <div class="chat-info">
+                                            <span>${data.cc_rdate_time}<br/><span class="status-count" id="sc-${data.cc_seq}">${data.cc_status_count}</span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`;
+                }
             }
 
             talk.innerHTML += item;
             talk.scrollTop=talk.scrollHeight;//스크롤바 하단으로 이동
             readContent(cr_seq);
-        }else{
-            readContent(cr_seq);
         }
     }
+    setTimeout(function() {
+        readContent(cr_seq);
+    }, 100);
 }
 
 
@@ -134,8 +220,8 @@ function send(){
 	msg.value ='';
 }
 
-function outChat(){
-    if(confirm("현재 채팅창에서 퇴장하시겠습니까? 대화내용은 모두 사라집니다.")){
+function outChat(res){
+    if(res){
         data.cc_cr_seq = cr_seq;
 		data.cc_mb_seq = mb_seq;
 		data.type = "deleteChat";
@@ -154,7 +240,7 @@ function inChat(){
 }
 setTimeout(function() {
     inChat();
-}, 1000);
+}, 100);
 function chatOpen(roomNumber){
     window.open('room?cr_seq='+roomNumber, '', 'width=365, height=550');
 }
@@ -229,12 +315,14 @@ function handleFileUpload(files) {
     //파일의 길이만큼 반복하며 formData에 셋팅해준다.
     var megaByte = 1024*1024;
     for (var i = 0; i < files.length; i++) {
-
+        fd = new FormData();
         console.log(files[i].name);
 
             fd.append("file", files[i], files[i].name);
             //파일 중복 업로드를 방지하기 위한 설정
             map.put(files[i].name, files[i].name);
+
+            submitFile();
 
     }
 }
@@ -258,7 +346,7 @@ $(document).ready(function() {
         handleFileUpload(files);
 
         //sendFileToServer(); //테스팅 20200108
-        submitFile(); //테스팅 20200108
+        //submitFile(); //테스팅 20200108
     });
     // div 영역빼고 나머지 영역에 드래그 원래색변경
     $(document).on('dragover', function(e) {
@@ -268,9 +356,5 @@ $(document).ready(function() {
     });
 });
 function fileUpload(files){
-    //DIV에 DROP 이벤트가 발생 했을 때 다음을 호출한다.
     handleFileUpload(files);
-
-    //sendFileToServer(); //테스팅 20200108
-    submitFile();
 }

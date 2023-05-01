@@ -107,6 +107,7 @@
     margin-left: 5%;
     width: 80%;
     height: auto;
+    min-height:700px;
     display: flex;
     transition:all 0.5s;
 }
@@ -318,7 +319,7 @@
     text-align: center;
 }
 
-.jobs_search_field button, input{
+.jobs_search_field button, .jobs_search_field input{
     margin: 0;
     font-family: inherit;
     font-size: 100%;

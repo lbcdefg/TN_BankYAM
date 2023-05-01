@@ -38,10 +38,10 @@ public class ChatroomServiceImpl implements ChatroomService{
 	}
 
 	@Override
-	public Chatmember checkRoomS(long mb_seq, long f_mb_seq) {
+	public Chatmember checkRoomS(long mb_seq, long f_f_mb_seq) {
 		HashMap<String, Long> map = new HashMap<>();
 		map.put("mb_seq", mb_seq);
-		map.put("f_mb_seq", f_mb_seq);
+		map.put("f_f_mb_seq", f_f_mb_seq);
 		return chatroomMapper.checkRoom(map);
 	}
 
@@ -173,7 +173,7 @@ public class ChatroomServiceImpl implements ChatroomService{
 		Files.write(uploadPath, file.getBytes());
 
 		//file.transferTo(new File(savedPath));
-		savedPath=savedPath.substring(savedPath.lastIndexOf("/file"));
+		//savedPath=savedPath.substring(savedPath.lastIndexOf("/file"));
 		//file.transferTo(new File(savedPath)); // 실제로 로컬에 uuid를 파일명으로 저장
 
 		Chatfile chatfile = new Chatfile();
@@ -183,6 +183,16 @@ public class ChatroomServiceImpl implements ChatroomService{
 
 		chatroomMapper.insertFile(chatfile);
 		return chatfile.getCf_seq();
+	}
+
+	@Override
+	public Chatfile selectFileBySeqS(long cf_seq) {
+		return chatroomMapper.selectFileBySeq(cf_seq);
+	}
+
+	@Override
+	public void updateRoomNameS(Chatroom chatroom) {
+		chatroomMapper.updateRoomName(chatroom);
 	}
 
 

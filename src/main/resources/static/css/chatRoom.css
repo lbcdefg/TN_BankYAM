@@ -38,7 +38,7 @@ a {
 	width: 5px; /*스크롤바의 너비*/
 }
 .wrap::-webkit-scrollbar-thumb{
-	background-color: #F54927; /*스크롤바의 색상*/
+	background-color: var(--themecolor); /*스크롤바의 색상*/
 }
 .in-out-chat{
     font-size: 13px;
@@ -254,23 +254,30 @@ div[class="sidebar"] .file-list{
 	width: 5px; /*스크롤바의 너비*/
 }
 .file-list::-webkit-scrollbar-thumb{
-	background-color: #F54927; /*스크롤바의 색상*/
+	background-color: var(--themecolor); /*스크롤바의 색상*/
+}
+.file-list .no-file{
+    margin:15px;
+    text-align: center;
 }
 .file-list a{
     display:flex;
     height:44px;
 }
-.file-list a .file-type{
+.file-type{
     height: 30px;
-    width: 36px;
+    padding: 0px 6px;
     margin: 7px;
     border: 1px solid;
     border-radius: 5px;
     text-align: center;
+    color: black;
+    display: table;
 }
-.file-list a .file-name{
+.file-name{
     margin-left: 5px;
     margin-top: 8px;
+    color: black;
 }
 div[class="sidebar"] .chat-member{
     position:relative;
@@ -282,7 +289,7 @@ div[class="sidebar"] .chat-member{
 	width: 5px; /*스크롤바의 너비*/
 }
 .chat-member::-webkit-scrollbar-thumb{
-	background-color: #F54927; /*스크롤바의 색상*/
+	background-color: var(--themecolor); /*스크롤바의 색상*/
 }
 .chat-member .member-info{
     display:flex;
@@ -318,7 +325,7 @@ input[id="menuicon"]:checked + label + div{
     left:0;
 }
 
-.modal, .make-chat, .make-group {
+.modal-member-add, .make-chat, .make-group {
   position: absolute;
   top: 0;
   left: 0;
@@ -332,11 +339,11 @@ input[id="menuicon"]:checked + label + div{
   z-index: 11;
 }
 
-.modal.show, .make-chat.show, .make-group.show {
+.modal-member-add.show, .make-chat.show, .make-group.show {
   display: block;
 }
 
-.modal_body, .make-chat-body, .make-group-body {
+.add_body, .make-chat-body, .make-group-body {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -354,10 +361,32 @@ input[id="menuicon"]:checked + label + div{
 
   transform: translateX(-50%) translateY(-50%);
 }
+.make-chat-title{
+    text-align: left;
+    margin-left: 10px;
+}
+.add_body .add-close, .make-chat-body .chat-close, .make-group-body .group-close{
+    display: block;
+    margin-bottom: 15px;
+    margin-left: 160px;
+    background-color: var(--themecolor);
+    color: white;
+    padding: 5px 12px;
+    border: none;
+}
+.add_body .add-button, .make-chat-body .add-button, .make-group-body .add-button{
+    display: block;
+    margin-top: 12px;
+    margin-left: 150px;
+    background-color: var(--themecolor);
+    color: white;
+    padding: 5px 12px;
+    border: none;
+}
 .friend-list{
-    background-color:blue;
+    background-color:white;
     position:relative;
-    max-height: 350px;
+    max-height: 265px;
     overflow:scroll;
     overflow-x: hidden;
 }
@@ -365,7 +394,7 @@ input[id="menuicon"]:checked + label + div{
 	width: 5px; /*스크롤바의 너비*/
 }
 .friend-list::-webkit-scrollbar-thumb{
-	background-color: #F54927; /*스크롤바의 색상*/
+	background-color: var(--themecolor); /*스크롤바의 색상*/
 }
 .friend-list .member-info{
     display:flex;
