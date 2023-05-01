@@ -19,7 +19,7 @@
         </div>
         <div class="nac-main">
             <div class="nac-btn-row">
-                <div class="nac-btn-group">
+                <div class="nac-btn-headerGroup">
                     <button type="button" class="nac-deposit" value="deposit" onclick="getValue(this)">예금상품</button>
                     <button type="button" class="nac-saving" value="saving" onclick="getValue(this)">적금상품</button>
                 </div>

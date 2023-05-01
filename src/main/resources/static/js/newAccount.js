@@ -11,7 +11,7 @@ $(document).ready(function(){
     // 2) 셀렉트 변경 시마다 가져오기
     $('#pd_named').change(function() {
         $("input.ac-name-receptor2").remove();
-        checkPdName(acCount);
+        checkPdName();
     });
 
     // 계좌별칭 입력 창해당 별칭과 동일한 계좌별칭을 가지고 있는지 체크
@@ -71,11 +71,11 @@ function getValue(event){
     if(event.value == "deposit"){
         $('.nac-deposit').addClass("focus");
         $('.nac-saving').removeClass("focus");
-        changePdName(event.value)
+        changePdName("deposit")
     }else if(event.value == "saving"){
         $('.nac-deposit').removeClass("focus");
         $('.nac-saving').addClass("focus");
-        result = "else";
+        changePdName("saving")
     }
 }
 
@@ -84,19 +84,20 @@ function changePdName(catPd){
         url: "../accountM/accounts_pdSelectAjax",
         type: "POST",
         data: {catPd: catPd},
-        success: function(acNames){
-            if(acNames == null){
+        success: function(pd){
+            if(pd == null){
                 alert("알 수 없는 문제가 발생하였습니다");
                 history.back();
             }else{
-                $("#ac_name").val(acNames[0]);
-                if(acNames[1] != null){
-                    for(var i=1; i<acNames.length; i++){
-                        hiddenInput = $("<input>").attr({type: "hidden", value: acNames[i]}).addClass("ac-name-receptor2");
-                        $(".nac-row-block").append(hiddenInput);
-                    }
+                alert(pd)
+                var select = $('#pd_named');
+                select.empty();
+                $("#ac_name").val(pd[0].pd_name);
+                for(var i=0; i<pd.length; i++){
+                    var option = $('<option>').attr("id",pd[i].pd_seq).val(pd[i].pd_name).text(pd[i].pd_name + " (금리: " + pd[i].pd_rate + " / 적용일: " + pd[i].pd_rdate + ")");
+                    select.append(option);
                 }
-                acNameCheck(acCount);
+                acNameCheck();
             }
         },
         error: function(error){
@@ -105,7 +106,7 @@ function changePdName(catPd){
     });
 }
 
-function checkPdName(acCount){
+function checkPdName(){
     $.ajax({
         url: "../accountM/accounts_pdAjax",
         type: "POST",
@@ -122,7 +123,7 @@ function checkPdName(acCount){
                         $(".nac-row-block").append(hiddenInput);
                     }
                 }
-                acNameCheck(acCount);
+                acNameCheck();
             }
         },
         error: function(error){

@@ -256,6 +256,7 @@ public class AccountManageController {
             // 내 계좌들 전부 가져올 리스트
             List<Accounty> getAc = accountManageService.myAllAcBySeq(membery.getMb_seq());
 
+            System.out.println(getAc);
             // 계좌 선택 및 계좌 별칭용 리스트
             return accountManageService.forAcNames(getAc, pd_name);
         }
@@ -269,10 +270,13 @@ public class AccountManageController {
 
         if(membery != null) {   // 나중에 로그인 전용 페이지로 구성하면 해당 if문 없애기
             if(catPd.equals("deposit")){
-
+                List<Product> pdNames = accountManageService.forRecentPdList(); // 예금 상품들
+                System.out.println(pdNames);
+                return pdNames;
             }else if(catPd.equals("saving")){
-
-                return accountManageService.forAcNames(getAc, pd_name);
+                List<Product> pdNames = accountManageService.forRecentPdList2(); // 적금 상품들
+                System.out.println(pdNames);
+                return pdNames;
             }
         }
         return null;
