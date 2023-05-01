@@ -38,10 +38,10 @@ public class ChatroomServiceImpl implements ChatroomService{
 	}
 
 	@Override
-	public Chatmember checkRoomS(long mb_seq, long f_mb_seq) {
+	public Chatmember checkRoomS(long mb_seq, long f_f_mb_seq) {
 		HashMap<String, Long> map = new HashMap<>();
 		map.put("mb_seq", mb_seq);
-		map.put("f_mb_seq", f_mb_seq);
+		map.put("f_f_mb_seq", f_f_mb_seq);
 		return chatroomMapper.checkRoom(map);
 	}
 

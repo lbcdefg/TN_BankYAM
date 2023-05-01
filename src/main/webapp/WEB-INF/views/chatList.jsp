@@ -85,7 +85,7 @@
                         <label class="member-info" for="r-${friend.membery.mb_seq}" id="fr-1">
                             <img src="${friend.membery.mb_imagepath}"/>
                             <span class="name">${friend.membery.mb_name}</span>
-                            <input type="radio" name="f_mb_seq" value="${friend.membery.mb_seq}" id="r-${friend.membery.mb_seq}">
+                            <input type="radio" name="f_f_mb_seq" value="${friend.membery.mb_seq}" id="r-${friend.membery.mb_seq}">
                         </label>
                     </c:forEach>
                 </div>
@@ -104,7 +104,7 @@
                         <label class="member-info" for="c-${friend.membery.mb_seq}" id="fr-1">
                             <img src="${friend.membery.mb_imagepath}"/>
                             <span class="name">${friend.membery.mb_name}</span>
-                            <input type="checkbox" name="f_mb_seq" value="${friend.membery.mb_seq}" id="c-${friend.membery.mb_seq}">
+                            <input type="checkbox" name="f_f_mb_seq" value="${friend.membery.mb_seq}" id="c-${friend.membery.mb_seq}">
                         </label>
                     </c:forEach>
                 </div>
@@ -144,9 +144,9 @@
     function makeRoom(type){
         var value = new Array();
         if(type=="chat"){
-            value.push($("input[type=radio][name=f_mb_seq]:checked").val());
+            value.push($("input[type=radio][name=f_f_mb_seq]:checked").val());
         }else{
-            var list = $("input[type=checkbox][name=f_mb_seq]");
+            var list = $("input[type=checkbox][name=f_f_mb_seq]");
             for(var i=0; i<list.length; i++){
                 if(list[i].checked){
                     value.push(list[i].value);
@@ -160,7 +160,7 @@
         $.ajax({
             url: "insert",
             type: "GET",
-            data: {f_mb_seq: value},
+            data: {f_f_mb_seq: value},
             success: function(roomNumber){
                 chatOpen(roomNumber);
                 location.reload();
