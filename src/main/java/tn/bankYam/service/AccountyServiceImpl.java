@@ -142,4 +142,15 @@ public class AccountyServiceImpl implements AccountyService{
     }
     @Override
     public Accounty findMainAcc(long mb_seq){ return mapper.findMainAcc(mb_seq);}
+
+    @Override
+    public Accounty findMainOnlyAcc(long ac_mb_seq) {
+        return mapper.findMainOnlyAcc(ac_mb_seq);
+    }
+
+    @Override
+    public void interestSavingAcc(Accounty accounty) {
+        mapper.interestSavingAcc(accounty);
+    }
+
 }
