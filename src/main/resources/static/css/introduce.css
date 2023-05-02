@@ -39,7 +39,7 @@
 
 
 .introduce-history{
-  color: #2c2a29;
+
   list-style-type: none;
   margin-left: 30rem
 }
@@ -47,14 +47,14 @@
 .introduce-history h1 {
   position: relative;
   font-size: 4rem;
-  color: #2c2a29;
+
   line-height: 1;
 }
 
 .introduce-history h2 {
   position: relative;
   font-size: 33px;
-  color: #2c2a29;
+
   line-height: 1;
 }
 
@@ -98,7 +98,7 @@
 
 .introduce-history li {
   font-size: 17px;
-  color:#2c2a29;
+
   line-height: 29px;
 }
 
