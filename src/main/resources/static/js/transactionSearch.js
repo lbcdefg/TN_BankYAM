@@ -16,8 +16,6 @@ function checkTrSearchAjax(){
             $("#ajax-try").text(data.tr_other_accnum);
             $("#ajax-try").text(data.tr_other_bank);
             $("#ajax-try").text(data.tr_date);
-
-
         },
         error: function(error){
             console.log("error:"+error);

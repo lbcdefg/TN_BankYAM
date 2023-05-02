@@ -3,7 +3,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 
-
 <%@ include file="/WEB-INF/views/nav.jsp" %>
 
 <head>
@@ -23,8 +22,8 @@
                         <div class="field1" style="margin-top:10px;">
 
                             <select id="tr_ac_seq"name="tr_ac_seq"  >
-                                <c:forEach var="tr" items="${trList}">
-                                    <option value="${tr.tr_ac_seq}">${tr.tr_ac_seq}</option>
+                                <c:forEach var="ac" items="${accList}">
+                                    <option value="${ac.ac_seq}">${ac.ac_seq}</option>
                                 </c:forEach>
                             </select>
                         </div>
@@ -46,47 +45,48 @@
             </div>
 
         </div>
+
         <div class="downcontainer-right">
-            <div class="table-div">
-
-                <div class="profile-acs-table-size350" style="margin-top:200px;">
-                    <table class="profile-acs-list-table">
-                        <tr class="profile-acs-list-head">
-                            <th class="profile-acs-list-5">계좌번호</th>
-                            <th class="profile-acs-list-18">유형</th>
-                            <th class="profile-acs-list-18">이체 후 잔액</th>
-                            <th class="profile-acs-list-8">타인계좌번호</th>
-                            <th class="profile-acs-list-10">보낸 은행</th>
-                            <th class="profile-acs-list-9">보낸 날짜</th>
-                        </tr>
-                        <c:if test="${empty trList}">
-                            <tr class="profile-acs-list-row" style="border:none; height:400px">
-                                <td class="profile-fontS-35" align='center' colspan="6">거래내역이 없습니다.</td>
+                <div class="table-div">
+                    <div class="profile-acs-table-size350" style="margin-top:200px;">
+                        <table class="profile-acs-list-table" id="trListSearch">
+                            <tr class="profile-acs-list-head">
+                                <th class="profile-acs-list-5">계좌명</th>
+                                <th class="profile-acs-list-5">계좌번호</th>
+                                <th class="profile-acs-list-18">입금/송금</th>
+                                <th class="profile-acs-list-18">이체 후 잔액</th>
+                                <th class="profile-acs-list-8">타인 계좌번호</th>
+                                <th class="profile-acs-list-10">타인 은행</th>
+                                <th class="profile-acs-list-9">이체 날짜</th>
                             </tr>
-                        </c:if>
-                        <c:forEach items="${trList}" var="tr">
-                            <tr class="profile-acs-list-row">
+                            <c:if test="${empty trList}">
+                                <tr class="profile-acs-list-row" style="border:none; height:400px">
+                                    <td class="profile-fontS-35" align='center' colspan="6">거래내역이 없습니다.</td>
+                                </tr>
+                            </c:if>
+                            <c:forEach items="${trList}" var="tr">
+                                <tr class="profile-acs-list-row">
+                                    <td class="profile-acs-list-5 acm" name="${tr.accounty.ac_name}">${tr.accounty.ac_name}</td>
+                                    <td class="profile-acs-list-5 acm" name="${tr.tr_ac_seq}">${tr.tr_ac_seq}</td>
+                                    <c:set var="tr_ac_seq" value="${tr.tr_ac_seq}"/>
+                                    <td class="profile-acs-list-9" name="${tr.tr_type}">${tr.tr_type}</td>
+                                    <td class="profile-acs-list-20"><span class="fontS-12 color-B39273">잔액: <fmt:formatNumber value="${tr.tr_after_balance}" pattern="#,###" /> 원</span></td>
+                                    <td class="profile-acs-list-8" name="${tr.tr_other_accnum}"><span class="acn">${tr.tr_other_accnum}</span></td>
+                                    <td class="profile-acs-list-10" name="${tr.tr_other_bank}">${tr.tr_other_bank}</td>
+                                    <td class="profile-acs-list-9" name="${tr.tr_date}">${tr.tr_date}</td>
+                                </tr>
+                            </c:forEach>
 
-                                <td class="profile-acs-list-5 acm" id="${tr.tr_ac_seq}" name="${tr.tr_ac_seq}">${tr.tr_ac_seq}</td>
-                                <c:set var="tr_ac_seq" value="${tr.tr_ac_seq}"/>
-                                <td class="profile-acs-list-9" name="${tr.tr_type}">${tr.tr_type}</td>
-                                <td class="profile-acs-list-20"><span class="fontS-12 color-B39273">잔액: <fmt:formatNumber value="${tr.tr_after_balance}" pattern="#,###" /> 원</span></td>
-                                <td class="profile-acs-list-8" name="${tr.tr_other_accnum}"><span class="acn">${tr.tr_other_accnum}</span></td>
-                                <td class="profile-acs-list-10" name="${tr.tr_other_bank}">${tr.tr_other_bank}</td>
-                                <td class="profile-acs-list-9" name="${tr.tr_date}">${tr.tr_date}</td>
-
-                            </tr>
-                        </c:forEach>
-                    </table>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
     </div>
 </body>
         <script>
             $(function(){
 
-            stickyjobsSearch();
+                stickyjobsSearch();
 
                 var windowWidth = $(window).width();
                 $(window).resize(function(){
@@ -164,6 +164,11 @@
                         }
                     }
                 });
+
+                $('#tr_ac_seq').on('change', function(){
+                    checkTrSearchAjax();
+                });
+
               });
               function stickyjobsSearch() {
                   var windowW = $(window).width();
@@ -187,35 +192,52 @@
               }
         </script>
 
-        <script>
-            function checkTrSearchAjax(){
-                var tr_ac_seq = document.getElementById('tr_ac_seq').value;
-                var tr_type = document.getElementById('tr_type').value;
-                var tr_other_accnum = document.getElementById('tr_other_accnum').value;
-                if(tr_other_accnum==""){
-                    tr_other_accnum=0;
-                }
-                var tr_other_bank = document.getElementById('tr_other_bank').value;
+<script>
+    function checkTrSearchAjax(){
+        var tr_ac_seq = document.getElementById('tr_ac_seq').value;
 
-                $.ajax({
-                    url:"trListSearch",
-                    type:"GET",
-                    data:{tr_ac_seq:tr_ac_seq, tr_type:tr_type, tr_other_accnum:tr_other_accnum, tr_other_bank:tr_other_bank},
-                    success: function(data){
-                        var dataChange = JSON.stringify(data);
-                        console.log(dataChange);
-                        console.log(data);
-                        $("#search").text(data.tr_type);
-                        $("#search").text(data.tr_ac_seq);
-                        $("#search").text(data.tr_other_accnum);
-                        $("#search").text(data.tr_other_bank);
-                    },
+        var tr_type = document.getElementById('tr_type').value;
+        if(tr_type == ""){
+            tr_type = "empty";
+        }
 
-                    error: function(error){
-                        console.log("error:"+error);
-                    }
+        var tr_other_accnum = document.getElementById('tr_other_accnum').value;
+        if(tr_other_accnum==""){
+            tr_other_accnum=0;
+        }
 
-                });
+        var tr_other_bank = document.getElementById('tr_other_bank').value;
+        if(tr_other_bank == ""){
+            tr_other_bank = "empty";
+        }
+
+        var param = {};
+        param.tr_ac_seq = tr_ac_seq;
+        param.tr_type = tr_type;
+        param.tr_other_accnum = tr_other_accnum;
+        param.tr_other_bank = tr_other_bank;
+
+        $.ajax({
+            url:"trListSearch",
+            type:"GET",
+            data: param,
+            success: function(data){
+                var dataChange = JSON.stringify(data);
+                console.log(dataChange);
+                console.log(data);
+
+                $("#search").text(data.tr_type);
+                $("#search").text(data.tr_ac_seq);
+                $("#search").text(data.tr_other_accnum);
+                $("#search").text(data.tr_other_bank);
+
+            },
+
+            error: function(error){
+                console.log("error:"+error);
             }
-        </script>
+
+        });
+    }
+</script>
 <%@ include file="/WEB-INF/views/footer.jsp" %>

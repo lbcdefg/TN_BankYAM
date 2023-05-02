@@ -153,4 +153,9 @@ public class AccountyServiceImpl implements AccountyService{
         mapper.interestSavingAcc(accounty);
     }
 
+    @Override
+    public List<Accounty> findAccListByMemberSeqS(long ac_mb_seq) {
+        return mapper.findAccListByMemberSeq(ac_mb_seq);
+    }
+
 }

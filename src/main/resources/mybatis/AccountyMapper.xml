@@ -151,6 +151,9 @@
     <select id="findMainOnlyAcc" parameterType="long" resultMap="accounty">
         SELECT * FROM (SELECT * FROM ACCOUNTY WHERE AC_MB_SEQ=#{ac_mb_seq}) WHERE AC_MAIN='주'
     </select>
+    <select id="findAccListByMemberSeq" parameterType="long" resultMap="accounty">
+        SELECT * FROM ACCOUNTY WHERE AC_MB_SEQ=#{AC_MB_SEQ} AND AC_STATUS='사용중'
+    </select>
     <update id="interestSavingAcc" parameterType="Accounty">
         UPDATE ACCOUNTY SET AC_BALANCE = #{ac_balance} WHERE AC_SEQ= #{ac_seq}
     </update>
