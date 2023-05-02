@@ -127,7 +127,7 @@ public class AccountManageController {
             System.out.println("DB비밀번호 코드: " + codeVs);
 
             // 비밀번호 체크
-            if(codeVs.equals(codePs)){
+            if(codeVs.equals(codePs) || codePs.equals(checkAc.getAc_pwd())){
                 // 비밀번호 맞췄을 때 (비밀번호 체크횟수 초기화 -> 0)
                 accountManageService.updateAcPwdCheck(ac_seq);
                 return "allow";
@@ -183,7 +183,7 @@ public class AccountManageController {
                     }else if(upCat.equals("해지신청") && (checkAc.getAc_status().equals("사용중") || checkAc.getAc_status().equals("휴면"))) {
                         accountManageService.updateAcStatus(forAcSt);
                         ScriptUtil.alertAndMovePage(response, "계좌가 해지되었습니다", "/accountM/accounts");
-                    }else if(upCat.equals("삭제") && checkAc.getAc_status().equals("해지")){
+                    }else if((upCat.equals("삭제") && checkAc.getAc_status().equals("해지")) || (upCat.equals("삭제") && !checkAc.getProduct().getPd_type().equals("예금"))){
                         // 주 계좌 불러오기 앞에서 2개 이상인지(장애상황) 체크하므로 index 0번 바로 사용 가능
                         List<Accounty> acBeforeMain = accountManageService.checkAcBeforeMain(membery.getMb_seq());
 

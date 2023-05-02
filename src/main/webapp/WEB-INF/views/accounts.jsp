@@ -45,11 +45,12 @@
                         <tr class="acs-list-row">
                             <c:choose>
                                 <c:when test="${ac.product.pd_type == '적금'}">
-                                    <td class="acs-list-5 acm" id="${ac.ac_seq}" name="${ac.ac_main}">${ac.ac_main}_${ac.product.pd_type}</td>
+                                    <td class="acs-list-5 acm" id="${ac.ac_seq}" name="${ac.ac_main}">${ac.ac_main}
+                                    <br><span class="fontS-12 color-fb8b00">${ac.product.pd_type}</span></td>
                                 </c:when>
                                 <c:otherwise>
                                     <td class="acs-list-5 acm" id="${ac.ac_seq}" name="${ac.ac_main}">${ac.ac_main}
-                                    <br><span class="fontS-12 color-B39273">(예금)</span></td>
+                                    <br><span class="fontS-12 color-B39273">${ac.product.pd_type}</span></td>
                                 </c:otherwise>
                             </c:choose>
                             <c:set var="ac_Seq" value="${ac.ac_seq}"/>
@@ -67,7 +68,9 @@
                             <td class="acs-list-17 name-group"><span class="acn">${ac.ac_name}</span><div class="acs-nameM-btnDiv"><button type="button" class="acs-nameM-btn" onclick="modifyName('${ac.ac_name}',${ac.ac_seq})">수정</button></div></td>
                             <td class="acs-list-11">
                                 <c:if test="${ac.ac_status == '사용중'}">
-                                    <input type="radio" name="acr" id="acr-${ac.ac_seq}"/>
+                                    <c:if test="${ac.product.pd_type != '적금'}">
+                                        <input type="radio" name="acr" id="acr-${ac.ac_seq}"/>
+                                    </c:if>
                                 </c:if>
                             </td>
                             <td class="acs-list-10">${ac.ac_status}</td>
@@ -77,7 +80,9 @@
                                 </c:if>
                                 <c:if test="${ac.ac_main != '주'}">
                                     <c:if test="${ac.ac_status == '사용중'}">
-                                        <a class="acs-click" onclick="acCheck('휴면신청',${ac.ac_seq})">휴면신청</a>
+                                        <c:if test="${ac.product.pd_type != '적금'}">
+                                            <a class="acs-click" onclick="acCheck('휴면신청',${ac.ac_seq})">휴면신청</a>
+                                        </c:if>
                                     </c:if>
                                     <c:if test="${ac.ac_status == '휴면'}">
                                         <a class="acs-click" onclick="acCheck('휴면취소',${ac.ac_seq})">휴면취소</a>
@@ -90,7 +95,7 @@
                             </c:if>
                             <c:if test="${ac.ac_main != '주'}">
                                 <c:if test="${ac.ac_status == '사용중' or ac.ac_status == '휴면'}">
-                                    <a class="acs-click" onclick="acCheck2('해지신청','${bal}',${ac.ac_seq}, ${ac.ac_balance})">해지신청</a>
+                                    <a class="acs-click" onclick="acCheck2('해지신청','${bal}',${ac.ac_seq}, ${ac.ac_balance}, '${ac.product.pd_type}')">해지신청</a>
                                 </c:if>
                             </c:if>
                             </td>

@@ -59,12 +59,15 @@ $(document).ready(function(){
     $(".ac-ps").on("keyup", function(){
         if(isNaN($(".ac-ps").val())){
             $("p.acC1").remove();
+            $("p.acD").remove();
             setPtagAcsRed("입력은 숫자만 가능합니다", "acC1", ".acs-psM-ps1");
         }else if($(".ac-ps").val().replace(/\s/g,"").length < 4){
             $("p.acC1").remove();
+            $("p.acD").remove();
             setPtagAcsRed("공백은 포함할 수 없습니다", "acC1", ".acs-psM-ps1");
         }else{
             $("p.acC1").remove();
+            $("p.acD").remove();
             setPtagAcs("확인가능", "acC1", ".acs-psM-ps1");
         }
     });
@@ -124,12 +127,15 @@ $(document).ready(function(){
     $(".ac-ps-check").on("keyup", function(){
         if(isNaN($(".ac-ps-check").val())){
             $("p.acCC1").remove();
+            $("p.acD").remove();
             setPtagAcsRed("입력은 숫자만 가능합니다", "acCC1", ".acs-psC-ps1");
         }else if($(".ac-ps-check").val().replace(/\s/g,"").length < 4){
             $("p.acCC1").remove();
+            $("p.acD").remove();
             setPtagAcsRed("공백은 포함할 수 없습니다", "acCC1", ".acs-psC-ps1");
         }else{
             $("p.acCC1").remove();
+            $("p.acD").remove();
             setPtagAcs("확인가능", "acCC1", ".acs-psC-ps1");
         }
     });
@@ -264,18 +270,22 @@ function psCheckAjax(ac_ps){
         success: function(check){
             if(check == "allow"){
                 $("p.acC1").remove();
+                $("p.acD").remove();
                 setPtagAcs("비밀번호 확인완료", "acC1", ".acs-psM-ps1");
                 $(".ac-ps").attr("disabled",true);
                 $(".ac-newPs").attr("disabled",false);
                 $(".ac-newPs-check").attr("disabled",false);
             }else if(check == "0"){
                 $("p.acC1").remove();
+                $("p.acD").remove();
                 setPtagAcsRed("비밀번호 확인 5회 실패하셨습니다.. 뱅크얌으로 문의주세요 (02-1234-1234)", "acD", ".acs-psM-ps1");
             }else if(check == "cancel"){
                 $("p.acC1").remove();
+                $("p.acD").remove();
                 setPtagAcsRed("잘못된 경로, 혹은 문제가 발생.. 뱅크얌으로 문의주세요 (02-1234-1234)", "acC1", ".acs-psM-ps1");
             }else{
                 $("p.acC1").remove();
+                $("p.acD").remove();
                 setPtagAcsRed("비밀번호 확인 실패.. " + check + "회 남음.", "acC1", ".acs-psM-ps1");
             }
         },
@@ -304,7 +314,7 @@ function psSubmit(){
 function psCancel(){
     var psMResult = confirm("비밀번호 변경을 취소하시겠습니까?");
     if(psMResult){
-        $("p.acC1").remove(); $("p.acC2").remove(); $("p.acC3").remove();
+        $("p.acD").remove(); $("p.acC1").remove(); $("p.acC2").remove(); $("p.acC3").remove();
         $(".ac-ps").val("");
         $(".ac-newPs").val("");
         $(".ac-newPs-check").val("");
@@ -318,28 +328,43 @@ function psCancel(){
 }
 
 // 해지신청, 계좌삭제 클릭시
-function acCheck2(status, balSt, ac_seq, ac_balance){
-    if(status == "해지"){
-        if(ac_balance > 0){
-            delAcConfirm = confirm("계좌 잔액이 " + balSt + "원 남았습니다. 해당 금액을 주 계좌로 옮기고 계좌를 삭제하시겠습니까?");
-        }else if(ac_balance == 0){
-            delAcConfirm = confirm("해당 계좌엔 잔액이 없습니다. 계좌를 삭제하시겠습니까?");
+function acCheck2(status, balSt, ac_seq, ac_balance, pdType){
+    if(pdType == "적금"){
+        if(ac_balance >= 0){
+            delAcCheckConfirm = confirm("적금계좌는 해지 시 해지계좌로 처리되지 않고 바로 계좌가 삭제됩니다. 그래도 해지하시겠습니까?");
+            if(delAcCheckConfirm){
+                delAcConfirm = confirm("계좌 잔액이 " + balSt + "원 남았습니다. 해당 금액을 주 계좌로 옮기고 계좌를 삭제하시겠습니까?");
+                if(delAcConfirm){
+                    checkPs("삭제", ac_seq);
+                }
+            }
         }else{
             alert("해당 계좌의 잔액 또는 상태가 삭제할 수 없는 상태이므로 고객센터로 문의 바랍니다.");
             return false;
         }
-        if(delAcConfirm){
-            checkPs("삭제", ac_seq);
-        }
-    }else if(status == "복구중"){
-        reAcConfirm = confirm("현재 계좌가 복구중 상태입니다. 계좌 복구를 취소하시겠습니까?");
-        if(reAcConfirm){
-            acCheck("복구취소", ac_seq);
-        }
-    }else if(status == "해지신청"){
-        outAcConfirm = confirm("계좌 잔액이 " + balSt + "원 남았습니다. 해당 계좌를 정말 해지하시겠습니까? (※ 해지계좌는 복구는 가능하지만 일정시간이 소요됩니다.)");
-        if(outAcConfirm){
-            checkPs("해지신청", ac_seq);
+    }else{
+        if(status == "해지"){
+            if(ac_balance > 0){
+                delAcConfirm = confirm("계좌 잔액이 " + balSt + "원 남았습니다. 해당 금액을 주 계좌로 옮기고 계좌를 삭제하시겠습니까?");
+            }else if(ac_balance == 0){
+                delAcConfirm = confirm("해당 계좌엔 잔액이 없습니다. 계좌를 삭제하시겠습니까?");
+            }else{
+                alert("해당 계좌의 잔액 또는 상태가 삭제할 수 없는 상태이므로 고객센터로 문의 바랍니다.");
+                return false;
+            }
+            if(delAcConfirm){
+                checkPs("삭제", ac_seq);
+            }
+        }else if(status == "복구중"){
+            reAcConfirm = confirm("현재 계좌가 복구중 상태입니다. 계좌 복구를 취소하시겠습니까?");
+            if(reAcConfirm){
+                acCheck("복구취소", ac_seq);
+            }
+        }else if(status == "해지신청"){
+            outAcConfirm = confirm("계좌 잔액이 " + balSt + "원 남았습니다. 해당 계좌를 정말 해지하시겠습니까? (※ 해지계좌는 복구는 가능하지만 일정시간이 소요됩니다.)");
+            if(outAcConfirm){
+                checkPs("해지신청", ac_seq);
+            }
         }
     }
     return false;
@@ -414,12 +439,15 @@ function psCCheckAjax(ac_ps){
                 location.href="accounts_update?ac_seq=" + ac_seq + "&upCat=" + check;
             }else if(checkAjax == "0"){
                 $("p.acCC1").remove();
+                $("p.acD").remove();
                 setPtagAcsRed("비밀번호 확인 5회 실패하셨습니다.. 뱅크얌으로 문의주세요 (02-1234-1234)", "acD", ".acs-psC-ps1");
             }else if(checkAjax == "cancel"){
                 $("p.acCC1").remove();
+                $("p.acD").remove();
                 setPtagAcsRed("잘못된 경로, 혹은 문제가 발생.. 뱅크얌으로 문의주세요 (02-1234-1234)", "acCC1", ".acs-psC-ps1");
             }else{
                 $("p.acCC1").remove();
+                $("p.acD").remove();
                 setPtagAcsRed("비밀번호 확인 실패.. " + checkAjax + "회 남음.", "acCC1", ".acs-psC-ps1");
             }
         },
@@ -433,7 +461,7 @@ function psCCheckAjax(ac_ps){
 function psCCancel(){
     var psCResult = confirm("계좌 비밀번호 인증을 취소하시겠습니까?");
     if(psCResult){
-        $("p.acC1").remove(); $("p.acC2").remove(); $("p.acC3").remove();
+        $("p.acD").remove(); $("p.acC1").remove(); $("p.acC2").remove(); $("p.acC3").remove();
         $(".ac-ps-check").val("");
         togglePsM($(".acs-psC"));
     }else{
