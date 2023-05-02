@@ -17,6 +17,9 @@
     <link rel="stylesheet" type="text/css" href="/css/login.css" />
     <link rel="stylesheet" type="text/css" href="/css/join.css" />
     <link rel="stylesheet" type="text/css" href="/css/profile.css" />
+    <link rel="stylesheet" type="text/css" href="/css/map.css" />
+    <link rel="stylesheet" type="text/css" href="/css/subsidiary.css" />
+    <link rel="stylesheet" type="text/css" href="/css/introduce.css" />
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js" ></script>
     <script type="text/javascript" language="javascript"
     			src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -77,7 +80,7 @@
                     </div>
                 </li>
                 <li class="nav-menu-item menu-show-full">
-                    <a href="">뱅크얌</a>
+                    <a href="/introduce">뱅크얌</a>
                 </li>
                 <li class="nav-menu-item log-btn">
                     <c:if test="${sessionScope.membery eq null}">

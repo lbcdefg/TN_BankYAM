@@ -84,6 +84,7 @@ public class AdminController {
         }
     }
 
+    // 현재 금리가 이전대비 변동이 있으면 새로운 상품으로 insert, 기존상품 xdate는 오늘로 update
     @GetMapping("rate_update_ok")
     public String rate_update_ok(Model model,Transactions transactions) throws Exception {
         Float rate = crawling();
@@ -105,8 +106,11 @@ public class AdminController {
             }
         }
         int_update_ok(transactions);
-        savingEnd();
+
+        savingEndMail();
+
         savingEndGiveInt(transactions);
+
         model.addAttribute("rate",rate);
         return "redirect:/member/profile";
     }
@@ -129,6 +133,7 @@ public class AdminController {
         }
     }
 
+    // admin profile에서 product 추가
     @PostMapping("addProduct_ok")
     public String addProduct_ok(Product product){
         float rate = crawling();
@@ -152,6 +157,7 @@ public class AdminController {
         return "redirect:/member/profile";
     }
 
+    // admin profile에서 product 추가시 중복체크 ajax
     @GetMapping("/pd_nameCheck")
     @ResponseBody
     boolean pd_nameCheck(HttpServletRequest request){
@@ -178,17 +184,16 @@ public class AdminController {
         return false;
     }
 
-    public void savingEnd() throws Exception{
+    // 만기일 도래시 회원 메일로 통보메일 보내기
+    public void savingEndMail() throws Exception{
         List<Accounty> savingList = accountyService.findSavingAcc();
         if(savingList.size()>0){
             for(Accounty accounty : savingList){
                 // 만기일도래 적금계좌 주인의 주계좌 찾기
-                System.out.println("savingEnd()의 accounty : " + accounty);
+                //System.out.println("savingEnd()의 accounty : " + accounty);
                 Accounty mainAcc = accountyService.findMainAcc(accounty.getAc_mb_seq());
                 // 적금만기알림 메일 보내기( 적금계좌와 주계좌를 파라미터로 넣고 보냄 )
                 registerMail.savingEnd(accounty, mainAcc);
-                System.out.println("왜 여기로 오질못하니");
-
             }
         }
     }
