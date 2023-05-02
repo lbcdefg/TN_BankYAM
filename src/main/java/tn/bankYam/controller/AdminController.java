@@ -14,6 +14,7 @@ import java.io.IOException;
 import tn.bankYam.dto.Accounty;
 import tn.bankYam.dto.Product;
 import tn.bankYam.service.AccountyService;
+import tn.bankYam.service.RegisterMail;
 import tn.bankYam.service.TransactionService;
 
 
@@ -31,6 +32,8 @@ public class AdminController {
     private AccountyService accountyService;
     @Autowired
     private TransactionService transactionService;
+    @Autowired
+    private RegisterMail registerMail;
 
     // 한국은행 기준금리 크롤링
     public Float crawling(){
@@ -80,7 +83,7 @@ public class AdminController {
     }
 
     @GetMapping("rate_update_ok")
-    public String rate_update_ok(Model model,Transactions transactions){
+    public String rate_update_ok(Model model,Transactions transactions) throws Exception {
         Float rate = crawling();
         List<String> list = accountyService.findDepositPd();
 
@@ -100,6 +103,7 @@ public class AdminController {
             }
         }
         int_update_ok(transactions);
+        savingEnd();
         model.addAttribute("rate",rate);
         return "redirect:/member/profile";
     }
@@ -171,19 +175,18 @@ public class AdminController {
         return false;
     }
 
-    @GetMapping("test2")
-    @ResponseBody
-    public String test2(@RequestParam("id") long id){
-        List<Accounty> accList = accountyService.findAccByMemberId(id);
-        List<Object> newList = new ArrayList<>();
-        for(Accounty acc : accList){
-            if(acc.getAc_main().equals("주")){
-                newList.add(acc);
+    public void savingEnd() throws Exception{
+        List<Accounty> savingList = accountyService.findSavingAcc();
+        if(savingList.size()>0){
+            for(Accounty accounty : savingList){
+                // 만기일도래 적금계좌 주인의 주계좌 찾기
+                System.out.println("savingEnd()의 accounty : " + accounty);
+                Accounty mainAcc = accountyService.findMainAcc(accounty.getAc_mb_seq());
+                // 적금만기알림 메일 보내기( 적금계좌와 주계좌를 파라미터로 넣고 보냄 )
+                registerMail.savingEnd(accounty, mainAcc);
+                System.out.println("왜 여기로 오질못하니");
+
             }
         }
-        return newList.toString();
     }
-//    public void savingEnd(){
-//        List<Accounty> savingList =
-//    }
 }

@@ -142,11 +142,23 @@ public class AccountManageServiceImpl implements AccountManageService{
         return accountManageMapper.myAllAcBySeq(mb_seq);
     }
 
-    // 가장 최근 금리 적용된 상품 이름들 가져올 리스트 no mapper
+    // 가장 최근 금리 적용된 예금 상품 이름들 가져올 리스트 no mapper
     @Override
     public List<Product> forRecentPdList(){
         List<Product> forPdList = new ArrayList<>();
         List<String> forRecentPd = accountyService.findDepositPd();
+        for(String pdName : forRecentPd){
+            Product product = accountyService.findDepositPdVal(pdName);
+            forPdList.add(product);
+        }
+        return forPdList;
+    }
+
+    // 가장 최근 금리 적용된 적금 상품 이름들 가져올 리스트 no mapper
+    @Override
+    public List<Product> forRecentPdList2(){
+        List<Product> forPdList = new ArrayList<>();
+        List<String> forRecentPd = accountyService.findSavingPd();
         for(String pdName : forRecentPd){
             Product product = accountyService.findDepositPdVal(pdName);
             forPdList.add(product);
