@@ -32,4 +32,6 @@ public interface AccountyService {
     List<String> findSavingPd();
     List<Accounty> findSavingAcc();
     Accounty findMainAcc(long mb_seq);
+    Accounty findMainOnlyAcc(long ac_mb_seq);
+    void interestSavingAcc(Accounty accounty);
 }

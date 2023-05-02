@@ -9,16 +9,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import tn.bankYam.dto.Transactions;
-import tn.bankYam.service.AccountyService;
+import tn.bankYam.service.*;
+
 import java.io.IOException;
 import tn.bankYam.dto.Accounty;
 import tn.bankYam.dto.Product;
 import tn.bankYam.service.AccountyService;
-import tn.bankYam.service.RegisterMail;
-import tn.bankYam.service.TransactionService;
 
 
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.Month;
 import java.util.ArrayList;
@@ -34,6 +34,8 @@ public class AdminController {
     private TransactionService transactionService;
     @Autowired
     private RegisterMail registerMail;
+    @Autowired
+    AccountManageService accountManageService;
 
     // 한국은행 기준금리 크롤링
     public Float crawling(){
@@ -104,6 +106,7 @@ public class AdminController {
         }
         int_update_ok(transactions);
         savingEnd();
+        savingEndGiveInt(transactions);
         model.addAttribute("rate",rate);
         return "redirect:/member/profile";
     }
@@ -187,6 +190,24 @@ public class AdminController {
                 System.out.println("왜 여기로 오질못하니");
 
             }
+        }
+    }
+    public void savingEndGiveInt(Transactions transactions){
+        List<Accounty> savingList = accountyService.findSavingAcc();
+        for(Accounty account: savingList){
+            Accounty mainAcc = accountyService.findMainOnlyAcc(account.getAc_mb_seq());
+            long savingAccInt = (long) (account.getAc_balance() * (1 + ((account.getProduct().getPd_rate() + account.getProduct().getPd_addrate()))/100));
+            mainAcc.setAc_balance(mainAcc.getAc_balance()+savingAccInt);
+            accountyService.interestSavingAcc(mainAcc);
+            transactions.setTr_ac_seq(mainAcc.getAc_seq());
+            transactions.setTr_other_accnum(account.getAc_seq());
+            transactions.setTr_other_bank(account.getAc_name());
+            transactions.setTr_type("입금");
+            transactions.setTr_amount(savingAccInt);
+            transactions.setTr_after_balance(mainAcc.getAc_balance());
+            transactions.setTr_msg("적금만기");
+            transactionService.insertTrLog(transactions);
+            accountManageService.deleteAc(account.getAc_seq());
         }
     }
 }
