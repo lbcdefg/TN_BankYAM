@@ -20,6 +20,8 @@
     <link rel="stylesheet" type="text/css" href="/css/map.css" />
     <link rel="stylesheet" type="text/css" href="/css/subsidiary.css" />
     <link rel="stylesheet" type="text/css" href="/css/introduce.css" />
+    <link rel="stylesheet" type="text/css" href="/css/privacy_terms.css">
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js" ></script>
     <script type="text/javascript" language="javascript"
     			src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>

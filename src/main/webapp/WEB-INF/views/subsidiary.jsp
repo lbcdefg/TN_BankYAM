@@ -74,7 +74,7 @@
                     <a href="http://192.168.0.67:8080/main" target="blank">
                         <p>ZIP PALM</p>
                         <div style="width:100%">
-                            <img src="/img/ZIP PALM.png" style="width:100%;height:110%;">
+                            <img src="/img/ZIP PALM.png" style="width:80%;height:100%;">
                         </div>
                     </a>
                 </li>
