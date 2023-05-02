@@ -31,17 +31,21 @@ public class AccountyController {
     @Autowired
     TransactionService transactionService;
 
-
     //거래내역 불러오기
     @GetMapping("transactionList")
     public String transactionList(Model model, HttpSession session){
         Membery membery = (Membery)session.getAttribute("membery");
         Transactions transactions = new Transactions();
+        //tr_ac_seq = ac_seq
+        //ac_mb_seq = mb_seq
+        //트랜잭션안에 ac_seq를 통해서 mb_seq에 맞는 것만 가지고 나와야함
+
+        System.out.println("멤버만 가지고 나와줘 ");
 
         List<Transactions> trList = transactionService.selectTrListS(transactions);
-        for(int i = 0; i < trList.size(); i++){
-
-        }
+//        for(int i = 0; i < trList.size(); i++){
+//
+//        }
         model.addAttribute("trList", trList);
         return "transactionList";
     }
@@ -49,15 +53,12 @@ public class AccountyController {
     @ResponseBody
     public List<Transactions> trListSearch(HttpSession session, HttpServletResponse response, long tr_ac_seq, String tr_type, long tr_other_accnum ){
         Membery membery = (Membery)session.getAttribute("membery");
-
         return transactionService.selectTrListS(new Transactions());
     }
 
     //계좌이체 창
     @GetMapping("transfer")
     public String transfer(Model model,HttpSession session, Accounty accounty,HttpServletResponse response, long other_mb_seq) throws IOException {
-
-
         Membery membery = (Membery)session.getAttribute("membery");
         List<Accounty> accList = accountyService.selectAccNumS(membery.getMb_seq());
 

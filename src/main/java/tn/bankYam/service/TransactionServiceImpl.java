@@ -23,6 +23,11 @@ public class TransactionServiceImpl implements TransactionService{
         return mapper.selectTrList(transactions);
     }
 
+    @Override
+    public void selectTestS(long tr_ac_seq) {
+        mapper.selectTest(tr_ac_seq);
+    }
+
     // Transactions update를 위한 Transactions set 기능 no mapper
     @Override
     public Transactions setTransactions(long tr_ac_seq, long tr_other_accnum, String tr_other_bank, String tr_type, long tr_amount, long tr_after_balance, String tr_msg){
