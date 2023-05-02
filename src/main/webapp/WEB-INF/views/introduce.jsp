@@ -16,12 +16,13 @@
                 <strong class="introduce-text1">BANKYAM<br></strong>
                 <br>
                 <strong class="introduce-text2">
-                    중개 수수료의 부담감을 느끼는 사람들은 위해<br>
-                    판매자와 구매자간 직접거래를 도와주는 중개커뮤니티입니다.<br>
-                    실제 부동산 데이터를 제공하여 효율적인 거래를 만들어 내고자 합니다<br>
-                    더욱 행복하고 건강한 삶을 누리는 데 도움이 될 기술을 발전시켜 나갈 것입니다.
+                    한 사람, 한 사람을 위해 시작한 은행이<br>
+                    더 많은 사람들이 찾는 모두의 은행이 되었습니다<br>
+                    <br><br>
+                    보내고, 받고, 모으고, 쓰는<br>
+                    당신의 모든 일이 바뀌고 있습니다.<br>
                     <br><br><br><br><br>
-                    지혜롭게 판매하고 효율적인 거래를 만드는 회사, ZIBPALM<br>
+                    모두의 은행, BANKYAM<br>
                 </strong>
             </div>
         </div>
@@ -47,7 +48,7 @@
                 </ol>
                 <h2>2023.05 뱅크얌 런칭</h2>
                 <ol class="introduce-history">
-                    <li><img src="img/YamLogo.png" style="height:160px;"></li><hr>
+                    <li><img src="img/YamLogoHover.png" style="height:160px;"></li><hr>
                 </ol>
             </div>
         </div>

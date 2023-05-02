@@ -25,7 +25,7 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <strong class="pull-right" id="submit_preview" style="display: none;">버튼 로딩 중</strong>
-                                <button id="submit_button" type="submit" class="pull-right" data-loading-text="로그인 중..." style="float:right">로그인</button>
+                                <button id="submit_button" type="submit" class="pull-right normal-btn" data-loading-text="로그인 중..." style="float:right">로그인</button>
                             </div>
                         </div>
                         </br></br>
