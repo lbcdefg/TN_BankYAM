@@ -1,0 +1,93 @@
+.privacy, .terms{
+	padding-top: 40px;
+    padding-bottom: 40px;
+	width: 1170px;
+	padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+    display:flex;
+
+	color: #333;
+    font-size: 13px;
+    line-height: 1.6;
+}
+.terms-row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.privacy-row {
+    margin-right: -15px;
+    margin-left: -15px;
+}
+.terms-inner{
+	width: 100%;
+	float: left;
+	position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.privacy-inner{
+	width: 100%;
+	float: left;
+	position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+.terms-inner h1{
+	font-size: 28px;
+    line-height: 35px;
+	color: #585f69;
+    margin-top: 5px;
+    text-shadow: none;
+    font-weight: normal;
+}
+.privacy-inner h1{
+	font-size: 28px;
+    line-height: 35px;
+	color: #585f69;
+    margin-top: 5px;
+    text-shadow: none;
+    font-weight: normal;
+}
+.terms-inner p, .privacy-inner p{
+	color: #555;
+	margin: 0 0 10px;
+}
+.terms-inner dl, .privacy-inner dl{
+	margin-top: 0;
+    margin-bottom: 20px;
+}
+.terms-inner dl dt, .privacy-inner dl dt{
+	font-weight: 700;
+	line-height: 1.42857143;
+}
+.terms-inner dl dd, .privacy-inner dl dd{
+	margin-left: 0;
+	line-height: 1.42857143;
+}
+.terms-inner dl dd ul, .privacy-inner dl dd ul{
+	margin-top: 0;
+    margin-bottom: 10px;
+}
+.terms-inner dl dd ul li, .privacy-inner dl dd ul li{
+	color: #555;
+}
+
+.terms-inner h2, .privacy-inner h2{
+	font-size: 24px;
+    line-height: 33px;
+	color: #585f69;
+    margin-top: 5px;
+    text-shadow: none;
+    font-weight: normal;
+}
+.terms-inner ol, .privacy-inner ol{
+	margin-top: 0;
+    margin-bottom: 10px;
+}
+.terms-inner ol li, .privacy-inner ol li{
+	color: #555;
+}

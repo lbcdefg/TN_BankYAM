@@ -6,13 +6,10 @@
 
 
 <footer class="footer-main">
-  <ul class="footer-corp">
-    <li><a href="/terms">홈페이지 이용약관 및 개인정보 처리방침</a></li>
-  </ul>
   <ul class="footer-info">
     <li><a href="/map">찾아오시는 길</a></li>
     <li><a href="/subsidiary">계열사</a></li>
-    <li><a href="">모집 공고</a></li>
+    <li><a href="/terms">이용 약관</a></li>
   </ul>
   <address class="footer-address">
     <span>사업자등록번호 : 123-45-67890</span>

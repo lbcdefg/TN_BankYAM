@@ -1,13 +1,10 @@
 $(document).ready(function(){
     // 처음 진입하면 예금상품으로 포커스
-    getValue($(".nac-deposit"));
-
-    // 계좌별칭 갯수를 이용하여 현재 총 계좌 갯수 구하기
-    var acCount = $(".ac-name-receptor2").length;
+    getValue("deposit");
 
     // 상품 선택으로 계좌별칭 가져오기 ajax
     // 1) 처음 페이지 진입 시 한번 가져오기
-    checkPdName(acCount);
+    checkPdName();
     // 2) 셀렉트 변경 시마다 가져오기
     $('#pd_named').change(function() {
         $("input.ac-name-receptor2").remove();
@@ -68,6 +65,7 @@ $(document).ready(function(){
 });
 
 function getValue(event){
+    $("input.ac-name-receptor2").remove();
     if(event.value == "deposit"){
         $('.nac-deposit').addClass("focus");
         $('.nac-saving').removeClass("focus");
@@ -89,15 +87,30 @@ function changePdName(catPd){
                 alert("알 수 없는 문제가 발생하였습니다");
                 history.back();
             }else{
-                alert(pd)
                 var select = $('#pd_named');
                 select.empty();
                 $("#ac_name").val(pd[0].pd_name);
                 for(var i=0; i<pd.length; i++){
-                    var option = $('<option>').attr("id",pd[i].pd_seq).val(pd[i].pd_name).text(pd[i].pd_name + " (금리: " + pd[i].pd_rate + " / 적용일: " + pd[i].pd_rdate + ")");
+                    var sum = pd[i].pd_rate + pd[i].pd_addrate;
+                    var option = $('<option>').attr("id",pd[i].pd_seq).val(pd[i].pd_name).text(pd[i].pd_name + " (이자율: " + sum.toFixed(2) + " / 적용일: " + pd[i].pd_rdate + ")").addClass("pd-option");
                     select.append(option);
                 }
-                acNameCheck();
+                if(pd[0].pd_type == "적금"){
+                    $(".add1").hide();
+                    $(".add2").show();
+                    $("#ac_udated option:eq(6)").attr("selected",true);
+                    $("#ac_udated option:eq(0)").attr("selected",false);
+                    $("#ac_purpose option:eq(3)").attr("selected",true);
+                    $("#ac_purpose option:eq(0)").attr("selected",false);
+                }else{
+                    $(".add1").show();
+                    $(".add2").hide();
+                    $("#ac_udated option:eq(0)").attr("selected",true);
+                    $("#ac_udated option:eq(6)").attr("selected",false);
+                    $("#ac_purpose option:eq(0)").attr("selected",true);
+                    $("#ac_purpose option:eq(3)").attr("selected",false);
+                }
+                checkPdName();
             }
         },
         error: function(error){
