@@ -24,6 +24,29 @@
     box-shadow: 0 0 3px #eee;
 }
 
+.nac-btn-headerGroup{
+    display: inline-flex;
+    width: 100%;
+    height: 50px;
+    justify-content: center;
+}
+
+.nac-deposit, .nac-saving{
+    opacity: 0.4;
+    margin-left:15px;
+    text-decoration: none;
+    background-color: transparent;
+    border-style: none;
+    color: black;
+    cursor: pointer;
+}
+
+.nac-deposit:hover, .nac-saving:hover{
+    background-color: transparent;
+    border-bottom: 1px solid black;
+    color: var(--themecolor);
+}
+
 .nac-form{
     width: 100%;
     height:750px;
@@ -104,6 +127,12 @@ input[type=password]:invalid {
     border: 3px solid red;
 }
 
+.focus{
+    opacity: 1;
+    color:#5F4934;
+    border: 1px solid #5F4934;
+}
+
 .margin-bottom-30{
     margin-bottom: 30px;
 }
@@ -124,4 +153,14 @@ input[type=password]:invalid {
 
 .naC3{
     font-size:20px;
+}
+
+@media(max-width: 615px){
+    .nac-main{
+        width:360px;
+    }
+
+    #pd_named{
+        font-size:12px;
+    }
 }

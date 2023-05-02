@@ -45,8 +45,11 @@ public interface AccountManageService {
 
     List<Accounty> myAllAcBySeq(long mb_seq);
 
-    // 가장 최근 금리 적용된 상품 이름들 가져올 리스트 no mapper
+    // 가장 최근 금리 적용된 예금상품 이름들 가져올 리스트 no mapper
     List<Product> forRecentPdList();
+
+    // 가장 최근 금리 적용된 적금상품 이름들 가져올 리스트 no mapper
+    List<Product> forRecentPdList2();
 
     // Select된 상품 이름 받아서 (새 별칭명 + 기존 별칭명들) 담은 리스트 no mapper
     List<String> forAcNames(List<Accounty> allAc, String pdName);
