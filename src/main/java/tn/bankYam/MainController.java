@@ -26,6 +26,12 @@ public class MainController {
     public String introduce(HttpSession session) {
         return "introduce";
     }
+
+
+    @GetMapping("products")
+    public String products(HttpSession session) {
+        return "products";
+    }
     @GetMapping("terms")
     public String terms(HttpSession session) {
         return "terms";

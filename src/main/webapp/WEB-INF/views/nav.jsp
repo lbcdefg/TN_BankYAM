@@ -63,7 +63,7 @@
                 <li class="nav-menu-item menu-show" id="nav-post">
                     <a href="#">뱅킹</a>
                     <div class="nav-post-box">
-                        <a class="hidden-a" href="#">상품</a>
+                        <a class="hidden-a" href="/products">상품</a>
                         <c:if test="${sessionScope.membery eq null}">
                             <a href="/account/transfer" target="_self" class="hidden-a">이체</a>
                         </c:if>
