@@ -59,29 +59,29 @@
     </insert>
 
 <!--    이체내역 전체 다 불러오는것-->
-    <select id="selectTrList" resultMap="transactions" parameterType="transactions">
+    <select id="selectTrList" resultMap="transactions" parameterType="Transactions">
         SELECT * FROM TRANSACTIONS T
         JOIN ACCOUNTY A
         ON T.TR_AC_SEQ = A.AC_SEQ
         JOIN MEMBERY M
         ON A.AC_MB_SEQ = M.MB_SEQ
+
         <where>
-            <if test="tr_ac_seq !='empty'">
-                t.tr_ac_seq = #{tr_ac_seq}
+            <if test="tr_ac_seq !=0">
+                AND t.tr_ac_seq = #{tr_ac_seq}
             </if>
-            <if test="tr_other_accnum !='empty'">
-                t.tr_other_accnum = #{tr_other_accnum}
+            <if test="tr_other_bank !=null">
+                AND t.tr_other_bank = #{tr_other_bank}
             </if>
-            <if test="tr_other_bank !='empty'">
-                t.tr_other_bank = #{tr_other_bank}
+            <if test="tr_type !=null">
+                AND t.tr_type = #{tr_type}
             </if>
-            <if test="tr_type !='empty'">
-                t.tr_type = #{tr_type}
+            <if test="tr_date !=null">
+                AND t.tr_date = #{tr_date}
             </if>
-            <if test="tr_date !='empty'">
-                t.tr_date = #{tr_date}
+            <if test="tr_other_accnum !=0">
+                AND t.tr_other_accnum = #{tr_other_accnum}
             </if>
         </where>
     </select>
-
 </mapper>

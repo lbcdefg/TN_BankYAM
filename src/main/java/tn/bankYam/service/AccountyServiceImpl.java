@@ -20,7 +20,7 @@ public class AccountyServiceImpl implements AccountyService{
     TransactionsMapper transactionsMapper;
 
     @Override
-    public Accounty selecAccDetailS(Membery membery) {
+    public List<Accounty> selecAccDetailS(Membery membery) {
         return mapper.selecAccDetail(membery);
     }
 

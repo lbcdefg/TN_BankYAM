@@ -37,7 +37,9 @@
                         <div class="field3" style="margin-top:10px;">
                             <input id="tr_date"name="tr_date" placeholder="날짜" />
                         </div>
-
+                        <div class="field3" style="margin-top:10px;">
+                            <input id="tr_other_bank"name="tr_other_bank" placeholder="은행" />
+                        </div>
                         <button class="search-btn" type="button" id="search" onclick="checkTrSearchAjax()">검색</button>
 
                 </div>
@@ -64,7 +66,7 @@
                         </c:if>
                         <c:forEach items="${trList}" var="tr">
                             <tr class="profile-acs-list-row">
-                                <td class="profile-acs-list-5 acm" id="search"></td>
+
                                 <td class="profile-acs-list-5 acm" id="${tr.tr_ac_seq}" name="${tr.tr_ac_seq}">${tr.tr_ac_seq}</td>
                                 <c:set var="tr_ac_seq" value="${tr.tr_ac_seq}"/>
                                 <td class="profile-acs-list-9" name="${tr.tr_type}">${tr.tr_type}</td>
@@ -83,8 +85,7 @@
 </body>
         <script>
             $(function(){
-            var url = window.location.href;
-            var urlLast = url.split('/').reverse()[0];
+
             stickyjobsSearch();
 
                 var windowWidth = $(window).width();
@@ -191,12 +192,15 @@
                 var tr_ac_seq = document.getElementById('tr_ac_seq').value;
                 var tr_type = document.getElementById('tr_type').value;
                 var tr_other_accnum = document.getElementById('tr_other_accnum').value;
-                var tr_date = document.getElementById('tr_date').value;
+                if(tr_other_accnum==""){
+                    tr_other_accnum=0;
+                }
+                var tr_other_bank = document.getElementById('tr_other_bank').value;
 
                 $.ajax({
                     url:"trListSearch",
                     type:"GET",
-                    data:{tr_ac_seq:tr_ac_seq, tr_date:tr_date, tr_type:tr_type, tr_other_accnum:tr_other_accnum},
+                    data:{tr_ac_seq:tr_ac_seq, tr_type:tr_type, tr_other_accnum:tr_other_accnum, tr_other_bank:tr_other_bank},
                     success: function(data){
                         var dataChange = JSON.stringify(data);
                         console.log(dataChange);
@@ -204,7 +208,7 @@
                         $("#search").text(data.tr_type);
                         $("#search").text(data.tr_ac_seq);
                         $("#search").text(data.tr_other_accnum);
-                        $("#search").text(data.tr_date);
+                        $("#search").text(data.tr_other_bank);
                     },
 
                     error: function(error){

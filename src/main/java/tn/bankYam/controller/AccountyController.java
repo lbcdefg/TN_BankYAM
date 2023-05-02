@@ -36,18 +36,21 @@ public class AccountyController {
     @GetMapping("transactionList")
     public String transactionList(Model model, HttpSession session){
         Membery membery = (Membery)session.getAttribute("membery");
-        //Transactions transactions = accountyService.
-        //List<Transactions> trList = transactionService.selectTrListS(transactions);
-       //model.addAttribute("trList",trList);
+        Transactions transactions = new Transactions();
+
+        List<Transactions> trList = transactionService.selectTrListS(transactions);
+        for(int i = 0; i < trList.size(); i++){
+
+        }
+        model.addAttribute("trList", trList);
         return "transactionList";
     }
     @GetMapping("trListSearch")
     @ResponseBody
-    public List<Transactions> trListSearch(HttpSession session, HttpServletResponse response, @RequestParam(required=false, defaultValue="")Transactions transactions){
+    public List<Transactions> trListSearch(HttpSession session, HttpServletResponse response, long tr_ac_seq, String tr_type, long tr_other_accnum ){
         Membery membery = (Membery)session.getAttribute("membery");
-        System.out.println("나오냐"+transactionService.selectTrListS(transactions));
 
-        return transactionService.selectTrListS(transactions);
+        return transactionService.selectTrListS(new Transactions());
     }
 
     //계좌이체 창
