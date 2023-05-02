@@ -10,8 +10,8 @@
     <li><a href="/terms">홈페이지 이용약관 및 개인정보 처리방침</a></li>
   </ul>
   <ul class="footer-info">
-    <li><a href="">찾아오시는 길</a></li>
-    <li><a href="">계열사</a></li>
+    <li><a href="/map">찾아오시는 길</a></li>
+    <li><a href="/subsidiary">계열사</a></li>
     <li><a href="">모집 공고</a></li>
   </ul>
   <address class="footer-address">

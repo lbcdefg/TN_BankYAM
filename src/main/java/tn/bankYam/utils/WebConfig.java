@@ -21,7 +21,7 @@ public class WebConfig implements WebMvcConfigurer {
 			"/member/join", "/member/join_ok", "/member/join/mailCheck", "/member/join/mailConfirm",
 			"/member/findID", "/member/findID/phoneCheck", "/member/findPW", "/member/editPwd",
 
-			"/admin/test2",
+			"/map", "/subsidiary", "/introduce",
 			"/error"};
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
