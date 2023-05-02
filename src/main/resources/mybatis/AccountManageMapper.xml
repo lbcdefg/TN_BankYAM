@@ -143,9 +143,17 @@
         SELECT
             *
         FROM
-            accounty
+            membery m
+        JOIN
+            accounty a
+        ON
+            m.mb_seq = a.ac_mb_seq
+        JOIN
+            product p
+        ON
+            a.ac_pd_seq = p.pd_seq
         WHERE
-            ac_seq = #{ac_seq}
+            a.ac_seq = #{ac_seq}
     </select>
 
     <update id="updateAcStatus" parameterType="Accounty">
@@ -199,7 +207,7 @@
         <selectKey keyProperty="ac_seq" order="BEFORE" resultType="long">
             select ACCOUNTY_SEQ.nextval from dual
         </selectKey>
-        insert into ACCOUNTY values(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 1000, #{ac_name}, '부', '사용중', 1, 0, #{ac_purpose}, SYSDATE, #{ac_udate}, null)
+        insert into ACCOUNTY values(#{ac_seq}, #{ac_pwd}, #{ac_mb_seq}, 0, #{ac_name}, '부', '사용중', #{ac_pd_seq}, 0, #{ac_purpose}, SYSDATE, #{ac_udate}, null)
     </insert>
 
     <update id="updateAcBalance" parameterType="Accounty">

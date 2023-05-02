@@ -1,6 +1,7 @@
 package tn.bankYam.service;
 
 import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
 import java.util.Random;
 
 import javax.mail.MessagingException;
@@ -31,19 +32,19 @@ public class RegisterMail{
         MimeMessage message = emailsender.createMimeMessage();
 
         message.addRecipients(RecipientType.TO, to);// 보내는 대상
-        message.setSubject("BankYam 회원가입 이메일 인증");// 제목
+        message.setSubject("BankYam 본인확인 이메일 인증");// 제목
 
         String msgg = "";
         msgg += "<div style='margin:100px;'>";
         msgg += "<h1> 안녕하세요</h1>";
         msgg += "<h1> SNS형 뱅킹서비스 BankYam 입니다</h1>";
         msgg += "<br>";
-        msgg += "<p>아래 코드를 회원가입 창으로 돌아가 입력해주세요<p>";
+        msgg += "<p>창으로 돌아가 아래 코드를 입력해주세요<p>";
         msgg += "<br>";
         msgg += "<p>이미 모두의 은행, 지금은 뱅크얌. Thank You! <p>";
         msgg += "<br>";
         msgg += "<div align='center' style='border:1px solid black; font-family:verdana';>";
-        msgg += "<h3 style='color:blue;'>회원가입 인증 코드입니다.</h3>";
+        msgg += "<h3 style='color:blue;'>본인 인증 코드입니다.</h3>";
         msgg += "<div style='font-size:130%'>";
         msgg += "CODE : <strong>";
         msgg += ePw + "</strong><div><br/> "; // 메일에 인증번호 넣기
@@ -104,6 +105,9 @@ public class RegisterMail{
     //방식은 위와 동일, 내용은 적금 만기해지알림
     public MimeMessage savingEndMessage(Accounty accounty, Accounty mainAcc) throws MessagingException, UnsupportedEncodingException {
         MimeMessage message = emailsender.createMimeMessage();
+        DecimalFormat df = new DecimalFormat("###,###");
+        long accAmount = (long)(accounty.getAc_balance()*((accounty.getProduct().getPd_rate()+accounty.getProduct().getPd_addrate())/100+1));
+        String moneyVal = df.format(accAmount);
 
         message.addRecipients(RecipientType.TO, accounty.getMembery().getMb_email());
         message.setSubject("BankYam 적금상품 만기해지 알림");
@@ -113,9 +117,9 @@ public class RegisterMail{
         msgg += "<h1> 안녕하세요</h1>";
         msgg += "<h1> SNS형 뱅킹서비스 BankYam 입니다</h1>";
         msgg += "<br>";
-        msgg += "<p>귀하의 적금상품 [ " + accounty.getAc_name() +" ]이 만기일이 도래하여 해지되었음을 알려드립니다<p>";
+        msgg += "<p>귀하의 적금상품 [ " + accounty.getAc_name() +" ]의 만기일이 도래하여 해지되었음을 알려드립니다<p>";
         msgg += "<br>";
-        msgg += "<p> 총 "  + accounty.getAc_balance()*(accounty.getProduct().getPd_rate()+accounty.getProduct().getPd_addrate()) +" 원의 금액이 <p>";
+        msgg += "<p> 총 "  + moneyVal +" 원의 금액이 <p>";
         msgg += "<br>";
         msgg += "<p>귀하의 주계좌인 [ " + mainAcc.getAc_seq() +" ] 계좌로 입금되었습니다<p>";
         msgg += "<br>";
@@ -123,9 +127,9 @@ public class RegisterMail{
         msgg += "<br>";
         msgg += "<p>이미 모두의 은행, 지금은 뱅크얌. Thank You! <p>";
         msgg += "</div>";
-        message.setText(msgg, "utf-8", "html");// 내용, charset 타입, subtype
-        // 보내는 사람의 이메일 주소, 보내는 사람 이름
-        message.setFrom(new InternetAddress("bbaannkkyyaamm______@naver.com", "BankYam_Admin"));// 보내는 사람
+        message.setText(msgg, "utf-8", "html");
+
+        message.setFrom(new InternetAddress("bbaannkkyyaamm______@naver.com", "BankYam_Admin"));
         return message;
     }
 

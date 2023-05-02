@@ -17,6 +17,11 @@
     <link rel="stylesheet" type="text/css" href="/css/login.css" />
     <link rel="stylesheet" type="text/css" href="/css/join.css" />
     <link rel="stylesheet" type="text/css" href="/css/profile.css" />
+    <link rel="stylesheet" type="text/css" href="/css/map.css" />
+    <link rel="stylesheet" type="text/css" href="/css/subsidiary.css" />
+    <link rel="stylesheet" type="text/css" href="/css/introduce.css" />
+    <link rel="stylesheet" type="text/css" href="/css/privacy_terms.css">
+
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.0.min.js" ></script>
     <script type="text/javascript" language="javascript"
     			src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
@@ -58,7 +63,7 @@
                 <li class="nav-menu-item menu-show" id="nav-post">
                     <a href="#">뱅킹</a>
                     <div class="nav-post-box">
-                        <a class="hidden-a" href="#">상품</a>
+                        <a class="hidden-a" href="/products">상품</a>
                         <c:if test="${sessionScope.membery eq null}">
                             <a href="/account/transfer" target="_self" class="hidden-a">이체</a>
                         </c:if>
@@ -77,7 +82,7 @@
                     </div>
                 </li>
                 <li class="nav-menu-item menu-show-full">
-                    <a href="">뱅크얌</a>
+                    <a href="/introduce">뱅크얌</a>
                 </li>
                 <li class="nav-menu-item log-btn">
                     <c:if test="${sessionScope.membery eq null}">
