@@ -13,7 +13,7 @@
     <div class="introduce-wrap">
         <div class="introduce-image">
             <div>
-                <strong class="introduce-text1">ZIBPALM<br></strong>
+                <strong class="introduce-text1">BANKYAM<br></strong>
                 <br>
                 <strong class="introduce-text2">
                     중개 수수료의 부담감을 느끼는 사람들은 위해<br>
