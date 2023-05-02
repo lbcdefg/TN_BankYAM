@@ -153,7 +153,7 @@
                                 </c:if>
                             </td>
                             <td class="acs-list-10">${ac.ac_status}</td>
-                            <td class="acs-list-10"><a class="acs-click" onclick="acCheck2('${ac.ac_status}','${bal}',${ac.ac_seq}, ${ac.ac_balance})">계좌삭제</a></td>
+                            <td class="acs-list-10"><a class="acs-click" onclick="acCheck2('${ac.ac_status}','${bal}',${ac.ac_seq}, ${ac.ac_balance}, '${ac.product.pd_type}')">계좌삭제</a></td>
                             <td class="acs-list-20">${ac.ac_xdate}</td>
                             <td class="acs-list-10">${ac.ac_rdate}</td>
                         </tr>
@@ -245,7 +245,9 @@
                         <td class="acs-list-35">주 계좌설정</td>
                         <td class="acs-list-65">
                             <c:if test="${ac.ac_status == '사용중' and ac.ac_main != '주'}">
-                                <a class="acs-click" onclick="changeMain(${ac.ac_seq})">설정</a>
+                                <c:if test="${ac.product.pd_type != '적금'}">
+                                    <a class="acs-click" onclick="changeMain(${ac.ac_seq})">설정</a>
+                                </c:if>
                             </c:if>
                         </td>
                     </tr>
@@ -260,11 +262,13 @@
                                 주 계좌 휴면신청 불가
                             </c:if>
                             <c:if test="${ac.ac_main != '주'}">
-                                <c:if test="${ac.ac_status == '사용중'}">
-                                    <a class="acs-click" onclick="acCheck('휴면신청',${ac.ac_seq})">휴면신청</a>
-                                </c:if>
-                                <c:if test="${ac.ac_status == '휴면'}">
-                                    <a class="acs-click" onclick="acCheck('휴면취소',${ac.ac_seq})">휴면취소</a>
+                                <c:if test="${ac.product.pd_type != '적금'}">
+                                    <c:if test="${ac.ac_status == '사용중'}">
+                                        <a class="acs-click" onclick="acCheck('휴면신청',${ac.ac_seq})">휴면신청</a>
+                                    </c:if>
+                                    <c:if test="${ac.ac_status == '휴면'}">
+                                        <a class="acs-click" onclick="acCheck('휴면취소',${ac.ac_seq})">휴면취소</a>
+                                    </c:if>
                                 </c:if>
                             </c:if>
                         </td>
@@ -277,7 +281,7 @@
                             </c:if>
                             <c:if test="${ac.ac_main != '주'}">
                                 <c:if test="${ac.ac_status == '사용중' or ac.ac_status == '휴면'}">
-                                    <a class="acs-click" onclick="acCheck2('해지신청','${bal}',${ac.ac_seq}, ${ac.ac_balance})">해지신청</a>
+                                    <a class="acs-click" onclick="acCheck2('해지신청','${bal}',${ac.ac_seq}, ${ac.ac_balance}, '${ac.product.pd_type}')">해지신청</a>
                                 </c:if>
                             </c:if>
                         </td>
