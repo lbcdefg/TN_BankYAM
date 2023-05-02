@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface TransactionsMapper {
     void insertTrLog(Transactions transactions);
-    List<Transactions> selectTrList(Membery membery);
+    List<Transactions> selectTrList(Transactions transactions);
 
 }
