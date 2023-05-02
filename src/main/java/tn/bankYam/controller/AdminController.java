@@ -193,15 +193,12 @@ public class AdminController {
         }
     }
     public void savingEndGiveInt(Transactions transactions){
-        System.out.println("111111111111111111111111111111111111111111111111111");
         List<Accounty> savingList = accountyService.findSavingAcc();
         for(Accounty account: savingList){
-            System.out.println("222222222222222222222222222222222222");
             Accounty mainAcc = accountyService.findMainOnlyAcc(account.getAc_mb_seq());
             long savingAccInt = (long) (account.getAc_balance() * (1 + ((account.getProduct().getPd_rate() + account.getProduct().getPd_addrate()))/100));
             mainAcc.setAc_balance(mainAcc.getAc_balance()+savingAccInt);
             accountyService.interestSavingAcc(mainAcc);
-            System.out.println("44444444444444444444444444444444");
             transactions.setTr_ac_seq(mainAcc.getAc_seq());
             transactions.setTr_other_accnum(account.getAc_seq());
             transactions.setTr_other_bank(account.getAc_name());
@@ -210,9 +207,7 @@ public class AdminController {
             transactions.setTr_after_balance(mainAcc.getAc_balance());
             transactions.setTr_msg("적금만기");
             transactionService.insertTrLog(transactions);
-            System.out.println("55555555555555555555555555555555");
             accountManageService.deleteAc(account.getAc_seq());
-            System.out.println("66666666666666666666666666666666");
         }
     }
 }
