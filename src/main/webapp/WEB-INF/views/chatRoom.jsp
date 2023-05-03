@@ -32,7 +32,7 @@
             <%-- 파일들 --%>
             <div class="menu-list">
                 <c:if test="${fn:length(roomInfo.memberyList) != 1}">
-                    <a class="btn-open-popup"><img class="reversal" src="/img/friend.png"></a>
+                    <a class="btn-open-popup" onclick="modal.classList.toggle('show');"><img class="reversal" src="/img/friend.png"></a>
                     <a onclick="action_popup.prompt('채팅방 이름을 변경합니다.', updateChatName);"><img src="/img/rename.png"></a>
                 </c:if>
                 <a onclick="action_popup.confirm('현재 채팅창에서 퇴장하시겠습니까?\n대화내용은 모두 사라집니다.', outChat);"><img src="/img/exit.png"></a>
@@ -53,7 +53,7 @@
             <%-- 대화상대(누르면 대화상대랑 거래내역, 이체) --%>
             <div class="chat-member">
                 <div class="member-info">
-                    <input type="hidden" id="session_seq" value="${membery.mb_seq}" />
+                    <input type="hidden" id="session_seq" value="${sessionScope.membery.mb_seq}" />
                     <img src="${sessionScope.membery.mb_imagepath}"/>
                     <div class="me">나</div>
                     <span class="name">${sessionScope.membery.mb_name}</span>

@@ -145,6 +145,10 @@
         var value = new Array();
         if(type=="chat"){
             value.push($("input[type=radio][name=f_f_mb_seq]:checked").val());
+            if($("input[type=radio][name=f_f_mb_seq]:checked").val() == ""){
+                alert("대화상대를 선택하세요");
+                return false;
+            }
         }else{
             var list = $("input[type=checkbox][name=f_f_mb_seq]");
             for(var i=0; i<list.length; i++){
