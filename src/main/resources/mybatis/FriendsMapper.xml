@@ -217,6 +217,11 @@
             <if test="catDel == 'recDel'">
                 FR_REQ_MB_SEQ = #{frId} and FR_REC_MB_SEQ = #{mb_seq}
             </if>
+            <if test="catDel == 'frDel'">
+                FR_REQ_MB_SEQ = #{frId} and FR_REC_MB_SEQ = #{mb_seq}
+            OR
+                FR_REQ_MB_SEQ = #{mb_seq} and FR_REC_MB_SEQ = #{frId}
+            </if>
         </where>
     </delete>
 
