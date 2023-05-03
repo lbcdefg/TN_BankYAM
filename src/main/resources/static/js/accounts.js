@@ -427,14 +427,11 @@ function psCCheck(){
 function psCCheckAjax(ac_ps){
     var ac_seq = $(".ac-receptor1").val();
     var check = $(".ac-receptor2").val();
-    alert(ac_ps);
-    alert(ac_seq);
     $.ajax({
         url: "../accountM/accounts_psCheck",
         type: "POST",
         data: {ac_seq: ac_seq, ac_ps: ac_ps},
         success: function(checkAjax){
-            alert(checkAjax);
             if(checkAjax == "allow"){
                 location.href="accounts_update?ac_seq=" + ac_seq + "&upCat=" + check;
             }else if(checkAjax == "0"){

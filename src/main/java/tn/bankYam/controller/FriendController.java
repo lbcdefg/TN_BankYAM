@@ -277,6 +277,8 @@ public class FriendController {
                     for (Friend fr : frList) {
                         if (fr.getMembery().getMb_seq() == frId) {
                             friendsService.deleteFr(forDelMap);
+                            // 친구 삭제시 친구요청 DB에서도 날려주기
+                            friendsService.deleteFrReqRec(forDelMap);
                             Chatmember chatmember = chatroomService.checkRoomS(membery.getMb_seq(), fr.getF_f_mb_seq());
                             if(chatmember != null){
                                 chatroomService.outChat(membery, chatmember.getCm_cr_seq());
