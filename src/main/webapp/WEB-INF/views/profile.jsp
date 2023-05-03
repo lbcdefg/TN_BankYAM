@@ -56,7 +56,7 @@
                     <a href="/friend/friends?content=list">
                         - 친구관리
                     </a>
-                    <a id="withdraw">
+                    <a id="withdraw" style="cursor: pointer;">
                         - 회원탈퇴
                     </a>
                 </div>
