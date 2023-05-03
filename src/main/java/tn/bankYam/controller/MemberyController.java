@@ -250,4 +250,32 @@ public class MemberyController {
 		memberyService.editPwd(hashMap);
 		return "redirect:/";
 	}
+
+	@GetMapping("withdraw")
+	public String withdraw(HttpSession session){
+		Membery member = (Membery) session.getAttribute("membery");
+		List<Accounty> list = accountyService.findAccByMemberId(member.getMb_seq());
+		long balanceSum = 0;
+		for(Accounty account : list){
+			balanceSum += account.getAc_balance();
+		}
+		memberyService.deleteMember(member.getMb_seq());
+		return "reedirect:/";
+	}
+
+	@GetMapping("checkAllBal")
+	@ResponseBody
+	public String checkAllBal(HttpSession session){
+		Membery member = (Membery) session.getAttribute("membery");
+		List<Accounty> list = accountyService.findAccByMemberId(member.getMb_seq());
+		long balanceSum = 0;
+		for(Accounty account : list){
+			balanceSum += account.getAc_balance();
+		}
+		if(balanceSum>0){
+			return "false";
+		}else{
+			return "true";
+		}
+	}
 }

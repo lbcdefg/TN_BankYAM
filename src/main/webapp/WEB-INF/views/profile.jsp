@@ -51,10 +51,13 @@
                 </li>
                 <div class="list-element1-contents">
                     <a href="/member/editProfile">
-                        -프로필변경
+                        - 프로필변경
                     </a>
                     <a href="/friend/friends?content=list">
-                        -친구관리
+                        - 친구관리
+                    </a>
+                    <a id="withdraw" href="/member/withdraw">
+                        - 회원탈퇴
                     </a>
                 </div>
                 </c:if>
@@ -64,10 +67,10 @@
                 </li>
                 <div class="list-element2-contents">
                     <a href="#">
-                        -계좌 관리
+                        - 계좌 관리
                     </a>
                     <a href="#">
-                        -계좌 추가
+                        - 계좌 추가
                     </a>
                 </div>
                 </c:if>
@@ -340,6 +343,21 @@
                 }else{
                     $("#pd_addrate").attr('placeholder','추가이율');
                 }
+            });
+            $('#withdraw').on("click", function(event){
+                $.ajax({
+                    type : "GET",
+                    url : "/member/checkAllBal",
+                    data : {
+                    },
+                    success : function(result){
+                        if(result == 'false'){
+                            alert("계좌의 잔액을 모두 이체한 후에 회원탈퇴를 진행해주세요");
+                        }else{
+                            location.repla
+                        }
+                    }
+                })
             });
         </script>
 <%@ include file="/WEB-INF/views/footer.jsp" %>
