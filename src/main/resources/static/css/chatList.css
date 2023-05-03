@@ -2,7 +2,7 @@
     display:flex;
     min-height: 1px;
     padding: 0px;
-    margin: 16px auto;
+    margin: 16px auto 16px 40px;
 }
 .button-list{
     padding-left: 0;
@@ -16,6 +16,7 @@
     position: relative;
     display: block;
     color: #555;
+    margin-top: 10px;
 }
 .button-list li a{
     position: relative;
