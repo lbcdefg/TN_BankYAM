@@ -38,17 +38,13 @@ public class AccountyController {
     @GetMapping("transactionList")
     public String transactionList(Model model, HttpSession session){
         Membery membery = (Membery)session.getAttribute("membery");
-
         Accounty accounty = new Accounty();
         accounty.setAc_mb_seq(membery.getMb_seq());
-
         Transactions transactions = new Transactions();
         transactions.setAccounty(accounty);
         transactions.setTr_type("empty");
         transactions.setTr_other_bank("empty");
-
         List<Transactions> trList = transactionService.selectTrListS(transactions);
-
         List<Accounty> accList = accountyService.findAccListByMemberSeqS(membery.getMb_seq());
 
         model.addAttribute("trList", trList);
@@ -59,16 +55,10 @@ public class AccountyController {
     @ResponseBody
     public List<Transactions> trListSearch(HttpSession session, Model model, Transactions transactions){
         Membery membery = (Membery)session.getAttribute("membery");
-
         Accounty accounty = new Accounty();
         accounty.setAc_mb_seq(membery.getMb_seq());
-
         transactions.setAccounty(accounty);
-
         List<Transactions> trList = transactionService.selectTrListS(transactions);
-
-        System.out.println(trList);
-
         return trList;
     }
 
@@ -93,6 +83,7 @@ public class AccountyController {
                     accounty_list = acc;
                 }
             }
+
             model.addAttribute("tr_other_accnum", accounty_list.getAc_seq());
         }else{
             model.addAttribute("tr_other_accnum", "");
@@ -112,48 +103,35 @@ public class AccountyController {
     //계좌이체 확인체크
     @PostMapping("transfer_chk")
     public String transferChk(Model model, HttpSession session,HttpServletResponse response, Accounty accounty, Transactions transactions, String ac_pwd) throws IOException, NoSuchAlgorithmException {
-
-
         Membery membery = (Membery)session.getAttribute("membery");
         long otherAccNum = transactions.getTr_other_accnum();
         Accounty myAccounty = accountyService.selectAccInfoS(accounty.getAc_seq());
         Accounty otherBankyamInfo = accountyService.selectAccInfoS(otherAccNum);
-        ac_pwd = accounty.getAc_pwd();
-        System.out.println("봄"+otherAccNum);
-        String pwdInput = SHA256.encrypt(ac_pwd+"");
-        String pwdDB = SHA256.encrypt(myAccounty.getAc_pwd()+"");
-
 
         //비밀번호 틀린횟수를 먼저 조회
-
         if (myAccounty.getAc_pwd_check() == 5) {
             ScriptUtil.alertAndClosePage(response, "비밀번호 재설정이 필요한 계좌입니다.");
         }else {
-            //유저가 입력한 비밀번호와 db 비밀번호가 같은지
-            if (pwdInput.equals(pwdDB)) {
-
+            //암호화 되어있을때랑 되어있지 않을때
+            if (accounty.getAc_pwd().equals(myAccounty.getAc_pwd()) || (SHA256.encrypt(accounty.getAc_pwd())).equals(myAccounty.getAc_pwd())){
                 transactions.setTr_ac_seq(myAccounty.getAc_seq());
-
                 //상대방이 뱅크얌 계좌주일때
                 if (otherBankyamInfo != null) {
                     Membery membery1 = memberyService.findBySeq(otherBankyamInfo.getAc_mb_seq());
                     otherBankyamInfo.setMembery(membery1);
                     transactions.setOtherAccount(otherBankyamInfo);
-
                     //상대방이 뱅크얌 계좌주가 아닐때
                 } else if (!transactions.getTr_other_bank().equals("뱅크얌")) {
-
                     System.out.println("타행입니다");
-
-                    //입금은행 뱅크얌 선택 후 올바른 계좌번호를 입력하지 않았을 때
-                } else if (otherBankyamInfo == null && transactions.getTr_other_bank().equals("뱅크얌")) {
+                    //상대방의 은행 뱅크얌 선택 후 올바른 계좌번호를 입력하지 않았을 때
+                } else if (transactions.getTr_other_bank().equals("뱅크얌") && otherBankyamInfo == null) {
                     ScriptUtil.alertAndBackPage(response, "뱅크얌 계좌가 아닙니다");
+                }else if(otherAccNum==0 || otherAccNum<0){
+                    ScriptUtil.alertAndBackPage(response, "계좌번호를 다시한번 확인해주세요");
                 }
                 //유저가 입력한 비밀번호와 db 비밀번호가 다르면 ac_pwd_check +1
             } else {
-
                 accountyService.updateAcPwdWrongS(myAccounty.getAc_seq());
-
                 ScriptUtil.alertAndBackPage(response, "다시 한 번 확인해주세요");
             }
         }
@@ -177,7 +155,6 @@ public class AccountyController {
         hashMap.put("tr_after_balance", transactions.getTr_after_balance());
         hashMap.put("tr_date", transactions.getTr_date());
         hashMap.put("tr_msg", transactions.getTr_msg());
-
         Accounty accInfo = accountyService.selectAccInfoS(transactions.getTr_ac_seq());
         long trAcBal = accInfo.getAc_balance() - transactions.getTr_amount();
         hashMap.put("tr_after_balance", trAcBal);
