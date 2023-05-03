@@ -66,7 +66,9 @@ public class AccountyController {
         transactions.setAccounty(accounty);
 
         List<Transactions> trList = transactionService.selectTrListS(transactions);
-        model.addAttribute("trList", trList);
+
+        System.out.println(trList);
+
         return trList;
     }
 

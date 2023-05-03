@@ -11,17 +11,16 @@
     <link href="/css/profile.css" rel="stylesheet" type="text/css">
 </head>
 <body>
-    <div class="profile-downcontainer">
-        <div class="downcontainer-left">
+    <div class="profile-downcontainer" style="margin-bottom: 200px;">
+        <div class="downcontainer-left" style="width: 30%;">
 
             <p class="fontS-35" style="margin-top:200px;">${membery.mb_name}님의 거래내역</p>
             <div class="jobs_search_box">
                 <strong>검색</strong>
                 <div class="jobs_search_field">
-
                         <div class="field1" style="margin-top:10px;">
-
-                            <select id="tr_ac_seq"name="tr_ac_seq"  >
+                            <select id="tr_ac_seq"name="tr_ac_seq">
+                            <option value="0">전체조회</option>
                                 <c:forEach var="ac" items="${accList}">
                                     <option value="${ac.ac_seq}">${ac.ac_seq}</option>
                                 </c:forEach>
@@ -32,9 +31,6 @@
                         </div>
                         <div class="field3" style="margin-top:10px;">
                             <input id="tr_other_accnum" name="tr_other_accnum" placeholder="타인 계좌" />
-                        </div>
-                        <div class="field3" style="margin-top:10px;">
-                            <input id="tr_date"name="tr_date" placeholder="날짜" />
                         </div>
                         <div class="field3" style="margin-top:10px;">
                             <input id="tr_other_bank"name="tr_other_bank" placeholder="은행" />
@@ -51,13 +47,13 @@
                     <div class="profile-acs-table-size350" style="margin-top:200px;">
                         <table class="profile-acs-list-table" id="trListSearch">
                             <tr class="profile-acs-list-head">
-                                <th class="profile-acs-list-5">계좌명</th>
+                                <th class="profile-acs-list-5" style="width:12%;">계좌명</th>
                                 <th class="profile-acs-list-5">계좌번호</th>
                                 <th class="profile-acs-list-18">입금/송금</th>
                                 <th class="profile-acs-list-18">이체 후 잔액</th>
                                 <th class="profile-acs-list-8">타인 계좌번호</th>
                                 <th class="profile-acs-list-10">타인 은행</th>
-                                <th class="profile-acs-list-9">이체 날짜</th>
+                                <th class="profile-acs-list-9" style="width:12%;">이체 날짜</th>
                             </tr>
                             <c:if test="${empty trList}">
                                 <tr class="profile-acs-list-row" style="border:none; height:400px">
@@ -68,7 +64,6 @@
                                 <tr class="profile-acs-list-row">
                                     <td class="profile-acs-list-5 acm" name="${tr.accounty.ac_name}">${tr.accounty.ac_name}</td>
                                     <td class="profile-acs-list-5 acm" name="${tr.tr_ac_seq}">${tr.tr_ac_seq}</td>
-                                    <c:set var="tr_ac_seq" value="${tr.tr_ac_seq}"/>
                                     <td class="profile-acs-list-9" name="${tr.tr_type}">${tr.tr_type}</td>
                                     <td class="profile-acs-list-20"><span class="fontS-12 color-B39273">잔액: <fmt:formatNumber value="${tr.tr_after_balance}" pattern="#,###" /> 원</span></td>
                                     <td class="profile-acs-list-8" name="${tr.tr_other_accnum}"><span class="acn">${tr.tr_other_accnum}</span></td>
@@ -221,17 +216,41 @@
             url:"trListSearch",
             type:"GET",
             data: param,
-            success: function(data){
-                var dataChange = JSON.stringify(data);
-                console.log(dataChange);
-                console.log(data);
+            success: function(trList){
+                //var dataChange = JSON.stringify(trList);
+                //console.log(dataChange);
+                console.log(trList);
+                $("tr.profile-acs-list-row").remove();
+                var tableForTrList = $(".profile-acs-list-table");
+                var tbodyForTrList = tableForTrList.children("tbody");
 
-                $("#search").text(data.tr_type);
-                $("#search").text(data.tr_ac_seq);
-                $("#search").text(data.tr_other_accnum);
-                $("#search").text(data.tr_other_bank);
-
+                if(trList.length == 0){
+                    var trForTrList = $("<tr>").addClass("profile-acs-list-row");
+                    var tdForTrList = $("<td>").text("거래내역 없음").attr({"align":"center", "colspan":"7"});
+                    tbodyForTrList.append(trForTrList);
+                    trForTrList.append(tdForTrList);
+                }else if(trList.length > 0){
+                    for(var i=0; i<trList.length; i++){
+                        var trForTrList = $("<tr>").addClass("profile-acs-list-row");
+                        var tdForTrList = $("<td>").text(trList[i].accounty.ac_name).addClass("profile-acs-list-5 acm").attr("name", trList[i].accounty.ac_name); trForTrList.append(tdForTrList);
+                        var tdForTrList = $("<td>").text(trList[i].tr_ac_seq).addClass("profile-acs-list-5 acm").attr("name", trList[i].tr_ac_seq); trForTrList.append(tdForTrList);
+                        var tdForTrList = $("<td>").text(trList[i].tr_type).addClass("profile-acs-list-9").attr("name", trList[i].tr_type); trForTrList.append(tdForTrList);
+                        var tdSpanForTrList = $("<td>").addClass("profile-acs-list-20"); trForTrList.append(tdSpanForTrList);
+                        var afterBal = trList[i].tr_after_balance + "";
+                        let result = afterBal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        var spanForTrList = $("<span>").text("잔액: " + result + " 원").addClass("fontS-12 color-B39273"); tdSpanForTrList.append(spanForTrList);
+                        var tdForTrList = $("<td>").text(trList[i].tr_other_accnum).addClass("profile-acs-list-8").attr("name", trList[i].tr_other_accnum); trForTrList.append(tdForTrList);
+                        var tdForTrList = $("<td>").text(trList[i].tr_other_bank).addClass("profile-acs-list-10").attr("name", trList[i].tr_other_bank); trForTrList.append(tdForTrList);
+                        var tdForTrList = $("<td>").text(trList[i].tr_date).addClass("profile-acs-list-9").attr("name", trList[i].tr_date); trForTrList.append(tdForTrList);
+                        tbodyForTrList.append(trForTrList);
+                    }
+                }
             },
+            /*
+                <td class="profile-acs-list-8" name="${tr.tr_other_accnum}"><span class="acn">${tr.tr_other_accnum}</span></td>
+                <td class="profile-acs-list-10" name="${tr.tr_other_bank}">${tr.tr_other_bank}</td>
+                <td class="profile-acs-list-9" name="${tr.tr_date}">${tr.tr_date}</td>
+            */
 
             error: function(error){
                 console.log("error:"+error);
