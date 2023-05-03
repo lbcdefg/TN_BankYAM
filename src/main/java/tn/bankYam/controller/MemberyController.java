@@ -254,6 +254,9 @@ public class MemberyController {
 	@GetMapping("withdraw")
 	public String withdraw(HttpSession session){
 		Membery member = (Membery) session.getAttribute("membery");
+		if(session.getAttribute("membery") != null){
+			session.invalidate();
+		}
 		memberyService.deleteMember(member.getMb_seq());
 		return "redirect:/";
 	}
