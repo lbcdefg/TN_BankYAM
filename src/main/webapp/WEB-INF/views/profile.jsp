@@ -56,7 +56,7 @@
                     <a href="/friend/friends?content=list">
                         - 친구관리
                     </a>
-                    <a id="withdraw" href="/member/withdraw">
+                    <a id="withdraw">
                         - 회원탈퇴
                     </a>
                 </div>
@@ -355,7 +355,8 @@
                             alert("계좌의 잔액을 모두 이체한 후에 회원탈퇴를 진행해주세요");
                         }else{
                             alert("정상적으로 탈퇴 처리 되었습니다");
-                            document.location.href("/member/withdraw");
+                            window.location.href= "/member/withdraw";
+                            window.location.href= "/";
                         }
                     }
                 })
