@@ -17,7 +17,7 @@
             <tr>
                 <th scope="row">출금 계좌</th>
                 <td>
-                    <select id="ac_seq"name="ac_seq" onchange="checkBalance()" >
+                    <select id="ac_seq"name="ac_seq" onchange="checkBalance()">
                         <c:forEach var="acc" items="${accList}">
                             <option value="${acc.ac_seq}">${acc.ac_seq} [${acc.ac_main}]</option>
                         </c:forEach>
@@ -57,7 +57,7 @@
             <tr>
                 <th scope="row">입금 계좌번호</th>
                 <td>
-                    <input class="transfer-input" type="number" placeholder="숫자만 입력해주세요" value=${tr_other_accnum} name="tr_other_accnum" id="nuChk">
+                    <input class="transfer-input" type="number" placeholder="숫자만 입력해주세요" value="${tr_other_accnum}" name="tr_other_accnum" id="nuChk">
                     <span id="alert-notnull" style="display: none;"></span>
                     <span id="alert-null" style="display: none; color: #d92742; font-weight: bold; ">필수 입력 값입니다</span>
                 </td>
