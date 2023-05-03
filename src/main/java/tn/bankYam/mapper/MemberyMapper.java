@@ -14,4 +14,6 @@ public interface MemberyMapper {
 	void updateImagepath(Membery membery);
 	Membery findByPhone(String phone);
 	void editPwd(HashMap<String, String> map);
+
+	void deleteMember(long mb_seq);
 }

@@ -93,8 +93,6 @@
 }
 .companyList li a:hover, a:focus {
     text-decoration: none;
-    color: #F54927cc;
-    border-color: #F54927cc;
 }
 
 @media(max-width:1000px){

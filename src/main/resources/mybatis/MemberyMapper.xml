@@ -27,4 +27,7 @@
     <update id="editPwd" parameterType="hashmap">
         UPDATE MEMBERY SET MB_PWD=#{mb_pwd} WHERE MB_EMAIL=#{mb_email}
     </update>
+    <delete id="deleteMember" parameterType="long">
+        DELETE FROM MEMBERY WHERE MB_SEQ=#{mb_seq}
+    </delete>
 </mapper>

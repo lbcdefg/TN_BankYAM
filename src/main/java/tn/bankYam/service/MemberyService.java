@@ -14,4 +14,5 @@ public interface MemberyService {
 	void updateImagepath(MultipartFile file, Membery membery) throws IOException;
 	Membery findByPhone(String phone);
 	void editPwd(HashMap<String, String> map);
+	void deleteMember(long mb_seq);
 }

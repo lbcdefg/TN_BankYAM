@@ -75,4 +75,9 @@ public class MemberServiceImpl implements MemberyService{
 		Membery membery2 = memberyMapper.findByEmail(map.get("mb_email"));
 		System.out.println("업데이트이후: " + membery2);
 	}
+
+	@Override
+	public void deleteMember(long mb_seq){
+		memberyMapper.deleteMember(mb_seq);
+	}
 }

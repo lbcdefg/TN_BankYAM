@@ -224,6 +224,7 @@
                     "font-size" : "13px"
                 });
                 document.getElementById('emailCode').readOnly=true;
+                document.getElementById('mb_email').readOnly=true;
                 emailCodeBtn.style.display = 'none';
                 document.getElementById('emailCode').setAttribute('style','background-color:#c8c8c8;');
                 document.getElementById('mb_email').setAttribute('style','background-color:#c8c8c8;');
