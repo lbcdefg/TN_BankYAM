@@ -19,10 +19,10 @@
                 <strong>검색</strong>
                 <div class="jobs_search_field">
                         <div class="field1" style="margin-top:10px;">
-                            <select id="tr_ac_seq"name="tr_ac_seq">
+                            <select id="tr_ac_seq"name="tr_ac_seq" style="width:80%; height:30px; font-size:15px;">
                             <option value="0">전체조회</option>
                                 <c:forEach var="ac" items="${accList}">
-                                    <option value="${ac.ac_seq}">${ac.ac_seq}</option>
+                                    <option value="${ac.ac_seq}">${ac.ac_seq}[${ac.ac_name}]</option>
                                 </c:forEach>
                             </select>
                         </div>

@@ -119,7 +119,7 @@ public class AccountyController {
         Accounty myAccounty = accountyService.selectAccInfoS(accounty.getAc_seq());
         Accounty otherBankyamInfo = accountyService.selectAccInfoS(otherAccNum);
         ac_pwd = accounty.getAc_pwd();
-
+        System.out.println("봄"+otherAccNum);
         String pwdInput = SHA256.encrypt(ac_pwd+"");
         String pwdDB = SHA256.encrypt(myAccounty.getAc_pwd()+"");
 
