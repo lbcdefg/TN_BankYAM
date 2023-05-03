@@ -145,7 +145,7 @@
                     </c:if>
                     <c:if test="${content.chatfile.cf_seq != null}">
                         <div class="chat ch1">
-                            <div class="icon"><img src="${sessionScope.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
+                            <div class="icon"><img src="${content.membery.mb_imagepath}" class="fa-solid fa-user" /></div>
                             <div class="chat-content">
                                 <div class="chat-info">
                                     <div class="chat-name">
