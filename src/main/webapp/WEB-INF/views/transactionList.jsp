@@ -48,12 +48,12 @@
                         <table class="profile-acs-list-table" id="trListSearch">
                             <tr class="profile-acs-list-head">
                                 <th class="profile-acs-list-5" style="width:12%;">계좌명</th>
-                                <th class="profile-acs-list-5">계좌번호</th>
-                                <th class="profile-acs-list-18">입금/송금</th>
-                                <th class="profile-acs-list-8">보낸 금액</th>
+                                <th class="profile-acs-list-5">계좌 번호</th>
+                                <th class="profile-acs-list-18">거래 유형</th>
+                                <th class="profile-acs-list-8">이체 금액</th>
                                 <th class="profile-acs-list-18">이체 후 잔액</th>
-                                <th class="profile-acs-list-8">타인 계좌번호</th>
-                                <th class="profile-acs-list-10">타인 은행</th>
+                                <th class="profile-acs-list-8">보낸분/받는분</th>
+                                <th class="profile-acs-list-10">보낸/받는은행</th>
                                 <th class="profile-acs-list-9" style="width:12%;">이체 날짜</th>
                             </tr>
                             <c:if test="${empty trList}">

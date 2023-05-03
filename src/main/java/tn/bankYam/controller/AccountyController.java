@@ -38,17 +38,13 @@ public class AccountyController {
     @GetMapping("transactionList")
     public String transactionList(Model model, HttpSession session){
         Membery membery = (Membery)session.getAttribute("membery");
-
         Accounty accounty = new Accounty();
         accounty.setAc_mb_seq(membery.getMb_seq());
-
         Transactions transactions = new Transactions();
         transactions.setAccounty(accounty);
         transactions.setTr_type("empty");
         transactions.setTr_other_bank("empty");
-
         List<Transactions> trList = transactionService.selectTrListS(transactions);
-
         List<Accounty> accList = accountyService.findAccListByMemberSeqS(membery.getMb_seq());
 
         model.addAttribute("trList", trList);
@@ -59,16 +55,10 @@ public class AccountyController {
     @ResponseBody
     public List<Transactions> trListSearch(HttpSession session, Model model, Transactions transactions){
         Membery membery = (Membery)session.getAttribute("membery");
-
         Accounty accounty = new Accounty();
         accounty.setAc_mb_seq(membery.getMb_seq());
-
         transactions.setAccounty(accounty);
-
         List<Transactions> trList = transactionService.selectTrListS(transactions);
-
-        System.out.println(trList);
-
         return trList;
     }
 
@@ -93,6 +83,7 @@ public class AccountyController {
                     accounty_list = acc;
                 }
             }
+
             model.addAttribute("tr_other_accnum", accounty_list.getAc_seq());
         }else{
             model.addAttribute("tr_other_accnum", "");
@@ -116,18 +107,13 @@ public class AccountyController {
         long otherAccNum = transactions.getTr_other_accnum();
         Accounty myAccounty = accountyService.selectAccInfoS(accounty.getAc_seq());
         Accounty otherBankyamInfo = accountyService.selectAccInfoS(otherAccNum);
-        ac_pwd = accounty.getAc_pwd();
-        String pwdInput = SHA256.encrypt(ac_pwd+"");
-        String pwdDB = SHA256.encrypt(myAccounty.getAc_pwd()+"");
-        
-        //비밀번호 틀린횟수를 먼저 조회
 
+        //비밀번호 틀린횟수를 먼저 조회
         if (myAccounty.getAc_pwd_check() == 5) {
             ScriptUtil.alertAndClosePage(response, "비밀번호 재설정이 필요한 계좌입니다.");
         }else {
-            //유저가 입력한 비밀번호와 db 비밀번호가 같은지
-            if (pwdInput.equals(pwdDB)) {
-
+            //암호화 되어있을때랑 되어있지 않을때
+            if (accounty.getAc_pwd().equals(myAccounty.getAc_pwd()) || (SHA256.encrypt(accounty.getAc_pwd())).equals(myAccounty.getAc_pwd())){
                 transactions.setTr_ac_seq(myAccounty.getAc_seq());
                 //상대방이 뱅크얌 계좌주일때
                 if (otherBankyamInfo != null) {
@@ -169,7 +155,6 @@ public class AccountyController {
         hashMap.put("tr_after_balance", transactions.getTr_after_balance());
         hashMap.put("tr_date", transactions.getTr_date());
         hashMap.put("tr_msg", transactions.getTr_msg());
-
         Accounty accInfo = accountyService.selectAccInfoS(transactions.getTr_ac_seq());
         long trAcBal = accInfo.getAc_balance() - transactions.getTr_amount();
         hashMap.put("tr_after_balance", trAcBal);

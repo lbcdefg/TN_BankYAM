@@ -1,6 +1,6 @@
 $("document").ready(function(){
     var ac_seq = $("#ac_seq").val();
-    if(ac_seq != "계좌선택"){
+    if(ac_seq != "계좌 선택"){
         checkBalance(ac_seq);
     }
 });
@@ -37,7 +37,7 @@ function checkPwd(){
     var pwd1 = document.getElementById('ac_pwd1').value;
     var pwd2 = document.getElementById('ac_pwd2').value;
     if(pwd1 != pwd2){
-        alert("비밀번호가 일치하지않습니다");
+        alert("비밀번호가 일치하지 않습니다");
         return false;
     } else {
         alert("비밀번호가 일치합니다");
@@ -133,11 +133,14 @@ function nextPage(){
         alert("보내실 계좌는 필수 입력입니다.");
         return;
     }
-    console.log(amount);
+    if(document.getElementById("result").value==0 || document.getElementById("result").value<0){
+        alert("이체 금액을 다시 한 번 확인해주세요.");
+        return;
+    }
     if(compare()){
         f.submit();
     }else{
-        alert("금액을 다시 한 번 확인해주세요");
+        alert("금액을 다시 한 번 확인해주세요.");
         return;
     }
 }
