@@ -233,9 +233,7 @@
         $("#join-form2").on('keydown',function(event) {
             if(event.keyCode == 13){
                 console.log(event.target);
-                if(event.target == form.mb_email){
-                    form.emailCode.focus();
-                }else if(event.target == form.emailCode){
+                if(event.target == form.emailCode){
                     form.mb_pwd.focus();
                 }else if(event.target == form.mb_pwd){
                     form.mb_pwd2.focus();
