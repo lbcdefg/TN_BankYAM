@@ -15,6 +15,7 @@ import tn.bankYam.service.TransactionService;
 import tn.bankYam.utils.SHA256;
 import tn.bankYam.utils.ScriptUtil;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
@@ -33,29 +34,47 @@ public class AccountyController {
     TransactionService transactionService;
 
 
-
     //거래내역 불러오기
     @GetMapping("transactionList")
     public String transactionList(Model model, HttpSession session){
         Membery membery = (Membery)session.getAttribute("membery");
-        List<Transactions> trList = transactionService.selectTrListS(membery);
-        model.addAttribute("trList",trList);
+
+        Accounty accounty = new Accounty();
+        accounty.setAc_mb_seq(membery.getMb_seq());
+
+        Transactions transactions = new Transactions();
+        transactions.setAccounty(accounty);
+        transactions.setTr_type("empty");
+        transactions.setTr_other_bank("empty");
+
+        List<Transactions> trList = transactionService.selectTrListS(transactions);
+
+        List<Accounty> accList = accountyService.findAccListByMemberSeqS(membery.getMb_seq());
+
+        model.addAttribute("trList", trList);
+        model.addAttribute("accList", accList);
         return "transactionList";
     }
     @GetMapping("trListSearch")
     @ResponseBody
-    public List<Transactions> trListSearch(HttpSession session, HttpServletResponse response){
+    public List<Transactions> trListSearch(HttpSession session, Model model, Transactions transactions){
         Membery membery = (Membery)session.getAttribute("membery");
-        List<Transactions> trsearchList = transactionService.selectTrListS(membery);
-        System.out.println("나오냐"+trsearchList.size());
-        return trsearchList;
+
+        Accounty accounty = new Accounty();
+        accounty.setAc_mb_seq(membery.getMb_seq());
+
+        transactions.setAccounty(accounty);
+
+        List<Transactions> trList = transactionService.selectTrListS(transactions);
+
+        System.out.println(trList);
+
+        return trList;
     }
 
     //계좌이체 창
     @GetMapping("transfer")
     public String transfer(Model model,HttpSession session, Accounty accounty,HttpServletResponse response, long other_mb_seq) throws IOException {
-
-
         Membery membery = (Membery)session.getAttribute("membery");
         List<Accounty> accList = accountyService.selectAccNumS(membery.getMb_seq());
 

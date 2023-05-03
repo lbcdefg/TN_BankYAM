@@ -19,8 +19,13 @@ public class TransactionServiceImpl implements TransactionService{
     }
 
     @Override
-    public List<Transactions> selectTrListS(Membery membery) {
-        return mapper.selectTrList(membery);
+    public List<Transactions> selectTrListS(Transactions transactions) {
+        return mapper.selectTrList(transactions);
+    }
+
+    @Override
+    public void selectTestS(long tr_ac_seq) {
+        mapper.selectTest(tr_ac_seq);
     }
 
     // Transactions update를 위한 Transactions set 기능 no mapper

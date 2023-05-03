@@ -20,7 +20,7 @@ public class AccountyServiceImpl implements AccountyService{
     TransactionsMapper transactionsMapper;
 
     @Override
-    public Accounty selecAccDetailS(Membery membery) {
+    public List<Accounty> selecAccDetailS(Membery membery) {
         return mapper.selecAccDetail(membery);
     }
 
@@ -151,6 +151,11 @@ public class AccountyServiceImpl implements AccountyService{
     @Override
     public void interestSavingAcc(Accounty accounty) {
         mapper.interestSavingAcc(accounty);
+    }
+
+    @Override
+    public List<Accounty> findAccListByMemberSeqS(long ac_mb_seq) {
+        return mapper.findAccListByMemberSeq(ac_mb_seq);
     }
 
 }
