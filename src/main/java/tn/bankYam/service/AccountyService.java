@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface AccountyService {
-    Accounty selecAccDetailS(Membery membery);
+    List<Accounty> selecAccDetailS(Membery membery);
     List<Accounty> selectAccNumS(long ac_seq);
     Accounty selectAccInfoS(long ac_seq);
     void getPaidS(Transactions transactions);
@@ -34,4 +34,5 @@ public interface AccountyService {
     Accounty findMainAcc(long mb_seq);
     Accounty findMainOnlyAcc(long ac_mb_seq);
     void interestSavingAcc(Accounty accounty);
+    List<Accounty> findAccListByMemberSeqS(long ac_mb_seq);
 }

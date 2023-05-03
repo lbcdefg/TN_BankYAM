@@ -13,7 +13,7 @@ import java.util.List;
 @Mapper
 @Repository
 public interface AccountyMapper {
-    Accounty selecAccDetail(Membery membery);
+    List<Accounty> selecAccDetail(Membery membery);
     List<Accounty> selectAccNum(long ac_seq);
     Accounty selectAccInfo(long ac_seq);
     void getPaid(Transactions transactions);
@@ -40,4 +40,5 @@ public interface AccountyMapper {
     Accounty findMainAcc(long mb_seq);
     Accounty findMainOnlyAcc(long ac_mb_seq);
     void interestSavingAcc(Accounty accounty);
+    List<Accounty> findAccListByMemberSeq(long ac_mb_seq);
 }
