@@ -50,6 +50,7 @@
                                 <th class="profile-acs-list-5" style="width:12%;">계좌명</th>
                                 <th class="profile-acs-list-5">계좌번호</th>
                                 <th class="profile-acs-list-18">입금/송금</th>
+                                <th class="profile-acs-list-8">보낸 금액</th>
                                 <th class="profile-acs-list-18">이체 후 잔액</th>
                                 <th class="profile-acs-list-8">타인 계좌번호</th>
                                 <th class="profile-acs-list-10">타인 은행</th>
@@ -65,6 +66,7 @@
                                     <td class="profile-acs-list-5 acm" name="${tr.accounty.ac_name}">${tr.accounty.ac_name}</td>
                                     <td class="profile-acs-list-5 acm" name="${tr.tr_ac_seq}">${tr.tr_ac_seq}</td>
                                     <td class="profile-acs-list-9" name="${tr.tr_type}">${tr.tr_type}</td>
+                                    <td class="profile-acs-list-20"><span class="fontS-12 color-B39273"><fmt:formatNumber value="${tr.tr_amount}" pattern="#,###" /> 원</span></td>
                                     <td class="profile-acs-list-20"><span class="fontS-12 color-B39273">잔액: <fmt:formatNumber value="${tr.tr_after_balance}" pattern="#,###" /> 원</span></td>
                                     <td class="profile-acs-list-8" name="${tr.tr_other_accnum}"><span class="acn">${tr.tr_other_accnum}</span></td>
                                     <td class="profile-acs-list-10" name="${tr.tr_other_bank}">${tr.tr_other_bank}</td>
@@ -236,8 +238,12 @@
                         var tdForTrList = $("<td>").text(trList[i].tr_ac_seq).addClass("profile-acs-list-5 acm").attr("name", trList[i].tr_ac_seq); trForTrList.append(tdForTrList);
                         var tdForTrList = $("<td>").text(trList[i].tr_type).addClass("profile-acs-list-9").attr("name", trList[i].tr_type); trForTrList.append(tdForTrList);
                         var tdSpanForTrList = $("<td>").addClass("profile-acs-list-20"); trForTrList.append(tdSpanForTrList);
+                        var tdSpanForTrListAmount = $("<td>").addClass("profile-acs-list-20"); trForTrList.append(tdSpanForTrListAmount);
                         var afterBal = trList[i].tr_after_balance + "";
+                        var amountBal = trList[i].tr_amount + "";
                         let result = afterBal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        let result_amount = amountBal.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+                        var spanForTrListAmount = $("<span>").text("잔액: " + result_amount + " 원").addClass("fontS-12 color-B39273"); tdSpanForTrListAmount.append(spanForTrListAmount);
                         var spanForTrList = $("<span>").text("잔액: " + result + " 원").addClass("fontS-12 color-B39273"); tdSpanForTrList.append(spanForTrList);
                         var tdForTrList = $("<td>").text(trList[i].tr_other_accnum).addClass("profile-acs-list-8").attr("name", trList[i].tr_other_accnum); trForTrList.append(tdForTrList);
                         var tdForTrList = $("<td>").text(trList[i].tr_other_bank).addClass("profile-acs-list-10").attr("name", trList[i].tr_other_bank); trForTrList.append(tdForTrList);
@@ -246,11 +252,6 @@
                     }
                 }
             },
-            /*
-                <td class="profile-acs-list-8" name="${tr.tr_other_accnum}"><span class="acn">${tr.tr_other_accnum}</span></td>
-                <td class="profile-acs-list-10" name="${tr.tr_other_bank}">${tr.tr_other_bank}</td>
-                <td class="profile-acs-list-9" name="${tr.tr_date}">${tr.tr_date}</td>
-            */
 
             error: function(error){
                 console.log("error:"+error);

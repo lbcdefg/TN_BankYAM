@@ -139,9 +139,6 @@ public class AccountyController {
                     System.out.println("타행입니다");
                     //상대방의 은행 뱅크얌 선택 후 올바른 계좌번호를 입력하지 않았을 때
                 } else if (transactions.getTr_other_bank().equals("뱅크얌") && otherBankyamInfo == null) {
-                    Membery membery1 = memberyService.findBySeq(otherBankyamInfo.getAc_mb_seq());
-                    otherBankyamInfo.setMembery(membery1);
-                    transactions.setOtherAccount(otherBankyamInfo);
                     ScriptUtil.alertAndBackPage(response, "뱅크얌 계좌가 아닙니다");
                 }else if(otherAccNum==0 || otherAccNum<0){
                     ScriptUtil.alertAndBackPage(response, "계좌번호를 다시한번 확인해주세요");
