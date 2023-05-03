@@ -65,10 +65,10 @@
                     <div class="nav-post-box">
                         <a class="hidden-a" href="/products">상품</a>
                         <c:if test="${sessionScope.membery eq null}">
-                            <a href="/account/transfer" target="_self" class="hidden-a">이체</a>
+                            <a href="/account/transfer" target="_self" class="hidden-a" style="cursor: pointer;">이체</a>
                         </c:if>
                         <c:if test="${sessionScope.membery ne null}">
-                            <a onclick="openTrPop(0)" target="_blank" class="hidden-a">이체</a>
+                            <a onclick="openTrPop(0)" target="_blank" class="hidden-a" style="cursor: pointer;">이체</a>
                         </c:if>
                         <a class="hidden-a" href="/account/transactionList">거래내역</a>
                         <a class="hidden-a" href="/accountM/accounts">계좌관리</a>
