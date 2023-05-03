@@ -129,6 +129,10 @@ function compare(){
 
 function nextPage(){
     var amount = Number(document.getElementById("result").value);
+    if(document.getElementById("nuChk").value==""){
+        alert("보내실 계좌는 필수 입력입니다.");
+        return;
+    }
     console.log(amount);
     if(compare()){
         f.submit();

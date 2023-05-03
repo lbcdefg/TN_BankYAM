@@ -112,18 +112,14 @@ public class AccountyController {
     //계좌이체 확인체크
     @PostMapping("transfer_chk")
     public String transferChk(Model model, HttpSession session,HttpServletResponse response, Accounty accounty, Transactions transactions, String ac_pwd) throws IOException, NoSuchAlgorithmException {
-
-
         Membery membery = (Membery)session.getAttribute("membery");
         long otherAccNum = transactions.getTr_other_accnum();
         Accounty myAccounty = accountyService.selectAccInfoS(accounty.getAc_seq());
         Accounty otherBankyamInfo = accountyService.selectAccInfoS(otherAccNum);
         ac_pwd = accounty.getAc_pwd();
-        System.out.println("봄"+otherAccNum);
         String pwdInput = SHA256.encrypt(ac_pwd+"");
         String pwdDB = SHA256.encrypt(myAccounty.getAc_pwd()+"");
-
-
+        
         //비밀번호 틀린횟수를 먼저 조회
 
         if (myAccounty.getAc_pwd_check() == 5) {
@@ -133,27 +129,26 @@ public class AccountyController {
             if (pwdInput.equals(pwdDB)) {
 
                 transactions.setTr_ac_seq(myAccounty.getAc_seq());
-
                 //상대방이 뱅크얌 계좌주일때
                 if (otherBankyamInfo != null) {
                     Membery membery1 = memberyService.findBySeq(otherBankyamInfo.getAc_mb_seq());
                     otherBankyamInfo.setMembery(membery1);
                     transactions.setOtherAccount(otherBankyamInfo);
-
                     //상대방이 뱅크얌 계좌주가 아닐때
                 } else if (!transactions.getTr_other_bank().equals("뱅크얌")) {
-
                     System.out.println("타행입니다");
-
-                    //입금은행 뱅크얌 선택 후 올바른 계좌번호를 입력하지 않았을 때
-                } else if (otherBankyamInfo == null && transactions.getTr_other_bank().equals("뱅크얌")) {
+                    //상대방의 은행 뱅크얌 선택 후 올바른 계좌번호를 입력하지 않았을 때
+                } else if (transactions.getTr_other_bank().equals("뱅크얌") && otherBankyamInfo == null) {
+                    Membery membery1 = memberyService.findBySeq(otherBankyamInfo.getAc_mb_seq());
+                    otherBankyamInfo.setMembery(membery1);
+                    transactions.setOtherAccount(otherBankyamInfo);
                     ScriptUtil.alertAndBackPage(response, "뱅크얌 계좌가 아닙니다");
+                }else if(otherAccNum==0 || otherAccNum<0){
+                    ScriptUtil.alertAndBackPage(response, "계좌번호를 다시한번 확인해주세요");
                 }
                 //유저가 입력한 비밀번호와 db 비밀번호가 다르면 ac_pwd_check +1
             } else {
-
                 accountyService.updateAcPwdWrongS(myAccounty.getAc_seq());
-
                 ScriptUtil.alertAndBackPage(response, "다시 한 번 확인해주세요");
             }
         }
