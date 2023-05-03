@@ -354,7 +354,8 @@
                         if(result == 'false'){
                             alert("계좌의 잔액을 모두 이체한 후에 회원탈퇴를 진행해주세요");
                         }else{
-                            location.repla
+                            alert("정상적으로 탈퇴 처리 되었습니다");
+                            document.location.href("/member/withdraw");
                         }
                     }
                 })

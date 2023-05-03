@@ -254,13 +254,8 @@ public class MemberyController {
 	@GetMapping("withdraw")
 	public String withdraw(HttpSession session){
 		Membery member = (Membery) session.getAttribute("membery");
-		List<Accounty> list = accountyService.findAccByMemberId(member.getMb_seq());
-		long balanceSum = 0;
-		for(Accounty account : list){
-			balanceSum += account.getAc_balance();
-		}
 		memberyService.deleteMember(member.getMb_seq());
-		return "reedirect:/";
+		return "redirect:/";
 	}
 
 	@GetMapping("checkAllBal")
