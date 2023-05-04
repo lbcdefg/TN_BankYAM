@@ -89,7 +89,12 @@
                         <button class="log-btn-full" onclick="location.href='/member/join'">JOIN</button>
                     </c:if>
                     <c:if test="${sessionScope.membery ne null}">
-                        <button class="log-btn-full" onclick="location.href='/member/profile'">PROFILE</button>
+                        <c:if test="${membery.mb_email eq 'admin@gmail.com'}">
+                            <button class="log-btn-full" onclick="location.href='/member/profile'">ADMIN</button>
+                        </c:if>
+                        <c:if test="${membery.mb_email ne 'admin@gmail.com'}">
+                            <button class="log-btn-full" onclick="location.href='/member/profile'">PROFILE</button>
+                        </c:if>
                     </c:if>
                 </li>
                 <li class="nav-menu-item log-btn">

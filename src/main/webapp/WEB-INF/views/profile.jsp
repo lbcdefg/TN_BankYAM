@@ -39,11 +39,6 @@
                 <li class="list-element2 focus">
                         상품 정보
                 </li>
-                <div class="list-element2-contents">
-                    <a href="#">
-                        -상품 관리
-                    </a>
-                </div>
                 </c:if>
                 <c:if test="${membery.mb_email ne 'admin@gmail.com'}">
                 <li class="list-element1">
@@ -66,10 +61,10 @@
                         계좌 정보
                 </li>
                 <div class="list-element2-contents">
-                    <a href="#">
+                    <a href="/accountM/accounts">
                         - 계좌 관리
                     </a>
-                    <a href="#">
+                    <a href="/accountM/newAccount">
                         - 계좌 추가
                     </a>
                 </div>
