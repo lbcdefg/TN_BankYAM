@@ -40,7 +40,7 @@
                                 <h2>비밀번호찾기</h2>
                             </div>
                             <div class="row">
-                                <div class="row-in">
+                                <div class="row-in" style="margin-left:-15;">
                                     <input type="text" placeholder="이메일 주소를 입력하세요" class="form-control" id="mb_email" name="mb_email" autocomplete="off" autofocus="autofocus">
                                     <input type="text" placeholder="인증코드를 입력해주세요" class="form-control" id="emailCode" name="emailCode" autocomplete="off" autofocus="autofocus" style="display:none;">
                                     <div id="findMember_pwd" style="display:none;">
