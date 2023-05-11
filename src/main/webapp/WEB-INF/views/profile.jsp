@@ -7,7 +7,6 @@
 <%@ include file="/WEB-INF/views/nav.jsp" %>
 <head>
     <title>얌</title>
-
 </head>
 <body>
     <div class="profile-upcontainer">
