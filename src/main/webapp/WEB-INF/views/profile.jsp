@@ -26,7 +26,7 @@
                     <label for="upload_btn" id="upload_btn_label" style="height:20px;">사진변경</label>
                     </form>
                     <c:if test="${membery.mb_email eq 'admin@gmail.com'}">
-                        <input type="button" id="rate_btn" class="rate_btn" onclick="location.href='/admin/rate_update_ok'" value="금리업뎃"></button>
+                        <input type="button" id="rate_btn" class="rate_btn" onclick="location.href='/admin/rate_update_ok'" value="금리/이자"></button>
                     </c:if>
                 </div>
             </div>
